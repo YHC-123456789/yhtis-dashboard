@@ -1,0 +1,1670 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+
+<title>YHTIS PRO</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 30px;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: #0b0f14;
+    color: #f4f4f4;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.subtitle {
+    color: #9ca3af;
+    margin-top: 7px;
+    line-height: 1.7;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 14px;
+
+    margin-top: 25px;
+}
+
+.card {
+    background: #151b23;
+
+    border:
+        1px solid #27303c;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        border-color .15s;
+}
+
+.card:hover {
+    transform:
+        translateY(-2px);
+
+    border-color:
+        #64748b;
+}
+
+.crown-card {
+    border-color: #d5a72c;
+}
+
+.label {
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.value {
+    margin-top: 6px;
+
+    font-weight: 750;
+    font-size: 28px;
+}
+
+.small {
+    margin-top: 8px;
+
+    color: #cbd5e1;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+.toolbar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin:
+        28px 0 12px;
+}
+
+button {
+    border: 1px solid #354151;
+    background: #151b23;
+    color: #f4f4f4;
+    padding: 9px 13px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #202936;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #151b23;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    background: #202936;
+
+    padding: 12px 9px;
+
+    text-align: left;
+
+    font-size: 13px;
+}
+
+tbody td {
+    padding: 11px 9px;
+
+    border-top:
+        1px solid #27303c;
+
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #1c2530;
+}
+
+.center {
+    text-align: center;
+}
+
+.number {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.code {
+    font-family: monospace;
+}
+
+.crown {
+    font-size: 21px;
+}
+
+details summary {
+    cursor: pointer;
+    color: #93c5fd;
+}
+
+.detailbox {
+    min-width: 280px;
+
+    margin-top: 8px;
+
+    padding: 10px;
+
+    background: #0d131a;
+
+    border-radius: 8px;
+
+    line-height: 1.7;
+
+    color: #d1d5db;
+}
+
+section {
+    margin-top: 35px;
+}
+
+.note {
+    margin-top: 25px;
+
+    color: #7f8b99;
+
+    font-size: 12px;
+}
+
+.hidden {
+    display: none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+
+<div>
+
+<h1>YHTIS PRO</h1>
+
+<div class="subtitle">
+
+📅 行情資料日：
+<b>2026-08-21</b>
+
+<br>
+
+🔄 系統更新：
+2026-08-20 23:56:31
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="cards">
+
+<div class="card">
+
+<div class="label">
+🌍 Market
+</div>
+
+<div class="value">
+🟢 多頭
+</div>
+
+<div class="small">
+
+Market Health：
+<b>73.2</b>
+
+<br>
+
+建議部位：
+<b>60%</b>
+
+<br>
+
+站上 EMA20：
+48.7%
+
+<br>
+
+站上 EMA60：
+38.6%
+
+<br>
+
+上漲比例：
+51.5%
+
+<br>
+
+市場樣本：
+1980
+
+<br><br>
+
+市場偏多，可選擇性布局強勢股。
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+🛡 Risk
+</div>
+
+<div class="value">
+🟢 正常
+</div>
+
+<div class="small">
+
+Risk Score：
+80
+
+<br>
+
+✅ 允許新倉
+
+<br>
+
+最大總部位：
+60%
+
+<br>
+
+單筆最大風險：
+2.0%
+
+<br>
+
+每日虧損上限：
+5.0%
+
+<br>
+
+市場偏多，維持高品質選股，控制追價風險。
+
+</div>
+
+</div>
+
+<div class="card crown-card"
+     onclick="filterRows('strong')">
+
+<div class="label">
+👑 YHTIS 綜合皇冠
+</div>
+
+<div class="value">
+5351 鈺創
+</div>
+
+<div class="small">
+
+追蹤報酬：
++0.82%
+
+<br>
+
+追蹤分數：
+97.5
+
+<br>
+
+🟢 可進場
+
+<br>
+
+原始Top20皇冠：
+5351 鈺創
+
+</div>
+
+</div>
+
+
+<div class="card"
+     onclick="filterRows('strong')">
+
+<div class="label">
+🟢 強勢
+</div>
+
+<div class="value">
+2
+</div>
+
+<div class="small">
+點擊只看強勢股
+</div>
+
+</div>
+
+
+<div class="card"
+     onclick="filterRows('tracking')">
+
+<div class="label">
+📈 持續追蹤
+</div>
+
+<div class="value">
+2
+</div>
+
+<div class="small">
+點擊只看延續股
+</div>
+
+</div>
+
+
+<div class="card"
+     onclick="filterRows('watch')">
+
+<div class="label">
+🟡 觀察
+</div>
+
+<div class="value">
+2
+</div>
+
+<div class="small">
+點擊只看觀察股
+</div>
+
+</div>
+
+
+<div class="card"
+     onclick="filterRows('hot')">
+
+<div class="label">
+🟠 已起漲不追
+</div>
+
+<div class="value">
+1
+</div>
+
+<div class="small">
+點擊查看過熱股
+</div>
+
+</div>
+
+
+<div class="card"
+     onclick="
+        document
+        .getElementById('eliminated')
+        .scrollIntoView({
+            behavior:'smooth'
+        });
+     ">
+
+<div class="label">
+🔴 淘汰
+</div>
+
+<div class="value">
+6
+</div>
+
+<div class="small">
+點擊查看淘汰股
+</div>
+
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<button onclick="filterRows('all')">
+全部
+</button>
+
+<button onclick="filterRows('strong')">
+🟢 強勢
+</button>
+
+<button onclick="filterRows('tracking')">
+📈 持續追蹤
+</button>
+
+<button onclick="filterRows('watch')">
+🟡 觀察
+</button>
+
+<button onclick="filterRows('hot')">
+🟠 不追
+</button>
+
+</div>
+
+
+<section>
+
+<h2>
+📊 Rolling Watchlist
+</h2>
+
+<div style="overflow-x:auto;">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>皇冠</th>
+<th>排名</th>
+<th>狀態</th>
+<th>代號</th>
+<th>股票</th>
+<th>最新價</th>
+<th>追蹤報酬</th>
+<th>最高漲幅</th>
+<th>最大回撤</th>
+<th>Day1</th>
+<th>追蹤分數</th>
+<th>執行建議</th>
+<th>詳細</th>
+
+</tr>
+
+</thead>
+
+<tbody id="watchTable">
+
+
+            <tr class="all strong">
+                <td class="center crown">
+                    👑
+                </td>
+
+                <td class="center">
+                    1
+                </td>
+
+                <td>
+                    🆕 今日新進
+                </td>
+
+                <td class="code">
+                    5351
+                </td>
+
+                <td>
+                    <b>鈺創</b>
+                </td>
+
+                <td class="number">
+                    123.0
+                </td>
+
+                <td class="number">
+                    +0.82%
+                </td>
+
+                <td class="number">
+                    +15.57%
+                </td>
+
+                <td class="number">
+                    -4.92%
+                </td>
+
+                <td class="number">
+                    +3.69%
+                </td>
+
+                <td class="number">
+                    97.5
+                </td>
+
+                <td>
+                    🟢 可進場
+                </td>
+
+                <td>
+                    
+        <details>
+            <summary>查看</summary>
+            <div class="detailbox">
+                <b>首次入選：</b>
+                2026-08-18
+                @ 122.0
+                <br>
+
+                <b>最新交易日：</b>
+                2026-08-21
+                <br>
+
+                <b>起漲分數：</b>
+                88.8
+                <br>
+
+                <b>AI信心：</b>
+                98.0
+                <br>
+
+                <b>連續追蹤分數：</b>
+                97.5
+                <br>
+
+                <b>今日動作：</b>
+                ✅ 優先研究買點
+                <br>
+
+                <b>限制原因：</b>
+                無
+                <br>
+
+                <b>今日仍在Top20：</b>
+                ✅
+                <br>
+
+                <b>Day3：</b>
+                +0.82%
+                &nbsp;&nbsp;
+
+                <b>Day5：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day10：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day20：</b>
+                —
+            </div>
+        </details>
+        
+                </td>
+            </tr>
+            
+
+            <tr class="all strong">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
+                    2
+                </td>
+
+                <td>
+                    🟢 持續強勢
+                </td>
+
+                <td class="code">
+                    6274
+                </td>
+
+                <td>
+                    <b>台燿</b>
+                </td>
+
+                <td class="number">
+                    1495.0
+                </td>
+
+                <td class="number">
+                    -3.24%
+                </td>
+
+                <td class="number">
+                    +6.15%
+                </td>
+
+                <td class="number">
+                    -5.83%
+                </td>
+
+                <td class="number">
+                    -2.91%
+                </td>
+
+                <td class="number">
+                    92.4
+                </td>
+
+                <td>
+                    🟢 可進場
+                </td>
+
+                <td>
+                    
+        <details>
+            <summary>查看</summary>
+            <div class="detailbox">
+                <b>首次入選：</b>
+                2026-08-18
+                @ 1545.0
+                <br>
+
+                <b>最新交易日：</b>
+                2026-08-21
+                <br>
+
+                <b>起漲分數：</b>
+                82.8
+                <br>
+
+                <b>AI信心：</b>
+                86.8
+                <br>
+
+                <b>連續追蹤分數：</b>
+                92.4
+                <br>
+
+                <b>今日動作：</b>
+                ✅ 優先研究買點
+                <br>
+
+                <b>限制原因：</b>
+                無
+                <br>
+
+                <b>今日仍在Top20：</b>
+                —
+                <br>
+
+                <b>Day3：</b>
+                -3.24%
+                &nbsp;&nbsp;
+
+                <b>Day5：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day10：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day20：</b>
+                —
+            </div>
+        </details>
+        
+                </td>
+            </tr>
+            
+
+            <tr class="all tracking">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
+                    3
+                </td>
+
+                <td>
+                    🟢 持續追蹤
+                </td>
+
+                <td class="code">
+                    8039
+                </td>
+
+                <td>
+                    <b>台虹</b>
+                </td>
+
+                <td class="number">
+                    282.0
+                </td>
+
+                <td class="number">
+                    +1.62%
+                </td>
+
+                <td class="number">
+                    +10.27%
+                </td>
+
+                <td class="number">
+                    -7.03%
+                </td>
+
+                <td class="number">
+                    -2.16%
+                </td>
+
+                <td class="number">
+                    88.4
+                </td>
+
+                <td>
+                    🟡 等回踩EMA9
+                </td>
+
+                <td>
+                    
+        <details>
+            <summary>查看</summary>
+            <div class="detailbox">
+                <b>首次入選：</b>
+                2026-08-18
+                @ 277.5
+                <br>
+
+                <b>最新交易日：</b>
+                2026-08-21
+                <br>
+
+                <b>起漲分數：</b>
+                76.6
+                <br>
+
+                <b>AI信心：</b>
+                98.6
+                <br>
+
+                <b>連續追蹤分數：</b>
+                88.4
+                <br>
+
+                <b>今日動作：</b>
+                👀 重點觀察
+                <br>
+
+                <b>限制原因：</b>
+                無
+                <br>
+
+                <b>今日仍在Top20：</b>
+                ✅
+                <br>
+
+                <b>Day3：</b>
+                +1.62%
+                &nbsp;&nbsp;
+
+                <b>Day5：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day10：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day20：</b>
+                —
+            </div>
+        </details>
+        
+                </td>
+            </tr>
+            
+
+            <tr class="all tracking">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
+                    4
+                </td>
+
+                <td>
+                    🟢 持續追蹤
+                </td>
+
+                <td class="code">
+                    6907
+                </td>
+
+                <td>
+                    <b>雅特力-KY</b>
+                </td>
+
+                <td class="number">
+                    191.5
+                </td>
+
+                <td class="number">
+                    +1.86%
+                </td>
+
+                <td class="number">
+                    +10.90%
+                </td>
+
+                <td class="number">
+                    -8.78%
+                </td>
+
+                <td class="number">
+                    +2.39%
+                </td>
+
+                <td class="number">
+                    66.6
+                </td>
+
+                <td>
+                    🟡 觀察
+                </td>
+
+                <td>
+                    
+        <details>
+            <summary>查看</summary>
+            <div class="detailbox">
+                <b>首次入選：</b>
+                2026-08-18
+                @ 188.0
+                <br>
+
+                <b>最新交易日：</b>
+                2026-08-21
+                <br>
+
+                <b>起漲分數：</b>
+                63.8
+                <br>
+
+                <b>AI信心：</b>
+                63.3
+                <br>
+
+                <b>連續追蹤分數：</b>
+                66.6
+                <br>
+
+                <b>今日動作：</b>
+                ❌ 暫不做
+                <br>
+
+                <b>限制原因：</b>
+                無
+                <br>
+
+                <b>今日仍在Top20：</b>
+                ✅
+                <br>
+
+                <b>Day3：</b>
+                +1.86%
+                &nbsp;&nbsp;
+
+                <b>Day5：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day10：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day20：</b>
+                —
+            </div>
+        </details>
+        
+                </td>
+            </tr>
+            
+
+            <tr class="all watch">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
+                    5
+                </td>
+
+                <td>
+                    🟡 降級觀察
+                </td>
+
+                <td class="code">
+                    3081
+                </td>
+
+                <td>
+                    <b>聯亞</b>
+                </td>
+
+                <td class="number">
+                    2920.0
+                </td>
+
+                <td class="number">
+                    -0.17%
+                </td>
+
+                <td class="number">
+                    +4.79%
+                </td>
+
+                <td class="number">
+                    -9.91%
+                </td>
+
+                <td class="number">
+                    -8.38%
+                </td>
+
+                <td class="number">
+                    65.3
+                </td>
+
+                <td>
+                    🟡 等確認
+                </td>
+
+                <td>
+                    
+        <details>
+            <summary>查看</summary>
+            <div class="detailbox">
+                <b>首次入選：</b>
+                2026-08-18
+                @ 2925.0
+                <br>
+
+                <b>最新交易日：</b>
+                2026-08-21
+                <br>
+
+                <b>起漲分數：</b>
+                62.8
+                <br>
+
+                <b>AI信心：</b>
+                86.6
+                <br>
+
+                <b>連續追蹤分數：</b>
+                65.3
+                <br>
+
+                <b>今日動作：</b>
+                ⏳ 等回踩EMA9
+                <br>
+
+                <b>限制原因：</b>
+                遠離EMA9
+                <br>
+
+                <b>今日仍在Top20：</b>
+                ✅
+                <br>
+
+                <b>Day3：</b>
+                -0.17%
+                &nbsp;&nbsp;
+
+                <b>Day5：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day10：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day20：</b>
+                —
+            </div>
+        </details>
+        
+                </td>
+            </tr>
+            
+
+            <tr class="all watch">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
+                    6
+                </td>
+
+                <td>
+                    🟡 降級觀察
+                </td>
+
+                <td class="code">
+                    6213
+                </td>
+
+                <td>
+                    <b>聯茂</b>
+                </td>
+
+                <td class="number">
+                    513.0
+                </td>
+
+                <td class="number">
+                    +5.12%
+                </td>
+
+                <td class="number">
+                    +13.73%
+                </td>
+
+                <td class="number">
+                    -4.41%
+                </td>
+
+                <td class="number">
+                    -0.82%
+                </td>
+
+                <td class="number">
+                    63.5
+                </td>
+
+                <td>
+                    🟡 等確認
+                </td>
+
+                <td>
+                    
+        <details>
+            <summary>查看</summary>
+            <div class="detailbox">
+                <b>首次入選：</b>
+                2026-08-18
+                @ 488.0
+                <br>
+
+                <b>最新交易日：</b>
+                2026-08-21
+                <br>
+
+                <b>起漲分數：</b>
+                59.4
+                <br>
+
+                <b>AI信心：</b>
+                87.2
+                <br>
+
+                <b>連續追蹤分數：</b>
+                63.5
+                <br>
+
+                <b>今日動作：</b>
+                ⏳ 等回踩EMA9
+                <br>
+
+                <b>限制原因：</b>
+                遠離EMA9
+                <br>
+
+                <b>今日仍在Top20：</b>
+                ✅
+                <br>
+
+                <b>Day3：</b>
+                +5.12%
+                &nbsp;&nbsp;
+
+                <b>Day5：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day10：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day20：</b>
+                —
+            </div>
+        </details>
+        
+                </td>
+            </tr>
+            
+
+            <tr class="all hot">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
+                    7
+                </td>
+
+                <td>
+                    🟠 已起漲不追
+                </td>
+
+                <td class="code">
+                    6225
+                </td>
+
+                <td>
+                    <b>天瀚</b>
+                </td>
+
+                <td class="number">
+                    64.7
+                </td>
+
+                <td class="number">
+                    +32.58%
+                </td>
+
+                <td class="number">
+                    +32.58%
+                </td>
+
+                <td class="number">
+                    -0.00%
+                </td>
+
+                <td class="number">
+                    +9.84%
+                </td>
+
+                <td class="number">
+                    58.9
+                </td>
+
+                <td>
+                    🟡 等確認
+                </td>
+
+                <td>
+                    
+        <details>
+            <summary>查看</summary>
+            <div class="detailbox">
+                <b>首次入選：</b>
+                2026-08-18
+                @ 48.8
+                <br>
+
+                <b>最新交易日：</b>
+                2026-08-21
+                <br>
+
+                <b>起漲分數：</b>
+                58.7
+                <br>
+
+                <b>AI信心：</b>
+                89.2
+                <br>
+
+                <b>連續追蹤分數：</b>
+                58.9
+                <br>
+
+                <b>今日動作：</b>
+                ⏳ 等回踩EMA9
+                <br>
+
+                <b>限制原因：</b>
+                遠離EMA9
+                <br>
+
+                <b>今日仍在Top20：</b>
+                —
+                <br>
+
+                <b>Day3：</b>
+                +32.58%
+                &nbsp;&nbsp;
+
+                <b>Day5：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day10：</b>
+                —
+                &nbsp;&nbsp;
+
+                <b>Day20：</b>
+                —
+            </div>
+        </details>
+        
+                </td>
+            </tr>
+            
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>
+💼 我的持股
+</h2>
+
+<div style="overflow-x:auto;">
+
+<table>
+
+<thead>
+<tr>
+<th>日期</th>
+<th>代號</th>
+<th>股票</th>
+<th>方向</th>
+<th>狀態</th>
+<th>備註</th>
+</tr>
+</thead>
+
+<tbody>
+
+        <tr>
+            <td colspan="6">目前沒有持有中的交易</td>
+        </tr>
+        
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>
+📒 最近交易
+</h2>
+
+<div style="overflow-x:auto;">
+
+<table>
+
+<thead>
+<tr>
+<th>日期</th>
+<th>代號</th>
+<th>股票</th>
+<th>方向</th>
+<th>報酬</th>
+<th>備註</th>
+</tr>
+</thead>
+
+<tbody>
+
+        <tr>
+            <td colspan="6">尚無已出場交易</td>
+        </tr>
+        
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>
+📌 我的追蹤股
+</h2>
+
+<div style="overflow-x:auto;">
+
+<table>
+
+<thead>
+
+<tr>
+<th>來源</th>
+<th>代號</th>
+<th>股票</th>
+<th>最新價</th>
+<th>燈號</th>
+<th>起漲分數</th>
+<th>AI信心</th>
+<th>執行建議</th>
+<th>今日動作</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+
+                <tr>
+                    <td>我的追蹤股-台股</td>
+                    <td class="code">2337</td>
+                    <td><b>旺宏</b></td>
+                    <td class="number">120.5</td>
+                    <td>🔴 不做</td>
+                    <td class="number">25.0</td>
+                    <td class="number">25.0</td>
+                    <td>🔴 不做</td>
+                    <td>❌ 等條件改善</td>
+                </tr>
+                
+
+                <tr>
+                    <td>我的追蹤股-美股</td>
+                    <td class="code">MU</td>
+                    <td><b>Micron</b></td>
+                    <td class="number">—</td>
+                    <td>🟡 待接美股引擎</td>
+                    <td class="number">nan</td>
+                    <td class="number">nan</td>
+                    <td>🟡 待接美股引擎</td>
+                    <td>👀 持續追蹤</td>
+                </tr>
+                
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section id="eliminated">
+
+<h2>
+🔴 淘汰紀錄
+</h2>
+
+<div style="overflow-x:auto;">
+
+<table>
+
+<thead>
+
+<tr>
+<th>代號</th>
+<th>股票</th>
+<th>追蹤報酬</th>
+<th>最大回撤</th>
+<th>最後建議</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+
+                <tr>
+                    <td>
+                        2359
+                    </td>
+
+                    <td>
+                        所羅門
+                    </td>
+
+                    <td>
+                        -15.49%
+                    </td>
+
+                    <td>
+                        -16.06%
+                    </td>
+
+                    <td>
+                        🟡 等確認
+                    </td>
+                </tr>
+                
+
+                <tr>
+                    <td>
+                        3037
+                    </td>
+
+                    <td>
+                        欣興
+                    </td>
+
+                    <td>
+                        -5.24%
+                    </td>
+
+                    <td>
+                        -10.04%
+                    </td>
+
+                    <td>
+                        🟡 等確認
+                    </td>
+                </tr>
+                
+
+                <tr>
+                    <td>
+                        3498
+                    </td>
+
+                    <td>
+                        陽程
+                    </td>
+
+                    <td>
+                        +10.34%
+                    </td>
+
+                    <td>
+                        -11.78%
+                    </td>
+
+                    <td>
+                        🟡 等確認
+                    </td>
+                </tr>
+                
+
+                <tr>
+                    <td>
+                        6243
+                    </td>
+
+                    <td>
+                        迅杰
+                    </td>
+
+                    <td>
+                        -1.87%
+                    </td>
+
+                    <td>
+                        -2.45%
+                    </td>
+
+                    <td>
+                        🟡 等確認
+                    </td>
+                </tr>
+                
+
+                <tr>
+                    <td>
+                        6715
+                    </td>
+
+                    <td>
+                        嘉基
+                    </td>
+
+                    <td>
+                        +6.92%
+                    </td>
+
+                    <td>
+                        -6.21%
+                    </td>
+
+                    <td>
+                        🟡 等確認
+                    </td>
+                </tr>
+                
+
+                <tr>
+                    <td>
+                        8046
+                    </td>
+
+                    <td>
+                        南電
+                    </td>
+
+                    <td>
+                        -8.84%
+                    </td>
+
+                    <td>
+                        -11.24%
+                    </td>
+
+                    <td>
+                        🟡 等確認
+                    </td>
+                </tr>
+                
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<div class="note">
+
+YHTIS PRO ·
+Rolling Selection Engine V13.3
+
+<br>
+
+Dashboard 為研究與交易決策輔助工具，
+不代表保證獲利。
+
+</div>
+
+
+<script>
+
+function filterRows(type) {
+
+    const rows =
+        document.querySelectorAll(
+            '#watchTable tr'
+        );
+
+    rows.forEach(row => {
+
+        if (
+            type === 'all'
+            ||
+            row.classList.contains(type)
+        ) {
+            row.classList.remove(
+                'hidden'
+            );
+        }
+
+        else {
+            row.classList.add(
+                'hidden'
+            );
+        }
+
+    });
+
+    document
+        .querySelector(
+            '#watchTable'
+        )
+        .scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
+}
+
+</script>
+
+
+</body>
+
+</html>
