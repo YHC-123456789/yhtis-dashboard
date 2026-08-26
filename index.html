@@ -2,10 +2,16 @@
 <!DOCTYPE html>
 
 <html lang="zh-Hant">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+
 <title>YHTIS PRO</title>
+
 <style>
 
 * {
@@ -265,6 +271,8 @@ section {
 }
 
 </style>
+
+
 <style>
 
 /* ===== YHTIS PRO TABLE LAYOUT FIX ===== */
@@ -309,370 +317,308 @@ section {
 }
 
 </style>
-<style id="YHTIS_LAYOUT_POSTPROCESS_V2">
 
-/* ==========================================================
-   YHTIS 四軌最終 Dashboard Layout
-   ========================================================== */
+</head>
 
-.yhtis-four-track-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    width: 100%;
-    align-items: stretch;
-    margin-top: 16px;
-    margin-bottom: 18px;
-}
 
-.yhtis-track-card {
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
 
-    border: 1px solid rgba(100, 116, 139, 0.32);
-    border-radius: 14px;
-
-    padding: 12px;
-
-    background:
-        rgba(15, 23, 32, 0.42);
-}
-
-.yhtis-track-card h3 {
-    display: flex;
-    align-items: center;
-
-    min-height: 38px;
-
-    margin:
-        0
-        0
-        10px
-        0 !important;
-
-    font-size: 18px;
-}
-
-.yhtis-track-card > div {
-    width: 100%;
-    overflow-x: hidden !important;
-}
-
-.yhtis-track-card table {
-    width: 100% !important;
-    table-layout: fixed !important;
-    border-collapse: collapse !important;
-    margin: 0 !important;
-}
-
-.yhtis-track-card th,
-.yhtis-track-card td {
-    padding: 9px 6px !important;
-
-    vertical-align: middle !important;
-
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-
-    font-size: 14px;
-    line-height: 1.3;
-}
-
-/* 第一欄股票 */
-.yhtis-track-card th:first-child,
-.yhtis-track-card td:first-child {
-    width: 25%;
-    text-align: left !important;
-}
-
-/* 第二欄分數 */
-.yhtis-track-card th:nth-child(2),
-.yhtis-track-card td:nth-child(2) {
-    width: 22%;
-    text-align: center !important;
-}
-
-/* 第三欄 */
-.yhtis-track-card th:nth-child(3),
-.yhtis-track-card td:nth-child(3) {
-    width: 31%;
-}
-
-/* 第四欄 */
-.yhtis-track-card th:nth-child(4),
-.yhtis-track-card td:nth-child(4) {
-    width: 22%;
-}
-
-/* 四軌區塊本體 */
-#yhtis-four-track-section {
-    width: 100%;
-}
-
-/* 全球市場一定在下面 */
-#global-market {
-    scroll-margin-top: 20px;
-}
-
-.yhtis-global-market-section {
-    width: 100% !important;
-    clear: both !important;
-    display: block !important;
-    margin-top: 20px !important;
-}
-
-/* 多軌共振仍維持全寬 */
-#multi-track {
-    scroll-margin-top: 20px;
-}
-
-/* 大螢幕 4 欄 */
-@media (min-width: 1200px) {
-
-    .yhtis-four-track-grid {
-        grid-template-columns:
-            repeat(4, minmax(0, 1fr));
-    }
-
-}
-
-/* 中型視窗 2 欄 */
-@media (max-width: 1199px) {
-
-    .yhtis-four-track-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-}
-
-/* 手機 1 欄 */
-@media (max-width: 680px) {
-
-    .yhtis-four-track-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .yhtis-track-card th,
-    .yhtis-track-card td {
-        font-size: 13px;
-    }
-
-}
-
-</style></head>
 <body>
+
+
+
+
+
+
+
+
 <div class="header">
+
 <div>
+
 <h1>YHTIS PRO</h1>
+
 <div class="subtitle">
 
 📅 行情資料日：
 <b>2026-08-24</b>
-<br/>
+
+<br>
 
 🔄 系統更新：
-2026-08-24 00:41:01
+2026-08-25 20:34:03
 
 </div>
+
 </div>
+
 </div>
+
+
 <div class="cards">
+
 <div class="card">
+
 <div class="label">
 🌍 Market
 </div>
+
 <div class="value">
 🟡 震盪 Neutral
 </div>
+
 <div class="small">
 
 Market Health：
 <b>53.5</b>
-<br/>
+
+<br>
 
 建議部位：
 <b>40%</b>
-<br/>
+
+<br>
 
 站上 EMA20：
 42.8%
 
-<br/>
+<br>
 
 站上 EMA60：
 34.9%
 
-<br/>
+<br>
 
 上漲比例：
 31.6%
 
-<br/>
+<br>
 
 市場樣本：
 1980
 
-<br/><br/>
+<br><br>
 
 市場分歧，降低部位並等待確認。
 
 </div>
+
 </div>
+
+
 <div class="card">
+
 <div class="label">
 🛡 Risk
 </div>
+
 <div class="value">
 🟡 中性
 </div>
+
 <div class="small">
 
 Risk Score：
 60
 
-<br/>
+<br>
 
 ✅ 允許新倉
 
-<br/>
+<br>
 
 最大總部位：
 40%
 
-<br/>
+<br>
 
 單筆最大風險：
 1.5%
 
-<br/>
+<br>
 
 每日虧損上限：
 4.0%
 
-<br/>
+<br>
 
 市場震盪，只做最強高品質標的，降低部位。
 
 </div>
+
 </div>
-<div class="card crown-card" onclick="filterRows('strong')">
+
+<div class="card crown-card"
+     onclick="filterRows('strong')">
+
 <div class="label">
 👑 YHTIS 綜合皇冠
 </div>
+
 <div class="value">
 5351 鈺創
 </div>
+
 <div class="small">
 
 追蹤報酬：
 -3.28%
 
-<br/>
+<br>
 
 追蹤分數：
 93.6
 
-<br/>
+<br>
 
 🟢 可進場
 
-<br/>
+<br>
 
 原始Top20皇冠：
 5351 鈺創
 
 </div>
+
 </div>
-<div class="card" onclick="filterRows('strong')">
+
+
+<div class="card"
+     onclick="filterRows('strong')">
+
 <div class="label">
 🟢 強勢
 </div>
+
 <div class="value">
 2
 </div>
+
 <div class="small">
 點擊只看強勢股
 </div>
+
 </div>
-<div class="card" onclick="filterRows('tracking')">
+
+
+<div class="card"
+     onclick="filterRows('tracking')">
+
 <div class="label">
 📈 持續追蹤
 </div>
+
 <div class="value">
 1
 </div>
+
 <div class="small">
 點擊只看延續股
 </div>
+
 </div>
-<div class="card" onclick="filterRows('watch')">
+
+
+<div class="card"
+     onclick="filterRows('watch')">
+
 <div class="label">
 🟡 觀察
 </div>
+
 <div class="value">
 1
 </div>
+
 <div class="small">
 點擊只看觀察股
 </div>
+
 </div>
-<div class="card" onclick="filterRows('hot')">
+
+
+<div class="card"
+     onclick="filterRows('hot')">
+
 <div class="label">
 🟠 已起漲不追
 </div>
+
 <div class="value">
 1
 </div>
+
 <div class="small">
 點擊查看過熱股
 </div>
+
 </div>
-<div class="card" onclick="
+
+
+<div class="card"
+     onclick="
         document
         .getElementById('eliminated')
         .scrollIntoView({
             behavior:'smooth'
         });
      ">
+
 <div class="label">
 🔴 淘汰
 </div>
+
 <div class="value">
 8
 </div>
+
 <div class="small">
 點擊查看淘汰股
 </div>
+
 </div>
+
 </div>
+
+
 <div class="toolbar">
+
 <button onclick="filterRows('all')">
 全部
 </button>
+
 <button onclick="filterRows('strong')">
 🟢 強勢
 </button>
+
 <button onclick="filterRows('tracking')">
 📈 持續追蹤
 </button>
+
 <button onclick="filterRows('watch')">
 🟡 觀察
 </button>
+
 <button onclick="filterRows('hot')">
 🟠 不追
 </button>
+
 </div>
+
+
 <section>
+
 <h2>
 📊 Rolling Watchlist
 </h2>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
+
 <tr>
+
 <th>皇冠</th>
 <th>排名</th>
 <th>狀態</th>
@@ -698,27 +644,41 @@ Risk Score：
 <th>建議部位</th>
 <th>價格位置</th>
 <th>執行建議</th>
+
 </tr>
+
 </thead>
+
 <tbody id="watchTable">
-<tr class="all strong">
-<td class="center crown">
+
+
+            <tr class="all strong">
+                <td class="center crown">
                     👑
                 </td>
-<td class="center">
+
+                <td class="center">
                     1
                 </td>
-<td>
+
+                <td>
                     🆕 今日新進
                 </td>
-<td class="code">
+
+                <td class="code">
                     5351
                 </td>
-<td>
-<b>鈺創</b>
-</td>
-<td class="center">
-<button onclick="openDetail('detail_5351')" style="
+
+                <td>
+                    <b>鈺創</b>
+                </td>
+
+                <td class="center">
+                    
+        <button
+            type="button"
+            onclick="openDetail('detail_5351')"
+            style="
                 padding:7px 12px;
                 border:1px solid #475569;
                 border-radius:8px;
@@ -726,87 +686,114 @@ Risk Score：
                 color:#93c5fd;
                 cursor:pointer;
                 white-space:nowrap;
-            " type="button">
+            "
+        >
             🔎 查看
         </button>
-<div id="detail_5351" style="display:none;">
-<div style="
+
+        <div
+            id="detail_5351"
+            style="display:none;"
+        >
+            
+
+            <div style="
                 display:grid;
                 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
                 gap:14px;
             ">
-<div style="
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         🎯 最終交易決策
                     </div>
-<div style="
+
+                    <div style="
                         font-size:24px;
                         font-weight:900;
                         margin-bottom:10px;
                     ">
                         🔴 避開
                     </div>
-<div style="line-height:1.8;">
-<b>選股分數：</b>
+
+                    <div style="line-height:1.8;">
+                        <b>選股分數：</b>
                         81.9
-                        <br/>
-<b>進場時機：</b>
+                        <br>
+
+                        <b>進場時機：</b>
                         50.0
-                        <br/>
-<b>價格位置：</b>
+                        <br>
+
+                        <b>價格位置：</b>
                         🟢 合理區內
-                        <br/>
-<b>距最佳進場：</b>
+                        <br>
+
+                        <b>距最佳進場：</b>
                         -1.78%
                     </div>
-</div>
-<div style="
+
+                </div>
+
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         💰 進場價格
                     </div>
-<div style="line-height:1.9;">
-<b>最佳進場：</b>
+
+                    <div style="line-height:1.9;">
+                        <b>最佳進場：</b>
                         120.1
-                        <br/>
-<b>合理區間：</b>
+                        <br>
+
+                        <b>合理區間：</b>
                         116.2
                         ～
                         123.1
-                        <br/>
-<b>追價上限：</b>
+                        <br>
+
+                        <b>追價上限：</b>
                         126.0
-                        <br/>
-<b>ATR14：</b>
+                        <br>
+
+                        <b>ATR14：</b>
                         9.7
                     </div>
-</div>
-</div>
-<div style="
+
+                </div>
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 padding:16px;
                 background:rgba(239,68,68,0.12);
                 border:2px solid #ef4444;
                 border-radius:12px;
             ">
-<div style="
+
+                <div style="
                     color:#ff6b6b;
                     font-size:14px;
                     font-weight:900;
@@ -814,129 +801,159 @@ Risk Score：
                 ">
                     🛑 風險控制
                 </div>
-<div style="
+
+                <div style="
                     display:flex;
                     flex-wrap:wrap;
                     gap:24px;
                     align-items:end;
                 ">
-<div>
-<div style="
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             結構止損價
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff6b6b;
                             font-size:28px;
                             font-weight:900;
                         ">
                             111.8
                         </div>
-</div>
-<div>
-<div style="
+                    </div>
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             進場 → 止損風險
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff8a8a;
                             font-size:22px;
                             font-weight:800;
                         ">
                             -6.95%
                         </div>
-</div>
-</div>
-<div style="
+                    </div>
+
+                </div>
+
+                <div style="
                     margin-top:8px;
                     color:#fca5a5;
                     font-size:12px;
                 ">
                     跌破結構止損價 → 停損或重新評估，不硬抱。
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     🌎 全球市場調整
                 </div>
-<div style="line-height:1.9;">
-<b>全球環境：</b>
+
+                <div style="line-height:1.9;">
+                    <b>全球環境：</b>
                     🟠 偏弱
                     （34.0）
-                    <br/>
-<b>操作模式：</b>
+                    <br>
+
+                    <b>操作模式：</b>
                     縮小部位＋禁止追價
-                    <br/>
-<b>建議部位：</b>
+                    <br>
+
+                    <b>建議部位：</b>
                     0.0%
-                    <br/>
-<b>v4 決策原因：</b>
+                    <br>
+
+                    <b>v4 決策原因：</b>
                     全球市場偏弱
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     📊 追蹤與模型資訊
                 </div>
-<div style="line-height:1.9;">
-<b>原執行建議：</b>
+
+                <div style="line-height:1.9;">
+                    <b>原執行建議：</b>
                     🟢 可進場
-                    <br/>
-<b>今日動作：</b>
+                    <br>
+
+                    <b>今日動作：</b>
                     👀 重點觀察
-                    <br/>
-<b>限制原因：</b>
+                    <br>
+
+                    <b>限制原因：</b>
                     無
-                    <br/>
-<b>時機資料來源：</b>
+                    <br>
+
+                    <b>時機資料來源：</b>
                     今日Timing
-                    <br/>
-<b>今日仍在Top20：</b>
+                    <br>
+
+                    <b>今日仍在Top20：</b>
                     ✅
-                    <br/>
-<b>Day3：</b>
+                    <br>
+
+                    <b>Day3：</b>
                     +0.82%
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day5：</b>
                     —
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day10：</b>
                     —
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:16px;
                 border-top:1px solid #354151;
                 padding-top:14px;
             ">
-<b>📈 60日 K線</b>
-<div style="
+
+                <b>📈 60日 K線</b>
+
+                <div style="
                     margin-top:8px;
                     color:#9ca3af;
                     font-size:12px;
@@ -946,10 +963,14 @@ Risk Score：
                     HIGH / LOW｜
                     ★ ENTRY
                 </div>
-<button onclick="openChart(
+
+                <button
+                    type="button"
+                    onclick="openChart(
                         'charts/5351.png',
                         '5351 鈺創'
-                    )" style="
+                    )"
+                    style="
                         margin-top:10px;
                         padding:9px 14px;
                         border:1px solid #475569;
@@ -958,63 +979,92 @@ Risk Score：
                         color:#ffffff;
                         font-weight:600;
                         cursor:pointer;
-                    " type="button">
+                    "
+                >
                     🔍 查看 K 線
                 </button>
-</div>
-</div>
-</td>
-<td class="number">
+
+            </div>
+
+        
+        </div>
+        
+                </td>
+
+                <td class="number">
                     118.0
                 </td>
-<td class="number">
+
+                <td class="number">
                     81.9
                 </td>
-<td class="number">
+
+                <td class="number">
                     50.0
                 </td>
-<td>
+
+                <td>
                     🔴 避開
                 </td>
-<td class="number">
+
+                <td class="number">
                     120.1
                 </td>
-<td class="number">
+
+                <td class="number">
                     -1.78%
                 </td>
-<td>
+
+                <td>
                     🟢 合理區內
                 </td>
-<td class="number">
+
+                <td class="number">
                     -3.28%
                 </td>
-<td class="number">
+
+                <td class="number">
                     +3.69%
                 </td>
-<td class="number">
+
+                <td class="number">
                     93.6
                 </td>
-<td>
+
+                <td>
                     🟢 可進場
                 </td>
-</tr>
-<tr class="all strong">
-<td class="center crown">
-</td>
-<td class="center">
+
+            </tr>
+            
+
+            <tr class="all strong">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
                     2
                 </td>
-<td>
+
+                <td>
                     🟢 持續強勢
                 </td>
-<td class="code">
+
+                <td class="code">
                     6274
                 </td>
-<td>
-<b>台燿</b>
-</td>
-<td class="center">
-<button onclick="openDetail('detail_6274')" style="
+
+                <td>
+                    <b>台燿</b>
+                </td>
+
+                <td class="center">
+                    
+        <button
+            type="button"
+            onclick="openDetail('detail_6274')"
+            style="
                 padding:7px 12px;
                 border:1px solid #475569;
                 border-radius:8px;
@@ -1022,87 +1072,114 @@ Risk Score：
                 color:#93c5fd;
                 cursor:pointer;
                 white-space:nowrap;
-            " type="button">
+            "
+        >
             🔎 查看
         </button>
-<div id="detail_6274" style="display:none;">
-<div style="
+
+        <div
+            id="detail_6274"
+            style="display:none;"
+        >
+            
+
+            <div style="
                 display:grid;
                 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
                 gap:14px;
             ">
-<div style="
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         🎯 最終交易決策
                     </div>
-<div style="
+
+                    <div style="
                         font-size:24px;
                         font-weight:900;
                         margin-bottom:10px;
                     ">
                         🔴 避開
                     </div>
-<div style="line-height:1.8;">
-<b>選股分數：</b>
+
+                    <div style="line-height:1.8;">
+                        <b>選股分數：</b>
                         82.8
-                        <br/>
-<b>進場時機：</b>
+                        <br>
+
+                        <b>進場時機：</b>
                         31.0
-                        <br/>
-<b>價格位置：</b>
+                        <br>
+
+                        <b>價格位置：</b>
                         🔴 BROKEN
-                        <br/>
-<b>距最佳進場：</b>
+                        <br>
+
+                        <b>距最佳進場：</b>
                         -3.96%
                     </div>
-</div>
-<div style="
+
+                </div>
+
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         💰 進場價格
                     </div>
-<div style="line-height:1.9;">
-<b>最佳進場：</b>
+
+                    <div style="line-height:1.9;">
+                        <b>最佳進場：</b>
                         1515.0
-                        <br/>
-<b>合理區間：</b>
+                        <br>
+
+                        <b>合理區間：</b>
                         1469.6
                         ～
                         1549.1
-                        <br/>
-<b>追價上限：</b>
+                        <br>
+
+                        <b>追價上限：</b>
                         1583.2
-                        <br/>
-<b>ATR14：</b>
+                        <br>
+
+                        <b>ATR14：</b>
                         113.6
                     </div>
-</div>
-</div>
-<div style="
+
+                </div>
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 padding:16px;
                 background:rgba(239,68,68,0.12);
                 border:2px solid #ef4444;
                 border-radius:12px;
             ">
-<div style="
+
+                <div style="
                     color:#ff6b6b;
                     font-size:14px;
                     font-weight:900;
@@ -1110,129 +1187,159 @@ Risk Score：
                 ">
                     🛑 風險控制
                 </div>
-<div style="
+
+                <div style="
                     display:flex;
                     flex-wrap:wrap;
                     gap:24px;
                     align-items:end;
                 ">
-<div>
-<div style="
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             結構止損價
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff6b6b;
                             font-size:28px;
                             font-weight:900;
                         ">
                             1477.3
                         </div>
-</div>
-<div>
-<div style="
+                    </div>
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             進場 → 止損風險
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff8a8a;
                             font-size:22px;
                             font-weight:800;
                         ">
                             -2.49%
                         </div>
-</div>
-</div>
-<div style="
+                    </div>
+
+                </div>
+
+                <div style="
                     margin-top:8px;
                     color:#fca5a5;
                     font-size:12px;
                 ">
                     跌破結構止損價 → 停損或重新評估，不硬抱。
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     🌎 全球市場調整
                 </div>
-<div style="line-height:1.9;">
-<b>全球環境：</b>
+
+                <div style="line-height:1.9;">
+                    <b>全球環境：</b>
                     🟠 偏弱
                     （34.0）
-                    <br/>
-<b>操作模式：</b>
+                    <br>
+
+                    <b>操作模式：</b>
                     縮小部位＋禁止追價
-                    <br/>
-<b>建議部位：</b>
+                    <br>
+
+                    <b>建議部位：</b>
                     0.0%
-                    <br/>
-<b>v4 決策原因：</b>
+                    <br>
+
+                    <b>v4 決策原因：</b>
                     全球市場偏弱
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     📊 追蹤與模型資訊
                 </div>
-<div style="line-height:1.9;">
-<b>原執行建議：</b>
+
+                <div style="line-height:1.9;">
+                    <b>原執行建議：</b>
                     🟢 可進場
-                    <br/>
-<b>今日動作：</b>
+                    <br>
+
+                    <b>今日動作：</b>
                     ✅ 優先研究買點
-                    <br/>
-<b>限制原因：</b>
+                    <br>
+
+                    <b>限制原因：</b>
                     無
-                    <br/>
-<b>時機資料來源：</b>
+                    <br>
+
+                    <b>時機資料來源：</b>
                     Rolling補算
-                    <br/>
-<b>今日仍在Top20：</b>
+                    <br>
+
+                    <b>今日仍在Top20：</b>
                     —
-                    <br/>
-<b>Day3：</b>
+                    <br>
+
+                    <b>Day3：</b>
                     -3.24%
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day5：</b>
                     —
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day10：</b>
                     —
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:16px;
                 border-top:1px solid #354151;
                 padding-top:14px;
             ">
-<b>📈 60日 K線</b>
-<div style="
+
+                <b>📈 60日 K線</b>
+
+                <div style="
                     margin-top:8px;
                     color:#9ca3af;
                     font-size:12px;
@@ -1242,10 +1349,14 @@ Risk Score：
                     HIGH / LOW｜
                     ★ ENTRY
                 </div>
-<button onclick="openChart(
+
+                <button
+                    type="button"
+                    onclick="openChart(
                         'charts/6274.png',
                         '6274 台燿'
-                    )" style="
+                    )"
+                    style="
                         margin-top:10px;
                         padding:9px 14px;
                         border:1px solid #475569;
@@ -1254,63 +1365,92 @@ Risk Score：
                         color:#ffffff;
                         font-weight:600;
                         cursor:pointer;
-                    " type="button">
+                    "
+                >
                     🔍 查看 K 線
                 </button>
-</div>
-</div>
-</td>
-<td class="number">
+
+            </div>
+
+        
+        </div>
+        
+                </td>
+
+                <td class="number">
                     1455.0
                 </td>
-<td class="number">
+
+                <td class="number">
                     82.8
                 </td>
-<td class="number">
+
+                <td class="number">
                     31.0
                 </td>
-<td>
+
+                <td>
                     🔴 避開
                 </td>
-<td class="number">
+
+                <td class="number">
                     1515.0
                 </td>
-<td class="number">
+
+                <td class="number">
                     -3.96%
                 </td>
-<td>
+
+                <td>
                     🔴 BROKEN
                 </td>
-<td class="number">
+
+                <td class="number">
                     -5.83%
                 </td>
-<td class="number">
+
+                <td class="number">
                     -2.91%
                 </td>
-<td class="number">
+
+                <td class="number">
                     92.4
                 </td>
-<td>
+
+                <td>
                     🟢 可進場
                 </td>
-</tr>
-<tr class="all tracking">
-<td class="center crown">
-</td>
-<td class="center">
+
+            </tr>
+            
+
+            <tr class="all tracking">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
                     3
                 </td>
-<td>
+
+                <td>
                     🟢 持續追蹤
                 </td>
-<td class="code">
+
+                <td class="code">
                     6907
                 </td>
-<td>
-<b>雅特力-KY</b>
-</td>
-<td class="center">
-<button onclick="openDetail('detail_6907')" style="
+
+                <td>
+                    <b>雅特力-KY</b>
+                </td>
+
+                <td class="center">
+                    
+        <button
+            type="button"
+            onclick="openDetail('detail_6907')"
+            style="
                 padding:7px 12px;
                 border:1px solid #475569;
                 border-radius:8px;
@@ -1318,87 +1458,114 @@ Risk Score：
                 color:#93c5fd;
                 cursor:pointer;
                 white-space:nowrap;
-            " type="button">
+            "
+        >
             🔎 查看
         </button>
-<div id="detail_6907" style="display:none;">
-<div style="
+
+        <div
+            id="detail_6907"
+            style="display:none;"
+        >
+            
+
+            <div style="
                 display:grid;
                 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
                 gap:14px;
             ">
-<div style="
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         🎯 最終交易決策
                     </div>
-<div style="
+
+                    <div style="
                         font-size:24px;
                         font-weight:900;
                         margin-bottom:10px;
                     ">
                         🔴 避開
                     </div>
-<div style="line-height:1.8;">
-<b>選股分數：</b>
+
+                    <div style="line-height:1.8;">
+                        <b>選股分數：</b>
                         46.5
-                        <br/>
-<b>進場時機：</b>
+                        <br>
+
+                        <b>進場時機：</b>
                         28.0
-                        <br/>
-<b>價格位置：</b>
+                        <br>
+
+                        <b>價格位置：</b>
                         🔴 BROKEN
-                        <br/>
-<b>距最佳進場：</b>
+                        <br>
+
+                        <b>距最佳進場：</b>
                         -2.59%
                     </div>
-</div>
-<div style="
+
+                </div>
+
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         💰 進場價格
                     </div>
-<div style="line-height:1.9;">
-<b>最佳進場：</b>
+
+                    <div style="line-height:1.9;">
+                        <b>最佳進場：</b>
                         184.8
-                        <br/>
-<b>合理區間：</b>
+                        <br>
+
+                        <b>合理區間：</b>
                         178.7
                         ～
                         189.4
-                        <br/>
-<b>追價上限：</b>
+                        <br>
+
+                        <b>追價上限：</b>
                         194.0
-                        <br/>
-<b>ATR14：</b>
+                        <br>
+
+                        <b>ATR14：</b>
                         15.3
                     </div>
-</div>
-</div>
-<div style="
+
+                </div>
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 padding:16px;
                 background:rgba(239,68,68,0.12);
                 border:2px solid #ef4444;
                 border-radius:12px;
             ">
-<div style="
+
+                <div style="
                     color:#ff6b6b;
                     font-size:14px;
                     font-weight:900;
@@ -1406,129 +1573,159 @@ Risk Score：
                 ">
                     🛑 風險控制
                 </div>
-<div style="
+
+                <div style="
                     display:flex;
                     flex-wrap:wrap;
                     gap:24px;
                     align-items:end;
                 ">
-<div>
-<div style="
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             結構止損價
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff6b6b;
                             font-size:28px;
                             font-weight:900;
                         ">
                             184.1
                         </div>
-</div>
-<div>
-<div style="
+                    </div>
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             進場 → 止損風險
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff8a8a;
                             font-size:22px;
                             font-weight:800;
                         ">
                             -0.38%
                         </div>
-</div>
-</div>
-<div style="
+                    </div>
+
+                </div>
+
+                <div style="
                     margin-top:8px;
                     color:#fca5a5;
                     font-size:12px;
                 ">
                     跌破結構止損價 → 停損或重新評估，不硬抱。
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     🌎 全球市場調整
                 </div>
-<div style="line-height:1.9;">
-<b>全球環境：</b>
+
+                <div style="line-height:1.9;">
+                    <b>全球環境：</b>
                     🟠 偏弱
                     （34.0）
-                    <br/>
-<b>操作模式：</b>
+                    <br>
+
+                    <b>操作模式：</b>
                     縮小部位＋禁止追價
-                    <br/>
-<b>建議部位：</b>
+                    <br>
+
+                    <b>建議部位：</b>
                     0.0%
-                    <br/>
-<b>v4 決策原因：</b>
+                    <br>
+
+                    <b>v4 決策原因：</b>
                     全球市場偏弱
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     📊 追蹤與模型資訊
                 </div>
-<div style="line-height:1.9;">
-<b>原執行建議：</b>
+
+                <div style="line-height:1.9;">
+                    <b>原執行建議：</b>
                     🟡 觀察
-                    <br/>
-<b>今日動作：</b>
+                    <br>
+
+                    <b>今日動作：</b>
                     ❌ 暫不做
-                    <br/>
-<b>限制原因：</b>
+                    <br>
+
+                    <b>限制原因：</b>
                     無
-                    <br/>
-<b>時機資料來源：</b>
+                    <br>
+
+                    <b>時機資料來源：</b>
                     Rolling補算
-                    <br/>
-<b>今日仍在Top20：</b>
+                    <br>
+
+                    <b>今日仍在Top20：</b>
                     —
-                    <br/>
-<b>Day3：</b>
+                    <br>
+
+                    <b>Day3：</b>
                     +1.86%
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day5：</b>
                     —
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day10：</b>
                     —
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:16px;
                 border-top:1px solid #354151;
                 padding-top:14px;
             ">
-<b>📈 60日 K線</b>
-<div style="
+
+                <b>📈 60日 K線</b>
+
+                <div style="
                     margin-top:8px;
                     color:#9ca3af;
                     font-size:12px;
@@ -1538,10 +1735,14 @@ Risk Score：
                     HIGH / LOW｜
                     ★ ENTRY
                 </div>
-<button onclick="openChart(
+
+                <button
+                    type="button"
+                    onclick="openChart(
                         'charts/6907.png',
                         '6907 雅特力-KY'
-                    )" style="
+                    )"
+                    style="
                         margin-top:10px;
                         padding:9px 14px;
                         border:1px solid #475569;
@@ -1550,63 +1751,92 @@ Risk Score：
                         color:#ffffff;
                         font-weight:600;
                         cursor:pointer;
-                    " type="button">
+                    "
+                >
                     🔍 查看 K 線
                 </button>
-</div>
-</div>
-</td>
-<td class="number">
+
+            </div>
+
+        
+        </div>
+        
+                </td>
+
+                <td class="number">
                     180.0
                 </td>
-<td class="number">
+
+                <td class="number">
                     46.5
                 </td>
-<td class="number">
+
+                <td class="number">
                     28.0
                 </td>
-<td>
+
+                <td>
                     🔴 避開
                 </td>
-<td class="number">
+
+                <td class="number">
                     184.8
                 </td>
-<td class="number">
+
+                <td class="number">
                     -2.59%
                 </td>
-<td>
+
+                <td>
                     🔴 BROKEN
                 </td>
-<td class="number">
+
+                <td class="number">
                     -4.26%
                 </td>
-<td class="number">
+
+                <td class="number">
                     +2.39%
                 </td>
-<td class="number">
+
+                <td class="number">
                     59.3
                 </td>
-<td>
+
+                <td>
                     🟡 觀察
                 </td>
-</tr>
-<tr class="all watch">
-<td class="center crown">
-</td>
-<td class="center">
+
+            </tr>
+            
+
+            <tr class="all watch">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
                     4
                 </td>
-<td>
+
+                <td>
                     🟡 降級觀察
                 </td>
-<td class="code">
+
+                <td class="code">
                     6213
                 </td>
-<td>
-<b>聯茂</b>
-</td>
-<td class="center">
-<button onclick="openDetail('detail_6213')" style="
+
+                <td>
+                    <b>聯茂</b>
+                </td>
+
+                <td class="center">
+                    
+        <button
+            type="button"
+            onclick="openDetail('detail_6213')"
+            style="
                 padding:7px 12px;
                 border:1px solid #475569;
                 border-radius:8px;
@@ -1614,87 +1844,114 @@ Risk Score：
                 color:#93c5fd;
                 cursor:pointer;
                 white-space:nowrap;
-            " type="button">
+            "
+        >
             🔎 查看
         </button>
-<div id="detail_6213" style="display:none;">
-<div style="
+
+        <div
+            id="detail_6213"
+            style="display:none;"
+        >
+            
+
+            <div style="
                 display:grid;
                 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
                 gap:14px;
             ">
-<div style="
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         🎯 最終交易決策
                     </div>
-<div style="
+
+                    <div style="
                         font-size:24px;
                         font-weight:900;
                         margin-bottom:10px;
                     ">
                         🟡 等待
                     </div>
-<div style="line-height:1.8;">
-<b>選股分數：</b>
+
+                    <div style="line-height:1.8;">
+                        <b>選股分數：</b>
                         67.0
-                        <br/>
-<b>進場時機：</b>
+                        <br>
+
+                        <b>進場時機：</b>
                         95.0
-                        <br/>
-<b>價格位置：</b>
+                        <br>
+
+                        <b>價格位置：</b>
                         🟢 合理區內
-                        <br/>
-<b>距最佳進場：</b>
+                        <br>
+
+                        <b>距最佳進場：</b>
                         0.00%
                     </div>
-</div>
-<div style="
+
+                </div>
+
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         💰 進場價格
                     </div>
-<div style="line-height:1.9;">
-<b>最佳進場：</b>
+
+                    <div style="line-height:1.9;">
+                        <b>最佳進場：</b>
                         482.5
-                        <br/>
-<b>合理區間：</b>
+                        <br>
+
+                        <b>合理區間：</b>
                         475.1
                         ～
                         491.1
-                        <br/>
-<b>追價上限：</b>
+                        <br>
+
+                        <b>追價上限：</b>
                         501.5
-                        <br/>
-<b>ATR14：</b>
+                        <br>
+
+                        <b>ATR14：</b>
                         34.6
                     </div>
-</div>
-</div>
-<div style="
+
+                </div>
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 padding:16px;
                 background:rgba(239,68,68,0.12);
                 border:2px solid #ef4444;
                 border-radius:12px;
             ">
-<div style="
+
+                <div style="
                     color:#ff6b6b;
                     font-size:14px;
                     font-weight:900;
@@ -1702,129 +1959,159 @@ Risk Score：
                 ">
                     🛑 風險控制
                 </div>
-<div style="
+
+                <div style="
                     display:flex;
                     flex-wrap:wrap;
                     gap:24px;
                     align-items:end;
                 ">
-<div>
-<div style="
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             結構止損價
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff6b6b;
                             font-size:28px;
                             font-weight:900;
                         ">
                             441.0
                         </div>
-</div>
-<div>
-<div style="
+                    </div>
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             進場 → 止損風險
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff8a8a;
                             font-size:22px;
                             font-weight:800;
                         ">
                             -8.61%
                         </div>
-</div>
-</div>
-<div style="
+                    </div>
+
+                </div>
+
+                <div style="
                     margin-top:8px;
                     color:#fca5a5;
                     font-size:12px;
                 ">
                     跌破結構止損價 → 停損或重新評估，不硬抱。
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     🌎 全球市場調整
                 </div>
-<div style="line-height:1.9;">
-<b>全球環境：</b>
+
+                <div style="line-height:1.9;">
+                    <b>全球環境：</b>
                     🟠 偏弱
                     （34.0）
-                    <br/>
-<b>操作模式：</b>
+                    <br>
+
+                    <b>操作模式：</b>
                     縮小部位＋禁止追價
-                    <br/>
-<b>建議部位：</b>
+                    <br>
+
+                    <b>建議部位：</b>
                     0.0%
-                    <br/>
-<b>v4 決策原因：</b>
+                    <br>
+
+                    <b>v4 決策原因：</b>
                     全球市場偏弱
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     📊 追蹤與模型資訊
                 </div>
-<div style="line-height:1.9;">
-<b>原執行建議：</b>
+
+                <div style="line-height:1.9;">
+                    <b>原執行建議：</b>
                     🟡 等確認
-                    <br/>
-<b>今日動作：</b>
+                    <br>
+
+                    <b>今日動作：</b>
                     ⏳ 等回踩EMA9
-                    <br/>
-<b>限制原因：</b>
+                    <br>
+
+                    <b>限制原因：</b>
                     遠離EMA9
-                    <br/>
-<b>時機資料來源：</b>
+                    <br>
+
+                    <b>時機資料來源：</b>
                     Rolling補算
-                    <br/>
-<b>今日仍在Top20：</b>
+                    <br>
+
+                    <b>今日仍在Top20：</b>
                     —
-                    <br/>
-<b>Day3：</b>
+                    <br>
+
+                    <b>Day3：</b>
                     +5.12%
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day5：</b>
                     —
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day10：</b>
                     —
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:16px;
                 border-top:1px solid #354151;
                 padding-top:14px;
             ">
-<b>📈 60日 K線</b>
-<div style="
+
+                <b>📈 60日 K線</b>
+
+                <div style="
                     margin-top:8px;
                     color:#9ca3af;
                     font-size:12px;
@@ -1834,10 +2121,14 @@ Risk Score：
                     HIGH / LOW｜
                     ★ ENTRY
                 </div>
-<button onclick="openChart(
+
+                <button
+                    type="button"
+                    onclick="openChart(
                         'charts/6213.png',
                         '6213 聯茂'
-                    )" style="
+                    )"
+                    style="
                         margin-top:10px;
                         padding:9px 14px;
                         border:1px solid #475569;
@@ -1846,63 +2137,92 @@ Risk Score：
                         color:#ffffff;
                         font-weight:600;
                         cursor:pointer;
-                    " type="button">
+                    "
+                >
                     🔍 查看 K 線
                 </button>
-</div>
-</div>
-</td>
-<td class="number">
+
+            </div>
+
+        
+        </div>
+        
+                </td>
+
+                <td class="number">
                     482.5
                 </td>
-<td class="number">
+
+                <td class="number">
                     67.0
                 </td>
-<td class="number">
+
+                <td class="number">
                     95.0
                 </td>
-<td>
+
+                <td>
                     🟡 等待
                 </td>
-<td class="number">
+
+                <td class="number">
                     482.5
                 </td>
-<td class="number">
+
+                <td class="number">
                     0.00%
                 </td>
-<td>
+
+                <td>
                     🟢 合理區內
                 </td>
-<td class="number">
+
+                <td class="number">
                     -1.13%
                 </td>
-<td class="number">
+
+                <td class="number">
                     -0.82%
                 </td>
-<td class="number">
+
+                <td class="number">
                     72.2
                 </td>
-<td>
+
+                <td>
                     🟡 等確認
                 </td>
-</tr>
-<tr class="all hot">
-<td class="center crown">
-</td>
-<td class="center">
+
+            </tr>
+            
+
+            <tr class="all hot">
+                <td class="center crown">
+                    
+                </td>
+
+                <td class="center">
                     5
                 </td>
-<td>
+
+                <td>
                     🟠 已起漲不追
                 </td>
-<td class="code">
+
+                <td class="code">
                     6225
                 </td>
-<td>
-<b>天瀚</b>
-</td>
-<td class="center">
-<button onclick="openDetail('detail_6225')" style="
+
+                <td>
+                    <b>天瀚</b>
+                </td>
+
+                <td class="center">
+                    
+        <button
+            type="button"
+            onclick="openDetail('detail_6225')"
+            style="
                 padding:7px 12px;
                 border:1px solid #475569;
                 border-radius:8px;
@@ -1910,87 +2230,114 @@ Risk Score：
                 color:#93c5fd;
                 cursor:pointer;
                 white-space:nowrap;
-            " type="button">
+            "
+        >
             🔎 查看
         </button>
-<div id="detail_6225" style="display:none;">
-<div style="
+
+        <div
+            id="detail_6225"
+            style="display:none;"
+        >
+            
+
+            <div style="
                 display:grid;
                 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
                 gap:14px;
             ">
-<div style="
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         🎯 最終交易決策
                     </div>
-<div style="
+
+                    <div style="
                         font-size:24px;
                         font-weight:900;
                         margin-bottom:10px;
                     ">
                         🟠 禁止追價
                     </div>
-<div style="line-height:1.8;">
-<b>選股分數：</b>
+
+                    <div style="line-height:1.8;">
+                        <b>選股分數：</b>
                         58.7
-                        <br/>
-<b>進場時機：</b>
+                        <br>
+
+                        <b>進場時機：</b>
                         48.0
-                        <br/>
-<b>價格位置：</b>
+                        <br>
+
+                        <b>價格位置：</b>
                         🟢 合理區內
-                        <br/>
-<b>距最佳進場：</b>
+                        <br>
+
+                        <b>距最佳進場：</b>
                         0.00%
                     </div>
-</div>
-<div style="
+
+                </div>
+
+
+                <div style="
                     background:#111827;
                     border:1px solid #334155;
                     border-radius:12px;
                     padding:16px;
                 ">
-<div style="
+
+                    <div style="
                         font-size:13px;
                         color:#94a3b8;
                         margin-bottom:8px;
                     ">
                         💰 進場價格
                     </div>
-<div style="line-height:1.9;">
-<b>最佳進場：</b>
+
+                    <div style="line-height:1.9;">
+                        <b>最佳進場：</b>
                         71.1
-                        <br/>
-<b>合理區間：</b>
+                        <br>
+
+                        <b>合理區間：</b>
                         69.2
                         ～
                         72.3
-                        <br/>
-<b>追價上限：</b>
+                        <br>
+
+                        <b>追價上限：</b>
                         73.7
-                        <br/>
-<b>ATR14：</b>
+                        <br>
+
+                        <b>ATR14：</b>
                         4.6
                     </div>
-</div>
-</div>
-<div style="
+
+                </div>
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 padding:16px;
                 background:rgba(239,68,68,0.12);
                 border:2px solid #ef4444;
                 border-radius:12px;
             ">
-<div style="
+
+                <div style="
                     color:#ff6b6b;
                     font-size:14px;
                     font-weight:900;
@@ -1998,129 +2345,159 @@ Risk Score：
                 ">
                     🛑 風險控制
                 </div>
-<div style="
+
+                <div style="
                     display:flex;
                     flex-wrap:wrap;
                     gap:24px;
                     align-items:end;
                 ">
-<div>
-<div style="
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             結構止損價
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff6b6b;
                             font-size:28px;
                             font-weight:900;
                         ">
                             65.5
                         </div>
-</div>
-<div>
-<div style="
+                    </div>
+
+                    <div>
+                        <div style="
                             color:#fca5a5;
                             font-size:12px;
                         ">
                             進場 → 止損風險
                         </div>
-<div style="
+
+                        <div style="
                             color:#ff8a8a;
                             font-size:22px;
                             font-weight:800;
                         ">
                             -7.83%
                         </div>
-</div>
-</div>
-<div style="
+                    </div>
+
+                </div>
+
+                <div style="
                     margin-top:8px;
                     color:#fca5a5;
                     font-size:12px;
                 ">
                     跌破結構止損價 → 停損或重新評估，不硬抱。
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     🌎 全球市場調整
                 </div>
-<div style="line-height:1.9;">
-<b>全球環境：</b>
+
+                <div style="line-height:1.9;">
+                    <b>全球環境：</b>
                     🟠 偏弱
                     （34.0）
-                    <br/>
-<b>操作模式：</b>
+                    <br>
+
+                    <b>操作模式：</b>
                     縮小部位＋禁止追價
-                    <br/>
-<b>建議部位：</b>
+                    <br>
+
+                    <b>建議部位：</b>
                     0.0%
-                    <br/>
-<b>v4 決策原因：</b>
+                    <br>
+
+                    <b>v4 決策原因：</b>
                     全球市場偏弱、維持禁止追價
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:14px;
                 background:#111827;
                 border:1px solid #334155;
                 border-radius:12px;
                 padding:16px;
             ">
-<div style="
+
+                <div style="
                     font-size:13px;
                     color:#94a3b8;
                     margin-bottom:8px;
                 ">
                     📊 追蹤與模型資訊
                 </div>
-<div style="line-height:1.9;">
-<b>原執行建議：</b>
+
+                <div style="line-height:1.9;">
+                    <b>原執行建議：</b>
                     🟡 等確認
-                    <br/>
-<b>今日動作：</b>
+                    <br>
+
+                    <b>今日動作：</b>
                     ⏳ 等回踩EMA9
-                    <br/>
-<b>限制原因：</b>
+                    <br>
+
+                    <b>限制原因：</b>
                     遠離EMA9
-                    <br/>
-<b>時機資料來源：</b>
+                    <br>
+
+                    <b>時機資料來源：</b>
                     Rolling補算
-                    <br/>
-<b>今日仍在Top20：</b>
+                    <br>
+
+                    <b>今日仍在Top20：</b>
                     —
-                    <br/>
-<b>Day3：</b>
+                    <br>
+
+                    <b>Day3：</b>
                     +32.58%
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day5：</b>
                     —
-                      
+                    &nbsp;&nbsp;
 
                     <b>Day10：</b>
                     —
                 </div>
-</div>
-<div style="
+
+            </div>
+
+
+            <div style="
                 margin-top:16px;
                 border-top:1px solid #354151;
                 padding-top:14px;
             ">
-<b>📈 60日 K線</b>
-<div style="
+
+                <b>📈 60日 K線</b>
+
+                <div style="
                     margin-top:8px;
                     color:#9ca3af;
                     font-size:12px;
@@ -2130,10 +2507,14 @@ Risk Score：
                     HIGH / LOW｜
                     ★ ENTRY
                 </div>
-<button onclick="openChart(
+
+                <button
+                    type="button"
+                    onclick="openChart(
                         'charts/6225.png',
                         '6225 天瀚'
-                    )" style="
+                    )"
+                    style="
                         margin-top:10px;
                         padding:9px 14px;
                         border:1px solid #475569;
@@ -2142,100 +2523,140 @@ Risk Score：
                         color:#ffffff;
                         font-weight:600;
                         cursor:pointer;
-                    " type="button">
+                    "
+                >
                     🔍 查看 K 線
                 </button>
-</div>
-</div>
-</td>
-<td class="number">
+
+            </div>
+
+        
+        </div>
+        
+                </td>
+
+                <td class="number">
                     71.1
                 </td>
-<td class="number">
+
+                <td class="number">
                     58.7
                 </td>
-<td class="number">
+
+                <td class="number">
                     48.0
                 </td>
-<td>
+
+                <td>
                     🟠 禁止追價
                 </td>
-<td class="number">
+
+                <td class="number">
                     71.1
                 </td>
-<td class="number">
+
+                <td class="number">
                     0.00%
                 </td>
-<td>
+
+                <td>
                     🟢 合理區內
                 </td>
-<td class="number">
+
+                <td class="number">
                     +45.70%
                 </td>
-<td class="number">
+
+                <td class="number">
                     +9.84%
                 </td>
-<td class="number">
+
+                <td class="number">
                     58.9
                 </td>
-<td>
+
+                <td>
                     🟡 等確認
                 </td>
-</tr>
+
+            </tr>
+            
+
 </tbody>
+
 </table>
+
 </div>
+
 </section>
+
+
 <section>
+
 <h2>
 🧪 v4 vs v5 vs v6 Shadow 實戰驗證
 </h2>
+
 <div class="cards" style="
     margin-top:14px;
     margin-bottom:18px;
 ">
-<div class="card">
-<div class="label">
+
+    <div class="card">
+        <div class="label">
             累積樣本
         </div>
-<div class="value">
+
+        <div class="value">
             12
         </div>
-<div class="small">
+
+        <div class="small">
             ⚠️ 樣本尚未成熟，v5 / v6 目前僅作 Shadow 驗證，不取代正式 v4
         </div>
-</div>
-<div class="card">
-<div class="label">
+    </div>
+
+    <div class="card">
+        <div class="label">
             Day1 成熟
         </div>
-<div class="value">
+
+        <div class="value">
             7
             /
             12
         </div>
-<div class="small">
+
+        <div class="small">
             平均 -2.88%
             ｜勝率 14.3%
         </div>
-</div>
-<div class="card">
-<div class="label">
+    </div>
+
+    <div class="card">
+        <div class="label">
             Day5 成熟
         </div>
-<div class="value">
+
+        <div class="value">
             0
             /
             12
         </div>
-<div class="small">
+
+        <div class="small">
             平均 —
             ｜勝率 —
         </div>
+    </div>
+
 </div>
-</div>
+
+
 <div style="overflow-x:auto; margin-bottom:18px;">
+
 <table>
+
 <thead>
 <tr>
 <th>期間</th>
@@ -2244,39 +2665,52 @@ Risk Score：
 <th>勝率</th>
 </tr>
 </thead>
+
 <tbody>
+
 <tr>
 <td>Day1</td>
 <td>7 / 12</td>
 <td>-2.88%</td>
 <td>14.3%</td>
 </tr>
+
 <tr>
 <td>Day3</td>
 <td>0 / 12</td>
 <td>—</td>
 <td>—</td>
 </tr>
+
 <tr>
 <td>Day5</td>
 <td>0 / 12</td>
 <td>—</td>
 <td>—</td>
 </tr>
+
 <tr>
 <td>Day10</td>
 <td>0 / 12</td>
 <td>—</td>
 <td>—</td>
 </tr>
+
 </tbody>
+
 </table>
+
 </div>
+
+
 <h3 style="margin-top:20px;">
 🏭 產業角色實績
 </h3>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
 <tr>
 <th>產業角色</th>
@@ -2285,39 +2719,55 @@ Risk Score：
 <th>Day5平均</th>
 </tr>
 </thead>
+
 <tbody>
-<tr>
-<td><b>🔴 雙弱</b></td>
-<td class="number">4</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🔵 逆勢領先</b></td>
-<td class="number">3</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🟢 個股領先</b></td>
-<td class="number">3</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🟢 相對強勢</b></td>
-<td class="number">2</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
+
+                <tr>
+                    <td><b>🔴 雙弱</b></td>
+                    <td class="number">4</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🔵 逆勢領先</b></td>
+                    <td class="number">3</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🟢 個股領先</b></td>
+                    <td class="number">3</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🟢 相對強勢</b></td>
+                    <td class="number">2</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
 </tbody>
+
 </table>
+
 </div>
+
+
 <h3 style="margin-top:24px;">
 🔗 供應鏈角色實績
 </h3>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
 <tr>
 <th>供應鏈角色</th>
@@ -2326,614 +2776,804 @@ Risk Score：
 <th>Day5平均</th>
 </tr>
 </thead>
+
 <tbody>
-<tr>
-<td><b>⚪ 單一主題樣本</b></td>
-<td class="number">2</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🔴 主題落後</b></td>
-<td class="number">2</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🔵 逆勢領先</b></td>
-<td class="number">4</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🟠 主題偏弱</b></td>
-<td class="number">2</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🟢 主題共振</b></td>
-<td class="number">1</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
-<tr>
-<td><b>🟢 主題領先</b></td>
-<td class="number">1</td>
-<td class="number">0</td>
-<td class="number">—</td>
-</tr>
+
+                <tr>
+                    <td><b>⚪ 單一主題樣本</b></td>
+                    <td class="number">2</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🔴 主題落後</b></td>
+                    <td class="number">2</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🔵 逆勢領先</b></td>
+                    <td class="number">4</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🟠 主題偏弱</b></td>
+                    <td class="number">2</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🟢 主題共振</b></td>
+                    <td class="number">1</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
+
+                <tr>
+                    <td><b>🟢 主題領先</b></td>
+                    <td class="number">1</td>
+                    <td class="number">0</td>
+                    <td class="number">—</td>
+                </tr>
+                
 </tbody>
+
 </table>
+
 </div>
+
+
 <h3 style="margin-top:24px;">
 ⚖️ 模型分歧
 </h3>
+
 <div class="cards" style="
     margin-top:12px;
     margin-bottom:6px;
 ">
-<div class="card">
-<div class="label">
+
+    <div class="card">
+        <div class="label">
             v4 → v5 不同
         </div>
-<div class="value">
+
+        <div class="value">
             1
         </div>
-<div class="small">
+
+        <div class="small">
             產業層造成的決策差異
         </div>
-</div>
-<div class="card">
-<div class="label">
+    </div>
+
+    <div class="card">
+        <div class="label">
             v5 → v6 不同
         </div>
-<div class="value">
+
+        <div class="value">
             0
         </div>
-<div class="small">
+
+        <div class="small">
             供應鏈層造成的決策差異
         </div>
-</div>
-<div class="card">
-<div class="label">
+    </div>
+
+    <div class="card">
+        <div class="label">
             v4 → v6 不同
         </div>
-<div class="value">
+
+        <div class="value">
             1
         </div>
-<div class="small">
+
+        <div class="small">
             完整 Shadow 相對正式 v4
         </div>
+    </div>
+
 </div>
-</div>
+
 </section>
-<section>
-<h2 id="multi-track">
+
+
+
+    <section>
+
+        <h2 id="multi-track">
         💎 今日多軌共振 Top5
         </h2>
-<div class="small" style="
+
+        <div class="small"
+             style="
                  margin-bottom:16px;
                  line-height:1.7;
              ">
 
-        僅顯示至少 2 條策略同時成立的股票。<br/>
+        僅顯示至少 2 條策略同時成立的股票。<br>
         共振分數代表研究優先級，
-        <b>不是上漲機率，也不是直接買進訊號。</b><br/>
+        <b>不是上漲機率，也不是直接買進訊號。</b><br>
         若顯示 🔴 追價風險，
         即使共振很高也不建議追價。
 
         </div>
-<div style="overflow-x:auto;">
-<table>
-<thead>
-<tr>
-<th>股票</th>
-<th>共振分數</th>
-<th>等級</th>
-<th>共振類型</th>
-<th>有效軌道</th>
-<th>研究優先級</th>
-<th>操作提示</th>
-<th>追價風險</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<b>
+
+        <div style="overflow-x:auto;">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>股票</th>
+                    <th>共振分數</th>
+                    <th>等級</th>
+                    <th>共振類型</th>
+                    <th>有效軌道</th>
+                    <th>研究優先級</th>
+                    <th>操作提示</th>
+                    <th>追價風險</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                
+                <tr>
+
+                    <td>
+                        <b>
                         3450 聯鈞
                         </b>
-</td>
-<td class="number">
+                    </td>
+
+                    <td class="number">
                         77.0
                     </td>
-<td>
+
+                    <td>
                         💎 A
                     </td>
-<td>
+
+                    <td>
                         強股二次爆發共振
                     </td>
-<td>
+
+                    <td>
                         🔵 Second + 🟠 Pre
                     </td>
-<td>
+
+                    <td>
                         🔥 高
                     </td>
-<td>
+
+                    <td>
                         💎 優先研究進場位置
                     </td>
-<td>
+
+                    <td>
                         🟢 無
                     </td>
-</tr>
-<tr>
-<td>
-<b>
+
+                </tr>
+                
+
+                <tr>
+
+                    <td>
+                        <b>
                         3374 精材
                         </b>
-</td>
-<td class="number">
+                    </td>
+
+                    <td class="number">
                         75.0
                     </td>
-<td>
+
+                    <td>
                         💎 A
                     </td>
-<td>
+
+                    <td>
                         強股二次爆發共振
                     </td>
-<td>
+
+                    <td>
                         🔵 Second + 🟠 Pre
                     </td>
-<td>
+
+                    <td>
                         🔥 高
                     </td>
-<td>
+
+                    <td>
                         💎 優先研究進場位置
                     </td>
-<td>
+
+                    <td>
                         🟢 無
                     </td>
-</tr>
-<tr>
-<td>
-<b>
+
+                </tr>
+                
+
+                <tr>
+
+                    <td>
+                        <b>
                         1303 南亞
                         </b>
-</td>
-<td class="number">
+                    </td>
+
+                    <td class="number">
                         74.0
                     </td>
-<td>
+
+                    <td>
                         💎 A
                     </td>
-<td>
+
+                    <td>
                         強股二次爆發共振
                     </td>
-<td>
+
+                    <td>
                         🔵 Second + 🟠 Pre
                     </td>
-<td>
+
+                    <td>
                         🔥 高
                     </td>
-<td>
+
+                    <td>
                         💎 優先研究進場位置
                     </td>
-<td>
+
+                    <td>
                         🟢 無
                     </td>
-</tr>
-<tr>
-<td>
-<b>
+
+                </tr>
+                
+
+                <tr>
+
+                    <td>
+                        <b>
                         4939 亞電
                         </b>
-</td>
-<td class="number">
+                    </td>
+
+                    <td class="number">
                         74.0
                     </td>
-<td>
+
+                    <td>
                         💎 A
                     </td>
-<td>
+
+                    <td>
                         強股二次爆發共振
                     </td>
-<td>
+
+                    <td>
                         🔵 Second + 🟠 Pre
                     </td>
-<td>
+
+                    <td>
                         🔥 高
                     </td>
-<td>
+
+                    <td>
                         💎 優先研究進場位置
                     </td>
-<td>
+
+                    <td>
                         🟢 無
                     </td>
-</tr>
-<tr>
-<td>
-<b>
+
+                </tr>
+                
+
+                <tr>
+
+                    <td>
+                        <b>
                         3229 晟鈦
                         </b>
-</td>
-<td class="number">
+                    </td>
+
+                    <td class="number">
                         93.0
                     </td>
-<td>
+
+                    <td>
                         🔵 B
                     </td>
-<td>
+
+                    <td>
                         穩健＋二次起漲
                     </td>
-<td>
+
+                    <td>
                         🟢 Stable + 🔵 Second + 🔥 Active
                     </td>
-<td>
+
+                    <td>
                         🟡 中高
                     </td>
-<td>
+
+                    <td>
                         🔴 高共振但不追價
                     </td>
-<td>
+
+                    <td>
                         🔴 有
                     </td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="yhtis-four-track-section">
-<h2>
+
+                </tr>
+                
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    </section>
+    
+
+
+    <section>
+
+    <h2>
     🎯 YHTIS 四軌交易雷達
     </h2>
-<div class="small" style="margin-bottom:18px;">
+
+    <div class="small"
+         style="margin-bottom:18px;">
 
     四條策略獨立運作。
     爆發潛力不代表適合追價，
     穩健起漲與高風險爆發策略不混合。
 
     </div>
-<div class="yhtis-four-track-grid"><div class="yhtis-track-card yhtis-track-card-1"><h3 id="stable-start">🟢 穩健起漲 Top5</h3><div style="overflow-x:auto;">
-<table>
-<thead>
-<tr>
-<th>股票</th>
-<th>起漲分數</th>
-<th>階段</th>
-<th>今日動作</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>5351 鈺創</b></td>
-<td class="number">
+
+
+    <h3 id="stable-start">🟢 穩健起漲 Top5</h3>
+
+    <div style="overflow-x:auto;">
+    <table>
+
+    <thead>
+    <tr>
+        <th>股票</th>
+        <th>起漲分數</th>
+        <th>階段</th>
+        <th>今日動作</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+                <tr>
+                    <td><b>5351 鈺創</b></td>
+                    <td class="number">
                         81.9
                     </td>
-<td>
+                    <td>
                         🌱 起漲準備
                     </td>
-<td>
+                    <td>
                         👀 重點觀察
                     </td>
-</tr>
-<tr>
-<td><b>3229 晟鈦</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>3229 晟鈦</b></td>
+                    <td class="number">
                         76.6
                     </td>
-<td>
+                    <td>
                         📈 準備轉強
                     </td>
-<td>
+                    <td>
                         👀 重點觀察
                     </td>
-</tr>
-<tr>
-<td><b>7711 永擎</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>7711 永擎</b></td>
+                    <td class="number">
                         74.9
                     </td>
-<td>
+                    <td>
                         📈 準備轉強
                     </td>
-<td>
+                    <td>
                         👀 重點觀察
                     </td>
-</tr>
-<tr>
-<td><b>2301 光寶科</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>2301 光寶科</b></td>
+                    <td class="number">
                         71.5
                     </td>
-<td>
+                    <td>
                         🔥 過熱
                     </td>
-<td>
+                    <td>
                         ❌ 暫不做
                     </td>
-</tr>
-<tr>
-<td><b>8039 台虹</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>8039 台虹</b></td>
+                    <td class="number">
                         70.6
                     </td>
-<td>
+                    <td>
                         📈 準備轉強
                     </td>
-<td>
+                    <td>
                         👀 等止跌
                     </td>
-</tr>
-</tbody>
-</table>
-</div></div><div class="yhtis-track-card yhtis-track-card-2"><h3 style="margin-top:26px;">
-<span id="second-launch">🔵 二次起漲 Top5</span>
-</h3><div style="overflow-x:auto;">
-<table>
-<thead>
-<tr>
-<th>股票</th>
-<th>二次起漲分數</th>
-<th>狀態</th>
-<th>目前排名</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>3229 晟鈦</b></td>
-<td class="number">
+                </tr>
+                
+    </tbody>
+
+    </table>
+    </div>
+
+
+    <h3 style="margin-top:26px;">
+    <span id="second-launch">🔵 二次起漲 Top5</span>
+    </h3>
+
+    <div style="overflow-x:auto;">
+    <table>
+
+    <thead>
+    <tr>
+        <th>股票</th>
+        <th>二次起漲分數</th>
+        <th>狀態</th>
+        <th>目前排名</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+                <tr>
+                    <td><b>3229 晟鈦</b></td>
+                    <td class="number">
                         83.0
                     </td>
-<td>
+                    <td>
                         🔥 二次起漲啟動
                     </td>
-<td>
+                    <td>
                         🟢 今日Top20
                     </td>
-</tr>
-<tr>
-<td><b>3532 台勝科</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>3532 台勝科</b></td>
+                    <td class="number">
                         82.0
                     </td>
-<td>
+                    <td>
                         🔥 二次起漲啟動
                     </td>
-<td>
+                    <td>
                         🔵 已掉出Top50
                     </td>
-</tr>
-<tr>
-<td><b>6213 聯茂</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>6213 聯茂</b></td>
+                    <td class="number">
                         81.0
                     </td>
-<td>
+                    <td>
                         🟢 二次起漲候選
                     </td>
-<td>
+                    <td>
                         🟡 今日Top50
                     </td>
-</tr>
-<tr>
-<td><b>2301 光寶科</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>2301 光寶科</b></td>
+                    <td class="number">
                         79.0
                     </td>
-<td>
+                    <td>
                         🟢 二次起漲候選
                     </td>
-<td>
+                    <td>
                         🟢 今日Top20
                     </td>
-</tr>
-<tr>
-<td><b>8039 台虹</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>8039 台虹</b></td>
+                    <td class="number">
                         78.0
                     </td>
-<td>
+                    <td>
                         🟢 二次起漲候選
                     </td>
-<td>
+                    <td>
                         🟢 今日Top20
                     </td>
-</tr>
-</tbody>
-</table>
-</div></div><div class="yhtis-track-card yhtis-track-card-3"><h3 style="margin-top:26px;">
-<span id="pre-explosion">🟠 潛伏爆發 Top5</span>
-</h3><div style="overflow-x:auto;">
-<table>
-<thead>
-<tr>
-<th>股票</th>
-<th>潛伏分數</th>
-<th>訊號</th>
-<th>位置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>6715 嘉基</b></td>
-<td class="number">
+                </tr>
+                
+    </tbody>
+
+    </table>
+    </div>
+
+
+    <h3 style="margin-top:26px;">
+    <span id="pre-explosion">🟠 潛伏爆發 Top5</span>
+    </h3>
+
+    <div style="overflow-x:auto;">
+    <table>
+
+    <thead>
+    <tr>
+        <th>股票</th>
+        <th>潛伏分數</th>
+        <th>訊號</th>
+        <th>位置</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+                <tr>
+                    <td><b>6715 嘉基</b></td>
+                    <td class="number">
                         93.0
                     </td>
-<td>
+                    <td>
                         🔥 極高潛伏爆發
                     </td>
-<td>
+                    <td>
                         EMA20 0.4%
                     </td>
-</tr>
-<tr>
-<td><b>6907 雅特力科技(開曼)股份有限公司</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>6907 雅特力科技(開曼)股份有限公司</b></td>
+                    <td class="number">
                         83.0
                     </td>
-<td>
+                    <td>
                         🟠 高潛伏候選
                     </td>
-<td>
+                    <td>
                         EMA20 -2.2%
                     </td>
-</tr>
-<tr>
-<td><b>8046 南電</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>8046 南電</b></td>
+                    <td class="number">
                         80.0
                     </td>
-<td>
+                    <td>
                         🟠 高潛伏候選
                     </td>
-<td>
+                    <td>
                         EMA20 -1.7%
                     </td>
-</tr>
-<tr>
-<td><b>3450 聯鈞</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>3450 聯鈞</b></td>
+                    <td class="number">
                         80.0
                     </td>
-<td>
+                    <td>
                         🟠 高潛伏候選
                     </td>
-<td>
+                    <td>
                         EMA20 0.2%
                     </td>
-</tr>
-<tr>
-<td><b>2910 統領</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>2910 統領</b></td>
+                    <td class="number">
                         73.0
                     </td>
-<td>
+                    <td>
                         🟡 爆發前觀察
                     </td>
-<td>
+                    <td>
                         EMA20 0.5%
                     </td>
-</tr>
-</tbody>
-</table>
-</div></div><div class="yhtis-track-card yhtis-track-card-4"><h3 style="margin-top:26px;">
-<span id="active-explosion">🔥 主動爆發 Top5</span>
-</h3><div style="overflow-x:auto;">
-<table>
-<thead>
-<tr>
-<th>股票</th>
-<th>爆發分數</th>
-<th>爆發狀態</th>
-<th>追價</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>6240 松崗國際興業股份有限公司</b></td>
-<td class="number">
+                </tr>
+                
+    </tbody>
+
+    </table>
+    </div>
+
+
+    <h3 style="margin-top:26px;">
+    <span id="active-explosion">🔥 主動爆發 Top5</span>
+    </h3>
+
+    <div style="overflow-x:auto;">
+    <table>
+
+    <thead>
+    <tr>
+        <th>股票</th>
+        <th>爆發分數</th>
+        <th>爆發狀態</th>
+        <th>追價</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+                <tr>
+                    <td><b>6240 松崗國際興業股份有限公司</b></td>
+                    <td class="number">
                         81.0
                     </td>
-<td>
+                    <td>
                         🚀 高爆發候選
                     </td>
-<td>
+                    <td>
                         🟡 等回踩
                     </td>
-</tr>
-<tr>
-<td><b>2221 大甲永和機械工業股份有限公司</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>2221 大甲永和機械工業股份有限公司</b></td>
+                    <td class="number">
                         79.0
                     </td>
-<td>
+                    <td>
                         ⚠️ 高爆發但過熱
                     </td>
-<td>
+                    <td>
                         🔴 不追
                     </td>
-</tr>
-<tr>
-<td><b>5321 美而快國際股份有限公司</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>5321 美而快國際股份有限公司</b></td>
+                    <td class="number">
                         78.0
                     </td>
-<td>
+                    <td>
                         ⚠️ 高爆發但過熱
                     </td>
-<td>
+                    <td>
                         🔴 不追
                     </td>
-</tr>
-<tr>
-<td><b>2030 彰源</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>2030 彰源</b></td>
+                    <td class="number">
                         78.0
                     </td>
-<td>
+                    <td>
                         🚀 高爆發候選
                     </td>
-<td>
+                    <td>
                         🟡 等回踩
                     </td>
-</tr>
-<tr>
-<td><b>2351 順德</b></td>
-<td class="number">
+                </tr>
+                
+
+                <tr>
+                    <td><b>2351 順德</b></td>
+                    <td class="number">
                         77.0
                     </td>
-<td>
+                    <td>
                         ⚠️ 高爆發但過熱
                     </td>
-<td>
+                    <td>
                         🔴 不追
                     </td>
-</tr>
-</tbody>
-</table>
-</div></div></div>
+                </tr>
+                
+    </tbody>
 
+    </table>
+    </div>
 
+    </section>
+    
 
+<section>
 
-
-
-
-</section>
-<section class="yhtis-global-market-section">
 <h2 id="global-market">
 🌎 全球市場共振
 </h2>
+
 <div class="cards" style="
     margin-top:14px;
     margin-bottom:18px;
 ">
-<div class="card">
-<div class="label">
+
+    <div class="card">
+        <div class="label">
             全球共振分數
         </div>
-<div class="value">
+
+        <div class="value">
             34
         </div>
-<div class="small">
+
+        <div class="small">
             🟠 偏弱
         </div>
-</div>
-<div class="card">
-<div class="label">
+    </div>
+
+    <div class="card">
+        <div class="label">
             系統判讀
         </div>
-<div class="value" style="font-size:18px;">
+
+        <div class="value"
+             style="font-size:18px;">
             外部市場拖累，降低追價。
         </div>
-<div class="small">
-            • SOX 5日偏弱<br/>• SMH 5日偏弱
+
+        <div class="small">
+            • SOX 5日偏弱<br>• SMH 5日偏弱
         </div>
+    </div>
+
 </div>
-</div>
+
+
 <div style="overflow-x:auto; margin-bottom:18px;">
+
 <table class="global-market-table">
+
 <thead>
 <tr>
 <th>市場</th>
@@ -2942,48 +3582,67 @@ Risk Score：
 <th>20日</th>
 </tr>
 </thead>
+
 <tbody>
-<tr>
-<td><b>台股0050</b></td>
-<td class="number">-0.81%</td>
-<td class="number">-2.49%</td>
-<td class="number">+2.32%</td>
-</tr>
-<tr>
-<td><b>費城半導體</b></td>
-<td class="number">-0.51%</td>
-<td class="number">-5.45%</td>
-<td class="number">-0.66%</td>
-</tr>
-<tr>
-<td><b>Nasdaq</b></td>
-<td class="number">+0.43%</td>
-<td class="number">-2.05%</td>
-<td class="number">+4.82%</td>
-</tr>
-<tr>
-<td><b>S&amp;P 500</b></td>
-<td class="number">+0.43%</td>
-<td class="number">-1.43%</td>
-<td class="number">+3.54%</td>
-</tr>
-<tr>
-<td><b>QQQ</b></td>
-<td class="number">+0.35%</td>
-<td class="number">-2.41%</td>
-<td class="number">+4.27%</td>
-</tr>
-<tr>
-<td><b>SMH半導體ETF</b></td>
-<td class="number">-0.40%</td>
-<td class="number">-4.66%</td>
-<td class="number">-0.14%</td>
-</tr>
+
+            <tr>
+                <td><b>台股0050</b></td>
+                <td class="number">-0.81%</td>
+                <td class="number">-2.49%</td>
+                <td class="number">+2.32%</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>費城半導體</b></td>
+                <td class="number">-0.51%</td>
+                <td class="number">-5.45%</td>
+                <td class="number">-0.66%</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>Nasdaq</b></td>
+                <td class="number">+0.43%</td>
+                <td class="number">-2.05%</td>
+                <td class="number">+4.82%</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>S&P 500</b></td>
+                <td class="number">+0.43%</td>
+                <td class="number">-1.43%</td>
+                <td class="number">+3.54%</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>QQQ</b></td>
+                <td class="number">+0.35%</td>
+                <td class="number">-2.41%</td>
+                <td class="number">+4.27%</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>SMH半導體ETF</b></td>
+                <td class="number">-0.40%</td>
+                <td class="number">-4.66%</td>
+                <td class="number">-0.14%</td>
+            </tr>
+            
 </tbody>
+
 </table>
+
 </div>
+
+
 <div style="overflow-x:auto;">
+
 <table class="global-corr-table">
+
 <thead>
 <tr>
 <th>0050 關聯</th>
@@ -2991,47 +3650,68 @@ Risk Score：
 <th>60日</th>
 </tr>
 </thead>
+
 <tbody>
-<tr>
-<td><b>0050 ↔ SOX</b></td>
-<td class="number">0.171</td>
-<td class="number">0.261</td>
-</tr>
-<tr>
-<td><b>0050 ↔ Nasdaq</b></td>
-<td class="number">0.145</td>
-<td class="number">0.249</td>
-</tr>
-<tr>
-<td><b>0050 ↔ S&amp;P 500</b></td>
-<td class="number">0.167</td>
-<td class="number">0.280</td>
-</tr>
-<tr>
-<td><b>0050 ↔ QQQ</b></td>
-<td class="number">0.151</td>
-<td class="number">0.276</td>
-</tr>
-<tr>
-<td><b>0050 ↔ SMH</b></td>
-<td class="number">0.190</td>
-<td class="number">0.275</td>
-</tr>
+
+            <tr>
+                <td><b>0050 ↔ SOX</b></td>
+                <td class="number">0.171</td>
+                <td class="number">0.261</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>0050 ↔ Nasdaq</b></td>
+                <td class="number">0.145</td>
+                <td class="number">0.249</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>0050 ↔ S&P 500</b></td>
+                <td class="number">0.167</td>
+                <td class="number">0.280</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>0050 ↔ QQQ</b></td>
+                <td class="number">0.151</td>
+                <td class="number">0.276</td>
+            </tr>
+            
+
+            <tr>
+                <td><b>0050 ↔ SMH</b></td>
+                <td class="number">0.190</td>
+                <td class="number">0.275</td>
+            </tr>
+            
 </tbody>
+
 </table>
+
 </div>
+
 </section>
+
+
 <section>
+
 <h2>
 👑 皇冠歷史追蹤
 </h2>
+
 <div class="small" style="
     margin-bottom:12px;
 ">
 累積皇冠紀錄：1
 </div>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
 <tr>
 <th>訊號日期</th>
@@ -3046,54 +3726,76 @@ Risk Score：
 <th>狀態</th>
 </tr>
 </thead>
+
 <tbody>
-<tr>
-<td>2026-08-18</td>
-<td class="code">6274</td>
-<td><b>台燿</b></td>
-<td class="number">1545.0</td>
-<td class="number">⏳</td>
-<td class="number">⏳</td>
-<td class="number">⏳</td>
-<td class="number">⏳</td>
-<td class="number">⏳</td>
-<td>追蹤中</td>
-</tr>
+
+                <tr>
+                    <td>2026-08-18</td>
+                    <td class="code">6274</td>
+                    <td><b>台燿</b></td>
+                    <td class="number">1545.0</td>
+
+                    <td class="number">⏳</td>
+                    <td class="number">⏳</td>
+                    <td class="number">⏳</td>
+                    <td class="number">⏳</td>
+                    <td class="number">⏳</td>
+
+                    <td>追蹤中</td>
+                </tr>
+                
 </tbody>
+
 </table>
+
 </div>
+
 </section>
+
+
 <section>
+
 <h2>
 📊 YHTIS 模型績效
 </h2>
+
 <div class="cards" style="
     margin-top:14px;
     margin-bottom:18px;
 ">
-<div class="card">
-<div class="label">
+
+    <div class="card">
+        <div class="label">
             統計可信度
         </div>
-<div class="value" style="font-size:21px;">
+
+        <div class="value"
+             style="font-size:21px;">
             🔴 樣本不足
         </div>
-<div class="small">
+
+        <div class="small">
             目前僅供觀察，不宜判定模型長期績效
         </div>
-</div>
-<div class="card">
-<div class="label">
+    </div>
+
+    <div class="card">
+        <div class="label">
             訊號日期
         </div>
-<div class="value">
+
+        <div class="value">
             1
         </div>
-<div class="small">
+
+        <div class="small">
             總歷史筆數：20
         </div>
+    </div>
+
 </div>
-</div>
+
+
 <div style="
     margin:16px 0 18px;
     padding:14px;
@@ -3101,27 +3803,33 @@ Risk Score：
     border:1px solid #27303c;
     border-radius:12px;
 ">
-<div style="
+
+    <div style="
         font-size:16px;
         font-weight:700;
         margin-bottom:8px;
     ">
         📈 Day1 Performance Trend
     </div>
-<div style="
+
+    <div style="
         color:#9ca3af;
         font-size:12px;
         line-height:1.6;
         margin-bottom:10px;
     ">
         Top5 / Top10 / Top20 / Crown 的每日 Day1 平均報酬趨勢
-        <br/>
+        <br>
         目前樣本仍少，主要用來監控 Timing 是否改善
     </div>
-<button onclick="openChart(
+
+    <button
+        type="button"
+        onclick="openChart(
             'performance/performance_day1.png',
             'YHTIS Day1 Performance Trend'
-        )" style="
+        )"
+        style="
             padding:9px 14px;
             border:1px solid #475569;
             border-radius:8px;
@@ -3129,10 +3837,14 @@ Risk Score：
             color:#ffffff;
             font-weight:600;
             cursor:pointer;
-        " type="button">
+        "
+    >
         🔍 查看績效曲線
     </button>
+
 </div>
+
+
 <div style="
     margin-bottom:14px;
     color:#9ca3af;
@@ -3143,264 +3855,364 @@ Risk Score：
     ⏳ 代表該期間尚未成熟，
     不列入正式績效判斷。
 
-    <br/>
+    <br>
 
     Day1 / Day3 為短期 Timing 觀察；
     Day5 / Day10 / Day20 用於確認模型延續性。
 
 </div>
+
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
+
 <tr>
-<th>群組</th>
-<th>樣本</th>
-<th>Day1<br/>平均</th>
-<th>Day3<br/>平均</th>
-<th>Day5<br/>平均</th>
-<th>Day10<br/>平均</th>
-<th>Day20<br/>平均</th>
-<th>5日<br/>命中率</th>
-<th>10日<br/>命中率</th>
-<th>20日<br/>命中率</th>
-<th>成熟樣本<br/>5/10/20</th>
+    <th>群組</th>
+    <th>樣本</th>
+
+    <th>Day1<br>平均</th>
+    <th>Day3<br>平均</th>
+    <th>Day5<br>平均</th>
+    <th>Day10<br>平均</th>
+    <th>Day20<br>平均</th>
+
+    <th>5日<br>命中率</th>
+    <th>10日<br>命中率</th>
+    <th>20日<br>命中率</th>
+
+    <th>成熟樣本<br>5/10/20</th>
 </tr>
+
 </thead>
+
 <tbody>
-<tr>
-<td><b>👑 皇冠股</b></td>
-<td class="center">
+
+
+            <tr>
+                <td><b>👑 皇冠股</b></td>
+
+                <td class="center">
                     1
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     0/0/0
                 </td>
-</tr>
-<tr>
-<td><b>Top1</b></td>
-<td class="center">
+            </tr>
+            
+
+            <tr>
+                <td><b>Top1</b></td>
+
+                <td class="center">
                     1
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     0/0/0
                 </td>
-</tr>
-<tr>
-<td><b>Top3</b></td>
-<td class="center">
+            </tr>
+            
+
+            <tr>
+                <td><b>Top3</b></td>
+
+                <td class="center">
                     3
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     0/0/0
                 </td>
-</tr>
-<tr>
-<td><b>Top5</b></td>
-<td class="center">
+            </tr>
+            
+
+            <tr>
+                <td><b>Top5</b></td>
+
+                <td class="center">
                     5
                 </td>
-<td class="center">
-<span class="negative">-6.25%</span>
-</td>
-<td class="center">
+
+                <td class="center">
+                    <span class="negative">-6.25%</span>
+                </td>
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     0/0/0
                 </td>
-</tr>
-<tr>
-<td><b>Top10</b></td>
-<td class="center">
+            </tr>
+            
+
+            <tr>
+                <td><b>Top10</b></td>
+
+                <td class="center">
                     10
                 </td>
-<td class="center">
-<span class="negative">-7.78%</span>
-</td>
-<td class="center">
+
+                <td class="center">
+                    <span class="negative">-7.78%</span>
+                </td>
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     0/0/0
                 </td>
-</tr>
-<tr>
-<td><b>Top20</b></td>
-<td class="center">
+            </tr>
+            
+
+            <tr>
+                <td><b>Top20</b></td>
+
+                <td class="center">
                     20
                 </td>
-<td class="center">
-<span class="negative">-5.00%</span>
-</td>
-<td class="center">
+
+                <td class="center">
+                    <span class="negative">-5.00%</span>
+                </td>
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     0/0/0
                 </td>
-</tr>
-<tr>
-<td><b>🟢 可進場</b></td>
-<td class="center">
+            </tr>
+            
+
+            <tr>
+                <td><b>🟢 可進場</b></td>
+
+                <td class="center">
                     1
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     —
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     ⏳
                 </td>
-<td class="center">
+
+                <td class="center">
                     0/0/0
                 </td>
-</tr>
+            </tr>
+            
+
 </tbody>
+
 </table>
+
 </div>
+
+
 <div style="
     margin-top:14px;
     padding:12px 14px;
@@ -3411,24 +4223,32 @@ Risk Score：
     font-size:13px;
     line-height:1.7;
 ">
-<b>績效判讀：</b>
+
+    <b>績效判讀：</b>
 
     目前若訊號日期仍偏少，
     單日大幅正負報酬都不代表模型已失效或已有效。
 
-    <br/>
+    <br>
 
     YHTIS 將持續累積多個不同交易日後，
     再比較高品質選股的 Day1 → Day20 表現。
 
 </div>
+
 </section>
+
+
 <section>
+
 <h2>
 💼 我的持股
 </h2>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
 <tr>
 <th>日期</th>
@@ -3439,20 +4259,32 @@ Risk Score：
 <th>備註</th>
 </tr>
 </thead>
+
 <tbody>
-<tr>
-<td colspan="6">目前沒有持有中的交易</td>
-</tr>
+
+        <tr>
+            <td colspan="6">目前沒有持有中的交易</td>
+        </tr>
+        
 </tbody>
+
 </table>
+
 </div>
+
 </section>
+
+
 <section>
+
 <h2>
 📒 最近交易
 </h2>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
 <tr>
 <th>日期</th>
@@ -3463,21 +4295,34 @@ Risk Score：
 <th>備註</th>
 </tr>
 </thead>
+
 <tbody>
-<tr>
-<td colspan="6">尚無已出場交易</td>
-</tr>
+
+        <tr>
+            <td colspan="6">尚無已出場交易</td>
+        </tr>
+        
 </tbody>
+
 </table>
+
 </div>
+
 </section>
+
+
 <section>
+
 <h2>
 📌 我的追蹤股
 </h2>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
+
 <tr>
 <th>來源</th>
 <th>代號</th>
@@ -3489,41 +4334,59 @@ Risk Score：
 <th>執行建議</th>
 <th>今日動作</th>
 </tr>
+
 </thead>
+
 <tbody>
-<tr>
-<td>我的追蹤股-台股</td>
-<td class="code">2337</td>
-<td><b>旺宏</b></td>
-<td class="number">120.5</td>
-<td>🔴 不做</td>
-<td class="number">25.0</td>
-<td class="number">25.0</td>
-<td>🔴 不做</td>
-<td>❌ 等條件改善</td>
-</tr>
-<tr>
-<td>我的追蹤股-美股</td>
-<td class="code">MU</td>
-<td><b>Micron</b></td>
-<td class="number">—</td>
-<td>🟡 待接美股引擎</td>
-<td class="number">nan</td>
-<td class="number">nan</td>
-<td>🟡 待接美股引擎</td>
-<td>👀 持續追蹤</td>
-</tr>
+
+
+                <tr>
+                    <td>我的追蹤股-台股</td>
+                    <td class="code">2337</td>
+                    <td><b>旺宏</b></td>
+                    <td class="number">120.5</td>
+                    <td>🔴 不做</td>
+                    <td class="number">25.0</td>
+                    <td class="number">25.0</td>
+                    <td>🔴 不做</td>
+                    <td>❌ 等條件改善</td>
+                </tr>
+                
+
+                <tr>
+                    <td>我的追蹤股-美股</td>
+                    <td class="code">MU</td>
+                    <td><b>Micron</b></td>
+                    <td class="number">—</td>
+                    <td>🟡 待接美股引擎</td>
+                    <td class="number">nan</td>
+                    <td class="number">nan</td>
+                    <td>🟡 待接美股引擎</td>
+                    <td>👀 持續追蹤</td>
+                </tr>
+                
+
 </tbody>
+
 </table>
+
 </div>
+
 </section>
+
+
 <section id="eliminated">
+
 <h2>
 🔴 淘汰紀錄
 </h2>
+
 <div style="overflow-x:auto;">
+
 <table>
+
 <thead>
+
 <tr>
 <th>代號</th>
 <th>股票</th>
@@ -3531,160 +4394,223 @@ Risk Score：
 <th>最大回撤</th>
 <th>最後建議</th>
 </tr>
+
 </thead>
+
 <tbody>
-<tr>
-<td>
+
+
+                <tr>
+                    <td>
                         1303
                     </td>
-<td>
+
+                    <td>
                         南亞
                     </td>
-<td>
+
+                    <td>
                         -10.00%
                     </td>
-<td>
+
+                    <td>
                         -10.50%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
-<tr>
-<td>
+                </tr>
+                
+
+                <tr>
+                    <td>
                         2359
                     </td>
-<td>
+
+                    <td>
                         所羅門
                     </td>
-<td>
+
+                    <td>
                         -18.03%
                     </td>
-<td>
+
+                    <td>
                         -18.03%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
-<tr>
-<td>
+                </tr>
+                
+
+                <tr>
+                    <td>
                         3037
                     </td>
-<td>
+
+                    <td>
                         欣興
                     </td>
-<td>
+
+                    <td>
                         -6.11%
                     </td>
-<td>
+
+                    <td>
                         -10.04%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
-<tr>
-<td>
+                </tr>
+                
+
+                <tr>
+                    <td>
                         3081
                     </td>
-<td>
+
+                    <td>
                         聯亞
                     </td>
-<td>
+
+                    <td>
                         -5.47%
                     </td>
-<td>
+
+                    <td>
                         -9.91%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
-<tr>
-<td>
+                </tr>
+                
+
+                <tr>
+                    <td>
                         3498
                     </td>
-<td>
+
+                    <td>
                         陽程
                     </td>
-<td>
+
+                    <td>
                         +6.32%
                     </td>
-<td>
+
+                    <td>
                         -11.78%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
-<tr>
-<td>
+                </tr>
+                
+
+                <tr>
+                    <td>
                         6243
                     </td>
-<td>
+
+                    <td>
                         迅杰
                     </td>
-<td>
+
+                    <td>
                         -2.22%
                     </td>
-<td>
+
+                    <td>
                         -2.45%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
-<tr>
-<td>
+                </tr>
+                
+
+                <tr>
+                    <td>
                         8039
                     </td>
-<td>
+
+                    <td>
                         台虹
                     </td>
-<td>
+
+                    <td>
                         -4.50%
                     </td>
-<td>
+
+                    <td>
                         -7.03%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
-<tr>
-<td>
+                </tr>
+                
+
+                <tr>
+                    <td>
                         8046
                     </td>
-<td>
+
+                    <td>
                         南電
                     </td>
-<td>
+
+                    <td>
                         -8.84%
                     </td>
-<td>
+
+                    <td>
                         -11.24%
                     </td>
-<td>
+
+                    <td>
                         🟡 等確認
                     </td>
-</tr>
+                </tr>
+                
+
 </tbody>
+
 </table>
+
 </div>
+
 </section>
+
+
 <div class="note">
 
 YHTIS PRO ·
 Rolling Selection Engine V13.3
 
-<br/>
+<br>
 
 Dashboard 為研究與交易決策輔助工具，
 不代表保證獲利。
 
 </div>
-<div id="detailModal" onclick="closeDetail()" style="
+
+
+
+<div
+    id="detailModal"
+    onclick="closeDetail()"
+    style="
         display:none;
         position:fixed;
         z-index:99998;
@@ -3695,8 +4621,12 @@ Dashboard 為研究與交易決策輔助工具，
         align-items:center;
         justify-content:center;
         padding:24px;
-    ">
-<div onclick="event.stopPropagation()" style="
+    "
+>
+
+    <div
+        onclick="event.stopPropagation()"
+        style="
             width:min(900px, 94vw);
             max-height:90vh;
             overflow-y:auto;
@@ -3706,34 +4636,49 @@ Dashboard 為研究與交易決策輔助工具，
             padding:22px;
             color:#e5e7eb;
             box-shadow:0 20px 70px rgba(0,0,0,.6);
-        ">
-<div style="
+        "
+    >
+
+        <div style="
             display:flex;
             justify-content:space-between;
             align-items:center;
             margin-bottom:16px;
         ">
-<div style="
+            <div style="
                 font-size:20px;
                 font-weight:700;
             ">
                 📋 股票詳細資料
             </div>
-<button onclick="closeDetail()" style="
+
+            <button
+                type="button"
+                onclick="closeDetail()"
+                style="
                     border:none;
                     background:#1e293b;
                     color:white;
                     border-radius:8px;
                     padding:7px 11px;
                     cursor:pointer;
-                " type="button">
+                "
+            >
                 ✕ 關閉
             </button>
+        </div>
+
+        <div id="detailModalBody"></div>
+
+    </div>
+
 </div>
-<div id="detailModalBody"></div>
-</div>
-</div>
-<div id="chartModal" onclick="closeChart()" style="
+
+
+<div
+    id="chartModal"
+    onclick="closeChart()"
+    style="
         display:none;
         position:fixed;
         z-index:99999;
@@ -3745,14 +4690,25 @@ Dashboard 為研究與交易決策輔助工具，
         justify-content:center;
         flex-direction:column;
         padding:20px;
-    ">
-<div id="chartModalTitle" style="
+    "
+>
+
+    <div
+        id="chartModalTitle"
+        style="
             color:white;
             font-size:22px;
             font-weight:700;
             margin-bottom:12px;
-        "></div>
-<img alt="K線圖" id="chartModalImg" onclick="event.stopPropagation()" src="" style="
+        "
+    ></div>
+
+    <img
+        id="chartModalImg"
+        src=""
+        alt="K線圖"
+        onclick="event.stopPropagation()"
+        style="
             max-width:96vw;
             max-height:88vh;
             width:auto;
@@ -3760,15 +4716,22 @@ Dashboard 為研究與交易決策輔助工具，
             border-radius:12px;
             background:white;
             box-shadow:0 10px 50px rgba(0,0,0,.5);
-        "/>
-<div style="
+        "
+    >
+
+    <div
+        style="
             margin-top:10px;
             color:#9ca3af;
             font-size:13px;
-        ">
+        "
+    >
         點黑色背景關閉
     </div>
+
 </div>
+
+
 <script>
 
 function openDetail(id) {
@@ -3882,5 +4845,8 @@ function filterRows(type) {
 }
 
 </script>
+
+
 </body>
+
 </html>
