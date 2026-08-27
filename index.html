@@ -2181,17 +2181,21 @@ function buildSemantic(stock, track){
             || ""
         );
 
+    const market =
+        stock["最新行情"]
+        || {};
+
     const close =
         num(
-            stock["最新行情"]?.["Price"]
+            market["Price"]
             ??
-            stock["最新行情"]?.["最新價"]
+            market["最新價"]
             ??
-            stock["最新行情"]?.["現在價格"]
+            market["現在價格"]
             ??
-            stock["最新行情"]?.["Close"]
+            market["Close"]
             ??
-            stock["最新行情"]?.["收盤"]
+            market["收盤"]
             ??
             tech["最新收盤"]
         );
@@ -4102,7 +4106,7 @@ window.addEventListener(
 <br/>
 
 🔄 系統更新：
-2026-08-27 15:08:17
+2026-08-27 19:47:59
 
 </div>
 </div>
