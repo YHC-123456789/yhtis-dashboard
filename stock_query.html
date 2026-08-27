@@ -236,6 +236,105 @@ canvas{
 
 <body>
 
+<!-- YHTIS_V133_NAV_START -->
+<style>
+#yhtis-v133-nav{
+    position:sticky;
+    top:0;
+    z-index:999999;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:10px 14px;
+    background:rgba(8,15,31,.96);
+    border-bottom:1px solid rgba(148,163,184,.22);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        sans-serif;
+}
+
+#yhtis-v133-nav .brand{
+    font-weight:900;
+    font-size:16px;
+    color:#f8fafc;
+    margin-right:8px;
+}
+
+#yhtis-v133-nav a{
+    text-decoration:none;
+    color:#cbd5e1;
+    border:1px solid #334155;
+    background:#111827;
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:700;
+}
+
+#yhtis-v133-nav a.active{
+    background:#2563eb;
+    color:white;
+    border-color:#3b82f6;
+}
+
+#yhtis-v133-nav .status{
+    margin-left:auto;
+    color:#94a3b8;
+    font-size:12px;
+}
+</style>
+
+<nav id="yhtis-v133-nav">
+
+    <div class="brand">
+        YHTIS V13.3 專業交易中心
+    </div>
+
+    <a href="index.html">
+        🏠 市場總覽
+    </a>
+
+    <a
+        href="stock_query.html"
+        class="active"
+    >
+        🔎 個股專業查詢
+    </a>
+
+    <a
+        href="#"
+        onclick="
+            alert('⚡ 盤中訊號雷達即將接入');
+            return false;
+        "
+    >
+        ⚡ 盤中訊號雷達
+    </a>
+
+    <a
+        href="#"
+        onclick="
+            alert('📊 TRUE OOS 專區即將接入');
+            return false;
+        "
+    >
+        📊 TRUE OOS
+    </a>
+
+    <div class="status">
+        固定網址一體化版本
+    </div>
+
+</nav>
+<!-- YHTIS_V133_NAV_END -->
+
+
+
 <div class="page">
 
 <div class="header">
@@ -430,9 +529,8 @@ canvas{
         <div class="card span-6">
             <h2>🧠 YHTIS 專業判讀</h2>
 
-            <div id="yhtisInfo" class="empty">
-                交易計畫模組建置中：
-                進場區、停損、目標價與風險報酬比。
+            <div id="yhtisInfo">
+                查詢個股後顯示 YHTIS 綜合判讀。
             </div>
         </div>
 
@@ -755,12 +853,92 @@ function buildTradePlan(stock){
         rr = (tp1 - entryHigh) / (entryHigh - stop);
     }
 
+    // ========================================================
+    // YHTIS_V1331A_CHASE_GUARD
+    // 追價安全判斷
+    // ========================================================
+
+    let strategy = "🟡 等待確認";
+    let chaseText = "—";
+
+    if(chase !== null){
+
+        chaseText =
+            String(
+                round2(chase)
+            );
+    }
+
+    if(
+        !Number.isNaN(close)
+        &&
+        chase !== null
+    ){
+
+        if(close > chase){
+
+            chaseText =
+                "🔴 已超過追價區"
+                + "（原上限 "
+                + round2(chase)
+                + "）";
+
+            strategy =
+                "🔴 不建議直接追價，"
+                + "等待回測或新的買點";
+
+        }else if(
+            close >= chase * 0.98
+        ){
+
+            chaseText =
+                "🟠 接近追價上限"
+                + "（"
+                + round2(chase)
+                + "）";
+
+            strategy =
+                "🟠 接近追價上限，"
+                + "避免追高";
+
+        }else{
+
+            chaseText =
+                "🟢 尚未超過"
+                + "（上限 "
+                + round2(chase)
+                + "）";
+
+            strategy =
+                "🟢 尚未超過追價上限，"
+                + "仍需確認量價與進場時機";
+        }
+    }
+
+    const preRisk =
+        String(
+            pre["PRE_EXPLOSION_RISK"]
+            || ""
+        );
+
+    if(
+        preRisk.includes("已延伸")
+    ){
+
+        strategy =
+            "🔴 股價結構已延伸，"
+            + "不建議直接追價；"
+            + "等待回測、整理或重新出現買點";
+    }
+
     return {
         state,
+        strategy,
         entryLow,
         entryHigh,
         breakout,
         chase,
+        chaseText,
         stop,
         tp1,
         tp2,
@@ -774,7 +952,15 @@ function renderTradePlan(stock){
     const p = buildTradePlan(stock);
 
     document.getElementById("planState").innerText =
-        p.state || "—";
+        (
+            (p.state || "—")
+            +
+            (
+                p.strategy
+                ? "｜" + p.strategy
+                : ""
+            )
+        );
 
     document.getElementById("planEntry").innerText =
         (
@@ -788,7 +974,7 @@ function renderTradePlan(stock){
         p.breakout !== null ? round2(p.breakout) : "—";
 
     document.getElementById("planChase").innerText =
-        p.chase !== null ? round2(p.chase) : "—";
+        p.chaseText || "—";
 
     document.getElementById("planStop").innerText =
         p.stop !== null ? round2(p.stop) : "—";
@@ -804,6 +990,31 @@ function renderTradePlan(stock){
 
     document.getElementById("planRR").innerText =
         p.rr !== null ? `${round2(p.rr)} : 1` : "—";
+
+    const verdict =
+        document.getElementById(
+            "yhtisInfo"
+        );
+
+    if(verdict){
+
+        verdict.innerHTML = `
+            <div style="
+                line-height:1.9;
+                font-size:16px;
+            ">
+                <div>
+                    <strong>綜合狀態：</strong>
+                    ${esc(p.state || "—")}
+                </div>
+
+                <div style="margin-top:8px;">
+                    <strong>目前策略：</strong>
+                    ${esc(p.strategy || "—")}
+                </div>
+            </div>
+        `;
+    }
 }
 
 
