@@ -236,164 +236,6 @@ canvas{
 
 <body>
 
-<!-- YHTIS_V133_NAV_START -->
-<style>
-#yhtis-v133-nav {
-    position: sticky;
-    top: 0;
-    z-index: 999999;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    padding: 10px 14px;
-    margin: 0;
-    background: rgba(8, 15, 31, 0.96);
-    border-bottom: 1px solid rgba(148,163,184,.22);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Noto Sans TC",
-        sans-serif;
-}
-
-#yhtis-v133-nav .brand {
-    font-weight: 900;
-    font-size: 16px;
-    color: #f8fafc;
-    margin-right: 8px;
-}
-
-#yhtis-v133-nav a {
-    text-decoration: none;
-    color: #cbd5e1;
-    border: 1px solid #334155;
-    background: #111827;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-#yhtis-v133-nav a:hover {
-    border-color: #60a5fa;
-    color: white;
-}
-
-#yhtis-v133-nav a.active {
-    background: #2563eb;
-    color: white;
-    border-color: #3b82f6;
-}
-
-#yhtis-v133-nav .status {
-    margin-left: auto;
-    color: #94a3b8;
-    font-size: 12px;
-}
-
-@media (max-width: 760px) {
-    #yhtis-v133-nav {
-        gap: 7px;
-    }
-
-    #yhtis-v133-nav .brand {
-        width: 100%;
-    }
-
-    #yhtis-v133-nav .status {
-        width: 100%;
-        margin-left: 0;
-    }
-}
-</style>
-
-<nav id="yhtis-v133-nav">
-    <div class="brand">
-        YHTIS V13.3 專業交易中心
-    </div>
-
-    <a
-        href="index.html"
-        data-page="index"
-    >
-        🏠 市場總覽
-    </a>
-
-    <a
-        href="stock_query.html"
-        data-page="stock_query"
-    >
-        🔎 個股專業查詢
-    </a>
-
-    <a
-        href="#"
-        data-page="intraday"
-        onclick="
-            alert('⚡ 盤中訊號雷達即將接入');
-            return false;
-        "
-    >
-        ⚡ 盤中訊號雷達
-    </a>
-
-    <a
-        href="#"
-        data-page="oos"
-        onclick="
-            alert('📊 TRUE OOS 專區即將接入');
-            return false;
-        "
-    >
-        📊 TRUE OOS
-    </a>
-
-    <div class="status">
-        固定網址一體化版本
-    </div>
-</nav>
-
-<script>
-(function(){
-
-    const path =
-        window.location.pathname
-        .toLowerCase();
-
-    let current = "index";
-
-    if(
-        path.includes(
-            "stock_query"
-        )
-    ){
-        current = "stock_query";
-    }
-
-    document
-        .querySelectorAll(
-            "#yhtis-v133-nav a"
-        )
-        .forEach(a => {
-
-            if(
-                a.dataset.page === current
-            ){
-                a.classList.add(
-                    "active"
-                );
-            }
-        });
-
-})();
-</script>
-<!-- YHTIS_V133_NAV_END -->
-
-
-
 <div class="page">
 
 <div class="header">
@@ -511,6 +353,58 @@ canvas{
             <div
                 class="grid"
                 id="yhtisModules">
+            </div>
+        </div>
+
+
+        <div class="card span-12">
+            <h2>🎯 專業交易計畫</h2>
+
+            <div class="info-grid" id="tradePlanInfo">
+                <div class="info">
+                    <div class="info-key">目前判斷</div>
+                    <div class="info-value" id="planState">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">建議進場區</div>
+                    <div class="info-value" id="planEntry">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">突破確認價</div>
+                    <div class="info-value" id="planBreakout">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">追價上限</div>
+                    <div class="info-value" id="planChase">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">防守 / 停損價</div>
+                    <div class="info-value" id="planStop">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">第一目標</div>
+                    <div class="info-value" id="planTP1">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">第二目標</div>
+                    <div class="info-value" id="planTP2">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">第三目標</div>
+                    <div class="info-value" id="planTP3">—</div>
+                </div>
+
+                <div class="info">
+                    <div class="info-key">風險報酬比</div>
+                    <div class="info-value" id="planRR">—</div>
+                </div>
             </div>
         </div>
 
@@ -743,6 +637,176 @@ function searchStock(){
 }
 
 
+function round2(v){
+    const n = Number(v);
+    if(Number.isNaN(n)) return null;
+    return Math.round(n * 100) / 100;
+}
+
+function buildTradePlan(stock){
+
+    const tech = stock["技術分析"] || {};
+    const yhtis = stock["YHTIS分析"] || {};
+
+    const close = Number(
+        tech["最新收盤"]
+        ?? stock["最新行情"]?.["Close"]
+        ?? NaN
+    );
+
+    const ema9 = Number(tech["EMA9"] ?? NaN);
+    const ema20 = Number(tech["EMA20"] ?? NaN);
+    const atr = Number(tech["ATR14"] ?? NaN);
+    const resistance = Number(tech["20日壓力"] ?? NaN);
+    const support = Number(tech["20日支撐"] ?? NaN);
+
+    const trend = tech["短中期趨勢"] || "⚪ 資料不足";
+
+    const second = yhtis["二次起漲"] || {};
+    const pre = yhtis["起漲前兆"] || {};
+    const multi = yhtis["多軌共振"] || {};
+    const timing = yhtis["進場時機"] || {};
+
+    let state = trend;
+
+    if(second["二次起漲狀態"]){
+        state += "｜" + second["二次起漲狀態"];
+    }
+
+    if(pre["PRE_EXPLOSION_RISK"]){
+        state += "｜追價風險：" + pre["PRE_EXPLOSION_RISK"];
+    }
+
+    let entryLow = null;
+    let entryHigh = null;
+    let breakout = null;
+    let chase = null;
+    let stop = null;
+    let tp1 = null;
+    let tp2 = null;
+    let tp3 = null;
+    let rr = null;
+
+    const timingLow = Number(
+        timing["entry_low"]
+        ?? timing["理想進場低"]
+        ?? NaN
+    );
+
+    const timingHigh = Number(
+        timing["entry_high"]
+        ?? timing["理想進場高"]
+        ?? NaN
+    );
+
+    const timingChase = Number(
+        timing["chase_limit"]
+        ?? timing["追價上限"]
+        ?? NaN
+    );
+
+    const timingDefense = Number(
+        timing["defense_price"]
+        ?? timing["防守價"]
+        ?? NaN
+    );
+
+    if(!Number.isNaN(timingLow)) entryLow = timingLow;
+    if(!Number.isNaN(timingHigh)) entryHigh = timingHigh;
+    if(!Number.isNaN(timingChase)) chase = timingChase;
+    if(!Number.isNaN(timingDefense)) stop = timingDefense;
+
+    if(entryLow === null && !Number.isNaN(ema9)){
+        entryLow = ema9 * 0.99;
+    }
+
+    if(entryHigh === null && !Number.isNaN(ema9)){
+        entryHigh = ema9 * 1.02;
+    }
+
+    if(!Number.isNaN(resistance)){
+        breakout = resistance;
+    }
+
+    if(chase === null && !Number.isNaN(close)){
+        chase = close * 1.03;
+    }
+
+    if(stop === null){
+        if(!Number.isNaN(ema20)){
+            stop = ema20 * 0.98;
+        }else if(!Number.isNaN(support)){
+            stop = support;
+        }
+    }
+
+    if(!Number.isNaN(close) && !Number.isNaN(atr)){
+        tp1 = close + atr;
+        tp2 = close + atr * 2;
+        tp3 = close + atr * 3;
+    }
+
+    if(
+        entryHigh !== null &&
+        stop !== null &&
+        tp1 !== null &&
+        entryHigh > stop
+    ){
+        rr = (tp1 - entryHigh) / (entryHigh - stop);
+    }
+
+    return {
+        state,
+        entryLow,
+        entryHigh,
+        breakout,
+        chase,
+        stop,
+        tp1,
+        tp2,
+        tp3,
+        rr
+    };
+}
+
+function renderTradePlan(stock){
+
+    const p = buildTradePlan(stock);
+
+    document.getElementById("planState").innerText =
+        p.state || "—";
+
+    document.getElementById("planEntry").innerText =
+        (
+            p.entryLow !== null &&
+            p.entryHigh !== null
+        )
+        ? `${round2(p.entryLow)} ～ ${round2(p.entryHigh)}`
+        : "—";
+
+    document.getElementById("planBreakout").innerText =
+        p.breakout !== null ? round2(p.breakout) : "—";
+
+    document.getElementById("planChase").innerText =
+        p.chase !== null ? round2(p.chase) : "—";
+
+    document.getElementById("planStop").innerText =
+        p.stop !== null ? round2(p.stop) : "—";
+
+    document.getElementById("planTP1").innerText =
+        p.tp1 !== null ? round2(p.tp1) : "—";
+
+    document.getElementById("planTP2").innerText =
+        p.tp2 !== null ? round2(p.tp2) : "—";
+
+    document.getElementById("planTP3").innerText =
+        p.tp3 !== null ? round2(p.tp3) : "—";
+
+    document.getElementById("planRR").innerText =
+        p.rr !== null ? `${round2(p.rr)} : 1` : "—";
+}
+
+
 function renderStock(stock){
 
     document.getElementById(
@@ -846,6 +910,8 @@ function renderStock(stock){
     drawKline(
         stock["K線"] || []
     );
+
+    renderTradePlan(stock);
 }
 
 
