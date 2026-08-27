@@ -235,7 +235,6 @@ canvas{
 </head>
 
 <body>
-
 <!-- YHTIS_V133_NAV_START -->
 <style>
 #yhtis-v133-nav{
@@ -332,7 +331,6 @@ canvas{
 
 </nav>
 <!-- YHTIS_V133_NAV_END -->
-
 
 
 <div class="page">
@@ -544,6 +542,10 @@ canvas{
 
 let DATA = null;
 
+// YHTIS_V1331B_LOADING_GUARD
+let DATA_LOADING = true;
+let DATA_ERROR = null;
+
 function esc(v){
     if(v === null || v === undefined || v === ""){
         return "—";
@@ -624,6 +626,18 @@ function infoHTML(obj){
 
 async function loadData(){
 
+    DATA_LOADING = true;
+    DATA_ERROR = null;
+
+    const message =
+        document.getElementById("message");
+
+    if(message){
+        message.classList.remove("hidden");
+        message.innerText =
+            "⏳ 正在載入個股專業資料，請稍候…";
+    }
+
     try{
 
         const r = await fetch(
@@ -639,17 +653,23 @@ async function loadData(){
 
         DATA = await r.json();
 
+        DATA_LOADING = false;
+        DATA_ERROR = null;
+
         document.getElementById(
             "message"
         ).innerText =
-            `✅ 個股資料已載入，共 ${DATA["股票數"]} 檔`;
+            `✅ 個股資料已載入，共 ${DATA["股票數"]} 檔，可以開始查詢`;
 
     }catch(e){
 
+        DATA_LOADING = false;
+        DATA_ERROR = String(e);
+
         document.getElementById(
             "message"
         ).innerText =
-            "❌ 無法載入 stock_query_data_v2.json：" +
+            "❌ 個股資料載入失敗：" +
             e;
     }
 }
@@ -706,6 +726,44 @@ function resolveStock(q){
 
 
 function searchStock(){
+
+    if(DATA_LOADING){
+
+        document.getElementById(
+            "result"
+        ).classList.add("hidden");
+
+        document.getElementById(
+            "message"
+        ).classList.remove("hidden");
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            "⏳ 個股資料仍在載入中，請稍候再查詢。";
+
+        return;
+    }
+
+    if(!DATA){
+
+        document.getElementById(
+            "result"
+        ).classList.add("hidden");
+
+        document.getElementById(
+            "message"
+        ).classList.remove("hidden");
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            DATA_ERROR
+            ? "❌ 個股資料載入失敗：" + DATA_ERROR
+            : "❌ 個股資料尚未完成載入";
+
+        return;
+    }
 
     const q = document.getElementById(
         "searchInput"
