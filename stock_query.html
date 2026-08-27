@@ -1548,9 +1548,28 @@ function renderStock(stock){
     );
 
     
-    renderTradePlan(stock);
     
+    renderTradePlan(stock);
+
+    // YHTIS_V1332C_FORCE_INSTITUTION
+    const institutionFinal =
+        document.getElementById(
+            "institutionInfo"
+        );
+
+    if(institutionFinal){
+
+        const institutionalData =
+            stock["法人籌碼"];
+
+        institutionFinal.innerHTML =
+            renderInstitutionV1332a(
+                institutionalData
+            );
+    }
+
 }
+
 
 
 function drawKline(rows){
