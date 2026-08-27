@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>YHTIS V13.2｜個股專業分析中心</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+    background:#0b1020;
+    color:#eef2ff;
+}
+
+.page{
+    width:min(1500px,96%);
+    margin:auto;
+    padding:24px 0 60px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+}
+
+.title{
+    font-size:30px;
+    font-weight:800;
+}
+
+.subtitle{
+    color:#9ca3af;
+    margin-top:5px;
+}
+
+.version{
+    padding:8px 15px;
+    border:1px solid #374151;
+    border-radius:999px;
+    color:#93c5fd;
+}
+
+.search-box{
+    display:flex;
+    gap:10px;
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:18px;
+    padding:14px;
+    margin-bottom:22px;
+}
+
+.search-box input{
+    flex:1;
+    min-width:0;
+    border:none;
+    outline:none;
+    color:#fff;
+    background:#0f172a;
+    border-radius:12px;
+    padding:15px 18px;
+    font-size:18px;
+}
+
+.search-box button{
+    border:none;
+    cursor:pointer;
+    border-radius:12px;
+    padding:0 24px;
+    font-size:17px;
+    font-weight:700;
+    background:#2563eb;
+    color:#fff;
+}
+
+.message{
+    background:#111827;
+    border:1px solid #374151;
+    padding:24px;
+    border-radius:18px;
+    color:#9ca3af;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.stock-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:20px;
+    padding:20px;
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:18px;
+    margin-bottom:18px;
+}
+
+.stock-name{
+    font-size:32px;
+    font-weight:900;
+}
+
+.stock-code{
+    color:#93c5fd;
+    font-size:17px;
+}
+
+.price{
+    font-size:34px;
+    font-weight:900;
+}
+
+.date{
+    color:#9ca3af;
+    text-align:right;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:
+        repeat(12,minmax(0,1fr));
+    gap:16px;
+}
+
+.card{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:18px;
+    padding:18px;
+}
+
+.card h2{
+    font-size:19px;
+    margin:0 0 16px;
+}
+
+.span-4{
+    grid-column:span 4;
+}
+
+.span-6{
+    grid-column:span 6;
+}
+
+.span-8{
+    grid-column:span 8;
+}
+
+.span-12{
+    grid-column:span 12;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+    gap:9px 16px;
+}
+
+.info{
+    border-bottom:1px solid #1f2937;
+    padding:8px 0;
+}
+
+.info-key{
+    font-size:13px;
+    color:#9ca3af;
+}
+
+.info-value{
+    font-size:16px;
+    margin-top:3px;
+    word-break:break-word;
+}
+
+.chart-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+canvas{
+    width:100%;
+    height:430px;
+    background:#0f172a;
+    border-radius:12px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 10px;
+    border:1px solid #374151;
+    border-radius:999px;
+    margin:3px;
+    font-size:13px;
+}
+
+.empty{
+    color:#9ca3af;
+}
+
+@media(max-width:950px){
+    .span-4,
+    .span-6,
+    .span-8{
+        grid-column:span 12;
+    }
+
+    .stock-name{
+        font-size:26px;
+    }
+
+    .price{
+        font-size:27px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="header">
+    <div>
+        <div class="title">
+            🔎 個股專業查詢中心
+        </div>
+        <div class="subtitle">
+            K線・技術分析・基本面・YHTIS 多模型專業判讀
+        </div>
+    </div>
+
+    <div class="version">
+        YHTIS V13.2
+    </div>
+</div>
+
+<div class="search-box">
+    <input
+        id="searchInput"
+        placeholder="輸入股票代號或名稱，例如：8039、台虹"
+        autocomplete="off"
+    >
+    <button onclick="searchStock()">
+        查詢
+    </button>
+</div>
+
+<div id="message" class="message">
+    請輸入股票代號或股票名稱開始查詢。
+</div>
+
+<div id="result" class="hidden">
+
+    <div class="stock-head">
+
+        <div>
+            <div
+                class="stock-name"
+                id="stockName">
+            </div>
+
+            <div
+                class="stock-code"
+                id="stockCode">
+            </div>
+        </div>
+
+        <div>
+            <div
+                class="price"
+                id="stockPrice">
+            </div>
+
+            <div
+                class="date"
+                id="stockDate">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="card span-8">
+            <h2>📈 K線走勢</h2>
+
+            <div class="chart-wrap">
+                <canvas id="klineCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="card span-4">
+            <h2>📊 最新行情</h2>
+            <div
+                class="info-grid"
+                id="marketInfo">
+            </div>
+        </div>
+
+        <div class="card span-6">
+            <h2>💰 基本面估值</h2>
+            <div
+                class="info-grid"
+                id="valuationInfo">
+            </div>
+        </div>
+
+        <div class="card span-6">
+            <h2>🎯 基本面目標</h2>
+            <div
+                class="info-grid"
+                id="targetInfo">
+            </div>
+        </div>
+
+        <div class="card span-6">
+            <h2>📐 技術分析</h2>
+            <div
+                class="info-grid"
+                id="technicalInfo">
+            </div>
+        </div>
+
+        <div class="card span-6">
+            <h2>🧠 YHTIS 綜合判讀</h2>
+            <div
+                id="yhtisSummary"
+                class="info-value">
+            </div>
+        </div>
+
+        <div class="card span-12">
+            <h2>🔥 YHTIS 多模型分析</h2>
+            <div
+                class="grid"
+                id="yhtisModules">
+            </div>
+        </div>
+
+
+        <div class="card span-6">
+            <h2>🏦 法人 / 投信 / 外資</h2>
+
+            <div id="institutionInfo">
+                <span class="badge">
+                    外資：資料準備中
+                </span>
+
+                <span class="badge">
+                    投信：資料準備中
+                </span>
+
+                <span class="badge">
+                    自營商：資料準備中
+                </span>
+            </div>
+        </div>
+
+        <div class="card span-6">
+            <h2>🧠 YHTIS 專業判讀</h2>
+
+            <div id="yhtisInfo" class="empty">
+                交易計畫模組建置中：
+                進場區、停損、目標價與風險報酬比。
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+let DATA = null;
+
+function esc(v){
+    if(v === null || v === undefined || v === ""){
+        return "—";
+    }
+    return String(v);
+}
+
+const 中文欄位 = {
+    "Name":"股票名稱",
+    "Close":"收盤價",
+    "Volume":"成交量",
+    "Market":"市場",
+    "Date":"資料日期",
+
+    "PRE_EXPLOSION_RANK":"起漲前兆排名",
+    "PRE_EXPLOSION_SCORE":"起漲前兆分數",
+    "PRE_EXPLOSION_SIGNAL":"起漲前兆狀態",
+    "PRE_EXPLOSION_RISK":"追價風險",
+    "PRE_EXPLOSION_REASON":"起漲原因",
+
+    "RS_COMPOSITE":"相對強度",
+    "RS_ACCEL":"相對強度加速度",
+
+    "BREAKOUT_RANK":"突破排名",
+    "CONTRACTION_RANK":"收斂排名",
+
+    "V8_SCORE":"綜合分數",
+};
+
+function 中文名(k){
+    return 中文欄位[k] || k;
+}
+
+function formatValue(v){
+
+    if(v === null || v === undefined || v === ""){
+        return "—";
+    }
+
+    const n = Number(v);
+
+    if(
+        !Number.isNaN(n)
+        &&
+        String(v).trim() !== ""
+    ){
+        if(Math.abs(n) >= 1000){
+            return n.toLocaleString();
+        }
+
+        return Math.round(n * 100) / 100;
+    }
+
+    return String(v);
+}
+
+
+function infoHTML(obj){
+
+    if(!obj || Object.keys(obj).length === 0){
+        return '<div class="empty">目前無資料</div>';
+    }
+
+    return Object.entries(obj)
+        .map(([k,v]) => `
+            <div class="info">
+                <div class="info-key">
+                    ${esc(中文名(k))}
+                </div>
+                <div class="info-value">
+                    ${esc(formatValue(v))}
+                </div>
+            </div>
+        `)
+        .join("");
+}
+
+
+async function loadData(){
+
+    try{
+
+        const r = await fetch(
+            "stock_query_data_v2.json?v=" +
+            Date.now()
+        );
+
+        if(!r.ok){
+            throw new Error(
+                "HTTP " + r.status
+            );
+        }
+
+        DATA = await r.json();
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            `✅ 個股資料已載入，共 ${DATA["股票數"]} 檔`;
+
+    }catch(e){
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            "❌ 無法載入 stock_query_data_v2.json：" +
+            e;
+    }
+}
+
+
+function resolveStock(q){
+
+    if(!DATA){
+        return null;
+    }
+
+    q = String(q)
+        .trim();
+
+    if(!q){
+        return null;
+    }
+
+    let code = q;
+
+    if(/^\d+$/.test(q)){
+        code = q.padStart(4,"0");
+    }
+
+    if(DATA["股票"][code]){
+        return DATA["股票"][code];
+    }
+
+    const lower = q.toLowerCase();
+
+    if(DATA["名稱索引"][lower]){
+
+        code = DATA["名稱索引"][lower];
+
+        return DATA["股票"][code];
+    }
+
+    // 模糊名稱搜尋
+    for(
+        const [c,s]
+        of Object.entries(DATA["股票"])
+    ){
+        const name = String(
+            s["股票名稱"] || ""
+        );
+
+        if(name.includes(q)){
+            return s;
+        }
+    }
+
+    return null;
+}
+
+
+function searchStock(){
+
+    const q = document.getElementById(
+        "searchInput"
+    ).value;
+
+    const stock = resolveStock(q);
+
+    if(!stock){
+
+        document.getElementById(
+            "result"
+        ).classList.add("hidden");
+
+        document.getElementById(
+            "message"
+        ).classList.remove("hidden");
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            "❌ 找不到股票：" + q;
+
+        return;
+    }
+
+    renderStock(stock);
+}
+
+
+function renderStock(stock){
+
+    document.getElementById(
+        "message"
+    ).classList.add("hidden");
+
+    document.getElementById(
+        "result"
+    ).classList.remove("hidden");
+
+    const market =
+        stock["最新行情"] || {};
+
+    document.getElementById(
+        "stockName"
+    ).innerText =
+        stock["股票名稱"] || "—";
+
+    document.getElementById(
+        "stockCode"
+    ).innerText =
+        stock["股票代號"] || "—";
+
+    const close =
+        market["Close"] ??
+        market["收盤"] ??
+        "—";
+
+    const date =
+        market["Date"] ??
+        market["日期"] ??
+        "";
+
+    document.getElementById(
+        "stockPrice"
+    ).innerText =
+        close === "—"
+        ? "—"
+        : Number(close).toLocaleString();
+
+    document.getElementById(
+        "stockDate"
+    ).innerText =
+        date ? "台股交易日：" + date : "";
+
+    document.getElementById(
+        "marketInfo"
+    ).innerHTML =
+        infoHTML(
+            stock["最新行情"]
+        );
+
+    document.getElementById(
+        "valuationInfo"
+    ).innerHTML =
+        infoHTML(
+            stock["基本面估值"]
+        );
+
+    document.getElementById(
+        "targetInfo"
+    ).innerHTML =
+        infoHTML(
+            stock["基本面目標"]
+        );
+
+    document.getElementById(
+        "technicalInfo"
+    ).innerHTML =
+        infoHTML(
+            stock["技術分析"]
+        );
+
+    document.getElementById(
+        "yhtisSummary"
+    ).innerText =
+        stock["YHTIS綜合判讀"]
+        || "目前無綜合判讀";
+
+    const modules =
+        stock["YHTIS分析"] || {};
+
+    const modulesHtml =
+        Object.entries(modules)
+        .map(([name,obj]) => `
+            <div class="card span-4">
+                <h2>${esc(name)}</h2>
+                <div class="info-grid">
+                    ${infoHTML(obj)}
+                </div>
+            </div>
+        `)
+        .join("");
+
+    document.getElementById(
+        "yhtisModules"
+    ).innerHTML =
+        modulesHtml
+        || '<div class="empty">目前無 YHTIS 模型資料</div>';
+
+    drawKline(
+        stock["K線"] || []
+    );
+}
+
+
+function drawKline(rows){
+
+    const canvas =
+        document.getElementById(
+            "klineCanvas"
+        );
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    const dpr =
+        window.devicePixelRatio || 1;
+
+    canvas.width =
+        Math.max(
+            900,
+            rect.width
+        ) * dpr;
+
+    canvas.height =
+        430 * dpr;
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.scale(
+        dpr,
+        dpr
+    );
+
+    const W =
+        canvas.width / dpr;
+
+    const H = 430;
+
+    ctx.clearRect(
+        0,0,W,H
+    );
+
+    if(!rows.length){
+
+        ctx.fillStyle =
+            "#9ca3af";
+
+        ctx.font =
+            "16px sans-serif";
+
+        ctx.fillText(
+            "目前沒有 K 線資料",
+            30,
+            50
+        );
+
+        return;
+    }
+
+    rows =
+        rows.slice(-70);
+
+    const highs =
+        rows.map(
+            r => Number(r["最高"])
+        );
+
+    const lows =
+        rows.map(
+            r => Number(r["最低"])
+        );
+
+    const volumes =
+        rows.map(
+            r => Number(r["成交量"] || 0)
+        );
+
+    const maxP =
+        Math.max(...highs);
+
+    const minP =
+        Math.min(...lows);
+
+    const maxV =
+        Math.max(...volumes,1);
+
+    const left = 55;
+    const right = 20;
+    const top = 20;
+    const priceBottom = 330;
+    const volumeTop = 345;
+    const volumeBottom = 410;
+
+    const chartW =
+        W - left - right;
+
+    const step =
+        chartW / rows.length;
+
+    const candleW =
+        Math.max(
+            2,
+            Math.min(
+                9,
+                step * 0.58
+            )
+        );
+
+    function py(p){
+        return top +
+            (maxP - p) /
+            Math.max(
+                maxP-minP,
+                0.00001
+            ) *
+            (priceBottom-top);
+    }
+
+    // 網格
+    ctx.strokeStyle =
+        "#1f2937";
+
+    ctx.lineWidth = 1;
+
+    for(let i=0;i<=5;i++){
+
+        const y =
+            top +
+            (priceBottom-top) *
+            i/5;
+
+        ctx.beginPath();
+        ctx.moveTo(left,y);
+        ctx.lineTo(W-right,y);
+        ctx.stroke();
+
+        const p =
+            maxP -
+            (maxP-minP) *
+            i/5;
+
+        ctx.fillStyle =
+            "#9ca3af";
+
+        ctx.font =
+            "11px sans-serif";
+
+        ctx.fillText(
+            p.toFixed(1),
+            5,
+            y+4
+        );
+    }
+
+    rows.forEach(
+        (r,i) => {
+
+        const o =
+            Number(r["開盤"]);
+
+        const h =
+            Number(r["最高"]);
+
+        const l =
+            Number(r["最低"]);
+
+        const c =
+            Number(r["收盤"]);
+
+        const v =
+            Number(
+                r["成交量"] || 0
+            );
+
+        const x =
+            left +
+            step *
+            (i + 0.5);
+
+        const up =
+            c >= o;
+
+        // 台股：紅漲、綠跌
+        ctx.strokeStyle =
+            up
+            ? "#ef4444"
+            : "#22c55e";
+
+        ctx.fillStyle =
+            up
+            ? "#ef4444"
+            : "#22c55e";
+
+        // 上下影
+        ctx.beginPath();
+        ctx.moveTo(
+            x,
+            py(h)
+        );
+        ctx.lineTo(
+            x,
+            py(l)
+        );
+        ctx.stroke();
+
+        // 實體
+        const y1 =
+            py(
+                Math.max(o,c)
+            );
+
+        const y2 =
+            py(
+                Math.min(o,c)
+            );
+
+        ctx.fillRect(
+            x-candleW/2,
+            y1,
+            candleW,
+            Math.max(
+                1,
+                y2-y1
+            )
+        );
+
+        // 成交量
+        const vh =
+            v / maxV *
+            (
+                volumeBottom -
+                volumeTop
+            );
+
+        ctx.globalAlpha =
+            0.55;
+
+        ctx.fillRect(
+            x-candleW/2,
+            volumeBottom-vh,
+            candleW,
+            vh
+        );
+
+        ctx.globalAlpha =
+            1;
+    });
+
+    // 日期
+    ctx.fillStyle =
+        "#9ca3af";
+
+    ctx.font =
+        "11px sans-serif";
+
+    const first =
+        rows[0]["日期"] || "";
+
+    const middle =
+        rows[
+            Math.floor(
+                rows.length/2
+            )
+        ]["日期"] || "";
+
+    const last =
+        rows[
+            rows.length-1
+        ]["日期"] || "";
+
+    ctx.fillText(
+        first,
+        left,
+        H-5
+    );
+
+    ctx.fillText(
+        middle,
+        W/2-35,
+        H-5
+    );
+
+    ctx.fillText(
+        last,
+        W-right-75,
+        H-5
+    );
+}
+
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "keydown",
+    e => {
+
+        if(e.key === "Enter"){
+            searchStock();
+        }
+    }
+);
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        if(
+            !document
+            .getElementById("result")
+            .classList
+            .contains("hidden")
+        ){
+            searchStock();
+        }
+    }
+);
+
+loadData();
+
+</script>
+
+
+<script>
+function updateYhtisClock() {
+    const now = new Date();
+
+    const taiwanTime = new Intl.DateTimeFormat(
+        "zh-TW",
+        {
+            timeZone: "Asia/Taipei",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        }
+    ).format(now);
+
+    const localTime = new Intl.DateTimeFormat(
+        "zh-TW",
+        {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+            timeZoneName: "short"
+        }
+    ).format(now);
+
+    document.querySelectorAll(
+        ".yhtis-time-panel"
+    ).forEach(el => {
+        el.innerHTML = `
+            <div style="
+                margin-top:10px;
+                font-size:14px;
+                line-height:1.8;
+                color:#aab4c8;
+            ">
+                🇹🇼 台灣現在時間：
+                <span style="color:#e7edf8">
+                    ${taiwanTime}
+                </span>
+                <br>
+
+                🇺🇸 美國當地時間：
+                <span style="color:#e7edf8">
+                    ${localTime}
+                </span>
+            </div>
+        `;
+    });
+}
+
+setInterval(updateYhtisClock, 1000);
+updateYhtisClock();
+</script>
+
+</body>
+</html>
