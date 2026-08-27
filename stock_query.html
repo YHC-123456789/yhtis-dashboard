@@ -236,6 +236,164 @@ canvas{
 
 <body>
 
+<!-- YHTIS_V133_NAV_START -->
+<style>
+#yhtis-v133-nav {
+    position: sticky;
+    top: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    margin: 0;
+    background: rgba(8, 15, 31, 0.96);
+    border-bottom: 1px solid rgba(148,163,184,.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        sans-serif;
+}
+
+#yhtis-v133-nav .brand {
+    font-weight: 900;
+    font-size: 16px;
+    color: #f8fafc;
+    margin-right: 8px;
+}
+
+#yhtis-v133-nav a {
+    text-decoration: none;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    background: #111827;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#yhtis-v133-nav a:hover {
+    border-color: #60a5fa;
+    color: white;
+}
+
+#yhtis-v133-nav a.active {
+    background: #2563eb;
+    color: white;
+    border-color: #3b82f6;
+}
+
+#yhtis-v133-nav .status {
+    margin-left: auto;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+@media (max-width: 760px) {
+    #yhtis-v133-nav {
+        gap: 7px;
+    }
+
+    #yhtis-v133-nav .brand {
+        width: 100%;
+    }
+
+    #yhtis-v133-nav .status {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+</style>
+
+<nav id="yhtis-v133-nav">
+    <div class="brand">
+        YHTIS V13.3 專業交易中心
+    </div>
+
+    <a
+        href="index.html"
+        data-page="index"
+    >
+        🏠 市場總覽
+    </a>
+
+    <a
+        href="stock_query.html"
+        data-page="stock_query"
+    >
+        🔎 個股專業查詢
+    </a>
+
+    <a
+        href="#"
+        data-page="intraday"
+        onclick="
+            alert('⚡ 盤中訊號雷達即將接入');
+            return false;
+        "
+    >
+        ⚡ 盤中訊號雷達
+    </a>
+
+    <a
+        href="#"
+        data-page="oos"
+        onclick="
+            alert('📊 TRUE OOS 專區即將接入');
+            return false;
+        "
+    >
+        📊 TRUE OOS
+    </a>
+
+    <div class="status">
+        固定網址一體化版本
+    </div>
+</nav>
+
+<script>
+(function(){
+
+    const path =
+        window.location.pathname
+        .toLowerCase();
+
+    let current = "index";
+
+    if(
+        path.includes(
+            "stock_query"
+        )
+    ){
+        current = "stock_query";
+    }
+
+    document
+        .querySelectorAll(
+            "#yhtis-v133-nav a"
+        )
+        .forEach(a => {
+
+            if(
+                a.dataset.page === current
+            ){
+                a.classList.add(
+                    "active"
+                );
+            }
+        });
+
+})();
+</script>
+<!-- YHTIS_V133_NAV_END -->
+
+
+
 <div class="page">
 
 <div class="header">
