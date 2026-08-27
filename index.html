@@ -7476,6 +7476,171 @@ function filterRows(type) {
 
 
         </details>
-        </body>
+        
+
+<!-- YHTIS_GLOBAL_NAV_V133_START -->
+
+<style>
+
+#yhtis-global-nav-v133{
+
+    position:fixed;
+
+    right:18px;
+    bottom:18px;
+
+    z-index:2147483647;
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    padding:9px;
+
+    border-radius:16px;
+
+    background:
+        rgba(8,15,31,.94);
+
+    border:
+        1px solid rgba(148,163,184,.28);
+
+    box-shadow:
+        0 12px 38px rgba(0,0,0,.38);
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        sans-serif;
+}
+
+
+#yhtis-global-nav-v133 a,
+#yhtis-global-nav-v133 button{
+
+    appearance:none;
+
+    border:
+        1px solid #334155;
+
+    background:
+        #111827;
+
+    color:
+        #e5e7eb;
+
+    text-decoration:none;
+
+    border-radius:10px;
+
+    padding:
+        9px 12px;
+
+    font-size:
+        14px;
+
+    font-weight:
+        750;
+
+    cursor:pointer;
+}
+
+
+#yhtis-global-nav-v133 a:hover,
+#yhtis-global-nav-v133 button:hover{
+
+    border-color:
+        #60a5fa;
+
+    color:white;
+}
+
+
+#yhtis-global-nav-v133
+.yhtis-main{
+
+    background:
+        #2563eb;
+
+    border-color:
+        #3b82f6;
+
+    color:white;
+}
+
+
+@media(max-width:700px){
+
+    #yhtis-global-nav-v133{
+
+        left:10px;
+        right:10px;
+        bottom:10px;
+
+        justify-content:center;
+    }
+
+    #yhtis-global-nav-v133 a,
+    #yhtis-global-nav-v133 button{
+
+        font-size:13px;
+
+        padding:
+            8px 10px;
+    }
+}
+
+</style>
+
+
+<div id="yhtis-global-nav-v133">
+
+    <button
+        type="button"
+        onclick="
+            if(
+                window.history.length > 1
+            ){
+                history.back();
+            }else{
+                window.location.href =
+                    '/yhtis-dashboard/';
+            }
+        "
+    >
+        ↩ 返回
+    </button>
+
+
+    <a
+        href="/yhtis-dashboard/"
+    >
+        🏠 市場總覽
+    </a>
+
+
+    <a
+        class="yhtis-main"
+        href="/yhtis-dashboard/stock_query.html"
+    >
+        🔎 個股查詢
+    </a>
+
+</div>
+
+<!-- YHTIS_GLOBAL_NAV_V133_END -->
+
+</body>
 
 </html>
