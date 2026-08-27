@@ -509,18 +509,9 @@ canvas{
         <div class="card span-6">
             <h2>🏦 法人 / 投信 / 外資</h2>
 
+            <!-- YHTIS_V1332_INSTITUTIONAL -->
             <div id="institutionInfo">
-                <span class="badge">
-                    外資：資料準備中
-                </span>
-
-                <span class="badge">
-                    投信：資料準備中
-                </span>
-
-                <span class="badge">
-                    自營商：資料準備中
-                </span>
+                法人資料載入中…
             </div>
         </div>
 
@@ -1076,6 +1067,95 @@ function renderTradePlan(stock){
 }
 
 
+function renderInstitution(data){
+
+    if(!data){
+        return '<div class="empty">目前無法人籌碼資料</div>';
+    }
+
+    const fmt = v => {
+
+        if(
+            v === null
+            || v === undefined
+            || v === ""
+        ){
+            return "累積中";
+        }
+
+        if(
+            typeof v === "number"
+        ){
+            return v.toLocaleString();
+        }
+
+        return esc(v);
+    };
+
+    const group = (
+        title,
+        obj
+    ) => {
+
+        if(!obj){
+            return "";
+        }
+
+        return `
+            <div style="
+                border:1px solid #253047;
+                border-radius:14px;
+                padding:14px;
+                margin-bottom:12px;
+            ">
+                <div style="
+                    font-size:17px;
+                    font-weight:800;
+                    margin-bottom:9px;
+                ">
+                    ${title}
+                </div>
+
+                <div class="info-grid">
+                    ${
+                        Object.entries(obj)
+                        .map(([k,v]) => `
+                            <div class="info">
+                                <div class="info-key">
+                                    ${esc(k)}
+                                </div>
+                                <div class="info-value">
+                                    ${fmt(v)}
+                                </div>
+                            </div>
+                        `)
+                        .join("")
+                    }
+                </div>
+            </div>
+        `;
+    };
+
+    return `
+        <div style="
+            margin-bottom:12px;
+            color:#9ca3af;
+        ">
+            資料日期：
+            ${esc(data["資料日期"] || "—")}
+            ｜市場：
+            ${esc(data["市場"] || "—")}
+        </div>
+
+        ${group("🌍 外資", data["外資"])}
+        ${group("🏦 投信", data["投信"])}
+        ${group("🏢 自營商", data["自營商"])}
+        ${group("💳 融資", data["融資"])}
+        ${group("📉 融券", data["融券"])}
+    `;
+}
+
+
 function renderStock(stock){
 
     document.getElementById(
@@ -1148,6 +1228,18 @@ function renderStock(stock){
         infoHTML(
             stock["技術分析"]
         );
+
+    const institutionEl =
+        document.getElementById(
+            "institutionInfo"
+        );
+
+    if(institutionEl){
+        institutionEl.innerHTML =
+            renderInstitution(
+                stock["法人籌碼"]
+            );
+    }
 
     document.getElementById(
         "yhtisSummary"
