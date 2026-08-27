@@ -511,8 +511,8 @@ canvas{
 
             <!-- YHTIS_V1332_INSTITUTIONAL -->
             <div id="institutionInfo">
-                法人資料載入中…
-            </div>
+    法人籌碼資料載入中…
+</div>
         </div>
 
         <div class="card span-6">
@@ -1156,6 +1156,277 @@ function renderInstitution(data){
 }
 
 
+// ============================================================
+// YHTIS_V1332A_SAFE_UI
+// 法人籌碼穩定顯示器
+// ============================================================
+
+function renderInstitutionV1332a(data){
+
+    if(
+        !data ||
+        typeof data !== "object"
+    ){
+        return `
+            <div class="empty">
+                目前無法人籌碼資料
+            </div>
+        `;
+    }
+
+    function fmtNumber(v){
+
+        if(
+            v === null ||
+            v === undefined ||
+            v === ""
+        ){
+            return "資料累積中";
+        }
+
+        const n = Number(v);
+
+        if(Number.isNaN(n)){
+            return String(v);
+        }
+
+        const sign =
+            n > 0 ? "+" : "";
+
+        return (
+            sign +
+            n.toLocaleString(
+                "zh-TW",
+                {
+                    maximumFractionDigits: 3
+                }
+            )
+        );
+    }
+
+
+    function fmtText(v){
+
+        if(
+            v === null ||
+            v === undefined ||
+            v === ""
+        ){
+            return "資料累積中";
+        }
+
+        return String(v);
+    }
+
+
+    function institutionBlock(
+        title,
+        obj
+    ){
+
+        if(!obj){
+            return "";
+        }
+
+        return `
+            <div style="
+                border:1px solid #2a3650;
+                border-radius:16px;
+                padding:16px;
+                margin-bottom:14px;
+            ">
+
+                <div style="
+                    font-size:18px;
+                    font-weight:800;
+                    margin-bottom:12px;
+                ">
+                    ${title}
+                </div>
+
+                <div class="info-grid">
+
+                    <div class="info">
+                        <div class="info-key">
+                            今日買賣超
+                        </div>
+
+                        <div class="info-value">
+                            ${fmtNumber(
+                                obj["今日買賣超(張)"]
+                            )} 張
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-key">
+                            5日累計
+                        </div>
+
+                        <div class="info-value">
+                            ${
+                                obj["5日累計(張)"] == null
+                                ? "資料累積中"
+                                : fmtNumber(
+                                    obj["5日累計(張)"]
+                                ) + " 張"
+                            }
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-key">
+                            20日累計
+                        </div>
+
+                        <div class="info-value">
+                            ${
+                                obj["20日累計(張)"] == null
+                                ? "資料累積中"
+                                : fmtNumber(
+                                    obj["20日累計(張)"]
+                                ) + " 張"
+                            }
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-key">
+                            連買 / 連賣
+                        </div>
+
+                        <div class="info-value">
+                            ${fmtText(
+                                obj["連買連賣"]
+                            )}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        `;
+    }
+
+
+    function marginBlock(
+        title,
+        obj
+    ){
+
+        if(!obj){
+            return "";
+        }
+
+        return `
+            <div style="
+                border:1px solid #2a3650;
+                border-radius:16px;
+                padding:16px;
+                margin-bottom:14px;
+            ">
+
+                <div style="
+                    font-size:18px;
+                    font-weight:800;
+                    margin-bottom:12px;
+                ">
+                    ${title}
+                </div>
+
+                <div class="info-grid">
+
+                    <div class="info">
+                        <div class="info-key">
+                            前日餘額
+                        </div>
+
+                        <div class="info-value">
+                            ${fmtNumber(
+                                obj["前日餘額"]
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-key">
+                            今日餘額
+                        </div>
+
+                        <div class="info-value">
+                            ${fmtNumber(
+                                obj["今日餘額"]
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="info-key">
+                            今日增減
+                        </div>
+
+                        <div class="info-value">
+                            ${fmtNumber(
+                                obj["今日增減"]
+                            )}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        `;
+    }
+
+
+    return `
+        <div style="
+            color:#aab4c8;
+            margin-bottom:14px;
+            font-size:15px;
+        ">
+            資料日期：
+            <strong>
+                ${fmtText(
+                    data["資料日期"]
+                )}
+            </strong>
+
+            ｜ 市場：
+            <strong>
+                ${fmtText(
+                    data["市場"]
+                )}
+            </strong>
+        </div>
+
+        ${institutionBlock(
+            "🌍 外資",
+            data["外資"]
+        )}
+
+        ${institutionBlock(
+            "🏦 投信",
+            data["投信"]
+        )}
+
+        ${institutionBlock(
+            "🏢 自營商",
+            data["自營商"]
+        )}
+
+        ${marginBlock(
+            "💳 融資",
+            data["融資"]
+        )}
+
+        ${marginBlock(
+            "📉 融券",
+            data["融券"]
+        )}
+    `;
+}
+
+
+
 function renderStock(stock){
 
     document.getElementById(
@@ -1228,6 +1499,21 @@ function renderStock(stock){
         infoHTML(
             stock["技術分析"]
         );
+
+
+    // YHTIS_V1332A_RENDER_CALL
+    const institutionElV1332a =
+        document.getElementById(
+            "institutionInfo"
+        );
+
+    if(institutionElV1332a){
+
+        institutionElV1332a.innerHTML =
+            renderInstitutionV1332a(
+                stock["法人籌碼"]
+            );
+    }
 
     const institutionEl =
         document.getElementById(
