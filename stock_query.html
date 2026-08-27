@@ -1515,17 +1515,6 @@ function renderStock(stock){
             );
     }
 
-    const institutionEl =
-        document.getElementById(
-            "institutionInfo"
-        );
-
-    if(institutionEl){
-        institutionEl.innerHTML =
-            renderInstitution(
-                stock["法人籌碼"]
-            );
-    }
 
     document.getElementById(
         "yhtisSummary"
@@ -1558,9 +1547,9 @@ function renderStock(stock){
         stock["K線"] || []
     );
 
+    
     renderTradePlan(stock);
-
-    renderTradePlan(stock);
+    
 }
 
 
