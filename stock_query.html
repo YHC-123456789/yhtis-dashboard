@@ -1427,6 +1427,103 @@ function renderInstitutionV1332a(data){
 
 
 
+// ============================================================
+// YHTIS_V1332D_DIRECT_INSTITUTION
+// 法人卡片獨立讀取正式分股 JSON
+// ============================================================
+
+async function refreshInstitutionDirect(code){
+
+    const el =
+        document.getElementById(
+            "institutionInfo"
+        );
+
+    if(!el){
+        return;
+    }
+
+    code = String(
+        code || ""
+    ).trim();
+
+    if(!code){
+        el.innerHTML =
+            '<div class="empty">無股票代號</div>';
+        return;
+    }
+
+    el.innerHTML = `
+        <div style="color:#94a3b8;">
+            ⏳ 正在載入 ${code} 法人籌碼…
+        </div>
+    `;
+
+    try{
+
+        const url =
+            `stock_query/stocks/${code}.json?v=`
+            + Date.now();
+
+        const r = await fetch(
+            url,
+            {
+                cache: "no-store"
+            }
+        );
+
+        if(!r.ok){
+            throw new Error(
+                "HTTP " + r.status
+            );
+        }
+
+        const freshStock =
+            await r.json();
+
+        const inst =
+            freshStock["法人籌碼"];
+
+        if(
+            !inst
+            ||
+            typeof inst !== "object"
+        ){
+            throw new Error(
+                "JSON 無法人籌碼"
+            );
+        }
+
+        el.innerHTML =
+            renderInstitutionV1332a(
+                inst
+            );
+
+        console.log(
+            "[YHTIS 法人直讀]",
+            code,
+            inst
+        );
+
+    }catch(e){
+
+        el.innerHTML = `
+            <div class="empty">
+                ❌ 法人資料載入失敗：
+                ${String(e)}
+            </div>
+        `;
+
+        console.error(
+            "[YHTIS 法人直讀失敗]",
+            code,
+            e
+        );
+    }
+}
+
+
+
 function renderStock(stock){
 
     document.getElementById(
@@ -1550,6 +1647,12 @@ function renderStock(stock){
     
     
     renderTradePlan(stock);
+
+    // YHTIS_V1332D_DIRECT_CALL
+    refreshInstitutionDirect(
+        stock["股票代號"]
+    );
+
 
     // YHTIS_V1332C_FORCE_INSTITUTION
     const institutionFinal =
