@@ -3277,8 +3277,7 @@ async function renderMasterSuggestions(){
                         text-align:left;
                     "
                 >
-                    <span>${esc(x.name)}</span>
-                    <b>${esc(x.code)}</b>
+                    <span><b>${esc(x.code)}</b> ${esc(x.name)}</span>
                 </button>
 
             `).join("");
@@ -3560,8 +3559,7 @@ async function renderDashboardFilter(filterKey){
                         text-align:left;
                     "
                 >
-                    <span>${esc(x.name)}</span>
-                    <b>${esc(x.code)}</b>
+                    <span><b>${esc(x.code)}</b> ${esc(x.name)}</span>
                 </button>
 
             `).join("");
