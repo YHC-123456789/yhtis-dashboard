@@ -1681,18 +1681,30 @@ function buildValuationState(stock, close){
         stock["基本面目標"]
         || {};
 
+    function valuationNum(v){
+        if(
+            v === null
+            || v === undefined
+            || v === ""
+        ){
+            return null;
+        }
+
+        return num(v);
+    }
+
     const low =
-        num(
+        valuationNum(
             fundamental["基本面合理低"]
         );
 
     const mid =
-        num(
+        valuationNum(
             fundamental["基本面合理中"]
         );
 
     const high =
-        num(
+        valuationNum(
             fundamental["基本面合理高"]
         );
 
