@@ -3710,6 +3710,40 @@ document.getElementById(
 
 
 /* ==========================================================
+   快捷篩選 / 搜尋候選 → 統一開啟 MASTER
+   ========================================================== */
+document.addEventListener(
+    "click",
+    e=>{
+        const item =
+            e.target.closest(
+                "[data-master-code]"
+            );
+
+        if(!item){
+            return;
+        }
+
+        const code =
+            item.getAttribute(
+                "data-master-code"
+            );
+
+        if(!code){
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        yhtisMasterOpen(
+            code
+        );
+    }
+);
+
+
+/* ==========================================================
    Dashboard 股票代號 → 點擊即開完整資訊
    ========================================================== */
 
