@@ -920,6 +920,54 @@ td.code,
         單股快速載入
     </div>
 
+    <div
+        id="yhtisMasterQuickFilters"
+        style="
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+            width:100%;
+            margin-top:4px;
+        "
+    >
+        <button type="button" data-master-filter="strong-buy">
+            🔥 強力買進
+        </button>
+
+        <button type="button" data-master-filter="entry-now">
+            🟢 可進場
+        </button>
+
+        <button type="button" data-master-filter="confirm">
+            🟡 等確認
+        </button>
+
+        <button type="button" data-master-filter="pullback">
+            ⏳ 等回踩
+        </button>
+
+        <button type="button" data-master-filter="explosion">
+            🚀 爆發
+        </button>
+
+        <button type="button" data-master-filter="main-wave">
+            👑 主升段
+        </button>
+    </div>
+
+    <div
+        id="yhtisMasterSuggestions"
+        style="
+            display:none;
+            width:100%;
+            max-height:320px;
+            overflow-y:auto;
+            border:1px solid rgba(255,255,255,.15);
+            border-radius:10px;
+            padding:6px;
+        "
+    ></div>
+
 </div>
 
 
@@ -3088,6 +3136,484 @@ function(){
 
 
 /* ==========================================================
+   LIVE SEARCH SUGGESTIONS V1
+   ========================================================== */
+
+async function getMasterMatches(q, limit=20){
+
+    q = String(q || "").trim();
+
+    if(!q){
+        return [];
+    }
+
+    const idx =
+        await loadMasterIndex();
+
+    const names =
+        idx["股票名稱"]
+        || {};
+
+    const qq =
+        q.toLowerCase();
+
+    const rows = [];
+
+    for(
+        const [code,name]
+        of Object.entries(names)
+    ){
+
+        const n =
+            String(name || "");
+
+        if(
+            code.includes(q)
+            ||
+            n.toLowerCase().includes(qq)
+        ){
+            rows.push({
+                code:code,
+                name:n
+            });
+        }
+    }
+
+    rows.sort((a,b)=>{
+
+        const aExact =
+            a.code === q
+            ||
+            a.name === q;
+
+        const bExact =
+            b.code === q
+            ||
+            b.name === q;
+
+        if(aExact !== bExact){
+            return aExact ? -1 : 1;
+        }
+
+        const aStart =
+            a.code.startsWith(q)
+            ||
+            a.name.startsWith(q);
+
+        const bStart =
+            b.code.startsWith(q)
+            ||
+            b.name.startsWith(q);
+
+        if(aStart !== bStart){
+            return aStart ? -1 : 1;
+        }
+
+        return a.code.localeCompare(b.code);
+    });
+
+    return rows.slice(0,limit);
+}
+
+
+async function renderMasterSuggestions(){
+
+    const input =
+        document.getElementById(
+            "yhtisMasterSearch"
+        );
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    const q =
+        input.value.trim();
+
+    if(!q){
+
+        box.innerHTML = "";
+        box.style.display = "none";
+
+        return;
+    }
+
+    try{
+
+        const rows =
+            await getMasterMatches(
+                q,
+                20
+            );
+
+        if(!rows.length){
+
+            box.innerHTML =
+                '<div class="master-muted" style="padding:8px;">找不到符合股票</div>';
+
+            box.style.display =
+                "block";
+
+            return;
+        }
+
+        box.innerHTML =
+            rows.map(x=>`
+
+                <button
+                    type="button"
+                    data-master-code="${x.code}"
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        width:100%;
+                        padding:9px 10px;
+                        margin:2px 0;
+                        border:0;
+                        border-radius:8px;
+                        cursor:pointer;
+                        text-align:left;
+                    "
+                >
+                    <span>${esc(x.name)}</span>
+                    <b>${esc(x.code)}</b>
+                </button>
+
+            `).join("");
+
+        box.style.display =
+            "block";
+
+    }catch(e){
+
+        console.warn(
+            "即時搜尋失敗",
+            e
+        );
+    }
+}
+
+
+document.addEventListener(
+    "click",
+    e=>{
+
+        const btn =
+            e.target.closest(
+                "[data-master-code]"
+            );
+
+        if(!btn){
+            return;
+        }
+
+        const code =
+            btn.getAttribute(
+                "data-master-code"
+            );
+
+        const box =
+            document.getElementById(
+                "yhtisMasterSuggestions"
+            );
+
+        if(box){
+            box.style.display = "none";
+        }
+
+        yhtisMasterOpen(code);
+    }
+);
+
+
+/* ==========================================================
+   MASTER QUICK FILTER V1
+   ========================================================== */
+
+const YHTIS_QUICK_FILTERS = {
+
+    "strong-buy":{
+        label:"🔥 強力買進",
+        words:[
+            "強力買進",
+            "PRIME NOW",
+            "最佳進場"
+        ]
+    },
+
+    "entry-now":{
+        label:"🟢 可進場",
+        words:[
+            "可進場",
+            "🟢 NOW"
+        ]
+    },
+
+    "confirm":{
+        label:"🟡 等確認",
+        words:[
+            "等確認",
+            "等突破確認",
+            "BREAKOUT"
+        ]
+    },
+
+    "pullback":{
+        label:"⏳ 等回踩",
+        words:[
+            "等回踩",
+            "WAIT PULLBACK",
+            "不追，等回踩EMA9",
+            "好股，但等更佳位置"
+        ]
+    },
+
+    "explosion":{
+        label:"🚀 爆發",
+        words:[
+            "主動爆發",
+            "持續爆發",
+            "爆發"
+        ]
+    },
+
+    "main-wave":{
+        label:"👑 主升段",
+        words:[
+            "主升段"
+        ]
+    }
+
+};
+
+
+async function getDashboardFilterStocks(filterKey){
+
+    const cfg =
+        YHTIS_QUICK_FILTERS[
+            filterKey
+        ];
+
+    if(!cfg){
+        return [];
+    }
+
+    const idx =
+        await loadMasterIndex();
+
+    const names =
+        idx["股票名稱"]
+        || {};
+
+    const result =
+        new Map();
+
+    const nodes =
+        document.querySelectorAll(
+            "tr, .card, .stock-card, .row, .item"
+        );
+
+    for(const node of nodes){
+
+        if(
+            node.closest(
+                "#yhtisMasterModal, #yhtisMasterBar"
+            )
+        ){
+            continue;
+        }
+
+        const raw =
+            String(
+                node.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+        if(!raw){
+            continue;
+        }
+
+        const matched =
+            cfg.words.some(
+                word =>
+                    raw.includes(word)
+            );
+
+        if(!matched){
+            continue;
+        }
+
+        const matches =
+            [
+                ...raw.matchAll(
+                    /(?:^|\s)(\d{4})(?=\s|$)/g
+                )
+            ];
+
+        for(const m of matches){
+
+            const code =
+                m[1];
+
+            if(
+                !Object.prototype
+                .hasOwnProperty
+                .call(
+                    names,
+                    code
+                )
+            ){
+                continue;
+            }
+
+            result.set(
+                code,
+                {
+                    code:code,
+                    name:String(
+                        names[code]
+                        || code
+                    )
+                }
+            );
+        }
+    }
+
+    return [
+        ...result.values()
+    ];
+}
+
+
+async function renderDashboardFilter(filterKey){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+    const cfg =
+        YHTIS_QUICK_FILTERS[
+            filterKey
+        ];
+
+    if(
+        !box
+        ||
+        !msg
+        ||
+        !cfg
+    ){
+        return;
+    }
+
+    msg.innerText =
+        cfg.label
+        + " 搜尋中…";
+
+    try{
+
+        const rows =
+            await getDashboardFilterStocks(
+                filterKey
+            );
+
+        if(!rows.length){
+
+            box.innerHTML =
+                '<div class="master-muted" style="padding:8px;">目前沒有符合條件的股票</div>';
+
+            box.style.display =
+                "block";
+
+            msg.innerText =
+                cfg.label
+                + "：0 檔";
+
+            return;
+        }
+
+        box.innerHTML =
+            rows.map(x=>`
+
+                <button
+                    type="button"
+                    data-master-code="${x.code}"
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        width:100%;
+                        padding:9px 10px;
+                        margin:2px 0;
+                        border:0;
+                        border-radius:8px;
+                        cursor:pointer;
+                        text-align:left;
+                    "
+                >
+                    <span>${esc(x.name)}</span>
+                    <b>${esc(x.code)}</b>
+                </button>
+
+            `).join("");
+
+        box.style.display =
+            "block";
+
+        msg.innerText =
+            cfg.label
+            + "："
+            + rows.length
+            + " 檔";
+
+    }catch(e){
+
+        console.warn(
+            "快捷搜尋失敗",
+            e
+        );
+
+        msg.innerText =
+            "❌ 快捷搜尋失敗";
+    }
+}
+
+
+document.addEventListener(
+    "click",
+    e=>{
+
+        const btn =
+            e.target.closest(
+                "[data-master-filter]"
+            );
+
+        if(!btn){
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        renderDashboardFilter(
+            btn.getAttribute(
+                "data-master-filter"
+            )
+        );
+    }
+);
+
+
+/* ==========================================================
    Search
    ========================================================== */
 
@@ -3166,6 +3692,15 @@ document.getElementById(
     "yhtisMasterSearch"
 )
 .addEventListener(
+    "input",
+    renderMasterSuggestions
+);
+
+
+document.getElementById(
+    "yhtisMasterSearch"
+)
+.addEventListener(
     "keydown",
     e=>{
 
@@ -3187,7 +3722,7 @@ document.addEventListener(
         // 不攔截按鈕、輸入框、summary、既有 modal 控制
         if(
             e.target.closest(
-                "button, input, textarea, select, summary, a"
+                "button, input, textarea, select, summary"
             )
         ){
             return;
