@@ -2589,6 +2589,22 @@ function renderMaster(
         : null;
 
 
+    // YHTIS MARKET ACTIVITY V1
+    const market =
+        stock["最新行情"]
+        || {};
+
+    const turnoverRate =
+        num(
+            market["TurnoverRate"]
+        );
+
+    const transactionCount =
+        num(
+            market["TransactionCount"]
+        );
+
+
     document.getElementById(
         "yhtisMasterHeadTitle"
     ).innerText =
@@ -2711,6 +2727,45 @@ function renderMaster(
                         : "—"
                     }
                 </div>
+            </div>
+
+        </div>
+
+
+        <div class="master-main-grid">
+
+            <div class="master-box">
+
+                <div class="master-key">
+                    換手率
+                </div>
+
+                <div class="master-value">
+                    ${
+                        turnoverRate !== null
+                        ? turnoverRate.toFixed(2) + "%"
+                        : "—"
+                    }
+                </div>
+
+            </div>
+
+            <div class="master-box">
+
+                <div class="master-key">
+                    筆量
+                </div>
+
+                <div class="master-value">
+                    ${
+                        transactionCount !== null
+                        ? Math.round(
+                            transactionCount
+                          ).toLocaleString() + " 筆"
+                        : "—"
+                    }
+                </div>
+
             </div>
 
         </div>
