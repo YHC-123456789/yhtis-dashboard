@@ -3443,6 +3443,180 @@ const YHTIS_QUICK_FILTERS = {
 };
 
 
+
+/* ==========================================================
+   MASTER ACTIVITY QUICK FILTERS V1
+   display / convenience only
+   ========================================================== */
+
+Object.assign(
+    YHTIS_QUICK_FILTERS,
+    {
+        "turnover-1":{
+            label:"換手 ≥1%",
+            numeric:{
+                turnoverMin:1
+            }
+        },
+
+        "turnover-2":{
+            label:"換手 ≥2%",
+            numeric:{
+                turnoverMin:2
+            }
+        },
+
+        "turnover-3":{
+            label:"換手 ≥3%",
+            numeric:{
+                turnoverMin:3
+            }
+        },
+
+        "turnover-5":{
+            label:"換手 ≥5%",
+            numeric:{
+                turnoverMin:5
+            }
+        },
+
+        "txn-1000":{
+            label:"筆量 ≥1K",
+            numeric:{
+                txnMin:1000
+            }
+        },
+
+        "txn-3000":{
+            label:"筆量 ≥3K",
+            numeric:{
+                txnMin:3000
+            }
+        },
+
+        "txn-5000":{
+            label:"筆量 ≥5K",
+            numeric:{
+                txnMin:5000
+            }
+        },
+
+        "txn-10000":{
+            label:"筆量 ≥10K",
+            numeric:{
+                txnMin:10000
+            }
+        },
+
+        "high-activity":{
+            label:"🔥 高活躍",
+            numeric:{
+                turnoverMin:2,
+                txnMin:3000
+            }
+        }
+    }
+);
+
+
+function ensureActivityQuickFilterButtons(){
+
+    const bar =
+        document.getElementById(
+            "yhtisMasterBar"
+        );
+
+    if(
+        !bar
+        ||
+        document.getElementById(
+            "yhtisActivityQuickFilters"
+        )
+    ){
+        return;
+    }
+
+    const wrap =
+        document.createElement(
+            "div"
+        );
+
+    wrap.id =
+        "yhtisActivityQuickFilters";
+
+    wrap.style.cssText =
+        "width:100%;display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center;";
+
+    const title =
+        document.createElement(
+            "span"
+        );
+
+    title.textContent =
+        "活躍度：";
+
+    title.className =
+        "master-muted";
+
+    wrap.appendChild(
+        title
+    );
+
+    const keys = [
+        "turnover-1",
+        "turnover-2",
+        "turnover-3",
+        "turnover-5",
+        "txn-1000",
+        "txn-3000",
+        "txn-5000",
+        "txn-10000",
+        "high-activity"
+    ];
+
+    for(const key of keys){
+
+        const cfg =
+            YHTIS_QUICK_FILTERS[
+                key
+            ];
+
+        const btn =
+            document.createElement(
+                "button"
+            );
+
+        btn.type =
+            "button";
+
+        btn.setAttribute(
+            "data-master-filter",
+            key
+        );
+
+        btn.textContent =
+            cfg.label;
+
+        btn.style.cssText =
+            "border:1px solid #334155;border-radius:8px;padding:5px 8px;background:#111827;color:#e5e7eb;cursor:pointer;font-size:12px;";
+
+        wrap.appendChild(
+            btn
+        );
+    }
+
+    bar.appendChild(
+        wrap
+    );
+}
+
+
+setTimeout(
+    ensureActivityQuickFilterButtons,
+    0
+);
+
+
 async function getDashboardFilterStocks(filterKey){
 
     const cfg =
@@ -3460,6 +3634,249 @@ async function getDashboardFilterStocks(filterKey){
     const names =
         idx["股票名稱"]
         || {};
+
+
+    /* Activity numeric filter:
+       only inspect stock codes already present
+       on the current Dashboard. */
+
+    if(cfg.numeric){
+
+        const nodes =
+            document.querySelectorAll(
+                "tr, .card, .stock-card, .row, .item"
+            );
+
+        const codes =
+            new Set();
+
+        for(const node of nodes){
+
+            if(
+                node.closest(
+                    "#yhtisMasterModal, #yhtisMasterBar"
+                )
+            ){
+                continue;
+            }
+
+            const raw =
+                String(
+                    node.textContent
+                    || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+            if(!raw){
+                continue;
+            }
+
+            const matches = [
+                ...raw.matchAll(
+                    /(?:^|\s)(\d{4})(?=\s|$)/g
+                )
+            ];
+
+            for(const m of matches){
+
+                const code =
+                    m[1];
+
+                if(
+                    Object.prototype
+                    .hasOwnProperty
+                    .call(
+                        names,
+                        code
+                    )
+                ){
+                    codes.add(
+                        code
+                    );
+                }
+            }
+        }
+
+        const codeList = [
+            ...codes
+        ];
+
+        const rows = [];
+
+        const workerCount =
+            Math.min(
+                8,
+                codeList.length
+            );
+
+        let cursor = 0;
+
+        async function worker(){
+
+            while(true){
+
+                const i =
+                    cursor++;
+
+                if(
+                    i >=
+                    codeList.length
+                ){
+                    return;
+                }
+
+                const code =
+                    codeList[i];
+
+                try{
+
+                    const stock =
+                        await loadMasterStock(
+                            code
+                        );
+
+                    const market =
+                        stock["最新行情"]
+                        || {};
+
+                    const turnover =
+                        Number(
+                            market[
+                                "TurnoverRate"
+                            ]
+                        );
+
+                    const txn =
+                        Number(
+                            market[
+                                "TransactionCount"
+                            ]
+                        );
+
+                    const needTurnover =
+                        cfg.numeric
+                        .turnoverMin;
+
+                    const needTxn =
+                        cfg.numeric
+                        .txnMin;
+
+                    if(
+                        needTurnover
+                        !== undefined
+                        &&
+                        (
+                            !Number.isFinite(
+                                turnover
+                            )
+                            ||
+                            turnover
+                            <
+                            needTurnover
+                        )
+                    ){
+                        continue;
+                    }
+
+                    if(
+                        needTxn
+                        !== undefined
+                        &&
+                        (
+                            !Number.isFinite(
+                                txn
+                            )
+                            ||
+                            txn
+                            <
+                            needTxn
+                        )
+                    ){
+                        continue;
+                    }
+
+                    rows.push({
+                        code:code,
+                        name:String(
+                            names[code]
+                            || ""
+                        ),
+                        turnover:
+                            Number.isFinite(
+                                turnover
+                            )
+                            ? turnover
+                            : null,
+                        txn:
+                            Number.isFinite(
+                                txn
+                            )
+                            ? txn
+                            : null
+                    });
+
+                }catch(e){
+
+                    console.warn(
+                        "活動度個股載入失敗",
+                        code,
+                        e
+                    );
+
+                }
+            }
+        }
+
+        await Promise.all(
+            Array.from(
+                {
+                    length:
+                        workerCount
+                },
+                ()=>worker()
+            )
+        );
+
+        rows.sort(
+            (a,b)=>{
+
+                if(
+                    cfg.numeric.txnMin
+                    !== undefined
+                    &&
+                    cfg.numeric.turnoverMin
+                    === undefined
+                ){
+                    return (
+                        (b.txn || 0)
+                        -
+                        (a.txn || 0)
+                    );
+                }
+
+                if(
+                    (b.turnover || 0)
+                    !==
+                    (a.turnover || 0)
+                ){
+                    return (
+                        (b.turnover || 0)
+                        -
+                        (a.turnover || 0)
+                    );
+                }
+
+                return (
+                    (b.txn || 0)
+                    -
+                    (a.txn || 0)
+                );
+            }
+        );
+
+        return rows;
+    }
 
     const result =
         new Map();
