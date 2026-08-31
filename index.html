@@ -3625,6 +3625,23 @@ function ensureActivityQuickFilterButtons(){
     clearBtn.style.cssText =
         "border:1px solid #475569;border-radius:8px;padding:5px 8px;background:#0f172a;color:#cbd5e1;cursor:pointer;font-size:12px;";
 
+    /* ACTIVITY APPLY BUTTON V2 */
+    const applyBtn = document.createElement("button");
+
+    applyBtn.type = "button";
+
+    applyBtn.setAttribute(
+        "data-activity-apply",
+        "1"
+    );
+
+    applyBtn.textContent = "🔍 套用篩選";
+
+    applyBtn.style.cssText =
+        "border:1px solid #2563eb;border-radius:8px;padding:5px 8px;background:#1d4ed8;color:#ffffff;cursor:pointer;font-size:12px;font-weight:700;";
+
+    wrap.appendChild(applyBtn);
+
     wrap.appendChild(clearBtn);
 
     bar.appendChild(
@@ -3699,12 +3716,70 @@ async function yhtisRenderActivityMulti(){
 
     try{
 
-        const groups = await Promise.all(
-            keys.map(key => getDashboardFilterStocks(key))
-        );
+        /*
+           MULTI FILTER FETCH CACHE V1
+           One stock JSON fetch per render.
+        */
+
+        const originalLoadMasterStock =
+            loadMasterStock;
+
+        const stockPromiseCache =
+            new Map();
+
+        const cachedLoadMasterStock =
+            code => {
+
+                const key =
+                    String(code || "")
+                    .trim()
+                    .padStart(4,"0");
+
+                if(!stockPromiseCache.has(key)){
+
+                    stockPromiseCache.set(
+                        key,
+                        Promise.resolve(
+                            originalLoadMasterStock(key)
+                        )
+                    );
+                }
+
+                return stockPromiseCache.get(key);
+            };
+
+        let groups;
+
+        try{
+
+            /*
+               getDashboardFilterStocks() resolves
+               loadMasterStock by global binding.
+               Temporarily route that binding through
+               this render-local Promise cache.
+            */
+
+            loadMasterStock =
+                cachedLoadMasterStock;
+
+            groups =
+                await Promise.all(
+                    keys.map(
+                        key =>
+                            getDashboardFilterStocks(key)
+                    )
+                );
+
+        }finally{
+
+            loadMasterStock =
+                originalLoadMasterStock;
+        }
 
         let map = new Map(
-            (groups[0] || []).map(x => [x.code, x])
+            (groups[0] || []).map(
+                x => [x.code, x]
+            )
         );
 
         for(const group of groups.slice(1)){
@@ -3715,7 +3790,8 @@ async function yhtisRenderActivityMulti(){
 
             map = new Map(
                 [...map].filter(
-                    ([code]) => allowed.has(code)
+                    ([code]) =>
+                        allowed.has(code)
                 )
             );
         }
@@ -3805,7 +3881,8 @@ function yhtisToggleActivityFilter(key){
         YHTIS_ACTIVITY_SELECTED.add(key);
     }
 
-    yhtisRenderActivityMulti();
+    /* ACTIVITY SELECT ONLY V1 */
+    yhtisUpdateActivityButtons();
 }
 
 
@@ -3824,6 +3901,19 @@ document.addEventListener("click", e => {
             filterBtn.dataset.activityFilter
         );
 
+        return;
+    }
+
+    const applyBtn = e.target.closest(
+        "[data-activity-apply]"
+    );
+
+    if(applyBtn){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        yhtisRenderActivityMulti();
         return;
     }
 
