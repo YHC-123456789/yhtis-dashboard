@@ -2289,6 +2289,62 @@ function drawMasterKline(
     );
 
 
+
+    /* MASTER KLINE EMA9 EMA20 V1 */
+    function yhtisEMA(period){
+        const out = new Array(data.length).fill(null);
+        if(data.length < period) return out;
+
+        let sum = 0;
+        for(let i=0; i<period; i++){
+            sum += Number(data[i].c);
+        }
+
+        let ema = sum / period;
+        out[period-1] = ema;
+
+        const k = 2 / (period + 1);
+
+        for(let i=period; i<data.length; i++){
+            ema = Number(data[i].c) * k + ema * (1-k);
+            out[i] = ema;
+        }
+        return out;
+    }
+
+    function yhtisDrawEMA(values, color){
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+
+        let started = false;
+
+        values.forEach((v,i)=>{
+            if(v === null || !Number.isFinite(v)) return;
+
+            const cx = pad.l + step * (i + .5);
+            const yy = y(v);
+
+            if(!started){
+                ctx.moveTo(cx,yy);
+                started = true;
+            }else{
+                ctx.lineTo(cx,yy);
+            }
+        });
+
+        if(started) ctx.stroke();
+        ctx.restore();
+    }
+
+    const yhtisEma9 = yhtisEMA(9);
+    const yhtisEma20 = yhtisEMA(20);
+
+    yhtisDrawEMA(yhtisEma9, "#f59e0b");
+    yhtisDrawEMA(yhtisEma20, "#38bdf8");
+
     function level(
         value,
         label
