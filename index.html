@@ -3350,36 +3350,7 @@ async function renderMasterSuggestions(){
 }
 
 
-document.addEventListener(
-    "click",
-    e=>{
-
-        const btn =
-            e.target.closest(
-                "[data-master-code]"
-            );
-
-        if(!btn){
-            return;
-        }
-
-        const code =
-            btn.getAttribute(
-                "data-master-code"
-            );
-
-        const box =
-            document.getElementById(
-                "yhtisMasterSuggestions"
-            );
-
-        if(box){
-            box.style.display = "none";
-        }
-
-        yhtisMasterOpen(code);
-    }
-);
+/* DUPLICATE MASTER CLICK HANDLER REMOVED V2 */
 
 
 /* ==========================================================
