@@ -3508,6 +3508,11 @@ Object.assign(
             }
         },
 
+        "today-strategy":{
+            label:"🎯 今日作戰策略",
+            todayStrategy:true
+        },
+
         "high-activity":{
             label:"🔥 高活躍",
             numeric:{
@@ -3563,6 +3568,7 @@ function ensureActivityQuickFilterButtons(){
     );
 
     const keys = [
+        "today-strategy",
         "turnover-1",
         "turnover-2",
         "turnover-3",
@@ -3590,7 +3596,7 @@ function ensureActivityQuickFilterButtons(){
             "button";
 
         btn.setAttribute(
-            "data-master-filter",
+            "data-activity-filter",
             key
         );
 
@@ -3605,6 +3611,22 @@ function ensureActivityQuickFilterButtons(){
         );
     }
 
+    const clearBtn = document.createElement("button");
+
+    clearBtn.type = "button";
+
+    clearBtn.setAttribute(
+        "data-activity-clear",
+        "1"
+    );
+
+    clearBtn.textContent = "🧹 清除";
+
+    clearBtn.style.cssText =
+        "border:1px solid #475569;border-radius:8px;padding:5px 8px;background:#0f172a;color:#cbd5e1;cursor:pointer;font-size:12px;";
+
+    wrap.appendChild(clearBtn);
+
     bar.appendChild(
         wrap
     );
@@ -3615,6 +3637,210 @@ setTimeout(
     ensureActivityQuickFilterButtons,
     0
 );
+
+
+/* ==========================================================
+   MASTER ACTIVITY MULTISELECT V2
+   AND intersection / display only
+   ========================================================== */
+
+const YHTIS_ACTIVITY_SELECTED = new Set();
+
+function yhtisUpdateActivityButtons(){
+
+    document.querySelectorAll(
+        "[data-activity-filter]"
+    ).forEach(btn => {
+
+        const key = btn.dataset.activityFilter;
+        const active = YHTIS_ACTIVITY_SELECTED.has(key);
+
+        btn.style.background = active ? "#2563eb" : "";
+        btn.style.borderColor = active ? "#60a5fa" : "";
+        btn.style.color = active ? "#ffffff" : "";
+        btn.style.fontWeight = active ? "700" : "";
+    });
+}
+
+
+function yhtisActivityLabel(){
+
+    return [...YHTIS_ACTIVITY_SELECTED]
+        .map(key => YHTIS_QUICK_FILTERS[key]?.label || key)
+        .join(" ＋ ");
+}
+
+
+async function yhtisRenderActivityMulti(){
+
+    const box = document.getElementById(
+        "yhtisMasterSuggestions"
+    );
+
+    const msg = document.getElementById(
+        "yhtisMasterSearchMsg"
+    );
+
+    if(!box || !msg) return;
+
+    const keys = [...YHTIS_ACTIVITY_SELECTED];
+
+    if(!keys.length){
+
+        box.innerHTML = "";
+        box.style.display = "none";
+        msg.innerText = "";
+
+        yhtisUpdateActivityButtons();
+        return;
+    }
+
+    msg.innerText = yhtisActivityLabel() + " 搜尋中…";
+
+    try{
+
+        const groups = await Promise.all(
+            keys.map(key => getDashboardFilterStocks(key))
+        );
+
+        let map = new Map(
+            (groups[0] || []).map(x => [x.code, x])
+        );
+
+        for(const group of groups.slice(1)){
+
+            const allowed = new Set(
+                group.map(x => x.code)
+            );
+
+            map = new Map(
+                [...map].filter(
+                    ([code]) => allowed.has(code)
+                )
+            );
+        }
+
+        const rows = [...map.values()];
+
+        if(!rows.length){
+
+            box.innerHTML =
+                '<div class="master-muted" style="padding:8px;">目前沒有同時符合條件的股票</div>';
+
+            box.style.display = "block";
+
+            msg.innerText =
+                yhtisActivityLabel() + "：0 檔";
+
+            yhtisUpdateActivityButtons();
+            return;
+        }
+
+        box.innerHTML = rows.map(x => `
+            <button
+                type="button"
+                data-master-code="${x.code}"
+                style="
+                    display:flex;
+                    width:100%;
+                    padding:9px 10px;
+                    margin:2px 0;
+                    border:0;
+                    border-radius:8px;
+                    cursor:pointer;
+                    text-align:left;
+                "
+            >
+                <span>
+                    <b>${esc(x.code)}</b>
+                    ${esc(x.name || "")}
+                </span>
+            </button>
+        `).join("");
+
+        box.style.display = "block";
+
+        msg.innerText =
+            yhtisActivityLabel()
+            + "："
+            + rows.length
+            + " 檔";
+
+        yhtisUpdateActivityButtons();
+
+    }catch(e){
+
+        console.warn(
+            "Activity multi filter failed",
+            e
+        );
+
+        msg.innerText = "❌ 複合快捷搜尋失敗";
+    }
+}
+
+
+function yhtisToggleActivityFilter(key){
+
+    if(!YHTIS_QUICK_FILTERS[key]) return;
+
+    const wasActive =
+        YHTIS_ACTIVITY_SELECTED.has(key);
+
+    if(key.startsWith("turnover-")){
+
+        [...YHTIS_ACTIVITY_SELECTED]
+            .filter(x => x.startsWith("turnover-"))
+            .forEach(x => YHTIS_ACTIVITY_SELECTED.delete(x));
+    }
+
+    if(key.startsWith("txn-")){
+
+        [...YHTIS_ACTIVITY_SELECTED]
+            .filter(x => x.startsWith("txn-"))
+            .forEach(x => YHTIS_ACTIVITY_SELECTED.delete(x));
+    }
+
+    if(!wasActive){
+        YHTIS_ACTIVITY_SELECTED.add(key);
+    }
+
+    yhtisRenderActivityMulti();
+}
+
+
+document.addEventListener("click", e => {
+
+    const filterBtn = e.target.closest(
+        "[data-activity-filter]"
+    );
+
+    if(filterBtn){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        yhtisToggleActivityFilter(
+            filterBtn.dataset.activityFilter
+        );
+
+        return;
+    }
+
+    const clearBtn = e.target.closest(
+        "[data-activity-clear]"
+    );
+
+    if(clearBtn){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        YHTIS_ACTIVITY_SELECTED.clear();
+        yhtisRenderActivityMulti();
+    }
+});
+
 
 
 async function getDashboardFilterStocks(filterKey){
@@ -3634,6 +3860,52 @@ async function getDashboardFilterStocks(filterKey){
     const names =
         idx["股票名稱"]
         || {};
+
+
+    /* TODAY STRATEGY FILTER V1 */
+    if(cfg.todayStrategy){
+
+        const cards =
+            document.querySelectorAll(
+                ".v13-card[data-master-code]"
+            );
+
+        const result = [];
+        const seen = new Set();
+
+        for(const card of cards){
+
+            const code =
+                String(
+                    card.getAttribute(
+                        "data-master-code"
+                    ) || ""
+                ).trim();
+
+            if(
+                !code
+                ||
+                seen.has(code)
+                ||
+                !Object.prototype
+                    .hasOwnProperty
+                    .call(names, code)
+            ){
+                continue;
+            }
+
+            seen.add(code);
+
+            result.push({
+                code:code,
+                name:String(
+                    names[code] || ""
+                )
+            });
+        }
+
+        return result;
+    }
 
 
     /* Activity numeric filter:
