@@ -2046,6 +2046,121 @@ function drawMasterKline(
     }
 
 
+
+    /* MASTER KLINE ICHIMOKU CALC V1 */
+
+    function yhtisIchimokuMid(
+        source,
+        endIndex,
+        period
+    ){
+        const startIndex =
+            endIndex - period + 1;
+
+        if(startIndex < 0){
+            return null;
+        }
+
+        let highest = -Infinity;
+        let lowest = Infinity;
+
+        for(
+            let i=startIndex;
+            i<=endIndex;
+            i++
+        ){
+            highest = Math.max(
+                highest,
+                Number(source[i].h)
+            );
+
+            lowest = Math.min(
+                lowest,
+                Number(source[i].l)
+            );
+        }
+
+        if(
+            !Number.isFinite(highest)
+            ||
+            !Number.isFinite(lowest)
+        ){
+            return null;
+        }
+
+        return (
+            highest + lowest
+        ) / 2;
+    }
+
+
+    const yhtisCloudA =
+        new Array(data.length).fill(null);
+
+    const yhtisCloudB =
+        new Array(data.length).fill(null);
+
+    const yhtisVisibleStart =
+        allData.length - data.length;
+
+
+    for(
+        let visibleIndex=0;
+        visibleIndex<data.length;
+        visibleIndex++
+    ){
+        /*
+         * Standard Ichimoku:
+         *
+         * value displayed at T
+         * was calculated at T-26.
+         */
+        const targetGlobalIndex =
+            yhtisVisibleStart + visibleIndex;
+
+        const sourceIndex =
+            targetGlobalIndex - 26;
+
+        if(sourceIndex < 0){
+            continue;
+        }
+
+        const tenkan =
+            yhtisIchimokuMid(
+                allData,
+                sourceIndex,
+                9
+            );
+
+        const kijun =
+            yhtisIchimokuMid(
+                allData,
+                sourceIndex,
+                26
+            );
+
+        const spanB =
+            yhtisIchimokuMid(
+                allData,
+                sourceIndex,
+                52
+            );
+
+        if(
+            tenkan !== null
+            &&
+            kijun !== null
+        ){
+            yhtisCloudA[visibleIndex] =
+                (tenkan + kijun) / 2;
+        }
+
+        if(spanB !== null){
+            yhtisCloudB[visibleIndex] =
+                spanB;
+        }
+    }
+
     const ratio =
         window.devicePixelRatio
         || 1;
@@ -2206,6 +2321,99 @@ function drawMasterKline(
 
         ctx.stroke();
     }
+
+
+
+    /* MASTER KLINE ICHIMOKU CLOUD DRAW V1 */
+
+    function yhtisDrawIchimokuCloud(){
+
+        ctx.save();
+
+        for(
+            let i=1;
+            i<data.length;
+            i++
+        ){
+            const a0 = yhtisCloudA[i-1];
+            const b0 = yhtisCloudB[i-1];
+            const a1 = yhtisCloudA[i];
+            const b1 = yhtisCloudB[i];
+
+            if(
+                a0 === null
+                ||
+                b0 === null
+                ||
+                a1 === null
+                ||
+                b1 === null
+                ||
+                !Number.isFinite(a0)
+                ||
+                !Number.isFinite(b0)
+                ||
+                !Number.isFinite(a1)
+                ||
+                !Number.isFinite(b1)
+            ){
+                continue;
+            }
+
+            const x0 =
+                pad.l
+                +
+                step * (i - .5);
+
+            const x1 =
+                pad.l
+                +
+                step * (i + .5);
+
+            const bullish =
+                (
+                    (a0 + a1) / 2
+                )
+                >=
+                (
+                    (b0 + b1) / 2
+                );
+
+            ctx.fillStyle =
+                bullish
+                ? "rgba(34,197,94,.10)"
+                : "rgba(239,68,68,.10)";
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x0,
+                y(a0)
+            );
+
+            ctx.lineTo(
+                x1,
+                y(a1)
+            );
+
+            ctx.lineTo(
+                x1,
+                y(b1)
+            );
+
+            ctx.lineTo(
+                x0,
+                y(b0)
+            );
+
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        ctx.restore();
+    }
+
+    yhtisDrawIchimokuCloud();
 
 
     data.forEach(
