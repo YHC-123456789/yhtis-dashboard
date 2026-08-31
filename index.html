@@ -1988,9 +1988,8 @@ function drawMasterKline(
     }
 
 
-    const data =
+    const allData =
         rows
-        .slice(-60)
         .map(x=>({
 
             d:
@@ -2036,6 +2035,10 @@ function drawMasterKline(
                 &&
                 x.c !== null
         );
+
+
+    const data =
+        allData.slice(-60);
 
 
     if(data.length < 2){
