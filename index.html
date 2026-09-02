@@ -550,6 +550,4409 @@ section {
 
 
 <body>
+
+<!-- YHTIS_V134_MASTER_UI_START -->
+
+<style>
+
+/* ==========================================================
+   V13.4 MASTER UI
+   ========================================================== */
+
+#yhtisMasterBar{
+    position:sticky;
+    top:0;
+    z-index:999990;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+
+    padding:11px 16px;
+
+    background:rgba(7,13,27,.97);
+    border-bottom:1px solid rgba(148,163,184,.23);
+
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+
+    box-shadow:0 8px 30px rgba(0,0,0,.25);
+}
+
+
+#yhtisMasterBar .master-title{
+    font-weight:900;
+    color:#f8fafc;
+    white-space:nowrap;
+}
+
+
+#yhtisMasterSearch{
+    flex:1;
+    min-width:180px;
+    max-width:420px;
+
+    border:1px solid #334155;
+    background:#0f172a;
+    color:#f8fafc;
+
+    border-radius:11px;
+
+    padding:10px 13px;
+
+    font-size:15px;
+    outline:none;
+}
+
+
+#yhtisMasterSearch:focus{
+    border-color:#60a5fa;
+}
+
+
+#yhtisMasterSearchBtn{
+    border:0;
+    border-radius:11px;
+
+    padding:10px 15px;
+
+    background:#2563eb;
+    color:white;
+
+    font-weight:850;
+    cursor:pointer;
+}
+
+
+#yhtisMasterSearchMsg{
+    font-size:12px;
+    color:#94a3b8;
+}
+
+
+td.code,
+.code{
+    cursor:pointer !important;
+    text-decoration:underline dotted rgba(96,165,250,.55);
+    text-underline-offset:3px;
+}
+
+
+/* ==========================================================
+   Modal
+   ========================================================== */
+
+#yhtisMasterModal{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:2147483646;
+
+    background:rgba(2,6,23,.82);
+
+    overflow:auto;
+
+    padding:24px 14px;
+}
+
+
+#yhtisMasterPanel{
+    width:min(1180px, 100%);
+
+    margin:0 auto;
+
+    background:#0b1220;
+
+    border:1px solid #26344d;
+
+    border-radius:22px;
+
+    box-shadow:0 30px 90px rgba(0,0,0,.55);
+
+    overflow:hidden;
+}
+
+
+#yhtisMasterHead{
+    position:sticky;
+    top:0;
+
+    z-index:5;
+
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+
+    padding:18px 20px;
+
+    background:rgba(11,18,32,.98);
+    border-bottom:1px solid #24314a;
+}
+
+
+#yhtisMasterHeadTitle{
+    font-size:24px;
+    font-weight:950;
+    color:#f8fafc;
+}
+
+
+#yhtisMasterClose{
+    border:1px solid #334155;
+    background:#111827;
+    color:#f8fafc;
+
+    width:40px;
+    height:40px;
+
+    border-radius:11px;
+
+    cursor:pointer;
+    font-size:20px;
+}
+
+
+#yhtisMasterBody{
+    padding:18px;
+}
+
+
+.master-status-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+
+    margin:4px 0 18px 0;
+}
+
+
+.master-badge{
+    display:inline-flex;
+    align-items:center;
+
+    min-height:34px;
+
+    padding:7px 11px;
+
+    border:1px solid #334155;
+    border-radius:999px;
+
+    background:#111827;
+
+    font-size:14px;
+    font-weight:850;
+}
+
+
+.master-main-grid{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0,1fr));
+    gap:10px;
+
+    margin-bottom:14px;
+}
+
+
+.master-box{
+    border:1px solid #26344d;
+    background:#0f172a;
+
+    border-radius:14px;
+
+    padding:13px;
+}
+
+
+.master-key{
+    font-size:12px;
+    color:#94a3b8;
+    margin-bottom:6px;
+}
+
+
+.master-value{
+    font-size:18px;
+    color:#f8fafc;
+    font-weight:900;
+}
+
+
+.master-decision{
+    border:1px solid #334155;
+    border-radius:16px;
+
+    padding:16px;
+
+    margin:12px 0 18px;
+
+    background:#101827;
+}
+
+
+.master-decision-main{
+    font-size:22px;
+    font-weight:950;
+    margin-bottom:8px;
+}
+
+
+.master-muted{
+    color:#94a3b8;
+}
+
+
+.master-detail{
+    margin:12px 0;
+
+    border:1px solid #26344d;
+    border-radius:15px;
+
+    background:#0d1525;
+
+    overflow:hidden;
+}
+
+
+.master-detail summary{
+    cursor:pointer;
+
+    padding:14px 16px;
+
+    font-size:16px;
+    font-weight:900;
+
+    user-select:none;
+}
+
+
+.master-detail-content{
+    border-top:1px solid #26344d;
+
+    padding:15px;
+}
+
+
+.master-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+
+.master-table td{
+    border-bottom:1px solid rgba(51,65,85,.6);
+    padding:8px 7px;
+    vertical-align:top;
+}
+
+
+.master-table td:first-child{
+    width:42%;
+    color:#94a3b8;
+}
+
+
+#yhtisTradeMap{
+    width:100%;
+    height:430px;
+
+    display:block;
+
+    background:#08111f;
+    border-radius:14px;
+}
+
+
+@media(max-width:800px){
+
+    #yhtisMasterBar{
+        padding:9px 10px;
+    }
+
+    #yhtisMasterBar .master-title{
+        width:100%;
+    }
+
+    #yhtisMasterSearch{
+        max-width:none;
+    }
+
+    .master-main-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    #yhtisTradeMap{
+        height:330px;
+    }
+}
+
+</style>
+
+
+<!-- ========================================================
+     搜尋列
+     ======================================================== -->
+
+<div id="yhtisMasterBar">
+
+    <div class="master-title">
+        🚀 YHTIS V13.4
+    </div>
+
+    <input
+        id="yhtisMasterSearch"
+        type="text"
+        placeholder="輸入股票代號或名稱，例如 8039 / 台虹"
+        autocomplete="off"
+    >
+
+    <button
+        id="yhtisMasterSearchBtn"
+        type="button"
+    >
+        🔎 查詢
+    </button>
+
+    <div id="yhtisMasterSearchMsg">
+        單股快速載入
+    </div>
+
+    <div
+        id="yhtisMasterQuickFilters"
+        style="
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+            width:100%;
+            margin-top:4px;
+        "
+    >
+        <button type="button" data-master-filter="strong-buy">
+            🔥 強力買進
+        </button>
+
+        <button type="button" data-master-filter="entry-now">
+            🟢 可進場
+        </button>
+
+        <button type="button" data-master-filter="confirm">
+            🟡 等確認
+        </button>
+
+        <button type="button" data-master-filter="pullback">
+            ⏳ 等回踩
+        </button>
+
+        <button type="button" data-master-filter="explosion">
+            🚀 爆發
+        </button>
+
+        <button type="button" data-master-filter="main-wave">
+            👑 主升段
+        </button>
+    </div>
+
+    <div
+        id="yhtisMasterSuggestions"
+        style="
+            display:none;
+            width:100%;
+            max-height:320px;
+            overflow-y:auto;
+            border:1px solid rgba(255,255,255,.15);
+            border-radius:10px;
+            padding:6px;
+        "
+    ></div>
+
+</div>
+
+
+<!-- ========================================================
+     MASTER MODAL
+     ======================================================== -->
+
+<div
+    id="yhtisMasterModal"
+    onclick="yhtisMasterClose()"
+>
+
+    <div
+        id="yhtisMasterPanel"
+        onclick="event.stopPropagation()"
+    >
+
+        <div id="yhtisMasterHead">
+
+            <div>
+                <div id="yhtisMasterHeadTitle">
+                    個股專業分析
+                </div>
+
+                <div
+                    id="yhtisMasterHeadSub"
+                    class="master-muted"
+                >
+                </div>
+            </div>
+
+            <button
+                id="yhtisMasterClose"
+                type="button"
+                onclick="yhtisMasterClose()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+        <div id="yhtisMasterBody">
+            ⏳ 載入中…
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+(function(){
+
+"use strict";
+
+
+/* ==========================================================
+   路徑
+   ========================================================== */
+
+const IS_LOCAL_DASH =
+    location.pathname.includes(
+        "/YHTIS_PRO/output/"
+    );
+
+const STOCK_ROOT =
+    IS_LOCAL_DASH
+    ? "../../output/stock_query/"
+    : "stock_query/";
+
+const TRACKING_URL =
+    IS_LOCAL_DASH
+    ? "../../output/continuous_tracking_v2.json"
+    : "continuous_tracking_v2.json";
+
+
+let YHTIS_INDEX = null;
+let YHTIS_TRACKING = null;
+let YHTIS_TRACK_MAP = {};
+let YHTIS_STOCK_CACHE = {};
+
+
+/* ==========================================================
+   Helpers
+   ========================================================== */
+
+function esc(v){
+
+    return String(
+        v ?? ""
+    )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#39;");
+}
+
+
+function num(v){
+
+    if(
+        v === null
+        || v === undefined
+        || (
+            typeof v === "string"
+            && v.trim() === ""
+        )
+    ){
+        return null;
+    }
+
+    const x = Number(v);
+
+    return Number.isFinite(x)
+      ? x
+      : null;
+}
+
+
+function fmt(v, digits=2){
+
+    const x = num(v);
+
+    if(x === null){
+        return "—";
+    }
+
+    return x.toLocaleString(
+        "zh-TW",
+        {
+            maximumFractionDigits:digits
+        }
+    );
+}
+
+
+function pct(v){
+
+    const x = num(v);
+
+    if(x === null){
+        return "—";
+    }
+
+    const sign =
+        x > 0 ? "+" : "";
+
+    return (
+        sign
+        + x.toFixed(2)
+        + "%"
+    );
+}
+
+
+function objTable(obj){
+
+    if(
+        !obj
+        ||
+        typeof obj !== "object"
+    ){
+        return `
+            <div class="master-muted">
+                暫無資料
+            </div>
+        `;
+    }
+
+    return `
+        <table class="master-table">
+            ${
+                Object.entries(obj)
+                .map(([k,v])=>{
+
+                    let out = v;
+
+                    if(
+                        typeof v === "object"
+                        &&
+                        v !== null
+                    ){
+                        out = `
+                            <pre style="
+                                white-space:pre-wrap;
+                                margin:0;
+                                font-family:inherit;
+                            ">${esc(
+                                JSON.stringify(
+                                    v,
+                                    null,
+                                    2
+                                )
+                            )}</pre>
+                        `;
+                    }else{
+                        out = esc(v ?? "—");
+                    }
+
+                    return `
+                        <tr>
+                            <td>${esc(k)}</td>
+                            <td>${out}</td>
+                        </tr>
+                    `;
+                })
+                .join("")
+            }
+        </table>
+    `;
+}
+
+
+/* ==========================================================
+   遞迴尋找欄位
+   ========================================================== */
+
+function deepFind(obj, keys){
+
+    if(
+        !obj
+        ||
+        typeof obj !== "object"
+    ){
+        return null;
+    }
+
+    for(const key of keys){
+
+        if(
+            Object.prototype
+            .hasOwnProperty
+            .call(obj,key)
+        ){
+            const v = obj[key];
+
+            if(
+                v !== null
+                &&
+                v !== undefined
+                &&
+                v !== ""
+            ){
+                return v;
+            }
+        }
+    }
+
+    for(const v of Object.values(obj)){
+
+        if(
+            typeof v === "object"
+            &&
+            v !== null
+        ){
+            const found =
+                deepFind(
+                    v,
+                    keys
+                );
+
+            if(
+                found !== null
+                &&
+                found !== undefined
+            ){
+                return found;
+            }
+        }
+    }
+
+    return null;
+}
+
+
+/* ==========================================================
+   Index + Tracking
+   ========================================================== */
+
+async function loadMasterIndex(){
+
+    if(YHTIS_INDEX){
+        return YHTIS_INDEX;
+    }
+
+    const r = await fetch(
+        STOCK_ROOT
+        + "index.json?v="
+        + Date.now(),
+        {
+            cache:"no-store"
+        }
+    );
+
+    if(!r.ok){
+        throw new Error(
+            "股票索引 HTTP "
+            + r.status
+        );
+    }
+
+    YHTIS_INDEX =
+        await r.json();
+
+    return YHTIS_INDEX;
+}
+
+
+async function loadTracking(){
+
+    if(YHTIS_TRACKING){
+        return YHTIS_TRACKING;
+    }
+
+    try{
+
+        const r = await fetch(
+            TRACKING_URL
+            + "?v="
+            + Date.now(),
+            {
+                cache:"no-store"
+            }
+        );
+
+        if(!r.ok){
+            return [];
+        }
+
+        YHTIS_TRACKING =
+            await r.json();
+
+        for(const x of YHTIS_TRACKING){
+
+            const code =
+                String(
+                    x["股票代號"]
+                    || ""
+                )
+                .padStart(
+                    4,
+                    "0"
+                );
+
+            YHTIS_TRACK_MAP[
+                code
+            ] = x;
+        }
+
+        return YHTIS_TRACKING;
+
+    }catch(e){
+
+        console.warn(
+            "Tracking 載入失敗",
+            e
+        );
+
+        return [];
+    }
+}
+
+
+async function resolveMasterCode(q){
+
+    q = String(
+        q || ""
+    ).trim();
+
+    if(!q){
+        return null;
+    }
+
+    const idx =
+        await loadMasterIndex();
+
+    const names =
+        idx["股票名稱"]
+        || {};
+
+    if(/^\d+$/.test(q)){
+
+        const code =
+            q.padStart(
+                4,
+                "0"
+            );
+
+        if(
+            Object.prototype
+            .hasOwnProperty
+            .call(
+                names,
+                code
+            )
+        ){
+            return code;
+        }
+    }
+
+    for(
+        const [code,name]
+        of Object.entries(names)
+    ){
+
+        if(
+            String(name)
+            .includes(q)
+        ){
+            return code;
+        }
+    }
+
+    return null;
+}
+
+
+/* ==========================================================
+   單股載入
+   ========================================================== */
+
+async function loadMasterStock(code){
+
+    // YHTIS LIVE DATA V2
+    // 每次開啟 MASTER 都重新取得最新分股 JSON。
+    // fetch 本身使用 cache:"no-store"，避免頁面長時間開啟後沿用舊行情。
+
+    const r = await fetch(
+        STOCK_ROOT
+        + "stocks/"
+        + code
+        + ".json?v="
+        + Date.now(),
+        {
+            cache:"no-store"
+        }
+    );
+
+    if(!r.ok){
+        throw new Error(
+            code
+            + " HTTP "
+            + r.status
+        );
+    }
+
+    const data =
+        await r.json();
+
+    YHTIS_STOCK_CACHE[
+        code
+    ] = data;
+
+    return data;
+}
+
+
+/* ==========================================================
+   語意判讀
+   ========================================================== */
+
+function buildSemantic(stock, track){
+
+    const tech =
+        stock["技術分析"]
+        || {};
+
+    const summary =
+        String(
+            stock["YHTIS綜合判讀"]
+            || ""
+        );
+
+    const market =
+        stock["最新行情"]
+        || {};
+
+    // YHTIS PRICE SEMANTICS V2
+    // 1. TradePrice = MIS 真實最後成交價
+    // 2. DisplayPrice = 無成交價時的可顯示估算價
+    // 3. Price / Close = 僅供舊資料相容
+    const tradePrice =
+        num(
+            market["TradePrice"]
+        );
+
+    const displayPrice =
+        num(
+            market["DisplayPrice"]
+        );
+
+    const isEstimated =
+        market["IsEstimated"] === true;
+
+    const priceSource =
+        String(
+            market["PriceSource"]
+            || ""
+        );
+
+    const close =
+        tradePrice
+        ??
+        displayPrice
+        ??
+        num(
+            market["Price"]
+            ??
+            market["最新價"]
+            ??
+            market["現在價格"]
+            ??
+            market["Close"]
+            ??
+            market["收盤"]
+            ??
+            tech["最新收盤"]
+        );
+
+    const ema9 =
+        num(
+            tech["EMA9"]
+        );
+
+    const ema20 =
+        num(
+            tech["EMA20"]
+        );
+
+    const ma60 =
+        num(
+            tech["MA60"]
+            ??
+            tech["EMA60"]
+        );
+
+    const rsi =
+        num(
+            tech["RSI14"]
+        );
+
+    const badges = [];
+
+
+    const bullish =
+        (
+            String(
+                tech["短中期趨勢"]
+                || ""
+            )
+            .includes("多頭")
+        )
+        ||
+        (
+            close !== null
+            &&
+            ema9 !== null
+            &&
+            ema20 !== null
+            &&
+            close >= ema9
+            &&
+            ema9 >= ema20
+        );
+
+
+    if(bullish){
+        badges.push(
+            "🟢 多頭"
+        );
+    }
+
+
+    let support = false;
+
+    if(
+        close !== null
+        &&
+        ema9 !== null
+        &&
+        close >= ema9
+        &&
+        close <= ema9 * 1.03
+    ){
+        support = true;
+    }
+
+    if(
+        close !== null
+        &&
+        ema20 !== null
+        &&
+        close >= ema20
+        &&
+        close <= ema20 * 1.03
+    ){
+        support = true;
+    }
+
+    if(support){
+        badges.push(
+            "🛡️ 獲得支撐"
+        );
+    }
+
+
+    const extended =
+        summary.includes(
+            "已延伸"
+        )
+        ||
+        (
+            ema9 !== null
+            &&
+            close !== null
+            &&
+            close > ema9 * 1.10
+        );
+
+
+    if(extended){
+
+        badges.push(
+            "⚠️ 過熱・不追"
+        );
+
+    }else if(
+        bullish
+        &&
+        support
+        &&
+        (
+            rsi === null
+            ||
+            rsi < 75
+        )
+    ){
+
+        badges.push(
+            "🔥 強力進場候選"
+        );
+    }
+
+
+    if(
+        track
+        &&
+        (
+            String(
+                track["追蹤狀態"]
+                || ""
+            ).includes("主升")
+        )
+    ){
+        badges.push(
+            "👑 主升段"
+        );
+    }
+
+
+    if(
+        track
+        &&
+        (
+            String(
+                track["追蹤狀態"]
+                || ""
+            ).includes("持續爆發")
+        )
+    ){
+        badges.push(
+            "🚀 動能加速"
+        );
+    }
+
+
+    if(
+        !bullish
+        &&
+        ema20 !== null
+        &&
+        close !== null
+        &&
+        close < ema20
+    ){
+        badges.push(
+            "🔴 轉弱"
+        );
+    }
+
+
+    let decision =
+        "🟡 觀察";
+
+    let decisionReason =
+        summary
+        || "等待更多訊號確認";
+
+
+    if(extended){
+
+        decision =
+            "⏳ 等待回測";
+
+        decisionReason =
+            "趨勢仍強，但價格已延伸，不建議直接追高。";
+
+    }else if(
+        bullish
+        &&
+        support
+        &&
+        (
+            rsi === null
+            ||
+            rsi < 75
+        )
+    ){
+
+        decision =
+            "🔥 強力進場候選";
+
+        decisionReason =
+            "多頭結構仍在，且價格靠近動態支撐；仍需依防守價控管風險。";
+
+    }else if(
+        !bullish
+    ){
+
+        decision =
+            "❌ 暫不進場";
+
+        decisionReason =
+            "目前尚未符合多頭與安全位置條件。";
+    }
+
+
+    return {
+        badges,
+        decision,
+        decisionReason,
+
+        // YHTIS PRICE SEMANTICS V2
+        close,
+        tradePrice,
+        displayPrice,
+        isEstimated,
+        priceSource,
+
+        ema9,
+        ema20,
+        ma60
+    };
+}
+
+
+/* ==========================================================
+   交易計畫
+   ========================================================== */
+
+/* ==========================================================
+   基本面合理價 / 便宜昂貴
+   ========================================================== */
+
+function buildValuationState(stock, close){
+
+    const fundamental =
+        stock["基本面目標"]
+        || {};
+
+    function valuationNum(v){
+        if(
+            v === null
+            || v === undefined
+            || v === ""
+        ){
+            return null;
+        }
+
+        return num(v);
+    }
+
+    const low =
+        valuationNum(
+            fundamental["基本面合理低"]
+        );
+
+    const mid =
+        valuationNum(
+            fundamental["基本面合理中"]
+        );
+
+    const high =
+        valuationNum(
+            fundamental["基本面合理高"]
+        );
+
+
+    let state =
+        "⚪ 估值資料不足";
+
+
+    if(
+        close !== null
+        &&
+        low !== null
+        &&
+        mid !== null
+        &&
+        high !== null
+    ){
+
+        if(close <= low){
+
+            state =
+                "🟢 便宜";
+
+        }else if(close <= mid){
+
+            state =
+                "🟢 偏便宜";
+
+        }else if(close <= high){
+
+            state =
+                "🟡 合理";
+
+        }else{
+
+            state =
+                "🔴 昂貴";
+        }
+    }
+
+
+    return {
+        low,
+        mid,
+        high,
+        state
+    };
+}
+
+
+
+function buildPlan(stock, semantic){
+
+    const tech =
+        stock["技術分析"]
+        || {};
+
+    const yhtis =
+        stock["YHTIS分析"]
+        || {};
+
+
+    const close =
+        semantic.close;
+
+
+    const entryLow =
+        num(
+            deepFind(
+                yhtis,
+                [
+                    "entry_low",
+                    "進場下緣",
+                    "最佳進場低"
+                ]
+            )
+        );
+
+
+    const entryHigh =
+        num(
+            deepFind(
+                yhtis,
+                [
+                    "entry_high",
+                    "進場上緣",
+                    "最佳進場高"
+                ]
+            )
+        );
+
+
+    const idealEntry =
+        num(
+            deepFind(
+                yhtis,
+                [
+                    "ideal_entry",
+                    "理想進場",
+                    "最佳進場"
+                ]
+            )
+        );
+
+
+    const defense =
+        num(
+            deepFind(
+                yhtis,
+                [
+                    "defense_price",
+                    "防守價",
+                    "停損價"
+                ]
+            )
+        );
+
+
+    const chase =
+        num(
+            deepFind(
+                yhtis,
+                [
+                    "chase_limit",
+                    "追價上限"
+                ]
+            )
+        );
+
+
+    const support =
+        num(
+            tech["20日支撐"]
+        )
+        ??
+        semantic.ema20
+        ??
+        semantic.ema9;
+
+
+    const resistance =
+        num(
+            tech["20日壓力"]
+        );
+
+
+    let refEntry = null;
+
+    if(
+        entryLow !== null
+        &&
+        entryHigh !== null
+    ){
+
+        refEntry =
+            (
+                entryLow
+                +
+                entryHigh
+            )
+            / 2;
+
+    }else if(
+        idealEntry !== null
+    ){
+
+        refEntry =
+            idealEntry;
+
+    }else{
+
+        refEntry =
+            close;
+    }
+
+
+    const target10 =
+        refEntry !== null
+        ? refEntry * 1.10
+        : null;
+
+
+    const target30 =
+        refEntry !== null
+        ? refEntry * 1.30
+        : null;
+
+
+    return {
+        entryLow,
+        entryHigh,
+        idealEntry,
+        defense,
+        chase,
+        support,
+        resistance,
+        target10,
+        target30
+    };
+}
+
+
+/* ==========================================================
+   K線交易地圖
+   ========================================================== */
+
+function drawMasterKline(
+    canvas,
+    rows,
+    plan,
+    track
+){
+
+    if(
+        !canvas
+        ||
+        !Array.isArray(rows)
+        ||
+        rows.length < 2
+    ){
+        return;
+    }
+
+
+    const allData =
+        rows
+        .map(x=>({
+
+            d:
+                x["日期"]
+                ??
+                x["Date"],
+
+            o:
+                num(
+                    x["開盤"]
+                    ??
+                    x["Open"]
+                ),
+
+            h:
+                num(
+                    x["最高"]
+                    ??
+                    x["High"]
+                ),
+
+            l:
+                num(
+                    x["最低"]
+                    ??
+                    x["Low"]
+                ),
+
+            c:
+                num(
+                    x["收盤"]
+                    ??
+                    x["Close"]
+                )
+        }))
+        .filter(
+            x =>
+                x.o !== null
+                &&
+                x.h !== null
+                &&
+                x.l !== null
+                &&
+                x.c !== null
+        );
+
+
+    const data =
+        allData.slice(-60);
+
+
+    if(data.length < 2){
+        return;
+    }
+
+
+
+    /* MASTER KLINE ICHIMOKU CALC V1 */
+
+    function yhtisIchimokuMid(
+        source,
+        endIndex,
+        period
+    ){
+        const startIndex =
+            endIndex - period + 1;
+
+        if(startIndex < 0){
+            return null;
+        }
+
+        let highest = -Infinity;
+        let lowest = Infinity;
+
+        for(
+            let i=startIndex;
+            i<=endIndex;
+            i++
+        ){
+            highest = Math.max(
+                highest,
+                Number(source[i].h)
+            );
+
+            lowest = Math.min(
+                lowest,
+                Number(source[i].l)
+            );
+        }
+
+        if(
+            !Number.isFinite(highest)
+            ||
+            !Number.isFinite(lowest)
+        ){
+            return null;
+        }
+
+        return (
+            highest + lowest
+        ) / 2;
+    }
+
+
+    const yhtisCloudA =
+        new Array(data.length).fill(null);
+
+    const yhtisCloudB =
+        new Array(data.length).fill(null);
+
+    const yhtisVisibleStart =
+        allData.length - data.length;
+
+
+    for(
+        let visibleIndex=0;
+        visibleIndex<data.length;
+        visibleIndex++
+    ){
+        /*
+         * Standard Ichimoku:
+         *
+         * value displayed at T
+         * was calculated at T-26.
+         */
+        const targetGlobalIndex =
+            yhtisVisibleStart + visibleIndex;
+
+        const sourceIndex =
+            targetGlobalIndex - 26;
+
+        if(sourceIndex < 0){
+            continue;
+        }
+
+        const tenkan =
+            yhtisIchimokuMid(
+                allData,
+                sourceIndex,
+                9
+            );
+
+        const kijun =
+            yhtisIchimokuMid(
+                allData,
+                sourceIndex,
+                26
+            );
+
+        const spanB =
+            yhtisIchimokuMid(
+                allData,
+                sourceIndex,
+                52
+            );
+
+        if(
+            tenkan !== null
+            &&
+            kijun !== null
+        ){
+            yhtisCloudA[visibleIndex] =
+                (tenkan + kijun) / 2;
+        }
+
+        if(spanB !== null){
+            yhtisCloudB[visibleIndex] =
+                spanB;
+        }
+    }
+
+    const ratio =
+        window.devicePixelRatio
+        || 1;
+
+    const W =
+        canvas.clientWidth;
+
+    const H =
+        canvas.clientHeight;
+
+    canvas.width =
+        W * ratio;
+
+    canvas.height =
+        H * ratio;
+
+    const ctx =
+        canvas.getContext(
+            "2d"
+        );
+
+    ctx.scale(
+        ratio,
+        ratio
+    );
+
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    const pad = {
+        l:55,
+        r:95,
+        t:25,
+        b:30
+    };
+
+
+    let prices = [];
+
+    for(const x of data){
+
+        prices.push(
+            x.h,
+            x.l
+        );
+    }
+
+
+    for(const v of [
+        plan.support,
+        plan.resistance,
+        plan.defense,
+        plan.target10,
+        plan.target30,
+        plan.entryLow,
+        plan.entryHigh
+    ]){
+
+        if(v !== null){
+            prices.push(v);
+        }
+    }
+
+
+    const minP =
+        Math.min(
+            ...prices
+        );
+
+    const maxP =
+        Math.max(
+            ...prices
+        );
+
+
+    const span =
+        Math.max(
+            maxP - minP,
+            1
+        );
+
+
+    const lo =
+        minP
+        - span * .05;
+
+    const hi =
+        maxP
+        + span * .05;
+
+
+    const chartW =
+        W
+        - pad.l
+        - pad.r;
+
+    const chartH =
+        H
+        - pad.t
+        - pad.b;
+
+
+    const y =
+        p =>
+            pad.t
+            +
+            (
+                hi - p
+            )
+            /
+            (
+                hi - lo
+            )
+            *
+            chartH;
+
+
+    const step =
+        chartW
+        /
+        data.length;
+
+
+    ctx.strokeStyle =
+        "rgba(148,163,184,.12)";
+
+    ctx.lineWidth = 1;
+
+
+    for(let i=0;i<=5;i++){
+
+        const yy =
+            pad.t
+            +
+            chartH
+            *
+            i
+            /
+            5;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            pad.l,
+            yy
+        );
+
+        ctx.lineTo(
+            W-pad.r,
+            yy
+        );
+
+        ctx.stroke();
+    }
+
+
+
+    /* MASTER KLINE ICHIMOKU CLOUD DRAW V1 */
+
+    function yhtisDrawIchimokuCloud(){
+
+        ctx.save();
+
+        for(
+            let i=1;
+            i<data.length;
+            i++
+        ){
+            const a0 = yhtisCloudA[i-1];
+            const b0 = yhtisCloudB[i-1];
+            const a1 = yhtisCloudA[i];
+            const b1 = yhtisCloudB[i];
+
+            if(
+                a0 === null
+                ||
+                b0 === null
+                ||
+                a1 === null
+                ||
+                b1 === null
+                ||
+                !Number.isFinite(a0)
+                ||
+                !Number.isFinite(b0)
+                ||
+                !Number.isFinite(a1)
+                ||
+                !Number.isFinite(b1)
+            ){
+                continue;
+            }
+
+            const x0 =
+                pad.l
+                +
+                step * (i - .5);
+
+            const x1 =
+                pad.l
+                +
+                step * (i + .5);
+
+            const bullish =
+                (
+                    (a0 + a1) / 2
+                )
+                >=
+                (
+                    (b0 + b1) / 2
+                );
+
+            ctx.fillStyle =
+                bullish
+                ? "rgba(34,197,94,.10)"
+                : "rgba(239,68,68,.10)";
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x0,
+                y(a0)
+            );
+
+            ctx.lineTo(
+                x1,
+                y(a1)
+            );
+
+            ctx.lineTo(
+                x1,
+                y(b1)
+            );
+
+            ctx.lineTo(
+                x0,
+                y(b0)
+            );
+
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        ctx.restore();
+    }
+
+    yhtisDrawIchimokuCloud();
+
+
+    data.forEach(
+        (x,i)=>{
+
+            const cx =
+                pad.l
+                +
+                step
+                *
+                (
+                    i + .5
+                );
+
+
+            const up =
+                x.c >= x.o;
+
+
+            ctx.strokeStyle =
+                up
+                ? "#ef4444"
+                : "#22c55e";
+
+            ctx.fillStyle =
+                up
+                ? "#ef4444"
+                : "#22c55e";
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                cx,
+                y(x.h)
+            );
+
+            ctx.lineTo(
+                cx,
+                y(x.l)
+            );
+
+            ctx.stroke();
+
+
+            const top =
+                y(
+                    Math.max(
+                        x.o,
+                        x.c
+                    )
+                );
+
+            const bot =
+                y(
+                    Math.min(
+                        x.o,
+                        x.c
+                    )
+                );
+
+
+            ctx.fillRect(
+                cx
+                -
+                Math.max(
+                    step*.28,
+                    2
+                ),
+
+                top,
+
+                Math.max(
+                    step*.56,
+                    4
+                ),
+
+                Math.max(
+                    bot-top,
+                    1
+                )
+            );
+        }
+    );
+
+
+
+    /* MASTER KLINE EMA9 EMA20 V1 */
+    function yhtisEMA(period){
+        const out = new Array(data.length).fill(null);
+        if(data.length < period) return out;
+
+        let sum = 0;
+        for(let i=0; i<period; i++){
+            sum += Number(data[i].c);
+        }
+
+        let ema = sum / period;
+        out[period-1] = ema;
+
+        const k = 2 / (period + 1);
+
+        for(let i=period; i<data.length; i++){
+            ema = Number(data[i].c) * k + ema * (1-k);
+            out[i] = ema;
+        }
+        return out;
+    }
+
+    function yhtisDrawEMA(values, color){
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+
+        let started = false;
+
+        values.forEach((v,i)=>{
+            if(v === null || !Number.isFinite(v)) return;
+
+            const cx = pad.l + step * (i + .5);
+            const yy = y(v);
+
+            if(!started){
+                ctx.moveTo(cx,yy);
+                started = true;
+            }else{
+                ctx.lineTo(cx,yy);
+            }
+        });
+
+        if(started) ctx.stroke();
+        ctx.restore();
+    }
+
+    const yhtisEma9 = yhtisEMA(9);
+    const yhtisEma20 = yhtisEMA(20);
+
+    yhtisDrawEMA(yhtisEma9, "#f59e0b");
+    yhtisDrawEMA(yhtisEma20, "#38bdf8");
+
+    function level(
+        value,
+        label
+    ){
+
+        if(value === null){
+            return;
+        }
+
+        const yy =
+            y(value);
+
+        ctx.strokeStyle =
+            "rgba(226,232,240,.55)";
+
+        ctx.setLineDash(
+            [6,5]
+        );
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            pad.l,
+            yy
+        );
+
+        ctx.lineTo(
+            W-pad.r,
+            yy
+        );
+
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+
+        ctx.fillStyle =
+            "#e2e8f0";
+
+        ctx.font =
+            "12px sans-serif";
+
+        ctx.fillText(
+            label
+            + " "
+            + fmt(
+                value,
+                2
+            ),
+            W-pad.r+7,
+            yy+4
+        );
+    }
+
+
+    level(
+        plan.resistance,
+        "🔴 壓力"
+    );
+
+    level(
+        plan.support,
+        "🟡 支撐"
+    );
+
+    level(
+        plan.defense,
+        "🛡 防守"
+    );
+
+    level(
+        plan.target10,
+        "🎯 +10%"
+    );
+
+    level(
+        plan.target30,
+        "👑 +30%"
+    );
+
+
+    if(
+        plan.entryLow !== null
+        &&
+        plan.entryHigh !== null
+    ){
+
+        const y1 =
+            y(
+                Math.max(
+                    plan.entryLow,
+                    plan.entryHigh
+                )
+            );
+
+        const y2 =
+            y(
+                Math.min(
+                    plan.entryLow,
+                    plan.entryHigh
+                )
+            );
+
+        ctx.fillStyle =
+            "rgba(59,130,246,.12)";
+
+        ctx.fillRect(
+            pad.l,
+            y1,
+            chartW,
+            y2-y1
+        );
+
+        ctx.fillStyle =
+            "#93c5fd";
+
+        ctx.fillText(
+            "🟢 進場區",
+            pad.l+8,
+            y1+15
+        );
+    }
+
+
+    /* 首次訊號點 */
+
+    if(
+        track
+        &&
+        track["首次入選日"]
+    ){
+
+        const target =
+            String(
+                track["首次入選日"]
+            );
+
+        const ix =
+            data.findIndex(
+                x =>
+                    String(x.d)
+                    .slice(0,10)
+                    === target
+            );
+
+        if(ix >= 0){
+
+            const cx =
+                pad.l
+                +
+                step
+                *
+                (
+                    ix + .5
+                );
+
+            const yy =
+                y(
+                    data[ix].l
+                )
+                + 16;
+
+            ctx.fillStyle =
+                "#facc15";
+
+            ctx.beginPath();
+
+            ctx.arc(
+                cx,
+                yy,
+                5,
+                0,
+                Math.PI*2
+            );
+
+            ctx.fill();
+
+            ctx.font =
+                "12px sans-serif";
+
+            ctx.fillText(
+                "YHTIS首次",
+                cx+7,
+                yy+4
+            );
+        }
+    }
+}
+
+
+/* ==========================================================
+   法人
+   ========================================================== */
+
+function institutionHTML(data){
+
+    if(!data){
+
+        return `
+            <div class="master-muted">
+                目前無法人資料
+            </div>
+        `;
+    }
+
+    return `
+        <div class="master-muted" style="margin-bottom:10px;">
+            資料日期：
+            ${esc(
+                data["資料日期"]
+                || "—"
+            )}
+            ｜市場：
+            ${esc(
+                data["市場"]
+                || "—"
+            )}
+        </div>
+
+        ${
+            ["外資","投信","自營商","融資","融券"]
+            .map(k=>`
+
+                <h4>${esc(k)}</h4>
+
+                ${objTable(
+                    data[k]
+                )}
+
+            `)
+            .join("")
+        }
+    `;
+}
+
+
+/* ==========================================================
+   Render
+   ========================================================== */
+
+function renderMaster(
+    stock,
+    track
+){
+
+    const code =
+        String(
+            stock["股票代號"]
+            || ""
+        );
+
+
+    const name =
+        stock["股票名稱"]
+        || "";
+
+
+    const semantic =
+        buildSemantic(
+            stock,
+            track
+        );
+
+
+    const plan =
+        buildPlan(
+            stock,
+            semantic
+        );
+
+    const valuation =
+        buildValuationState(
+            stock,
+            semantic.close
+        );
+
+
+    const currentRet =
+        track
+        ? track[
+            "目前累積報酬(%)"
+          ]
+        : null;
+
+
+    const maxRet =
+        track
+        ? track[
+            "最高報酬(%)"
+          ]
+        : null;
+
+
+    const trackingDays =
+        track
+        ? track[
+            "追蹤交易日數"
+          ]
+        : null;
+
+
+    // YHTIS MARKET ACTIVITY V1
+    const market =
+        stock["最新行情"]
+        || {};
+
+    const turnoverRate =
+        num(
+            market["TurnoverRate"]
+        );
+
+    const transactionCount =
+        num(
+            market["TransactionCount"]
+        );
+
+
+    document.getElementById(
+        "yhtisMasterHeadTitle"
+    ).innerText =
+        code
+        + " "
+        + name;
+
+
+    document.getElementById(
+        "yhtisMasterHeadSub"
+    ).innerText =
+        track
+        ? (
+            "首次抓到："
+            +
+            (
+                track["首次入選日"]
+                || "—"
+            )
+            +
+            " ｜ 最近訊號："
+            +
+            (
+                track["最近訊號日"]
+                || "—"
+            )
+        )
+        : "YHTIS 個股專業分析";
+
+
+    const entryText =
+        (
+            plan.entryLow !== null
+            &&
+            plan.entryHigh !== null
+        )
+        ? (
+            fmt(plan.entryLow)
+            +
+            " ～ "
+            +
+            fmt(plan.entryHigh)
+        )
+        : (
+            plan.idealEntry !== null
+            ? fmt(plan.idealEntry)
+            : "—"
+        );
+
+
+    const body = `
+
+        <div class="master-status-row">
+
+            ${
+                semantic.badges
+                .map(
+                    x =>
+                        `<span class="master-badge">${esc(x)}</span>`
+                )
+                .join("")
+            }
+
+            <span class="master-badge">
+                💰 ${esc(
+                    valuation.state
+                )}
+            </span>
+
+        </div>
+
+
+        <div class="master-main-grid">
+
+            <div class="master-box">
+                <div class="master-key">
+                    ${
+                        semantic.isEstimated
+                        ? "估算價"
+                        : "現價"
+                    }
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        semantic.close
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    目前報酬
+                </div>
+                <div class="master-value">
+                    ${pct(
+                        currentRet
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    最高報酬
+                </div>
+                <div class="master-value">
+                    ${pct(
+                        maxRet
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    持續追蹤
+                </div>
+                <div class="master-value">
+                    ${
+                        trackingDays !== null
+                        ? "D" + trackingDays
+                        : "—"
+                    }
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="master-main-grid">
+
+            <div class="master-box">
+
+                <div class="master-key">
+                    換手率
+                </div>
+
+                <div class="master-value">
+                    ${
+                        turnoverRate !== null
+                        ? turnoverRate.toFixed(2) + "%"
+                        : "—"
+                    }
+                </div>
+
+            </div>
+
+            <div class="master-box">
+
+                <div class="master-key">
+                    筆量
+                </div>
+
+                <div class="master-value">
+                    ${
+                        transactionCount !== null
+                        ? Math.round(
+                            transactionCount
+                          ).toLocaleString() + " 筆"
+                        : "—"
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="master-main-grid">
+
+            <div class="master-box">
+                <div class="master-key">
+                    💰 合理低
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        valuation.low
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    💰 合理中
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        valuation.mid
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    💰 合理高
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        valuation.high
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    估值位置
+                </div>
+                <div class="master-value">
+                    ${esc(
+                        valuation.state
+                    )}
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="master-decision">
+
+            <div class="master-decision-main">
+                ${esc(
+                    semantic.decision
+                )}
+            </div>
+
+            <div class="master-muted">
+                ${esc(
+                    semantic.decisionReason
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="master-main-grid">
+
+            <div class="master-box">
+                <div class="master-key">
+                    🟢 建議進場區
+                </div>
+                <div class="master-value">
+                    ${entryText}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    🟡 重要支撐
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        plan.support
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    🔴 主要壓力
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        plan.resistance
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    🛡️ 防守價
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        plan.defense
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    ⚠️ 追價上限
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        plan.chase
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    🎯 +10% 目標
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        plan.target10
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    👑 +30% 波段目標
+                </div>
+                <div class="master-value">
+                    ${fmt(
+                        plan.target30
+                    )}
+                </div>
+            </div>
+
+            <div class="master-box">
+                <div class="master-key">
+                    訊號確認
+                </div>
+                <div class="master-value">
+                    ${
+                        track
+                        ? (
+                            track["訊號交易日數"]
+                            || "—"
+                        )
+                        : "—"
+                    }
+                </div>
+            </div>
+
+        </div>
+
+
+        <details
+            class="master-detail"
+            open
+        >
+
+            <summary>
+                📈 K線交易地圖
+            </summary>
+
+            <div class="master-detail-content">
+
+                <canvas
+                    id="yhtisTradeMap"
+                ></canvas>
+
+                <div
+                    class="master-muted"
+                    style="margin-top:8px;"
+                >
+                    顯示支撐、壓力、防守、
+                    +10% / +30% 目標與 YHTIS 首次訊號。
+                </div>
+
+            </div>
+
+        </details>
+
+
+        <details class="master-detail">
+
+            <summary>
+                📌 持續追蹤
+            </summary>
+
+            <div class="master-detail-content">
+
+                ${
+                    track
+                    ? objTable(track)
+                    : '<div class="master-muted">尚無持續追蹤資料</div>'
+                }
+
+            </div>
+
+        </details>
+
+
+        <details class="master-detail">
+
+            <summary>
+                🏦 法人 / 投信 / 融資融券
+            </summary>
+
+            <div class="master-detail-content">
+
+                ${institutionHTML(
+                    stock["法人籌碼"]
+                )}
+
+            </div>
+
+        </details>
+
+
+        <details class="master-detail">
+
+            <summary>
+                🧠 YHTIS 模型分析
+            </summary>
+
+            <div class="master-detail-content">
+
+                <div
+                    style="
+                        margin-bottom:14px;
+                        font-weight:850;
+                    "
+                >
+                    ${
+                        esc(
+                            stock[
+                                "YHTIS綜合判讀"
+                            ]
+                            || "—"
+                        )
+                    }
+                </div>
+
+                ${objTable(
+                    stock["YHTIS分析"]
+                )}
+
+            </div>
+
+        </details>
+
+
+        <details class="master-detail">
+
+            <summary>
+                💰 基本面 / 估值
+            </summary>
+
+            <div class="master-detail-content">
+
+                <h4>基本面目標</h4>
+
+                ${objTable(
+                    stock["基本面目標"]
+                )}
+
+                <h4>基本面估值</h4>
+
+                ${objTable(
+                    stock["基本面估值"]
+                )}
+
+            </div>
+
+        </details>
+
+
+        <details class="master-detail">
+
+            <summary>
+                📊 完整技術資料
+            </summary>
+
+            <div class="master-detail-content">
+
+                ${objTable(
+                    stock["技術分析"]
+                )}
+
+            </div>
+
+        </details>
+
+    `;
+
+
+    document.getElementById(
+        "yhtisMasterBody"
+    ).innerHTML =
+        body;
+
+
+    setTimeout(
+        ()=>{
+
+            drawMasterKline(
+                document.getElementById(
+                    "yhtisTradeMap"
+                ),
+                stock["K線"]
+                || [],
+                plan,
+                track
+            );
+
+        },
+        30
+    );
+}
+
+
+/* ==========================================================
+   Open / Close
+   ========================================================== */
+
+window.yhtisMasterOpen =
+async function(code){
+
+    code =
+        String(
+            code || ""
+        )
+        .trim()
+        .padStart(
+            4,
+            "0"
+        );
+
+
+    const modal =
+        document.getElementById(
+            "yhtisMasterModal"
+        );
+
+
+    const body =
+        document.getElementById(
+            "yhtisMasterBody"
+        );
+
+
+    modal.style.display =
+        "block";
+
+
+    body.innerHTML =
+        "⏳ 正在快速載入 "
+        + esc(code)
+        + "…";
+
+
+    try{
+
+        await loadTracking();
+
+        const stock =
+            await loadMasterStock(
+                code
+            );
+
+
+        const track =
+            YHTIS_TRACK_MAP[
+                code
+            ]
+            || null;
+
+
+        renderMaster(
+            stock,
+            track
+        );
+
+
+    }catch(e){
+
+        body.innerHTML = `
+            <div style="
+                padding:20px;
+                color:#fca5a5;
+            ">
+                ❌ 個股資料載入失敗：
+                ${esc(
+                    String(e)
+                )}
+            </div>
+        `;
+    }
+};
+
+
+window.yhtisMasterClose =
+function(){
+
+    document.getElementById(
+        "yhtisMasterModal"
+    ).style.display =
+        "none";
+};
+
+
+/* ==========================================================
+   LIVE SEARCH SUGGESTIONS V1
+   ========================================================== */
+
+async function getMasterMatches(q, limit=20){
+
+    q = String(q || "").trim();
+
+    if(!q){
+        return [];
+    }
+
+    const idx =
+        await loadMasterIndex();
+
+    const names =
+        idx["股票名稱"]
+        || {};
+
+    const qq =
+        q.toLowerCase();
+
+    const rows = [];
+
+    for(
+        const [code,name]
+        of Object.entries(names)
+    ){
+
+        const n =
+            String(name || "");
+
+        if(
+            code.includes(q)
+            ||
+            n.toLowerCase().includes(qq)
+        ){
+            rows.push({
+                code:code,
+                name:n
+            });
+        }
+    }
+
+    rows.sort((a,b)=>{
+
+        const aExact =
+            a.code === q
+            ||
+            a.name === q;
+
+        const bExact =
+            b.code === q
+            ||
+            b.name === q;
+
+        if(aExact !== bExact){
+            return aExact ? -1 : 1;
+        }
+
+        const aStart =
+            a.code.startsWith(q)
+            ||
+            a.name.startsWith(q);
+
+        const bStart =
+            b.code.startsWith(q)
+            ||
+            b.name.startsWith(q);
+
+        if(aStart !== bStart){
+            return aStart ? -1 : 1;
+        }
+
+        return a.code.localeCompare(b.code);
+    });
+
+    return rows.slice(0,limit);
+}
+
+
+async function renderMasterSuggestions(){
+
+    const input =
+        document.getElementById(
+            "yhtisMasterSearch"
+        );
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    const q =
+        input.value.trim();
+
+    if(!q){
+
+        box.innerHTML = "";
+        box.style.display = "none";
+
+        return;
+    }
+
+    try{
+
+        const rows =
+            await getMasterMatches(
+                q,
+                20
+            );
+
+        if(!rows.length){
+
+            box.innerHTML =
+                '<div class="master-muted" style="padding:8px;">找不到符合股票</div>';
+
+            box.style.display =
+                "block";
+
+            return;
+        }
+
+        box.innerHTML =
+            rows.map(x=>`
+
+                <button
+                    type="button"
+                    data-master-code="${x.code}"
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        width:100%;
+                        padding:9px 10px;
+                        margin:2px 0;
+                        border:0;
+                        border-radius:8px;
+                        cursor:pointer;
+                        text-align:left;
+                    "
+                >
+                    <span><b>${esc(x.code)}</b> ${esc(x.name)}</span>
+                </button>
+
+            `).join("");
+
+        box.style.display =
+            "block";
+
+    }catch(e){
+
+        console.warn(
+            "即時搜尋失敗",
+            e
+        );
+    }
+}
+
+
+/* DUPLICATE MASTER CLICK HANDLER REMOVED V2 */
+
+
+/* ==========================================================
+   MASTER QUICK FILTER V1
+   ========================================================== */
+
+const YHTIS_QUICK_FILTERS = {
+
+    "strong-buy":{
+        label:"🔥 強力買進",
+        words:[
+            "強力買進",
+            "PRIME NOW",
+            "最佳進場"
+        ]
+    },
+
+    "entry-now":{
+        label:"🟢 可進場",
+        words:[
+            "可進場",
+            "🟢 NOW"
+        ]
+    },
+
+    "confirm":{
+        label:"🟡 等確認",
+        words:[
+            "等確認",
+            "等突破確認",
+            "BREAKOUT"
+        ]
+    },
+
+    "pullback":{
+        label:"⏳ 等回踩",
+        words:[
+            "等回踩",
+            "WAIT PULLBACK",
+            "不追，等回踩EMA9",
+            "好股，但等更佳位置"
+        ]
+    },
+
+    "explosion":{
+        label:"🚀 爆發",
+        words:[
+            "主動爆發",
+            "持續爆發",
+            "爆發"
+        ]
+    },
+
+    "main-wave":{
+        label:"👑 主升段",
+        words:[
+            "主升段"
+        ]
+    }
+
+};
+
+
+
+/* ==========================================================
+   MASTER ACTIVITY QUICK FILTERS V1
+   display / convenience only
+   ========================================================== */
+
+Object.assign(
+    YHTIS_QUICK_FILTERS,
+    {
+        "turnover-1":{
+            label:"換手 ≥1%",
+            numeric:{
+                turnoverMin:1
+            }
+        },
+
+        "turnover-2":{
+            label:"換手 ≥2%",
+            numeric:{
+                turnoverMin:2
+            }
+        },
+
+        "turnover-3":{
+            label:"換手 ≥3%",
+            numeric:{
+                turnoverMin:3
+            }
+        },
+
+        "turnover-5":{
+            label:"換手 ≥5%",
+            numeric:{
+                turnoverMin:5
+            }
+        },
+
+        "txn-1000":{
+            label:"筆量 ≥1K",
+            numeric:{
+                txnMin:1000
+            }
+        },
+
+        "txn-3000":{
+            label:"筆量 ≥3K",
+            numeric:{
+                txnMin:3000
+            }
+        },
+
+        "txn-5000":{
+            label:"筆量 ≥5K",
+            numeric:{
+                txnMin:5000
+            }
+        },
+
+        "txn-10000":{
+            label:"筆量 ≥10K",
+            numeric:{
+                txnMin:10000
+            }
+        },
+
+        "today-strategy":{
+            label:"🎯 今日作戰策略",
+            todayStrategy:true
+        },
+
+        "high-activity":{
+            label:"🔥 高活躍",
+            numeric:{
+                turnoverMin:2,
+                txnMin:3000
+            }
+        }
+    }
+);
+
+
+function ensureActivityQuickFilterButtons(){
+
+    const bar =
+        document.getElementById(
+            "yhtisMasterBar"
+        );
+
+    if(
+        !bar
+        ||
+        document.getElementById(
+            "yhtisActivityQuickFilters"
+        )
+    ){
+        return;
+    }
+
+    const wrap =
+        document.createElement(
+            "div"
+        );
+
+    wrap.id =
+        "yhtisActivityQuickFilters";
+
+    wrap.style.cssText =
+        "width:100%;display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center;";
+
+    const title =
+        document.createElement(
+            "span"
+        );
+
+    title.textContent =
+        "活躍度：";
+
+    title.className =
+        "master-muted";
+
+    wrap.appendChild(
+        title
+    );
+
+    const keys = [
+        "today-strategy",
+        "turnover-1",
+        "turnover-2",
+        "turnover-3",
+        "turnover-5",
+        "txn-1000",
+        "txn-3000",
+        "txn-5000",
+        "txn-10000",
+        "high-activity"
+    ];
+
+    for(const key of keys){
+
+        const cfg =
+            YHTIS_QUICK_FILTERS[
+                key
+            ];
+
+        const btn =
+            document.createElement(
+                "button"
+            );
+
+        btn.type =
+            "button";
+
+        btn.setAttribute(
+            "data-activity-filter",
+            key
+        );
+
+        btn.textContent =
+            cfg.label;
+
+        btn.style.cssText =
+            "border:1px solid #334155;border-radius:8px;padding:5px 8px;background:#111827;color:#e5e7eb;cursor:pointer;font-size:12px;";
+
+        wrap.appendChild(
+            btn
+        );
+    }
+
+    const clearBtn = document.createElement("button");
+
+    clearBtn.type = "button";
+
+    clearBtn.setAttribute(
+        "data-activity-clear",
+        "1"
+    );
+
+    clearBtn.textContent = "🧹 清除";
+
+    clearBtn.style.cssText =
+        "border:1px solid #475569;border-radius:8px;padding:5px 8px;background:#0f172a;color:#cbd5e1;cursor:pointer;font-size:12px;";
+
+    /* ACTIVITY APPLY BUTTON V2 */
+    const applyBtn = document.createElement("button");
+
+    applyBtn.type = "button";
+
+    applyBtn.setAttribute(
+        "data-activity-apply",
+        "1"
+    );
+
+    applyBtn.textContent = "🔍 套用篩選";
+
+    applyBtn.style.cssText =
+        "border:1px solid #2563eb;border-radius:8px;padding:5px 8px;background:#1d4ed8;color:#ffffff;cursor:pointer;font-size:12px;font-weight:700;";
+
+    wrap.appendChild(applyBtn);
+
+    wrap.appendChild(clearBtn);
+
+    bar.appendChild(
+        wrap
+    );
+}
+
+
+setTimeout(
+    ensureActivityQuickFilterButtons,
+    0
+);
+
+
+/* ==========================================================
+   MASTER ACTIVITY MULTISELECT V2
+   AND intersection / display only
+   ========================================================== */
+
+const YHTIS_ACTIVITY_SELECTED = new Set();
+
+function yhtisUpdateActivityButtons(){
+
+    document.querySelectorAll(
+        "[data-activity-filter]"
+    ).forEach(btn => {
+
+        const key = btn.dataset.activityFilter;
+        const active = YHTIS_ACTIVITY_SELECTED.has(key);
+
+        btn.style.background = active ? "#2563eb" : "";
+        btn.style.borderColor = active ? "#60a5fa" : "";
+        btn.style.color = active ? "#ffffff" : "";
+        btn.style.fontWeight = active ? "700" : "";
+    });
+}
+
+
+function yhtisActivityLabel(){
+
+    return [...YHTIS_ACTIVITY_SELECTED]
+        .map(key => YHTIS_QUICK_FILTERS[key]?.label || key)
+        .join(" ＋ ");
+}
+
+
+async function yhtisRenderActivityMulti(){
+
+    const box = document.getElementById(
+        "yhtisMasterSuggestions"
+    );
+
+    const msg = document.getElementById(
+        "yhtisMasterSearchMsg"
+    );
+
+    if(!box || !msg) return;
+
+    const keys = [...YHTIS_ACTIVITY_SELECTED];
+
+    if(!keys.length){
+
+        box.innerHTML = "";
+        box.style.display = "none";
+        msg.innerText = "";
+
+        yhtisUpdateActivityButtons();
+        return;
+    }
+
+    msg.innerText = yhtisActivityLabel() + " 搜尋中…";
+
+    try{
+
+        /*
+           MULTI FILTER FETCH CACHE V1
+           One stock JSON fetch per render.
+        */
+
+        const originalLoadMasterStock =
+            loadMasterStock;
+
+        const stockPromiseCache =
+            new Map();
+
+        const cachedLoadMasterStock =
+            code => {
+
+                const key =
+                    String(code || "")
+                    .trim()
+                    .padStart(4,"0");
+
+                if(!stockPromiseCache.has(key)){
+
+                    stockPromiseCache.set(
+                        key,
+                        Promise.resolve(
+                            originalLoadMasterStock(key)
+                        )
+                    );
+                }
+
+                return stockPromiseCache.get(key);
+            };
+
+        let groups;
+
+        try{
+
+            /*
+               getDashboardFilterStocks() resolves
+               loadMasterStock by global binding.
+               Temporarily route that binding through
+               this render-local Promise cache.
+            */
+
+            loadMasterStock =
+                cachedLoadMasterStock;
+
+            groups =
+                await Promise.all(
+                    keys.map(
+                        key =>
+                            getDashboardFilterStocks(key)
+                    )
+                );
+
+        }finally{
+
+            loadMasterStock =
+                originalLoadMasterStock;
+        }
+
+        let map = new Map(
+            (groups[0] || []).map(
+                x => [x.code, x]
+            )
+        );
+
+        for(const group of groups.slice(1)){
+
+            const allowed = new Set(
+                group.map(x => x.code)
+            );
+
+            map = new Map(
+                [...map].filter(
+                    ([code]) =>
+                        allowed.has(code)
+                )
+            );
+        }
+
+        const rows = [...map.values()];
+
+        if(!rows.length){
+
+            box.innerHTML =
+                '<div class="master-muted" style="padding:8px;">目前沒有同時符合條件的股票</div>';
+
+            box.style.display = "block";
+
+            msg.innerText =
+                yhtisActivityLabel() + "：0 檔";
+
+            yhtisUpdateActivityButtons();
+            return;
+        }
+
+        box.innerHTML = rows.map(x => `
+            <button
+                type="button"
+                data-master-code="${x.code}"
+                style="
+                    display:flex;
+                    width:100%;
+                    padding:9px 10px;
+                    margin:2px 0;
+                    border:0;
+                    border-radius:8px;
+                    cursor:pointer;
+                    text-align:left;
+                "
+            >
+                <span>
+                    <b>${esc(x.code)}</b>
+                    ${esc(x.name || "")}
+                </span>
+            </button>
+        `).join("");
+
+        box.style.display = "block";
+
+        msg.innerText =
+            yhtisActivityLabel()
+            + "："
+            + rows.length
+            + " 檔";
+
+        yhtisUpdateActivityButtons();
+
+    }catch(e){
+
+        console.warn(
+            "Activity multi filter failed",
+            e
+        );
+
+        msg.innerText = "❌ 複合快捷搜尋失敗";
+    }
+}
+
+
+function yhtisToggleActivityFilter(key){
+
+    if(!YHTIS_QUICK_FILTERS[key]) return;
+
+    const wasActive =
+        YHTIS_ACTIVITY_SELECTED.has(key);
+
+    if(key.startsWith("turnover-")){
+
+        [...YHTIS_ACTIVITY_SELECTED]
+            .filter(x => x.startsWith("turnover-"))
+            .forEach(x => YHTIS_ACTIVITY_SELECTED.delete(x));
+    }
+
+    if(key.startsWith("txn-")){
+
+        [...YHTIS_ACTIVITY_SELECTED]
+            .filter(x => x.startsWith("txn-"))
+            .forEach(x => YHTIS_ACTIVITY_SELECTED.delete(x));
+    }
+
+    if(!wasActive){
+        YHTIS_ACTIVITY_SELECTED.add(key);
+    }
+
+    /* ACTIVITY SELECT ONLY V1 */
+    yhtisUpdateActivityButtons();
+}
+
+
+document.addEventListener("click", e => {
+
+    const filterBtn = e.target.closest(
+        "[data-activity-filter]"
+    );
+
+    if(filterBtn){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        yhtisToggleActivityFilter(
+            filterBtn.dataset.activityFilter
+        );
+
+        return;
+    }
+
+    const applyBtn = e.target.closest(
+        "[data-activity-apply]"
+    );
+
+    if(applyBtn){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        yhtisRenderActivityMulti();
+        return;
+    }
+
+    const clearBtn = e.target.closest(
+        "[data-activity-clear]"
+    );
+
+    if(clearBtn){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        YHTIS_ACTIVITY_SELECTED.clear();
+        yhtisRenderActivityMulti();
+    }
+});
+
+
+
+async function getDashboardFilterStocks(filterKey){
+
+    const cfg =
+        YHTIS_QUICK_FILTERS[
+            filterKey
+        ];
+
+    if(!cfg){
+        return [];
+    }
+
+    const idx =
+        await loadMasterIndex();
+
+    const names =
+        idx["股票名稱"]
+        || {};
+
+
+    /* TODAY STRATEGY FILTER V1 */
+    if(cfg.todayStrategy){
+
+        const cards =
+            document.querySelectorAll(
+                ".v13-card[data-master-code]"
+            );
+
+        const result = [];
+        const seen = new Set();
+
+        for(const card of cards){
+
+            const code =
+                String(
+                    card.getAttribute(
+                        "data-master-code"
+                    ) || ""
+                ).trim();
+
+            if(
+                !code
+                ||
+                seen.has(code)
+                ||
+                !Object.prototype
+                    .hasOwnProperty
+                    .call(names, code)
+            ){
+                continue;
+            }
+
+            seen.add(code);
+
+            result.push({
+                code:code,
+                name:String(
+                    names[code] || ""
+                )
+            });
+        }
+
+        return result;
+    }
+
+
+    /* Activity numeric filter:
+       only inspect stock codes already present
+       on the current Dashboard. */
+
+    if(cfg.numeric){
+
+        const nodes =
+            document.querySelectorAll(
+                "tr, .card, .stock-card, .row, .item"
+            );
+
+        const codes =
+            new Set();
+
+        for(const node of nodes){
+
+            if(
+                node.closest(
+                    "#yhtisMasterModal, #yhtisMasterBar"
+                )
+            ){
+                continue;
+            }
+
+            const raw =
+                String(
+                    node.textContent
+                    || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+            if(!raw){
+                continue;
+            }
+
+            const matches = [
+                ...raw.matchAll(
+                    /(?:^|\s)(\d{4})(?=\s|$)/g
+                )
+            ];
+
+            for(const m of matches){
+
+                const code =
+                    m[1];
+
+                if(
+                    Object.prototype
+                    .hasOwnProperty
+                    .call(
+                        names,
+                        code
+                    )
+                ){
+                    codes.add(
+                        code
+                    );
+                }
+            }
+        }
+
+        const codeList = [
+            ...codes
+        ];
+
+        const rows = [];
+
+        const workerCount =
+            Math.min(
+                8,
+                codeList.length
+            );
+
+        let cursor = 0;
+
+        async function worker(){
+
+            while(true){
+
+                const i =
+                    cursor++;
+
+                if(
+                    i >=
+                    codeList.length
+                ){
+                    return;
+                }
+
+                const code =
+                    codeList[i];
+
+                try{
+
+                    const stock =
+                        await loadMasterStock(
+                            code
+                        );
+
+                    const market =
+                        stock["最新行情"]
+                        || {};
+
+                    const turnover =
+                        Number(
+                            market[
+                                "TurnoverRate"
+                            ]
+                        );
+
+                    const txn =
+                        Number(
+                            market[
+                                "TransactionCount"
+                            ]
+                        );
+
+                    const needTurnover =
+                        cfg.numeric
+                        .turnoverMin;
+
+                    const needTxn =
+                        cfg.numeric
+                        .txnMin;
+
+                    if(
+                        needTurnover
+                        !== undefined
+                        &&
+                        (
+                            !Number.isFinite(
+                                turnover
+                            )
+                            ||
+                            turnover
+                            <
+                            needTurnover
+                        )
+                    ){
+                        continue;
+                    }
+
+                    if(
+                        needTxn
+                        !== undefined
+                        &&
+                        (
+                            !Number.isFinite(
+                                txn
+                            )
+                            ||
+                            txn
+                            <
+                            needTxn
+                        )
+                    ){
+                        continue;
+                    }
+
+                    rows.push({
+                        code:code,
+                        name:String(
+                            names[code]
+                            || ""
+                        ),
+                        turnover:
+                            Number.isFinite(
+                                turnover
+                            )
+                            ? turnover
+                            : null,
+                        txn:
+                            Number.isFinite(
+                                txn
+                            )
+                            ? txn
+                            : null
+                    });
+
+                }catch(e){
+
+                    console.warn(
+                        "活動度個股載入失敗",
+                        code,
+                        e
+                    );
+
+                }
+            }
+        }
+
+        await Promise.all(
+            Array.from(
+                {
+                    length:
+                        workerCount
+                },
+                ()=>worker()
+            )
+        );
+
+        rows.sort(
+            (a,b)=>{
+
+                if(
+                    cfg.numeric.txnMin
+                    !== undefined
+                    &&
+                    cfg.numeric.turnoverMin
+                    === undefined
+                ){
+                    return (
+                        (b.txn || 0)
+                        -
+                        (a.txn || 0)
+                    );
+                }
+
+                if(
+                    (b.turnover || 0)
+                    !==
+                    (a.turnover || 0)
+                ){
+                    return (
+                        (b.turnover || 0)
+                        -
+                        (a.turnover || 0)
+                    );
+                }
+
+                return (
+                    (b.txn || 0)
+                    -
+                    (a.txn || 0)
+                );
+            }
+        );
+
+        return rows;
+    }
+
+    const result =
+        new Map();
+
+    const nodes =
+        document.querySelectorAll(
+            "tr, .card, .stock-card, .row, .item"
+        );
+
+    for(const node of nodes){
+
+        if(
+            node.closest(
+                "#yhtisMasterModal, #yhtisMasterBar"
+            )
+        ){
+            continue;
+        }
+
+        const raw =
+            String(
+                node.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+        if(!raw){
+            continue;
+        }
+
+        const matched =
+            cfg.words.some(
+                word =>
+                    raw.includes(word)
+            );
+
+        if(!matched){
+            continue;
+        }
+
+        const matches =
+            [
+                ...raw.matchAll(
+                    /(?:^|\s)(\d{4})(?=\s|$)/g
+                )
+            ];
+
+        for(const m of matches){
+
+            const code =
+                m[1];
+
+            if(
+                !Object.prototype
+                .hasOwnProperty
+                .call(
+                    names,
+                    code
+                )
+            ){
+                continue;
+            }
+
+            result.set(
+                code,
+                {
+                    code:code,
+                    name:String(
+                        names[code]
+                        || code
+                    )
+                }
+            );
+        }
+    }
+
+    return [
+        ...result.values()
+    ];
+}
+
+
+async function renderDashboardFilter(filterKey){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+    const cfg =
+        YHTIS_QUICK_FILTERS[
+            filterKey
+        ];
+
+    if(
+        !box
+        ||
+        !msg
+        ||
+        !cfg
+    ){
+        return;
+    }
+
+    msg.innerText =
+        cfg.label
+        + " 搜尋中…";
+
+    try{
+
+        const rows =
+            await getDashboardFilterStocks(
+                filterKey
+            );
+
+        if(!rows.length){
+
+            box.innerHTML =
+                '<div class="master-muted" style="padding:8px;">目前沒有符合條件的股票</div>';
+
+            box.style.display =
+                "block";
+
+            msg.innerText =
+                cfg.label
+                + "：0 檔";
+
+            return;
+        }
+
+        box.innerHTML =
+            rows.map(x=>`
+
+                <button
+                    type="button"
+                    data-master-code="${x.code}"
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        width:100%;
+                        padding:9px 10px;
+                        margin:2px 0;
+                        border:0;
+                        border-radius:8px;
+                        cursor:pointer;
+                        text-align:left;
+                    "
+                >
+                    <span><b>${esc(x.code)}</b> ${esc(x.name)}</span>
+                </button>
+
+            `).join("");
+
+        box.style.display =
+            "block";
+
+        msg.innerText =
+            cfg.label
+            + "："
+            + rows.length
+            + " 檔";
+
+    }catch(e){
+
+        console.warn(
+            "快捷搜尋失敗",
+            e
+        );
+
+        msg.innerText =
+            "❌ 快捷搜尋失敗";
+    }
+}
+
+
+document.addEventListener(
+    "click",
+    e=>{
+
+        const btn =
+            e.target.closest(
+                "[data-master-filter]"
+            );
+
+        if(!btn){
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        renderDashboardFilter(
+            btn.getAttribute(
+                "data-master-filter"
+            )
+        );
+    }
+);
+
+
+/* ==========================================================
+   Search
+   ========================================================== */
+
+async function doMasterSearch(){
+
+    const input =
+        document.getElementById(
+            "yhtisMasterSearch"
+        );
+
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+
+    const q =
+        input.value.trim();
+
+
+    if(!q){
+        return;
+    }
+
+
+    msg.innerText =
+        "搜尋中…";
+
+
+    try{
+
+        const code =
+            await resolveMasterCode(
+                q
+            );
+
+
+        if(!code){
+
+            msg.innerText =
+                "❌ 找不到股票";
+
+            return;
+        }
+
+
+        msg.innerText =
+            "✅ "
+            + code;
+
+
+        yhtisMasterOpen(
+            code
+        );
+
+
+    }catch(e){
+
+        msg.innerText =
+            "❌ 查詢失敗";
+    }
+}
+
+
+document.getElementById(
+    "yhtisMasterSearchBtn"
+)
+.addEventListener(
+    "click",
+    doMasterSearch
+);
+
+
+document.getElementById(
+    "yhtisMasterSearch"
+)
+.addEventListener(
+    "input",
+    renderMasterSuggestions
+);
+
+
+document.getElementById(
+    "yhtisMasterSearch"
+)
+.addEventListener(
+    "keydown",
+    e=>{
+
+        if(e.key === "Enter"){
+            doMasterSearch();
+        }
+    }
+);
+
+
+/* ==========================================================
+   快捷篩選 / 搜尋候選 → 統一開啟 MASTER
+   ========================================================== */
+document.addEventListener(
+    "click",
+    e=>{
+        const item =
+            e.target.closest(
+                "[data-master-code]"
+            );
+
+        if(!item){
+            return;
+        }
+
+        const code =
+            item.getAttribute(
+                "data-master-code"
+            );
+
+        if(!code){
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        yhtisMasterOpen(
+            code
+        );
+    }
+);
+
+
+/* ==========================================================
+   Dashboard 股票代號 → 點擊即開完整資訊
+   ========================================================== */
+
+document.addEventListener(
+    "click",
+    async e=>{
+
+        // 不攔截按鈕、輸入框、summary、既有 modal 控制
+        if(
+            e.target.closest(
+                "button, input, textarea, select, summary, [data-master-code]"
+            )
+        ){
+            return;
+        }
+
+        // 先找最接近的 table row / card / td
+        const source =
+            e.target.closest(
+                "tr, td, .card, .stock-card, .row, .item"
+            );
+
+        if(!source){
+            return;
+        }
+
+        const raw =
+            source.textContent
+            .replace(/\s+/g, " ")
+            .trim();
+
+        // 找 4 碼股票代號
+        const m =
+            raw.match(
+                /(?:^|\s)(\d{4})(?:\s|$)/
+            );
+
+        if(!m){
+            return;
+        }
+
+        const code = m[1];
+
+        try{
+
+            const idx =
+                await loadMasterIndex();
+
+            const names =
+                idx["股票名稱"]
+                || {};
+
+            // 只有真的存在於股票索引才開啟
+            if(
+                !Object.prototype
+                .hasOwnProperty
+                .call(
+                    names,
+                    code
+                )
+            ){
+                return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            yhtisMasterOpen(
+                code
+            );
+
+        }catch(err){
+
+            console.warn(
+                "股票點擊辨識失敗",
+                err
+            );
+        }
+    },
+    true
+);
+
+
+/* ==========================================================
+   初始化
+   ========================================================== */
+
+Promise.allSettled([
+    loadMasterIndex(),
+    loadTracking()
+]).then(()=>{
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+    if(YHTIS_INDEX){
+
+        msg.innerText =
+            "✅ "
+            +
+            (
+                YHTIS_INDEX[
+                    "股票數"
+                ]
+                || ""
+            )
+            +
+            " 檔可查詢";
+
+    }else{
+
+        msg.innerText =
+            "⚠️ 股票索引未載入";
+    }
+
+});
+
+
+window.addEventListener(
+    "keydown",
+    e=>{
+
+        if(e.key === "Escape"){
+            yhtisMasterClose();
+        }
+    }
+);
+
+})();
+
+</script>
+
+<!-- YHTIS_V134_MASTER_UI_END -->
+
+
 <div
     style="
         position:sticky;
