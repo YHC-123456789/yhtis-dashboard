@@ -4946,6 +4946,1097 @@ window.addEventListener(
     }
 );
 
+
+// YHTIS_UI_CONSISTENCY_V1_BEGIN
+//
+// Display / interaction only.
+// Golden / AI / Early Launch rules are NOT modified.
+//
+
+const YHTIS_UI_CATEGORY_NAMES = [
+    "強力買進",
+    "可進場",
+    "等確認",
+    "等回踩",
+    "爆發",
+    "主升段"
+];
+
+const YHTIS_UI_CATEGORY_EMOJI = {
+    "強力買進": "🔥",
+    "可進場": "🟢",
+    "等確認": "🟡",
+    "等回踩": "⌛",
+    "爆發": "🚀",
+    "主升段": "👑"
+};
+
+const YHTIS_UI_ORIGINAL_FILTER =
+    (
+        typeof getDashboardFilterStocks === "function"
+    )
+    ? getDashboardFilterStocks
+    : null;
+
+const YHTIS_UI_ORIGINAL_RENDER =
+    (
+        typeof renderMaster === "function"
+    )
+    ? renderMaster
+    : null;
+
+let YHTIS_UI_REQUEST_ID = 0;
+
+
+/* ----------------------------------------------------------
+   Utilities
+   ---------------------------------------------------------- */
+
+function yhtisUiEsc(v){
+
+    return String(
+        v == null ? "" : v
+    )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+function yhtisUiFindDeep(obj, keys){
+
+    if(
+        !obj
+        ||
+        typeof obj !== "object"
+    ){
+        return null;
+    }
+
+    const wanted = new Set(keys);
+
+    const seen = new Set();
+
+    const stack = [obj];
+
+    while(stack.length){
+
+        const cur = stack.pop();
+
+        if(
+            !cur
+            ||
+            typeof cur !== "object"
+            ||
+            seen.has(cur)
+        ){
+            continue;
+        }
+
+        seen.add(cur);
+
+        for(const [k,v] of Object.entries(cur)){
+
+            if(
+                wanted.has(k)
+                &&
+                v !== null
+                &&
+                v !== undefined
+                &&
+                String(v).trim() !== ""
+            ){
+                return v;
+            }
+
+            if(
+                v
+                &&
+                typeof v === "object"
+            ){
+                stack.push(v);
+            }
+        }
+    }
+
+    return null;
+}
+
+
+function yhtisUiRowCode(row){
+
+    let v = null;
+
+    if(
+        row
+        &&
+        typeof row === "object"
+    ){
+        v =
+            row.code
+            ??
+            row.Code
+            ??
+            row["股票代號"]
+            ??
+            row["證券代號"];
+    }
+
+    if(v == null){
+
+        const m = String(
+            row == null ? "" : row
+        ).match(/(?:^|\D)(\d{4})(?:\D|$)/);
+
+        if(m){
+            v = m[1];
+        }
+    }
+
+    if(v == null){
+        return "";
+    }
+
+    return String(v)
+        .trim()
+        .replace(/\.0$/,"")
+        .padStart(4,"0");
+}
+
+
+function yhtisUiRowName(row, code){
+
+    if(
+        row
+        &&
+        typeof row === "object"
+    ){
+        const v =
+            row.name
+            ??
+            row.Name
+            ??
+            row["股票名稱"]
+            ??
+            row["名稱"];
+
+        if(v){
+            return String(v);
+        }
+    }
+
+    try{
+
+        const names =
+            (
+                YHTIS_INDEX
+                &&
+                YHTIS_INDEX["股票名稱"]
+            )
+            || {};
+
+        return String(
+            names[code]
+            || ""
+        );
+
+    }catch(e){
+
+        return "";
+    }
+}
+
+
+function yhtisUiNormalizeCategory(s){
+
+    s = String(s || "");
+
+    for(const k of YHTIS_UI_CATEGORY_NAMES){
+
+        if(s.includes(k)){
+            return k;
+        }
+    }
+
+    return "";
+}
+
+
+function yhtisUiBlockedForEntry(text){
+
+    return (
+        /等待回測/.test(text)
+        ||
+        /等待回踩/.test(text)
+        ||
+        /等回踩/.test(text)
+        ||
+        /過熱/.test(text)
+        ||
+        /不追/.test(text)
+        ||
+        /已延伸/.test(text)
+        ||
+        /暫不進場/.test(text)
+        ||
+        /等確認/.test(text)
+        ||
+        /等待確認/.test(text)
+        ||
+        /結構失效/.test(text)
+    );
+}
+
+
+function yhtisUiIsEliminated(text){
+
+    return /淘汰/.test(
+        String(text || "")
+    );
+}
+
+
+function yhtisUiRawKeyFromButton(
+    btn,
+    category
+){
+
+    const attrs = [
+        "data-filter",
+        "data-key",
+        "data-status",
+        "data-category",
+        "data-action",
+        "data-yhtis-filter"
+    ];
+
+    for(const a of attrs){
+
+        const v = btn.getAttribute(a);
+
+        if(
+            v
+            &&
+            String(v).trim()
+        ){
+            return String(v).trim();
+        }
+    }
+
+    return category;
+}
+
+
+/* ----------------------------------------------------------
+   Correct misleading display labels
+   ---------------------------------------------------------- */
+
+function yhtisUiFixMasterLabels(){
+
+    const root =
+        document.getElementById(
+            "yhtisMasterBody"
+        );
+
+    if(!root){
+        return;
+    }
+
+    const walker =
+        document.createTreeWalker(
+            root,
+            NodeFilter.SHOW_TEXT
+        );
+
+    const nodes = [];
+
+    let n;
+
+    while(
+        (n = walker.nextNode())
+    ){
+        nodes.push(n);
+    }
+
+    for(const node of nodes){
+
+        let t = node.nodeValue;
+
+        if(!t){
+            continue;
+        }
+
+        t = t
+            .replaceAll(
+                "目前報酬",
+                "追蹤期間漲幅"
+            )
+            .replaceAll(
+                "最高報酬",
+                "追蹤最高漲幅"
+            )
+            .replaceAll(
+                "YHTIS 首次訊號",
+                "YHTIS 首次追蹤"
+            )
+            .replaceAll(
+                "YHTIS首次",
+                "YHTIS首次追蹤"
+            );
+
+        node.nodeValue = t;
+    }
+}
+
+
+if(YHTIS_UI_ORIGINAL_RENDER){
+
+    renderMaster = function(
+        stock,
+        track
+    ){
+
+        const out =
+            YHTIS_UI_ORIGINAL_RENDER(
+                stock,
+                track
+            );
+
+        setTimeout(
+            yhtisUiFixMasterLabels,
+            0
+        );
+
+        setTimeout(
+            yhtisUiFixMasterLabels,
+            300
+        );
+
+        setTimeout(
+            yhtisUiFixMasterLabels,
+            900
+        );
+
+        return out;
+    };
+}
+
+
+/* ----------------------------------------------------------
+   Full category modal
+   ---------------------------------------------------------- */
+
+function yhtisUiEnsureModal(){
+
+    let overlay =
+        document.getElementById(
+            "yhtisUiCategoryOverlay"
+        );
+
+    if(overlay){
+        return overlay;
+    }
+
+    overlay =
+        document.createElement("div");
+
+    overlay.id =
+        "yhtisUiCategoryOverlay";
+
+    overlay.style.cssText = [
+        "display:none",
+        "position:fixed",
+        "inset:0",
+        "z-index:2147483000",
+        "background:rgba(2,6,23,.82)",
+        "backdrop-filter:blur(8px)",
+        "padding:4vh 3vw"
+    ].join(";");
+
+    overlay.innerHTML = `
+        <div
+            id="yhtisUiCategoryPanel"
+            style="
+                width:min(1180px,94vw);
+                height:min(88vh,920px);
+                margin:0 auto;
+                background:#08111f;
+                border:1px solid #334155;
+                border-radius:20px;
+                box-shadow:0 30px 90px rgba(0,0,0,.55);
+                display:flex;
+                flex-direction:column;
+                overflow:hidden;
+            "
+        >
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    padding:18px 20px;
+                    border-bottom:1px solid #263449;
+                    background:#0b1525;
+                "
+            >
+                <div
+                    id="yhtisUiCategoryTitle"
+                    style="
+                        flex:1;
+                        font-size:22px;
+                        font-weight:900;
+                        color:#f8fafc;
+                    "
+                >
+                    完整榜
+                </div>
+
+                <button
+                    id="yhtisUiCategoryClose"
+                    type="button"
+                    aria-label="關閉"
+                    style="
+                        width:42px;
+                        height:42px;
+                        border-radius:12px;
+                        border:1px solid #475569;
+                        background:#111827;
+                        color:#fff;
+                        font-size:24px;
+                        font-weight:900;
+                        cursor:pointer;
+                    "
+                >
+                    ✕
+                </button>
+            </div>
+
+            <div
+                id="yhtisUiCategoryNote"
+                style="
+                    padding:10px 20px;
+                    color:#94a3b8;
+                    font-size:14px;
+                    border-bottom:1px solid #1e293b;
+                "
+            >
+                分類以目前可執行狀態為準。
+                「可進場」會排除等待回踩、過熱、不追、
+                已延伸、等確認、結構失效與淘汰。
+            </div>
+
+            <div
+                id="yhtisUiCategoryBody"
+                style="
+                    flex:1;
+                    overflow:auto;
+                    padding:14px;
+                "
+            ></div>
+        </div>
+    `;
+
+    document.body.appendChild(
+        overlay
+    );
+
+    document.getElementById(
+        "yhtisUiCategoryClose"
+    ).addEventListener(
+        "click",
+        yhtisUiCloseCategory
+    );
+
+    overlay.addEventListener(
+        "click",
+        e => {
+
+            if(e.target === overlay){
+                yhtisUiCloseCategory();
+            }
+        }
+    );
+
+    return overlay;
+}
+
+
+function yhtisUiCloseCategory(){
+
+    const overlay =
+        document.getElementById(
+            "yhtisUiCategoryOverlay"
+        );
+
+    if(overlay){
+        overlay.style.display = "none";
+    }
+}
+
+
+/* ----------------------------------------------------------
+   Category consistency
+   ---------------------------------------------------------- */
+
+async function yhtisUiGetFilteredRows(
+    category,
+    rawKey
+){
+
+    if(!YHTIS_UI_ORIGINAL_FILTER){
+
+        throw new Error(
+            "找不到 getDashboardFilterStocks"
+        );
+    }
+
+    try{
+
+        if(
+            typeof loadTracking
+            === "function"
+        ){
+            await loadTracking();
+        }
+
+    }catch(e){
+        console.warn(
+            "[YHTIS UI] tracking load failed",
+            e
+        );
+    }
+
+    let rows =
+        await YHTIS_UI_ORIGINAL_FILTER(
+            rawKey
+        );
+
+    if(!Array.isArray(rows)){
+        rows = [];
+    }
+
+    const out = [];
+
+    for(const row of rows){
+
+        const code =
+            yhtisUiRowCode(row);
+
+        const track =
+            (
+                code
+                &&
+                typeof YHTIS_TRACK_MAP
+                !== "undefined"
+            )
+            ? (
+                YHTIS_TRACK_MAP[code]
+                || null
+            )
+            : null;
+
+        let text = "";
+
+        try{
+            text += JSON.stringify(row);
+        }catch(e){}
+
+        try{
+            text += JSON.stringify(track);
+        }catch(e){}
+
+        if(
+            yhtisUiIsEliminated(text)
+        ){
+            continue;
+        }
+
+        /*
+           Only the action categories that mean
+           "buy now" receive the strict consistency guard.
+           This avoids changing Explosion/Main-wave research logic.
+        */
+        if(
+            category === "可進場"
+            ||
+            category === "強力買進"
+        ){
+
+            try{
+
+                if(
+                    code
+                    &&
+                    typeof loadMasterStock
+                    === "function"
+                ){
+
+                    const stock =
+                        await loadMasterStock(
+                            code
+                        );
+
+                    const semantic =
+                        (
+                            typeof buildSemantic
+                            === "function"
+                        )
+                        ? buildSemantic(
+                            stock,
+                            track
+                        )
+                        : null;
+
+                    const plan =
+                        (
+                            typeof buildPlan
+                            === "function"
+                        )
+                        ? buildPlan(
+                            stock,
+                            semantic
+                        )
+                        : null;
+
+                    text +=
+                        JSON.stringify(
+                            [
+                                stock,
+                                semantic,
+                                plan
+                            ]
+                        );
+                }
+
+            }catch(e){
+
+                console.warn(
+                    "[YHTIS UI] final-state check failed",
+                    code,
+                    e
+                );
+            }
+
+            if(
+                yhtisUiBlockedForEntry(
+                    text
+                )
+            ){
+                continue;
+            }
+        }
+
+        out.push({
+            row,
+            code,
+            track,
+            text
+        });
+    }
+
+    return out;
+}
+
+
+/* ----------------------------------------------------------
+   Modal render
+   ---------------------------------------------------------- */
+
+function yhtisUiValueText(
+    row,
+    keys,
+    suffix=""
+){
+
+    const v =
+        yhtisUiFindDeep(
+            row,
+            keys
+        );
+
+    if(
+        v === null
+        ||
+        v === undefined
+        ||
+        String(v).trim() === ""
+    ){
+        return "—";
+    }
+
+    return (
+        yhtisUiEsc(v)
+        + suffix
+    );
+}
+
+
+async function yhtisUiOpenCategory(
+    category,
+    rawKey
+){
+
+    const overlay =
+        yhtisUiEnsureModal();
+
+    const title =
+        document.getElementById(
+            "yhtisUiCategoryTitle"
+        );
+
+    const body =
+        document.getElementById(
+            "yhtisUiCategoryBody"
+        );
+
+    const emoji =
+        YHTIS_UI_CATEGORY_EMOJI[
+            category
+        ]
+        || "📋";
+
+    overlay.style.display = "block";
+
+    title.textContent =
+        `${emoji} ${category}完整榜`;
+
+    body.innerHTML = `
+        <div style="
+            padding:28px;
+            color:#94a3b8;
+            text-align:center;
+            font-size:17px;
+        ">
+            ⏳ 正在依目前最終狀態重新確認…
+        </div>
+    `;
+
+    const myId =
+        ++YHTIS_UI_REQUEST_ID;
+
+    try{
+
+        const rows =
+            await yhtisUiGetFilteredRows(
+                category,
+                rawKey
+            );
+
+        if(
+            myId !==
+            YHTIS_UI_REQUEST_ID
+        ){
+            return;
+        }
+
+        title.textContent =
+            `${emoji} ${category}完整榜｜${rows.length} 檔`;
+
+        if(!rows.length){
+
+            body.innerHTML = `
+                <div style="
+                    margin:18px;
+                    padding:30px;
+                    border:1px solid #334155;
+                    border-radius:16px;
+                    background:#0f172a;
+                    color:#cbd5e1;
+                    text-align:center;
+                    font-size:18px;
+                ">
+                    目前沒有真正符合
+                    <b>${yhtisUiEsc(category)}</b>
+                    的股票。
+                </div>
+            `;
+
+            return;
+        }
+
+        body.innerHTML = "";
+
+        rows.forEach(
+            (item, i) => {
+
+                const row = item.row;
+                const code = item.code;
+                const name =
+                    yhtisUiRowName(
+                        row,
+                        code
+                    );
+
+                const price =
+                    yhtisUiValueText(
+                        row,
+                        [
+                            "TradePrice",
+                            "DisplayPrice",
+                            "現價",
+                            "目前價",
+                            "Price",
+                            "Close"
+                        ]
+                    );
+
+                const turnover =
+                    yhtisUiValueText(
+                        row,
+                        [
+                            "換手率",
+                            "TurnoverRate"
+                        ],
+                        "%"
+                    );
+
+                const tx =
+                    yhtisUiValueText(
+                        row,
+                        [
+                            "筆量",
+                            "TransactionCount",
+                            "成交筆數"
+                        ]
+                    );
+
+                let status =
+                    `${emoji} ${category}`;
+
+                if(
+                    /等待回測|等待回踩|等回踩/.test(
+                        item.text
+                    )
+                ){
+                    status =
+                        "⌛ 等待回踩";
+                }
+
+                if(
+                    /過熱|不追|已延伸/.test(
+                        item.text
+                    )
+                ){
+                    status =
+                        "⚠️ 過熱・不追";
+                }
+
+                const el =
+                    document.createElement(
+                        "div"
+                    );
+
+                el.setAttribute(
+                    "role",
+                    "button"
+                );
+
+                el.tabIndex = 0;
+
+                el.style.cssText = [
+                    "display:grid",
+                    "grid-template-columns:minmax(180px,1.4fr) minmax(125px,.9fr) 110px 110px 130px",
+                    "gap:12px",
+                    "align-items:center",
+                    "padding:14px 16px",
+                    "margin-bottom:8px",
+                    "background:#111827",
+                    "border:1px solid #263449",
+                    "border-radius:14px",
+                    "cursor:pointer",
+                    "color:#f8fafc"
+                ].join(";");
+
+                el.innerHTML = `
+                    <div>
+                        <div style="
+                            font-weight:900;
+                            font-size:17px;
+                        ">
+                            ${i + 1}.
+                            ${yhtisUiEsc(code)}
+                            ${yhtisUiEsc(name)}
+                        </div>
+                        <div style="
+                            margin-top:4px;
+                            color:#94a3b8;
+                            font-size:13px;
+                        ">
+                            點擊查看完整個股頁
+                        </div>
+                    </div>
+
+                    <div style="
+                        font-weight:800;
+                    ">
+                        ${yhtisUiEsc(status)}
+                    </div>
+
+                    <div>
+                        <div style="
+                            color:#64748b;
+                            font-size:12px;
+                        ">現價</div>
+                        <div style="
+                            font-weight:800;
+                        ">${price}</div>
+                    </div>
+
+                    <div>
+                        <div style="
+                            color:#64748b;
+                            font-size:12px;
+                        ">換手率</div>
+                        <div style="
+                            font-weight:800;
+                        ">${turnover}</div>
+                    </div>
+
+                    <div>
+                        <div style="
+                            color:#64748b;
+                            font-size:12px;
+                        ">成交筆數</div>
+                        <div style="
+                            font-weight:800;
+                        ">${tx}</div>
+                    </div>
+                `;
+
+                const openStock = () => {
+
+                    yhtisUiCloseCategory();
+
+                    if(
+                        code
+                        &&
+                        window.yhtisMasterOpen
+                    ){
+                        window.yhtisMasterOpen(
+                            code
+                        );
+                    }
+                };
+
+                el.addEventListener(
+                    "click",
+                    openStock
+                );
+
+                el.addEventListener(
+                    "keydown",
+                    e => {
+
+                        if(
+                            e.key === "Enter"
+                            ||
+                            e.key === " "
+                        ){
+                            e.preventDefault();
+                            openStock();
+                        }
+                    }
+                );
+
+                body.appendChild(el);
+            }
+        );
+
+    }catch(e){
+
+        body.innerHTML = `
+            <div style="
+                margin:18px;
+                padding:24px;
+                color:#fca5a5;
+                border:1px solid #7f1d1d;
+                border-radius:14px;
+                background:#1f1115;
+            ">
+                ❌ 完整榜載入失敗：
+                ${yhtisUiEsc(String(e))}
+            </div>
+        `;
+
+        console.error(
+            "[YHTIS UI] category modal failed",
+            e
+        );
+    }
+}
+
+
+/* ----------------------------------------------------------
+   Category button capture
+   - Always switchable
+   - Bypasses old one-shot / multi-filter lock
+   ---------------------------------------------------------- */
+
+document.addEventListener(
+    "click",
+    e => {
+
+        const btn =
+            e.target.closest(
+                "button"
+            );
+
+        if(!btn){
+            return;
+        }
+
+        if(
+            btn.closest(
+                "#yhtisUiCategoryOverlay"
+            )
+        ){
+            return;
+        }
+
+        const category =
+            yhtisUiNormalizeCategory(
+                btn.textContent
+            );
+
+        if(!category){
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        const rawKey =
+            yhtisUiRawKeyFromButton(
+                btn,
+                category
+            );
+
+        yhtisUiOpenCategory(
+            category,
+            rawKey
+        );
+    },
+    true
+);
+
+
+window.addEventListener(
+    "keydown",
+    e => {
+
+        if(e.key === "Escape"){
+            yhtisUiCloseCategory();
+        }
+    }
+);
+
+
+// YHTIS_UI_CONSISTENCY_V1_END
+
+
 })();
 
 </script>
