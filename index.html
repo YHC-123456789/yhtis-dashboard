@@ -3880,6 +3880,122 @@ function ensureActivityQuickFilterButtons(){
 
     wrap.appendChild(applyBtn);
 
+    /* YHTIS_STRONGEST_ONE_CLICK_V1 */
+
+    const strongestBtn =
+        document.createElement(
+            "button"
+        );
+
+    strongestBtn.type =
+        "button";
+
+    strongestBtn.setAttribute(
+        "data-strongest-oneclick",
+        "1"
+    );
+
+    strongestBtn.textContent =
+        "👑 最強一鍵";
+
+    strongestBtn.title =
+        "今日作戰策略 + 換手≥3% + 筆量≥3K + 高活躍";
+
+    strongestBtn.style.cssText =
+        "border:1px solid #f59e0b;"
+        + "border-radius:8px;"
+        + "padding:5px 10px;"
+        + "background:#78350f;"
+        + "color:#fef3c7;"
+        + "cursor:pointer;"
+        + "font-size:12px;"
+        + "font-weight:800;";
+
+    strongestBtn.addEventListener(
+        "click",
+        async function(){
+
+            /*
+             * 不寫死內部 key，
+             * 直接用畫面 label 尋找，
+             * 避免未來 key 改名失效。
+             */
+            function findFilterKey(
+                labelText
+            ){
+
+                const hit =
+                    Object.entries(
+                        YHTIS_QUICK_FILTERS
+                    ).find(
+                        ([key, cfg]) =>
+                            String(
+                                cfg?.label || ""
+                            ).includes(
+                                labelText
+                            )
+                    );
+
+                return hit
+                    ? hit[0]
+                    : null;
+            }
+
+
+            const wanted = [
+                "今日作戰策略",
+                "換手 ≥3%",
+                "筆量 ≥3K",
+                "高活躍"
+            ];
+
+            const keys =
+                wanted
+                .map(findFilterKey)
+                .filter(Boolean);
+
+
+            if(!keys.length){
+
+                const msg =
+                    document.getElementById(
+                        "yhtisMasterSearchMsg"
+                    );
+
+                if(msg){
+                    msg.innerText =
+                        "❌ 找不到最強一鍵篩選條件";
+                }
+
+                return;
+            }
+
+
+            /*
+             * 一鍵模式：
+             * 清掉原本人工勾選，
+             * 直接套用最強組合。
+             */
+            YHTIS_ACTIVITY_SELECTED.clear();
+
+            keys.forEach(
+                key =>
+                    YHTIS_ACTIVITY_SELECTED.add(
+                        key
+                    )
+            );
+
+
+            yhtisUpdateActivityButtons();
+
+            await yhtisRenderActivityMulti();
+        }
+    );
+
+    wrap.appendChild(
+        strongestBtn
+    );
+
     wrap.appendChild(clearBtn);
 
     bar.appendChild(
@@ -3898,6 +4014,115 @@ setTimeout(
    MASTER ACTIVITY MULTISELECT V2
    AND intersection / display only
    ========================================================== */
+
+
+
+/* YHTIS_MASTER_HORIZONTAL_RESULTS_V1 */
+
+function yhtisApplyHorizontalResultLayout(){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    if(!box) return;
+
+    /*
+     * 桌機橫向卡片。
+     * 空間不足時自動換下一列。
+     */
+    box.style.gridTemplateColumns =
+        "repeat(auto-fit,minmax(190px,1fr))";
+
+    box.style.gap =
+        "8px";
+
+    box.style.alignItems =
+        "stretch";
+
+    /*
+     * 搜尋結果每一格改成橫向卡片尺寸。
+     */
+    [...box.children].forEach(el => {
+
+        if(
+            el.id ===
+            "yhtisMasterSuggestionClose"
+        ){
+            return;
+        }
+
+        el.style.margin =
+            "0";
+
+        el.style.width =
+            "auto";
+
+        el.style.minWidth =
+            "0";
+
+        el.style.boxSizing =
+            "border-box";
+    });
+}
+
+
+/*
+ * 結果區有內容時自動切換成 Grid。
+ */
+const yhtisHorizontalObserver =
+    new MutationObserver(
+        function(){
+
+            const box =
+                document.getElementById(
+                    "yhtisMasterSuggestions"
+                );
+
+            if(
+                !box
+                || box.style.display === "none"
+            ){
+                return;
+            }
+
+            box.style.display =
+                "grid";
+
+            yhtisApplyHorizontalResultLayout();
+        }
+    );
+
+setTimeout(
+    function(){
+
+        const box =
+            document.getElementById(
+                "yhtisMasterSuggestions"
+            );
+
+        if(!box) return;
+
+        yhtisHorizontalObserver.observe(
+            box,
+            {
+                childList:true,
+                subtree:false
+            }
+        );
+
+        if(
+            box.style.display !== "none"
+        ){
+            box.style.display =
+                "grid";
+
+            yhtisApplyHorizontalResultLayout();
+        }
+    },
+    0
+);
 
 
 /* YHTIS_MASTER_RESULT_CLOSE_V1 */
@@ -6343,7 +6568,7 @@ window.addEventListener(
 <br>
 
 🔄 系統更新：
-2026-09-05 15:39:14
+2026-09-05 15:50:21
 
 </div>
 
@@ -6375,6 +6600,49 @@ window.addEventListener(
 
         <div>
             
+<style>
+/* YHTIS_FINAL_HORIZONTAL_V1 */
+
+/* 今日最終判斷：桌機 5 張橫向排列 */
+#final-decision .v13-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: none !important;
+    align-items: stretch !important;
+}
+
+/* 卡片撐滿自己的欄位 */
+#final-decision .v13-grid > * {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+/* 中型螢幕：3 欄 */
+@media (max-width: 1200px) {
+    #final-decision .v13-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* 平板：2 欄 */
+@media (max-width: 850px) {
+    #final-decision .v13-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* 手機：1 欄 */
+@media (max-width: 560px) {
+    #final-decision .v13-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+
 <section id="final-decision"
          class="v13-final">
 
@@ -6500,7 +6768,7 @@ window.addEventListener(
 
         <div class="v13-tags">
             🔵 偏便宜
-            ｜🔴 基本面背離
+            ｜⚪ 基本面不足
         </div>
 
         <details class="v13-more">
@@ -6521,10 +6789,10 @@ window.addEventListener(
 
             <div>
                 基本面
-                167.78
+                —
                 ～
-                456.2
-                ｜🟠 C 低一致
+                —
+                ｜
             </div>
         </details>
 
@@ -6632,7 +6900,7 @@ window.addEventListener(
 
         <div class="v13-tags">
             🔵 偏便宜
-            ｜🔴 基本面背離
+            ｜⚪ 基本面不足
         </div>
 
         <details class="v13-more">
@@ -6653,10 +6921,10 @@ window.addEventListener(
 
             <div>
                 基本面
-                27.91
+                —
                 ～
-                38.85
-                ｜🟢 A 高一致
+                —
+                ｜
             </div>
         </details>
 
@@ -6811,7 +7079,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -6873,7 +7141,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -6935,7 +7203,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🟡 共振但估值分歧
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -6997,7 +7265,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🟡 共振但估值分歧
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7028,7 +7296,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7090,7 +7358,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7152,7 +7420,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7183,7 +7451,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ✅ 技術×基本面共振
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7214,7 +7482,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ✅ 技術×基本面共振
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7276,7 +7544,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7493,7 +7761,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7617,7 +7885,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -7648,7 +7916,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
@@ -8082,7 +8350,7 @@ window.addEventListener(
             </td>
 
             <td>
-                🔴 基本面背離
+                ⚪ 基本面不足
             </td>
         </tr>
         
