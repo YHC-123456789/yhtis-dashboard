@@ -3992,6 +3992,12 @@ function ensureActivityQuickFilterButtons(){
             yhtisUpdateActivityButtons();
 
             await yhtisRenderActivityMulti();
+
+            /*
+             * 把簡單股票名稱結果
+             * 改成與 🌱 剛起漲相同的詳細卡片。
+             */
+            yhtisDecorateStrongestResults();
         }
     );
 
@@ -4591,6 +4597,178 @@ setTimeout(
     yhtisEnsureEarlyLaunchButton,
     1500
 );
+
+
+
+/* YHTIS_STRONGEST_RICH_RESULTS_V1 */
+
+function yhtisDecorateStrongestResults(){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+    if(!box) return;
+
+
+    let count = 0;
+
+    [...box.children].forEach(el => {
+
+        /*
+         * 跳過右上角紅色關閉鈕
+         */
+        if(
+            el.id ===
+            "yhtisMasterSuggestionClose"
+        ){
+            return;
+        }
+
+
+        const raw =
+            String(
+                el.textContent || ""
+            ).trim();
+
+
+        /*
+         * 從原本簡單結果：
+         * 3081 聯亞
+         * 抓出代號與名稱
+         */
+        const m =
+            raw.match(
+                /^(\d{4,6})\s+(.+)$/
+            );
+
+        if(!m){
+            return;
+        }
+
+
+        const code = m[1];
+        const name = m[2];
+
+        count++;
+
+
+        /*
+         * 保留原本父元素 click handler，
+         * 只改內容與外觀。
+         */
+        el.innerHTML = `
+            <div style="
+                font-size:16px;
+                font-weight:900;
+                margin-bottom:6px;
+                color:#f8fafc;
+            ">
+                ${code} ${name}
+            </div>
+
+            <div style="
+                color:#fbbf24;
+                font-size:13px;
+                font-weight:900;
+                margin-bottom:5px;
+            ">
+                👑 四強共振
+            </div>
+
+            <div style="
+                font-size:12px;
+                color:#e2e8f0;
+                line-height:1.55;
+            ">
+                🎯 今日作戰策略
+            </div>
+
+            <div style="
+                font-size:12px;
+                color:#e2e8f0;
+                line-height:1.55;
+            ">
+                🔄 換手 ≥3%
+                ｜ 🧾 筆量 ≥3K
+            </div>
+
+            <div style="
+                font-size:12px;
+                color:#fb923c;
+                font-weight:800;
+                line-height:1.55;
+            ">
+                🔥 高活躍
+            </div>
+        `;
+
+
+        el.style.textAlign =
+            "left";
+
+        el.style.border =
+            "1px solid #92400e";
+
+        el.style.borderRadius =
+            "10px";
+
+        el.style.padding =
+            "11px 13px";
+
+        el.style.background =
+            "#171b22";
+
+        el.style.color =
+            "#e5e7eb";
+
+        el.style.minHeight =
+            "128px";
+
+        el.style.boxSizing =
+            "border-box";
+    });
+
+
+    /*
+     * 頂部狀態文字跟剛起漲同樣清楚
+     */
+    if(msg && count){
+
+        msg.innerText =
+            "👑 最強 "
+            + count
+            + " 檔｜策略＋換手≥3%＋筆量≥3K＋高活躍";
+    }
+
+
+    /*
+     * 保持目前的橫向卡片版型
+     */
+    if(
+        typeof yhtisApplyHorizontalResultLayout
+        === "function"
+    ){
+        yhtisApplyHorizontalResultLayout();
+    }
+
+
+    /*
+     * 保持右上角紅色關閉鈕
+     */
+    if(
+        typeof yhtisEnsureSuggestionCloseButton
+        === "function"
+    ){
+        yhtisEnsureSuggestionCloseButton();
+    }
+}
 
 
 /* YHTIS_MOVE_STRONGEST_NEXT_TO_STRONG_BUY_V1 */
@@ -7254,7 +7432,7 @@ window.addEventListener(
 <br>
 
 🔄 系統更新：
-2026-09-05 21:50:59
+2026-09-05 21:54:38
 
 </div>
 
