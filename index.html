@@ -3895,11 +3895,14 @@ function ensureActivityQuickFilterButtons(){
         "1"
     );
 
-    strongestBtn.textContent =
-        "👑 最強一鍵";
+    strongestBtn.innerHTML =
+        '<div style="font-weight:900;font-size:15px;">👑 最強一鍵</div>'
+        + '<div style="font-size:10px;opacity:.88;margin-top:2px;">'
+        + '策略＋換手＋筆量＋活躍'
+        + '</div>';
 
     strongestBtn.title =
-        "今日作戰策略 + 換手≥3% + 筆量≥3K + 高活躍";
+        "最強原因：今日作戰策略 + 換手≥3% + 筆量≥3K + 高活躍，四條件同時成立";
 
     strongestBtn.style.cssText =
         "border:1px solid #f59e0b;"
@@ -3996,7 +3999,601 @@ function ensureActivityQuickFilterButtons(){
         strongestBtn
     );
 
-    /* YHTIS_MOVE_STRONGEST_NEXT_TO_STRONG_BUY_V1 */
+    
+/* YHTIS_EARLY_LAUNCH_ONE_CLICK_V1 */
+
+function yhtisGetMarketDate(){
+
+    const txt =
+        document.body.innerText || "";
+
+    let m = txt.match(
+        /行情資料日\s*[:：]\s*(20\d{2}-\d{2}-\d{2})/
+    );
+
+    if(!m){
+        m = txt.match(
+            /行情\s+(20\d{2}-\d{2}-\d{2})/
+        );
+    }
+
+    return m ? m[1] : null;
+}
+
+
+function yhtisParseCSV(text){
+
+    const rows = [];
+    let row = [];
+    let cell = "";
+    let quote = false;
+
+    for(let i=0;i<text.length;i++){
+
+        const ch = text[i];
+
+        if(ch === '"'){
+
+            if(
+                quote
+                && text[i+1] === '"'
+            ){
+                cell += '"';
+                i++;
+            }
+            else{
+                quote = !quote;
+            }
+        }
+        else if(
+            ch === ","
+            && !quote
+        ){
+            row.push(cell);
+            cell = "";
+        }
+        else if(
+            (ch === "\n" || ch === "\r")
+            && !quote
+        ){
+
+            if(
+                ch === "\r"
+                && text[i+1] === "\n"
+            ){
+                i++;
+            }
+
+            row.push(cell);
+            cell = "";
+
+            if(
+                row.some(
+                    x => String(x).length
+                )
+            ){
+                rows.push(row);
+            }
+
+            row = [];
+        }
+        else{
+            cell += ch;
+        }
+    }
+
+    if(cell || row.length){
+        row.push(cell);
+        rows.push(row);
+    }
+
+    if(rows.length < 2){
+        return [];
+    }
+
+    const head =
+        rows[0].map(
+            x => String(x).trim()
+        );
+
+    return rows.slice(1).map(r => {
+
+        const obj = {};
+
+        head.forEach(
+            (h,i) => {
+                obj[h] =
+                    String(
+                        r[i] ?? ""
+                    ).trim();
+            }
+        );
+
+        return obj;
+    });
+}
+
+
+function yhtisNum(v){
+
+    const n =
+        Number(
+            String(v ?? "")
+            .replaceAll(",","")
+        );
+
+    return Number.isFinite(n)
+        ? n
+        : NaN;
+}
+
+
+function yhtisBool(v){
+
+    return (
+        String(v)
+        .trim()
+        .toLowerCase()
+        === "true"
+    );
+}
+
+
+async function yhtisRunEarlyLaunchOneClick(){
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    if(!box){
+        return;
+    }
+
+    const date =
+        yhtisGetMarketDate();
+
+    if(!date){
+
+        if(msg){
+            msg.innerText =
+                "❌ 找不到行情資料日";
+        }
+
+        return;
+    }
+
+    const url =
+        "/output/research/"
+        + "early_launch_prospective_ledger_v1/"
+        + date
+        + "/precontext_candidates_"
+        + date
+        + ".csv?v="
+        + Date.now();
+
+    try{
+
+        const r =
+            await fetch(url);
+
+        if(!r.ok){
+            throw new Error(
+                "HTTP " + r.status
+            );
+        }
+
+        const rows =
+            yhtisParseCSV(
+                await r.text()
+            );
+
+
+        const candidates =
+            rows.filter(x => {
+
+                const ema9 =
+                    yhtisNum(x.EMA9);
+
+                const ema20 =
+                    yhtisNum(x.EMA20);
+
+                const gap =
+                    yhtisNum(
+                        x.EMA_GAP_PCT
+                    );
+
+                const macd =
+                    yhtisNum(x.MACD);
+
+                const signal =
+                    yhtisNum(
+                        x.MACD_SIGNAL
+                    );
+
+                const hist =
+                    yhtisNum(
+                        x.MACD_HIST_T
+                    );
+
+
+                /*
+                 * MACD 必須已轉強
+                 */
+                const macdPass =
+                    macd > signal
+                    && hist > 0;
+
+
+                /*
+                 * CCI 必須低檔翻揚
+                 */
+                const cciPass =
+                    yhtisBool(
+                        x.CCI_NEGATIVE_RISING
+                    );
+
+
+                /*
+                 * Frozen Group A
+                 * 與原 Early Launch 訊號成立
+                 */
+                const earlyPass =
+                    yhtisBool(
+                        x.A_SIGNAL
+                    )
+                    && yhtisBool(
+                        x.FROZEN_GROUP_A
+                    );
+
+
+                /*
+                 * EMA：
+                 *
+                 * A. 黃金交叉前：
+                 *    EMA9 < EMA20
+                 *    距離 <= 3%
+                 *
+                 * B. 剛轉多：
+                 *    EMA9 >= EMA20
+                 *    距離仍 <= 1.5%
+                 */
+                const preCross =
+                    ema9 < ema20
+                    && Math.abs(gap) <= 3;
+
+                const crossConfirm =
+                    ema9 >= ema20
+                    && Math.abs(gap) <= 1.5;
+
+
+                x._stage =
+                    crossConfirm
+                    ? "✨ EMA交叉確認"
+                    : "🌱 EMA交叉前";
+
+                return (
+                    macdPass
+                    && cciPass
+                    && earlyPass
+                    && (
+                        preCross
+                        || crossConfirm
+                    )
+                );
+            });
+
+
+        candidates.sort(
+            (a,b) => {
+
+                /*
+                 * 先顯示已經 EMA 轉多，
+                 * 再照 PRE_CONTEXT_RANK。
+                 */
+                const sa =
+                    a._stage.includes("確認")
+                    ? 0 : 1;
+
+                const sb =
+                    b._stage.includes("確認")
+                    ? 0 : 1;
+
+                if(sa !== sb){
+                    return sa - sb;
+                }
+
+                return (
+                    yhtisNum(
+                        a.PRE_CONTEXT_RANK
+                    )
+                    -
+                    yhtisNum(
+                        b.PRE_CONTEXT_RANK
+                    )
+                );
+            }
+        );
+
+
+        if(!candidates.length){
+
+            box.innerHTML =
+                "";
+
+            box.style.display =
+                "none";
+
+            if(msg){
+                msg.innerText =
+                    "🌱 今日沒有符合 EMA＋MACD＋CCI 的剛起漲候選";
+            }
+
+            return;
+        }
+
+
+        box.innerHTML =
+            candidates.map(x => {
+
+                const context =
+                    yhtisBool(
+                        x.ContextPass
+                    );
+
+                const ctxText =
+                    context
+                    ? "🟢 Context通過"
+                    : "⚠️ Context未通過";
+
+
+                return `
+                <button
+                    type="button"
+                    data-yhtis-early-code="${x.Code}"
+                    style="
+                        text-align:left;
+                        border:1px solid #334155;
+                        border-radius:10px;
+                        padding:10px;
+                        background:#111827;
+                        color:#e5e7eb;
+                        cursor:pointer;
+                        min-width:0;
+                    "
+                >
+                    <div style="
+                        font-size:15px;
+                        font-weight:800;
+                        margin-bottom:4px;
+                    ">
+                        ${x.Code} ${x.Name}
+                    </div>
+
+                    <div style="
+                        font-size:12px;
+                        color:#86efac;
+                    ">
+                        ${x._stage}
+                    </div>
+
+                    <div style="
+                        font-size:11px;
+                        color:#cbd5e1;
+                        margin-top:3px;
+                    ">
+                        EMA距離 ${Number(x.EMA_GAP_PCT).toFixed(2)}%
+                    </div>
+
+                    <div style="
+                        font-size:11px;
+                        color:#cbd5e1;
+                    ">
+                        MACD柱 ${Number(x.MACD_HIST_T).toFixed(3)}
+                        ｜ CCI ${Number(x.CCI20).toFixed(1)}
+                    </div>
+
+                    <div style="
+                        font-size:11px;
+                        margin-top:3px;
+                    ">
+                        ${ctxText}
+                    </div>
+                </button>
+                `;
+            }).join("");
+
+
+        box.style.display =
+            "grid";
+
+        if(
+            typeof yhtisApplyHorizontalResultLayout
+            === "function"
+        ){
+            yhtisApplyHorizontalResultLayout();
+        }
+
+
+        box.querySelectorAll(
+            "[data-yhtis-early-code]"
+        ).forEach(btn => {
+
+            btn.addEventListener(
+                "click",
+                function(){
+
+                    const code =
+                        btn.dataset
+                        .yhtisEarlyCode;
+
+                    const input =
+                        document.getElementById(
+                            "yhtisMasterSearch"
+                        )
+                        ||
+                        document.querySelector(
+                            'input[placeholder*="股票"]'
+                        );
+
+                    if(input){
+
+                        input.value =
+                            code;
+
+                        input.dispatchEvent(
+                            new Event(
+                                "input",
+                                {
+                                    bubbles:true
+                                }
+                            )
+                        );
+                    }
+
+                    const queryBtn =
+                        document.getElementById(
+                            "yhtisMasterSearchBtn"
+                        )
+                        ||
+                        [...document.querySelectorAll(
+                            "button"
+                        )].find(
+                            x =>
+                                String(
+                                    x.textContent || ""
+                                ).includes("查詢")
+                        );
+
+                    if(queryBtn){
+                        queryBtn.click();
+                    }
+                }
+            );
+        });
+
+
+        if(msg){
+
+            msg.innerText =
+                "🌱 剛起漲 "
+                + candidates.length
+                + " 檔｜EMA＋MACD＋CCI";
+        }
+
+
+        if(
+            typeof yhtisEnsureSuggestionCloseButton
+            === "function"
+        ){
+            yhtisEnsureSuggestionCloseButton();
+        }
+
+    }
+    catch(err){
+
+        console.error(
+            "EARLY LAUNCH ONE CLICK",
+            err
+        );
+
+        if(msg){
+            msg.innerText =
+                "❌ 剛起漲資料讀取失敗";
+        }
+    }
+}
+
+
+function yhtisEnsureEarlyLaunchButton(){
+
+    if(
+        document.querySelector(
+            '[data-early-launch-oneclick="1"]'
+        )
+    ){
+        return true;
+    }
+
+    const strongest =
+        document.querySelector(
+            '[data-strongest-oneclick="1"]'
+        );
+
+    if(!strongest){
+        return false;
+    }
+
+    const btn =
+        document.createElement(
+            "button"
+        );
+
+    btn.type =
+        "button";
+
+    btn.setAttribute(
+        "data-early-launch-oneclick",
+        "1"
+    );
+
+    btn.textContent =
+        "🌱 剛起漲";
+
+    btn.title =
+        "EMA交叉窗口 + MACD轉強 + CCI低檔翻揚";
+
+    btn.style.cssText =
+        "border:1px solid #22c55e;"
+        + "border-radius:10px;"
+        + "padding:10px 16px;"
+        + "min-height:48px;"
+        + "background:#14532d;"
+        + "color:#dcfce7;"
+        + "cursor:pointer;"
+        + "font-size:15px;"
+        + "font-weight:800;"
+        + "white-space:nowrap;";
+
+    btn.addEventListener(
+        "click",
+        yhtisRunEarlyLaunchOneClick
+    );
+
+    /*
+     * 放在 👑 最強一鍵右邊
+     */
+    strongest.insertAdjacentElement(
+        "afterend",
+        btn
+    );
+
+    return true;
+}
+
+
+setTimeout(
+    yhtisEnsureEarlyLaunchButton,
+    300
+);
+
+setTimeout(
+    yhtisEnsureEarlyLaunchButton,
+    900
+);
+
+setTimeout(
+    yhtisEnsureEarlyLaunchButton,
+    1500
+);
+
+
+/* YHTIS_MOVE_STRONGEST_NEXT_TO_STRONG_BUY_V1 */
 
     function yhtisMoveStrongestNextToStrongBuy(){
 
@@ -4043,7 +4640,7 @@ function ensureActivityQuickFilterButtons(){
             "10px 16px";
 
         strongest.style.minHeight =
-            "48px";
+            "54px";
 
         strongest.style.fontSize =
             "15px";
@@ -4274,25 +4871,29 @@ function yhtisEnsureSuggestionCloseButton(){
         "button";
 
     btn.textContent =
-        "✕ 關閉";
+        "✕";
 
     btn.title =
         "關閉結果";
 
     btn.style.cssText =
-        "position:sticky;"
-        + "top:6px;"
-        + "float:right;"
-        + "z-index:50;"
-        + "margin:6px;"
-        + "border:1px solid #475569;"
-        + "border-radius:8px;"
-        + "padding:5px 9px;"
-        + "background:#111827;"
-        + "color:#e5e7eb;"
+        "position:absolute;"
+        + "top:8px;"
+        + "right:8px;"
+        + "z-index:100;"
+        + "width:30px;"
+        + "height:30px;"
+        + "padding:0;"
+        + "border:1px solid #ef4444;"
+        + "border-radius:999px;"
+        + "background:#b91c1c;"
+        + "color:#ffffff;"
         + "cursor:pointer;"
-        + "font-size:12px;"
-        + "font-weight:700;";
+        + "font-size:16px;"
+        + "font-weight:900;"
+        + "line-height:28px;"
+        + "text-align:center;"
+        + "box-shadow:0 2px 8px rgba(0,0,0,.35);";
 
     btn.addEventListener(
         "click",
@@ -6653,7 +7254,7 @@ window.addEventListener(
 <br>
 
 🔄 系統更新：
-2026-09-05 21:36:32
+2026-09-05 21:50:59
 
 </div>
 
