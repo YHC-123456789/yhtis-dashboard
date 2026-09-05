@@ -3996,6 +3996,91 @@ function ensureActivityQuickFilterButtons(){
         strongestBtn
     );
 
+    /* YHTIS_MOVE_STRONGEST_NEXT_TO_STRONG_BUY_V1 */
+
+    function yhtisMoveStrongestNextToStrongBuy(){
+
+        const strongest =
+            document.querySelector(
+                '[data-strongest-oneclick="1"]'
+            );
+
+        if(!strongest) return false;
+
+        const buttons =
+            [...document.querySelectorAll(
+                "button"
+            )];
+
+        const strongBuy =
+            buttons.find(btn => {
+
+                const t =
+                    String(
+                        btn.textContent || ""
+                    ).trim();
+
+                return (
+                    t.includes("強力買進")
+                    && !t.includes("最強一鍵")
+                );
+            });
+
+        if(!strongBuy) return false;
+
+        /*
+         * 移到 🔥 強力買進 正右邊
+         */
+        strongBuy.insertAdjacentElement(
+            "afterend",
+            strongest
+        );
+
+        /*
+         * 外觀配合頂部分類按鈕
+         */
+        strongest.style.padding =
+            "10px 16px";
+
+        strongest.style.minHeight =
+            "48px";
+
+        strongest.style.fontSize =
+            "15px";
+
+        strongest.style.borderRadius =
+            "10px";
+
+        strongest.style.whiteSpace =
+            "nowrap";
+
+        strongest.style.margin =
+            "0";
+
+        return true;
+    }
+
+
+    /*
+     * MASTER UI 完成後移動。
+     * 多試幾次，避免 DOM 建立順序差異。
+     */
+    setTimeout(
+        yhtisMoveStrongestNextToStrongBuy,
+        0
+    );
+
+    setTimeout(
+        yhtisMoveStrongestNextToStrongBuy,
+        200
+    );
+
+    setTimeout(
+        yhtisMoveStrongestNextToStrongBuy,
+        800
+    );
+
+
     wrap.appendChild(clearBtn);
 
     bar.appendChild(
@@ -6568,7 +6653,7 @@ window.addEventListener(
 <br>
 
 🔄 系統更新：
-2026-09-05 15:50:21
+2026-09-05 21:36:32
 
 </div>
 
@@ -6768,7 +6853,7 @@ window.addEventListener(
 
         <div class="v13-tags">
             🔵 偏便宜
-            ｜⚪ 基本面不足
+            ｜🔴 基本面背離
         </div>
 
         <details class="v13-more">
@@ -6789,10 +6874,10 @@ window.addEventListener(
 
             <div>
                 基本面
-                —
+                167.78
                 ～
-                —
-                ｜
+                456.2
+                ｜🟠 C 低一致
             </div>
         </details>
 
@@ -6900,7 +6985,7 @@ window.addEventListener(
 
         <div class="v13-tags">
             🔵 偏便宜
-            ｜⚪ 基本面不足
+            ｜🔴 基本面背離
         </div>
 
         <details class="v13-more">
@@ -6921,10 +7006,10 @@ window.addEventListener(
 
             <div>
                 基本面
-                —
+                27.91
                 ～
-                —
-                ｜
+                38.85
+                ｜🟢 A 高一致
             </div>
         </details>
 
@@ -7079,7 +7164,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7141,7 +7226,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7203,7 +7288,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🟡 共振但估值分歧
             </td>
         </tr>
         
@@ -7265,7 +7350,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🟡 共振但估值分歧
             </td>
         </tr>
         
@@ -7296,7 +7381,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7358,7 +7443,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7420,7 +7505,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7451,7 +7536,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                ✅ 技術×基本面共振
             </td>
         </tr>
         
@@ -7482,7 +7567,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                ✅ 技術×基本面共振
             </td>
         </tr>
         
@@ -7544,7 +7629,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7761,7 +7846,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7885,7 +7970,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -7916,7 +8001,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
@@ -8350,7 +8435,7 @@ window.addEventListener(
             </td>
 
             <td>
-                ⚪ 基本面不足
+                🔴 基本面背離
             </td>
         </tr>
         
