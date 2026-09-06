@@ -8288,6 +8288,3809 @@ function yhtisLBFindButtonByTextV3(
 }
 
 
+
+
+
+
+
+/* YHTIS_INDICATOR_INTO_ACTIVITY_FIX_V2 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   修正版：
+
+   外面：
+   👑 最強一鍵
+   🎯 選股策略
+   ⚡ 活躍條件
+
+   活躍條件裡：
+   🎯 今日作戰策略
+   🔥 高活躍
+   🔄 換手
+   🧾 筆量
+   📊 篩選指標
+   ✅ 套用
+   🧹 清除
+
+   找不到真正面板時：
+   篩選指標先隱藏
+   絕不塞進最強一鍵 / 選股策略。
+   ============================================================ */
+
+
+function yhtisIndicatorFixStyleV2(){
+
+    if(
+        document.getElementById(
+            "yhtisIndicatorFixStyleV2"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "yhtisIndicatorFixStyleV2";
+
+
+    style.textContent = `
+
+        #yhtisIndicatorStagingV2{
+            display:none !important;
+        }
+
+
+        #yhtisIndicatorFilterWrapV1
+        .yhtis-ind-option-v1{
+            white-space:nowrap;
+        }
+
+
+        #yhtisIndicatorFilterWrapV1
+        #yhtisIndicatorFilterButtonV1{
+
+            width:100% !important;
+
+            min-height:38px !important;
+
+            box-sizing:border-box !important;
+
+            text-align:left !important;
+        }
+
+
+        #yhtisIndicatorFilterWrapV1
+        #yhtisIndicatorFilterMenuV1{
+
+            position:static !important;
+
+            width:100% !important;
+
+            min-width:0 !important;
+
+            box-sizing:border-box !important;
+
+            margin-top:5px !important;
+
+            box-shadow:none !important;
+        }
+
+
+        .yhtis-indicator-correct-host-v2{
+
+            display:block !important;
+
+            width:100% !important;
+
+            box-sizing:border-box !important;
+
+            margin:7px 0 !important;
+
+            padding-top:7px !important;
+
+            border-top:
+                1px solid rgba(100,116,139,.30);
+        }
+
+
+        .yhtis-indicator-label-v2{
+
+            margin:
+                1px 0 5px 2px;
+
+            color:#a78bfa;
+
+            font-size:10px;
+
+            font-weight:900;
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   暫存區
+   ============================================================ */
+
+function yhtisIndicatorGetStagingV2(){
+
+    let staging =
+        document.getElementById(
+            "yhtisIndicatorStagingV2"
+        );
+
+
+    if(!staging){
+
+        staging =
+            document.createElement(
+                "div"
+            );
+
+        staging.id =
+            "yhtisIndicatorStagingV2";
+
+
+        document.body.appendChild(
+            staging
+        );
+    }
+
+
+    return staging;
+}
+
+
+/* ============================================================
+   找真正「活躍條件」按鈕
+   ============================================================ */
+
+function yhtisIndicatorFindActivityButtonV2(){
+
+    const nodes =
+        [
+            ...document.querySelectorAll(
+                "button,summary"
+            )
+        ];
+
+
+    const candidates =
+        nodes.filter(el => {
+
+            if(
+                el.closest(
+                    "#yhtisIndicatorFilterWrapV1"
+                )
+            ){
+                return false;
+            }
+
+
+            const t =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            return (
+                t.includes(
+                    "活躍條件"
+                )
+                &&
+                !t.includes(
+                    "最強一鍵"
+                )
+                &&
+                !t.includes(
+                    "選股策略"
+                )
+            );
+        });
+
+
+    /*
+     * 文字越短越像真正 trigger
+     */
+    candidates.sort(
+        (a,b) =>
+            String(
+                a.textContent || ""
+            ).length
+            -
+            String(
+                b.textContent || ""
+            ).length
+    );
+
+
+    return candidates[0] || null;
+}
+
+
+/* ============================================================
+   找真正的活躍篩選面板
+
+   必須同時出現：
+   高活躍
+   換手
+   筆量
+   套用
+   清除
+
+   這五項少一個都不接受。
+   ============================================================ */
+
+function yhtisIndicatorFindRealActivityPanelV2(){
+
+    const activityBtn =
+        yhtisIndicatorFindActivityButtonV2();
+
+
+    const nodes =
+        [
+            ...document.querySelectorAll(
+                "div,section,aside,details"
+            )
+        ];
+
+
+    const candidates =
+        nodes.filter(el => {
+
+            if(
+                el.id ===
+                "yhtisIndicatorStagingV2"
+            ){
+                return false;
+            }
+
+
+            /*
+             * 絕對禁止最強一鍵本身
+             */
+            if(
+                el.matches(
+                    '[data-strongest-oneclick="1"]'
+                )
+                ||
+                el.closest(
+                    '[data-strongest-oneclick="1"]'
+                )
+            ){
+                return false;
+            }
+
+
+            /*
+             * 絕對禁止選股策略按鈕
+             */
+            const direct =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            if(
+                direct.includes("最強一鍵")
+                &&
+                direct.length < 250
+            ){
+                return false;
+            }
+
+
+            const t =
+                direct;
+
+
+            const required = [
+                "高活躍",
+                "換手",
+                "筆量",
+                "套用",
+                "清除"
+            ];
+
+
+            if(
+                !required.every(
+                    word =>
+                        t.includes(word)
+                )
+            ){
+                return false;
+            }
+
+
+            /*
+             * 避免抓整個 Dashboard
+             */
+            if(
+                t.length > 1200
+            ){
+                return false;
+            }
+
+
+            /*
+             * 如果能找到活動按鈕，
+             * panel 要與它有合理 DOM 關係，
+             * 或本身就是浮動 menu。
+             */
+            if(activityBtn){
+
+                const related =
+                    el.contains(activityBtn)
+                    ||
+                    (
+                        activityBtn.parentElement
+                        &&
+                        activityBtn.parentElement.contains(el)
+                    )
+                    ||
+                    (
+                        el.parentElement
+                        &&
+                        el.parentElement.contains(activityBtn)
+                    );
+
+
+                /*
+                 * 沒關係也不是絕對淘汰，
+                 * 因為 dropdown 可能 append 到 body。
+                 */
+                el.dataset.yhtisActivityRelatedV2 =
+                    related ? "1" : "0";
+            }
+
+
+            return true;
+        });
+
+
+    if(!candidates.length){
+        return null;
+    }
+
+
+    /*
+     * 優先：
+     * 與活躍按鈕有 DOM 關係
+     * 再取文字最短的最內層面板
+     */
+    candidates.sort(
+        (a,b) => {
+
+            const ar =
+                a.dataset
+                    .yhtisActivityRelatedV2
+                === "1"
+                ? 0
+                : 1;
+
+
+            const br =
+                b.dataset
+                    .yhtisActivityRelatedV2
+                === "1"
+                ? 0
+                : 1;
+
+
+            if(ar !== br){
+                return ar - br;
+            }
+
+
+            return (
+                String(
+                    a.textContent || ""
+                ).length
+                -
+                String(
+                    b.textContent || ""
+                ).length
+            );
+        }
+    );
+
+
+    return candidates[0];
+}
+
+
+/* ============================================================
+   如果現在塞錯地方，立即拔出
+   ============================================================ */
+
+function yhtisIndicatorRemoveWrongPlacementV2(){
+
+    const wrap =
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        );
+
+
+    if(!wrap){
+        return;
+    }
+
+
+    const wrongStrongest =
+        wrap.closest(
+            '[data-strongest-oneclick="1"]'
+        );
+
+
+    const wrongButton =
+        wrap.closest(
+            "button"
+        );
+
+
+    if(
+        wrongStrongest
+        ||
+        wrongButton
+    ){
+
+        const staging =
+            yhtisIndicatorGetStagingV2();
+
+
+        staging.appendChild(
+            wrap
+        );
+
+
+        wrap.classList.remove(
+            "yhtis-indicator-correct-host-v2"
+        );
+
+
+        console.log(
+            "✅ 已從錯誤按鈕拔除篩選指標"
+        );
+    }
+}
+
+
+/* ============================================================
+   正確掛載
+   ============================================================ */
+
+function yhtisIndicatorMountCorrectlyV2(){
+
+    const wrap =
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        );
+
+
+    if(!wrap){
+        return false;
+    }
+
+
+    const panel =
+        yhtisIndicatorFindRealActivityPanelV2();
+
+
+    /*
+     * 沒找到真正面板：
+     * 先藏起來。
+     * 絕不亂放。
+     */
+    if(!panel){
+
+        const staging =
+            yhtisIndicatorGetStagingV2();
+
+
+        if(
+            wrap.parentElement
+            !== staging
+        ){
+            staging.appendChild(
+                wrap
+            );
+        }
+
+
+        return false;
+    }
+
+
+    /*
+     * 找套用按鈕
+     */
+    const apply =
+        [
+            ...panel.querySelectorAll(
+                "button"
+            )
+        ]
+        .find(btn =>
+            String(
+                btn.textContent || ""
+            )
+            .includes(
+                "套用"
+            )
+        );
+
+
+    let host =
+        panel;
+
+
+    if(
+        apply
+        &&
+        apply.parentElement
+        &&
+        panel.contains(
+            apply.parentElement
+        )
+    ){
+        host =
+            apply.parentElement;
+    }
+
+
+    let label =
+        host.querySelector(
+            ":scope > .yhtis-indicator-label-v2"
+        );
+
+
+    if(!label){
+
+        label =
+            document.createElement(
+                "div"
+            );
+
+
+        label.className =
+            "yhtis-indicator-label-v2";
+
+
+        label.textContent =
+            "📊 技術／階段指標";
+    }
+
+
+    /*
+     * 正確順序：
+     * 換手 / 筆量
+     * ↓
+     * 指標篩選
+     * ↓
+     * 套用 / 清除
+     */
+    if(
+        apply
+        &&
+        apply.parentElement === host
+    ){
+
+        host.insertBefore(
+            label,
+            apply
+        );
+
+
+        host.insertBefore(
+            wrap,
+            apply
+        );
+
+    }
+
+    else{
+
+        host.appendChild(
+            label
+        );
+
+
+        host.appendChild(
+            wrap
+        );
+    }
+
+
+    wrap.classList.add(
+        "yhtis-indicator-correct-host-v2"
+    );
+
+
+    wrap.setAttribute(
+        "data-yhtis-inside-real-activity",
+        "1"
+    );
+
+
+    return true;
+}
+
+
+/* ============================================================
+   主修復
+   ============================================================ */
+
+function yhtisIndicatorActivityFixRunV2(){
+
+    yhtisIndicatorFixStyleV2();
+
+    yhtisIndicatorRemoveWrongPlacementV2();
+
+    yhtisIndicatorMountCorrectlyV2();
+}
+
+
+/* ============================================================
+   點 ⚡ 活躍條件後再定位
+   ============================================================ */
+
+document.addEventListener(
+    "click",
+    function(e){
+
+        const btn =
+            e.target.closest(
+                "button,summary"
+            );
+
+
+        if(!btn){
+            return;
+        }
+
+
+        const t =
+            String(
+                btn.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        if(
+            !t.includes(
+                "活躍條件"
+            )
+        ){
+            return;
+        }
+
+
+        [
+            0,
+            50,
+            150,
+            350
+        ]
+        .forEach(ms => {
+
+            setTimeout(
+                yhtisIndicatorActivityFixRunV2,
+                ms
+            );
+        });
+    }
+);
+
+
+/* ============================================================
+   初始化
+   ============================================================ */
+
+[
+    300,
+    700,
+    1300,
+    2200,
+    3500
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisIndicatorActivityFixRunV2,
+        ms
+    );
+});
+
+
+let yhtisIndicatorFixTimerV2 = null;
+
+
+const yhtisIndicatorFixObserverV2 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisIndicatorFixTimerV2
+            );
+
+
+            yhtisIndicatorFixTimerV2 =
+                setTimeout(
+                    yhtisIndicatorActivityFixRunV2,
+                    90
+                );
+        }
+    );
+
+
+yhtisIndicatorFixObserverV2.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_INDICATOR_INTO_ACTIVITY_V1 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   📊 指標篩選
+   整合進 ⚡ 活躍條件
+
+   原本 Indicator Filter 邏輯完全保留，
+   只重新安排 UI 位置。
+   ============================================================ */
+
+
+function yhtisIndicatorActivityStyleV1(){
+
+    if(
+        document.getElementById(
+            "yhtisIndicatorActivityStyleV1"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "yhtisIndicatorActivityStyleV1";
+
+
+    style.textContent = `
+
+        /*
+         * 指標篩選進入活躍條件後
+         * 改成完整寬度
+         */
+        .yhtis-indicator-inside-activity-v1{
+
+            display:block !important;
+
+            width:100% !important;
+
+            box-sizing:border-box !important;
+
+            margin:
+                8px 0 4px 0 !important;
+
+            padding-top:8px;
+
+            border-top:
+                1px solid rgba(100,116,139,.30);
+        }
+
+
+        .yhtis-indicator-inside-activity-v1
+        #yhtisIndicatorFilterButtonV1{
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:space-between;
+
+            width:100% !important;
+
+            min-height:39px !important;
+
+            box-sizing:border-box !important;
+
+            padding:
+                7px 9px !important;
+
+            text-align:left !important;
+
+            border-color:
+                rgba(139,92,246,.70) !important;
+
+            background:
+                rgba(76,29,149,.13) !important;
+
+            font-size:12px !important;
+        }
+
+
+        /*
+         * 原本 menu 是浮動式。
+         * 進活躍條件後改為 inline，
+         * 展開時不會跑出容器或被裁掉。
+         */
+        .yhtis-indicator-inside-activity-v1
+        #yhtisIndicatorFilterMenuV1{
+
+            position:static !important;
+
+            top:auto !important;
+
+            left:auto !important;
+
+            z-index:auto !important;
+
+            width:100% !important;
+
+            min-width:0 !important;
+
+            box-sizing:border-box !important;
+
+            margin-top:5px !important;
+
+            box-shadow:none !important;
+
+            background:
+                rgba(15,23,42,.76) !important;
+        }
+
+
+        .yhtis-indicator-inside-activity-v1
+        .yhtis-ind-option-v1{
+
+            min-height:34px;
+
+            padding:
+                6px 8px !important;
+        }
+
+
+        .yhtis-activity-indicator-label-v1{
+
+            margin:
+                2px 0 5px 2px;
+
+            color:#a78bfa;
+
+            font-size:10px;
+
+            font-weight:850;
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   找「⚡ 活躍條件」Trigger
+   ============================================================ */
+
+function yhtisFindActivityTriggerV1(){
+
+    return [
+        ...document.querySelectorAll(
+            "button,summary"
+        )
+    ]
+    .find(el => {
+
+        return String(
+            el.textContent || ""
+        )
+        .replace(/\s+/g," ")
+        .includes(
+            "活躍條件"
+        );
+    }) || null;
+}
+
+
+/* ============================================================
+   找「活躍條件」真正內容區
+   ============================================================ */
+
+function yhtisFindActivityPanelV1(){
+
+    const trigger =
+        yhtisFindActivityTriggerV1();
+
+
+    if(!trigger){
+        return null;
+    }
+
+
+    /*
+     * Case 1：
+     * details / summary 結構
+     */
+    const details =
+        trigger.closest(
+            "details"
+        );
+
+
+    if(details){
+
+        let panel =
+            [
+                ...details.children
+            ]
+            .find(el =>
+                el.tagName
+                !== "SUMMARY"
+            );
+
+
+        if(!panel){
+
+            panel =
+                document.createElement(
+                    "div"
+                );
+
+            panel.style.cssText =
+                "padding:6px 8px 9px 8px;";
+
+            details.appendChild(
+                panel
+            );
+        }
+
+
+        return panel;
+    }
+
+
+    /*
+     * Case 2：
+     * aria-controls
+     */
+    const controlId =
+        trigger.getAttribute(
+            "aria-controls"
+        );
+
+
+    if(controlId){
+
+        const controlled =
+            document.getElementById(
+                controlId
+            );
+
+        if(controlled){
+            return controlled;
+        }
+    }
+
+
+    /*
+     * Case 3：
+     * 相鄰 dropdown panel
+     */
+    let sib =
+        trigger.nextElementSibling;
+
+
+    if(sib){
+
+        const txt =
+            String(
+                sib.textContent || ""
+            );
+
+
+        if(
+            txt.includes("換手")
+            ||
+            txt.includes("筆量")
+            ||
+            txt.includes("高活躍")
+        ){
+            return sib;
+        }
+    }
+
+
+    /*
+     * Case 4：
+     * 往父層找同時包含
+     * 活躍條件 + 換手 / 筆量 的小型容器
+     */
+    let node =
+        trigger.parentElement;
+
+
+    for(
+        let i = 0;
+        i < 5 && node;
+        i++
+    ){
+
+        const text =
+            String(
+                node.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        if(
+            text.includes(
+                "活躍條件"
+            )
+            &&
+            (
+                text.includes(
+                    "換手"
+                )
+                ||
+                text.includes(
+                    "筆量"
+                )
+                ||
+                text.includes(
+                    "高活躍"
+                )
+            )
+            &&
+            text.length < 900
+        ){
+
+            /*
+             * 優先找內層選單容器
+             */
+            const child =
+                [
+                    ...node.children
+                ]
+                .find(el => {
+
+                    if(
+                        el === trigger
+                        ||
+                        el.contains(
+                            trigger
+                        )
+                    ){
+                        return false;
+                    }
+
+
+                    const t =
+                        String(
+                            el.textContent || ""
+                        );
+
+
+                    return (
+                        t.includes(
+                            "換手"
+                        )
+                        ||
+                        t.includes(
+                            "筆量"
+                        )
+                        ||
+                        t.includes(
+                            "高活躍"
+                        )
+                    );
+                });
+
+
+            return child || node;
+        }
+
+
+        node =
+            node.parentElement;
+    }
+
+
+    return null;
+}
+
+
+/* ============================================================
+   把既有「📊 篩選指標」搬進去
+   ============================================================ */
+
+function yhtisMoveIndicatorIntoActivityV1(){
+
+    const wrap =
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        );
+
+
+    const panel =
+        yhtisFindActivityPanelV1();
+
+
+    if(
+        !wrap
+        ||
+        !panel
+    ){
+        return false;
+    }
+
+
+    /*
+     * 已經在裡面
+     */
+    if(
+        panel.contains(
+            wrap
+        )
+    ){
+
+        wrap.classList.add(
+            "yhtis-indicator-inside-activity-v1"
+        );
+
+        return true;
+    }
+
+
+    /*
+     * 加一個小標題
+     */
+    let label =
+        panel.querySelector(
+            ".yhtis-activity-indicator-label-v1"
+        );
+
+
+    if(!label){
+
+        label =
+            document.createElement(
+                "div"
+            );
+
+        label.className =
+            "yhtis-activity-indicator-label-v1";
+
+        label.textContent =
+            "📊 技術／階段指標";
+    }
+
+
+    /*
+     * 優先放到「套用」按鈕之前。
+     */
+    const apply =
+        [
+            ...panel.querySelectorAll(
+                "button"
+            )
+        ]
+        .find(btn =>
+            String(
+                btn.textContent || ""
+            )
+            .includes(
+                "套用"
+            )
+        );
+
+
+    if(
+        apply
+        &&
+        apply.parentElement
+    ){
+
+        apply.parentElement.insertBefore(
+            label,
+            apply
+        );
+
+
+        apply.parentElement.insertBefore(
+            wrap,
+            apply
+        );
+
+    }
+
+    else{
+
+        panel.appendChild(
+            label
+        );
+
+
+        panel.appendChild(
+            wrap
+        );
+    }
+
+
+    wrap.classList.add(
+        "yhtis-indicator-inside-activity-v1"
+    );
+
+
+    /*
+     * 不再讓它以外部獨立紫色按鈕存在。
+     */
+    wrap.setAttribute(
+        "data-yhtis-inside-activity",
+        "1"
+    );
+
+
+    return true;
+}
+
+
+/* ============================================================
+   防止 V1 後續又把 Filter 移回外面
+   ============================================================ */
+
+function yhtisKeepIndicatorInsideActivityV1(){
+
+    const wrap =
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        );
+
+
+    if(!wrap){
+        return;
+    }
+
+
+    const panel =
+        yhtisFindActivityPanelV1();
+
+
+    if(
+        panel
+        &&
+        !panel.contains(
+            wrap
+        )
+    ){
+        yhtisMoveIndicatorIntoActivityV1();
+    }
+}
+
+
+/* ============================================================
+   Run
+   ============================================================ */
+
+function yhtisIndicatorIntoActivityRunV1(){
+    return; /* disabled by YHTIS_INDICATOR_INTO_ACTIVITY_FIX_V2 */
+
+    yhtisIndicatorActivityStyleV1();
+
+    yhtisMoveIndicatorIntoActivityV1();
+
+    yhtisKeepIndicatorInsideActivityV1();
+}
+
+
+[
+    500,
+    1000,
+    1800,
+    3000,
+    4800
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisIndicatorIntoActivityRunV1,
+        ms
+    );
+});
+
+
+let yhtisIndicatorIntoActivityTimerV1 =
+    null;
+
+
+const yhtisIndicatorIntoActivityObserverV1 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisIndicatorIntoActivityTimerV1
+            );
+
+
+            yhtisIndicatorIntoActivityTimerV1 =
+                setTimeout(
+                    yhtisIndicatorIntoActivityRunV1,
+                    100
+                );
+        }
+    );
+
+
+yhtisIndicatorIntoActivityObserverV1.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_ADVANCED_INDICATOR_FILTER_V1 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   📊 自由指標篩選
+
+   支援複選：
+   🔥 強力買進
+   ✨ EMA黃金交叉
+   🟢 可進場
+   🟡 等確認
+   ⌛ 等回踩
+   🚀 爆發
+   👑 主升段
+
+   多個指標之間：
+   AND 交集
+   ============================================================ */
+
+
+const YHTIS_IND_FILTER_V1 = {
+
+    selected:new Set(),
+
+    options:[
+
+        {
+            id:"strong",
+            label:"🔥 強力買進",
+            match:"強力買進"
+        },
+
+        {
+            id:"golden",
+            label:"✨ EMA黃金交叉",
+            match:"EMA黃金交叉"
+        },
+
+        {
+            id:"entry",
+            label:"🟢 可進場",
+            match:"可進場"
+        },
+
+        {
+            id:"confirm",
+            label:"🟡 等確認",
+            match:"等確認"
+        },
+
+        {
+            id:"pullback",
+            label:"⌛ 等回踩",
+            match:"等回踩"
+        },
+
+        {
+            id:"explode",
+            label:"🚀 爆發",
+            match:"爆發"
+        },
+
+        {
+            id:"markup",
+            label:"👑 主升段",
+            match:"主升段"
+        }
+    ]
+};
+
+
+/* ============================================================
+   Style
+   ============================================================ */
+
+function yhtisIndicatorFilterStyleV1(){
+
+    if(
+        document.getElementById(
+            "yhtisIndicatorFilterStyleV1"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "yhtisIndicatorFilterStyleV1";
+
+
+    style.textContent = `
+
+        #yhtisIndicatorFilterWrapV1{
+
+            position:relative;
+
+            display:inline-flex;
+        }
+
+
+        #yhtisIndicatorFilterButtonV1{
+
+            min-height:42px;
+
+            padding:7px 12px;
+
+            border:
+                1px solid #8b5cf6;
+
+            border-radius:9px;
+
+            background:
+                rgba(76,29,149,.16);
+
+            color:#e9d5ff;
+
+            font-family:inherit;
+
+            font-size:13px;
+
+            font-weight:850;
+
+            cursor:pointer;
+
+            white-space:nowrap;
+        }
+
+
+        #yhtisIndicatorFilterButtonV1
+        .count{
+
+            display:inline-flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            min-width:21px;
+
+            margin-left:4px;
+
+            padding:1px 5px;
+
+            border-radius:999px;
+
+            background:
+                rgba(255,255,255,.12);
+
+            font-size:9px;
+        }
+
+
+        #yhtisIndicatorFilterMenuV1{
+
+            position:absolute;
+
+            z-index:99999;
+
+            top:calc(100% + 6px);
+
+            left:0;
+
+            display:none;
+
+            min-width:225px;
+
+            padding:8px;
+
+            border:
+                1px solid #475569;
+
+            border-radius:10px;
+
+            background:#0b1220;
+
+            box-shadow:
+                0 16px 30px
+                rgba(0,0,0,.35);
+        }
+
+
+        #yhtisIndicatorFilterMenuV1.open{
+
+            display:block;
+        }
+
+
+        .yhtis-ind-option-v1{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:8px;
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            padding:8px 9px;
+
+            border-radius:7px;
+
+            cursor:pointer;
+
+            font-size:12px;
+
+            color:#e2e8f0;
+        }
+
+
+        .yhtis-ind-option-v1:hover{
+
+            background:
+                rgba(51,65,85,.55);
+        }
+
+
+        .yhtis-ind-option-v1 input{
+
+            width:15px;
+
+            height:15px;
+        }
+
+
+        .yhtis-ind-footer-v1{
+
+            display:flex;
+
+            justify-content:flex-end;
+
+            margin-top:6px;
+
+            padding-top:6px;
+
+            border-top:
+                1px solid #334155;
+        }
+
+
+        .yhtis-ind-clear-v1{
+
+            border:0;
+
+            background:transparent;
+
+            color:#94a3b8;
+
+            font-size:11px;
+
+            cursor:pointer;
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   找目前自由篩選區
+   ============================================================ */
+
+function yhtisFindAdvancedFilterPanelV1(){
+
+    const buttons =
+        [
+            ...document.querySelectorAll(
+                "button"
+            )
+        ];
+
+
+    const today =
+        buttons.find(
+            x =>
+                String(
+                    x.textContent || ""
+                )
+                .includes(
+                    "今日作戰策略"
+                )
+        );
+
+
+    if(!today){
+        return null;
+    }
+
+
+    let node =
+        today.parentElement;
+
+
+    for(
+        let i = 0;
+        i < 4 && node;
+        i++
+    ){
+
+        const text =
+            String(
+                node.textContent || ""
+            )
+            .replace(/\s+/g," ");
+
+
+        if(
+            text.includes(
+                "今日作戰策略"
+            )
+            &&
+            text.includes(
+                "套用"
+            )
+            &&
+            text.length < 500
+        ){
+            return node;
+        }
+
+
+        node =
+            node.parentElement;
+    }
+
+
+    return today.parentElement;
+}
+
+
+/* ============================================================
+   找 Filter Key
+   ============================================================ */
+
+function yhtisFindQuickFilterKeyV1(
+    keyword
+){
+
+    /*
+     * 優先直接掃現有 data-master-filter
+     */
+    const btn =
+        [
+            ...document.querySelectorAll(
+                "[data-master-filter]"
+            )
+        ]
+        .find(
+            x =>
+                String(
+                    x.textContent || ""
+                )
+                .includes(
+                    keyword
+                )
+        );
+
+
+    if(btn){
+
+        return btn.getAttribute(
+            "data-master-filter"
+        );
+    }
+
+
+    /*
+     * 再從正式 QUICK FILTER config 找
+     */
+    try{
+
+        if(
+            typeof YHTIS_QUICK_FILTERS
+            !== "undefined"
+        ){
+
+            for(
+                const [
+                    key,
+                    cfg
+                ]
+                of Object.entries(
+                    YHTIS_QUICK_FILTERS
+                )
+            ){
+
+                const label =
+                    String(
+                        cfg.label || ""
+                    );
+
+
+                if(
+                    label.includes(
+                        keyword
+                    )
+                ){
+                    return key;
+                }
+            }
+        }
+
+    }
+    catch(e){}
+
+
+    return null;
+}
+
+
+/* ============================================================
+   EMA Golden Cross Code Set
+   ============================================================ */
+
+async function yhtisGoldenCodesV1(){
+
+    const result =
+        new Set();
+
+
+    try{
+
+        const r =
+            await fetch(
+                "/output/research/"
+                + "ema_golden_cross_v1/"
+                + "latest.csv?v="
+                + Date.now(),
+                {
+                    cache:"no-store"
+                }
+            );
+
+
+        if(!r.ok){
+            return result;
+        }
+
+
+        const text =
+            await r.text();
+
+
+        const lines =
+            text
+            .split(/\r?\n/)
+            .filter(Boolean);
+
+
+        if(lines.length < 2){
+            return result;
+        }
+
+
+        const header =
+            lines[0]
+            .split(",")
+            .map(
+                x =>
+                    x
+                    .replace(/^"|"$/g,"")
+                    .trim()
+            );
+
+
+        let codeIndex =
+            header.findIndex(
+                x =>
+                    /code|股票代號|代號/i
+                    .test(x)
+            );
+
+
+        if(codeIndex < 0){
+            codeIndex = 0;
+        }
+
+
+        lines
+        .slice(1)
+        .forEach(line => {
+
+            const cells =
+                line
+                .match(
+                    /(".*?"|[^",]+)(?=\s*,|\s*$)/g
+                )
+                ||
+                line.split(",");
+
+
+            const code =
+                String(
+                    cells[
+                        codeIndex
+                    ] || ""
+                )
+                .replace(/"/g,"")
+                .replace(/\.0$/,"")
+                .trim();
+
+
+            if(
+                /^\d{4}$/.test(
+                    code
+                )
+            ){
+                result.add(
+                    code
+                );
+            }
+        });
+
+    }
+    catch(e){
+
+        console.warn(
+            "EMA Golden filter:",
+            e
+        );
+    }
+
+
+    return result;
+}
+
+
+/* ============================================================
+   單一指標 Code Set
+   ============================================================ */
+
+async function yhtisIndicatorCodesV1(
+    option
+){
+
+    /*
+     * EMA 黃金交叉使用正式 Golden CSV
+     */
+    if(
+        option.id
+        === "golden"
+    ){
+        return await yhtisGoldenCodesV1();
+    }
+
+
+    const key =
+        yhtisFindQuickFilterKeyV1(
+            option.match
+        );
+
+
+    if(
+        !key
+        ||
+        typeof getDashboardFilterStocks
+            !== "function"
+    ){
+
+        return new Set();
+    }
+
+
+    try{
+
+        const rows =
+            await getDashboardFilterStocks(
+                key
+            );
+
+
+        const set =
+            new Set();
+
+
+        (
+            Array.isArray(rows)
+            ? rows
+            : []
+        )
+        .forEach(row => {
+
+            const code =
+                String(
+                    row.code
+                    ||
+                    row.Code
+                    ||
+                    row.股票代號
+                    ||
+                    row.代號
+                    ||
+                    ""
+                )
+                .replace(/\.0$/,"")
+                .trim();
+
+
+            if(
+                /^\d{4}$/.test(
+                    code
+                )
+            ){
+                set.add(
+                    code
+                );
+            }
+        });
+
+
+        return set;
+
+    }
+
+    catch(e){
+
+        console.warn(
+            "Indicator Filter:",
+            option.id,
+            e
+        );
+
+
+        return new Set();
+    }
+}
+
+
+/* ============================================================
+   AND Intersection
+   ============================================================ */
+
+async function yhtisBuildIndicatorIntersectionV1(){
+
+    const selected =
+        YHTIS_IND_FILTER_V1
+        .options
+        .filter(
+            x =>
+                YHTIS_IND_FILTER_V1
+                .selected
+                .has(x.id)
+        );
+
+
+    if(!selected.length){
+        return null;
+    }
+
+
+    const sets =
+        [];
+
+
+    for(const option of selected){
+
+        sets.push(
+            await yhtisIndicatorCodesV1(
+                option
+            )
+        );
+    }
+
+
+    if(!sets.length){
+        return new Set();
+    }
+
+
+    let result =
+        new Set(
+            sets[0]
+        );
+
+
+    for(
+        let i = 1;
+        i < sets.length;
+        i++
+    ){
+
+        result =
+            new Set(
+                [
+                    ...result
+                ]
+                .filter(
+                    code =>
+                        sets[i]
+                        .has(code)
+                )
+            );
+    }
+
+
+    return result;
+}
+
+
+/* ============================================================
+   Update Button Label
+   ============================================================ */
+
+function yhtisIndicatorUpdateButtonV1(){
+
+    const btn =
+        document.getElementById(
+            "yhtisIndicatorFilterButtonV1"
+        );
+
+
+    if(!btn){
+        return;
+    }
+
+
+    const n =
+        YHTIS_IND_FILTER_V1
+        .selected
+        .size;
+
+
+    btn.innerHTML =
+        "📊 篩選指標 ▾"
+        +
+        (
+            n
+            ? "<span class='count'>"
+              + n
+              + "</span>"
+            : ""
+        );
+}
+
+
+/* ============================================================
+   建立 UI
+   ============================================================ */
+
+function yhtisInstallIndicatorFilterV1(){
+
+    if(
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        )
+    ){
+        return true;
+    }
+
+
+    const panel =
+        yhtisFindAdvancedFilterPanelV1();
+
+
+    if(!panel){
+        return false;
+    }
+
+
+    const wrap =
+        document.createElement(
+            "div"
+        );
+
+
+    wrap.id =
+        "yhtisIndicatorFilterWrapV1";
+
+
+    const btn =
+        document.createElement(
+            "button"
+        );
+
+
+    btn.type =
+        "button";
+
+
+    btn.id =
+        "yhtisIndicatorFilterButtonV1";
+
+
+    btn.textContent =
+        "📊 篩選指標 ▾";
+
+
+    const menu =
+        document.createElement(
+            "div"
+        );
+
+
+    menu.id =
+        "yhtisIndicatorFilterMenuV1";
+
+
+    YHTIS_IND_FILTER_V1
+    .options
+    .forEach(opt => {
+
+        const label =
+            document.createElement(
+                "label"
+            );
+
+
+        label.className =
+            "yhtis-ind-option-v1";
+
+
+        const input =
+            document.createElement(
+                "input"
+            );
+
+
+        input.type =
+            "checkbox";
+
+
+        input.value =
+            opt.id;
+
+
+        input.addEventListener(
+            "change",
+            function(){
+
+                if(input.checked){
+
+                    YHTIS_IND_FILTER_V1
+                    .selected
+                    .add(
+                        opt.id
+                    );
+
+                }
+
+                else{
+
+                    YHTIS_IND_FILTER_V1
+                    .selected
+                    .delete(
+                        opt.id
+                    );
+                }
+
+
+                yhtisIndicatorUpdateButtonV1();
+            }
+        );
+
+
+        const text =
+            document.createElement(
+                "span"
+            );
+
+
+        text.textContent =
+            opt.label;
+
+
+        label.appendChild(
+            input
+        );
+
+
+        label.appendChild(
+            text
+        );
+
+
+        menu.appendChild(
+            label
+        );
+    });
+
+
+    const footer =
+        document.createElement(
+            "div"
+        );
+
+
+    footer.className =
+        "yhtis-ind-footer-v1";
+
+
+    const clear =
+        document.createElement(
+            "button"
+        );
+
+
+    clear.type =
+        "button";
+
+
+    clear.className =
+        "yhtis-ind-clear-v1";
+
+
+    clear.textContent =
+        "清除指標";
+
+
+    clear.addEventListener(
+        "click",
+        function(e){
+
+            e.stopPropagation();
+
+
+            YHTIS_IND_FILTER_V1
+            .selected
+            .clear();
+
+
+            menu
+            .querySelectorAll(
+                'input[type="checkbox"]'
+            )
+            .forEach(
+                x =>
+                    x.checked = false
+            );
+
+
+            yhtisIndicatorUpdateButtonV1();
+        }
+    );
+
+
+    footer.appendChild(
+        clear
+    );
+
+
+    menu.appendChild(
+        footer
+    );
+
+
+    wrap.appendChild(
+        btn
+    );
+
+
+    wrap.appendChild(
+        menu
+    );
+
+
+    /*
+     * 放在「筆量」後面，
+     * 套用按鈕前面。
+     */
+    const apply =
+        [
+            ...panel.querySelectorAll(
+                "button"
+            )
+        ]
+        .find(
+            x =>
+                String(
+                    x.textContent || ""
+                )
+                .includes(
+                    "套用"
+                )
+        );
+
+
+    if(apply){
+
+        apply.parentElement.insertBefore(
+            wrap,
+            apply
+        );
+
+    }
+
+    else{
+
+        panel.appendChild(
+            wrap
+        );
+    }
+
+
+    btn.addEventListener(
+        "click",
+        function(e){
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+
+            menu.classList.toggle(
+                "open"
+            );
+        }
+    );
+
+
+    return true;
+}
+
+
+/* ============================================================
+   Filter Current Results
+   ============================================================ */
+
+async function yhtisApplyIndicatorFilterV1(){
+
+    const allowed =
+        await yhtisBuildIndicatorIntersectionV1();
+
+
+    /*
+     * 沒選指標：
+     * 不額外限制。
+     */
+    if(allowed === null){
+        return;
+    }
+
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+
+    if(!box){
+        return;
+    }
+
+
+    const cards =
+        [
+            ...box.querySelectorAll(
+                "[data-master-code]"
+            )
+        ];
+
+
+    let visible = 0;
+
+
+    cards.forEach(card => {
+
+        const code =
+            String(
+                card.getAttribute(
+                    "data-master-code"
+                )
+                ||
+                ""
+            )
+            .trim();
+
+
+        const pass =
+            allowed.has(
+                code
+            );
+
+
+        card.style.display =
+            pass
+            ? ""
+            : "none";
+
+
+        if(pass){
+            visible++;
+        }
+    });
+
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+
+    if(msg){
+
+        const selectedLabels =
+            YHTIS_IND_FILTER_V1
+            .options
+            .filter(
+                x =>
+                    YHTIS_IND_FILTER_V1
+                    .selected
+                    .has(
+                        x.id
+                    )
+            )
+            .map(
+                x =>
+                    x.label
+            );
+
+
+        msg.textContent =
+            "📊 指標交集："
+            + selectedLabels.join(
+                " + "
+            )
+            + "｜"
+            + visible
+            + " 檔";
+    }
+}
+
+
+/* ============================================================
+   Hook 套用 / 清除
+   ============================================================ */
+
+function yhtisHookIndicatorApplyV1(){
+
+    const panel =
+        yhtisFindAdvancedFilterPanelV1();
+
+
+    if(!panel){
+        return;
+    }
+
+
+    const buttons =
+        [
+            ...panel.querySelectorAll(
+                "button"
+            )
+        ];
+
+
+    const apply =
+        buttons.find(
+            x =>
+                String(
+                    x.textContent || ""
+                )
+                .includes(
+                    "套用"
+                )
+        );
+
+
+    const clear =
+        buttons.find(
+            x =>
+                String(
+                    x.textContent || ""
+                )
+                .includes(
+                    "清除"
+                )
+        );
+
+
+    if(
+        apply
+        &&
+        apply.dataset
+            .yhtisIndicatorHook
+            !== "1"
+    ){
+
+        apply.dataset
+            .yhtisIndicatorHook =
+            "1";
+
+
+        apply.addEventListener(
+            "click",
+            function(){
+
+                /*
+                 * 先讓原本的：
+                 * 策略 / 活躍 / 換手 / 筆量
+                 * 完成篩選。
+                 *
+                 * 再做指標 AND。
+                 */
+                setTimeout(
+                    yhtisApplyIndicatorFilterV1,
+                    350
+                );
+            }
+        );
+    }
+
+
+    if(
+        clear
+        &&
+        clear.dataset
+            .yhtisIndicatorHook
+            !== "1"
+    ){
+
+        clear.dataset
+            .yhtisIndicatorHook =
+            "1";
+
+
+        clear.addEventListener(
+            "click",
+            function(){
+
+                YHTIS_IND_FILTER_V1
+                .selected
+                .clear();
+
+
+                document
+                .querySelectorAll(
+                    "#yhtisIndicatorFilterMenuV1 "
+                    + 'input[type="checkbox"]'
+                )
+                .forEach(
+                    x =>
+                        x.checked = false
+                );
+
+
+                yhtisIndicatorUpdateButtonV1();
+            }
+        );
+    }
+}
+
+
+/* ============================================================
+   點外面自動關閉
+   ============================================================ */
+
+document.addEventListener(
+    "click",
+    function(e){
+
+        const wrap =
+            document.getElementById(
+                "yhtisIndicatorFilterWrapV1"
+            );
+
+
+        const menu =
+            document.getElementById(
+                "yhtisIndicatorFilterMenuV1"
+            );
+
+
+        if(
+            wrap
+            &&
+            menu
+            &&
+            !wrap.contains(
+                e.target
+            )
+        ){
+            menu.classList.remove(
+                "open"
+            );
+        }
+    }
+);
+
+
+/* ============================================================
+   Run
+   ============================================================ */
+
+function yhtisIndicatorFilterRunV1(){
+
+    yhtisIndicatorFilterStyleV1();
+
+    yhtisInstallIndicatorFilterV1();
+
+    yhtisHookIndicatorApplyV1();
+}
+
+
+[
+    400,
+    900,
+    1600,
+    2800,
+    4500
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisIndicatorFilterRunV1,
+        ms
+    );
+});
+
+
+let yhtisIndicatorTimerV1 =
+    null;
+
+
+const yhtisIndicatorObserverV1 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisIndicatorTimerV1
+            );
+
+
+            yhtisIndicatorTimerV1 =
+                setTimeout(
+                    yhtisIndicatorFilterRunV1,
+                    120
+                );
+        }
+    );
+
+
+yhtisIndicatorObserverV1.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_FILTER_COUNT_BADGES_V1 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   快捷篩選按鈕：
+   顯示目前符合檔數
+
+   數量直接使用：
+   getDashboardFilterStocks(filterKey)
+
+   所以：
+   按鈕顯示數量
+   =
+   點進去實際結果數量
+   ============================================================ */
+
+
+const YHTIS_FILTER_COUNT_CACHE_V1 =
+    new Map();
+
+
+function yhtisInstallFilterCountStyleV1(){
+
+    if(
+        document.getElementById(
+            "yhtisFilterCountStyleV1"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "yhtisFilterCountStyleV1";
+
+
+    style.textContent = `
+
+        .yhtis-filter-count-v1{
+
+            display:inline-flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            min-width:28px;
+
+            margin-left:5px;
+
+            padding:2px 6px;
+
+            border-radius:999px;
+
+            background:
+                rgba(255,255,255,.12);
+
+            color:#f8fafc;
+
+            font-size:10px;
+
+            font-weight:900;
+
+            line-height:1.2;
+
+            vertical-align:middle;
+
+            white-space:nowrap;
+        }
+
+
+        .yhtis-filter-count-zero-v1{
+
+            opacity:.55;
+        }
+
+
+        [data-master-filter]{
+
+            position:relative;
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   找按鈕的原始標題區
+   ============================================================ */
+
+function yhtisGetFilterCountHostV1(
+    btn
+){
+
+    /*
+     * 如果按鈕裡有主標題 div，
+     * badge 放在主標題。
+     */
+    const divs =
+        [
+            ...btn.querySelectorAll(
+                "div"
+            )
+        ];
+
+
+    const host =
+        divs.find(el => {
+
+            const t =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            return (
+                t.length > 0
+                &&
+                t.length < 40
+            );
+        });
+
+
+    return host || btn;
+}
+
+
+/* ============================================================
+   寫 badge
+   ============================================================ */
+
+function yhtisSetFilterCountV1(
+    btn,
+    count
+){
+
+    if(!btn){
+        return;
+    }
+
+
+    let badge =
+        btn.querySelector(
+            ":scope .yhtis-filter-count-v1"
+        );
+
+
+    if(!badge){
+
+        badge =
+            document.createElement(
+                "span"
+            );
+
+
+        badge.className =
+            "yhtis-filter-count-v1";
+
+
+        const host =
+            yhtisGetFilterCountHostV1(
+                btn
+            );
+
+
+        host.appendChild(
+            badge
+        );
+    }
+
+
+    badge.textContent =
+        String(count)
+        + "檔";
+
+
+    badge.classList.toggle(
+        "yhtis-filter-count-zero-v1",
+        Number(count) === 0
+    );
+}
+
+
+/* ============================================================
+   單一 Filter 計數
+   ============================================================ */
+
+async function yhtisCountOneFilterV1(
+    btn
+){
+
+    const key =
+        btn.getAttribute(
+            "data-master-filter"
+        );
+
+
+    if(!key){
+        return;
+    }
+
+
+    /*
+     * 同一輪不重複抓。
+     */
+    if(
+        YHTIS_FILTER_COUNT_CACHE_V1.has(
+            key
+        )
+    ){
+
+        yhtisSetFilterCountV1(
+            btn,
+            YHTIS_FILTER_COUNT_CACHE_V1.get(
+                key
+            )
+        );
+
+        return;
+    }
+
+
+    /*
+     * 使用 MASTER 正式篩選函式。
+     */
+    if(
+        typeof getDashboardFilterStocks
+        !== "function"
+    ){
+        return;
+    }
+
+
+    try{
+
+        const rows =
+            await getDashboardFilterStocks(
+                key
+            );
+
+
+        const count =
+            Array.isArray(rows)
+            ? rows.length
+            : 0;
+
+
+        YHTIS_FILTER_COUNT_CACHE_V1.set(
+            key,
+            count
+        );
+
+
+        /*
+         * 同一 filter 若畫面有兩顆按鈕，
+         * 全部同步。
+         */
+        document
+        .querySelectorAll(
+            '[data-master-filter="'
+            + key
+            + '"]'
+        )
+        .forEach(x => {
+
+            yhtisSetFilterCountV1(
+                x,
+                count
+            );
+        });
+
+    }
+
+    catch(e){
+
+        console.warn(
+            "YHTIS Filter Count failed:",
+            key,
+            e
+        );
+    }
+}
+
+
+/* ============================================================
+   全部更新
+   ============================================================ */
+
+async function yhtisUpdateFilterCountsV1(
+    force=false
+){
+
+    yhtisInstallFilterCountStyleV1();
+
+
+    if(force){
+
+        YHTIS_FILTER_COUNT_CACHE_V1.clear();
+    }
+
+
+    const buttons =
+        [
+            ...document.querySelectorAll(
+                "[data-master-filter]"
+            )
+        ];
+
+
+    /*
+     * 依 filterKey 去重，
+     * 避免同一條件打兩次資料。
+     */
+    const seen =
+        new Set();
+
+
+    for(const btn of buttons){
+
+        const key =
+            btn.getAttribute(
+                "data-master-filter"
+            );
+
+
+        if(!key){
+            continue;
+        }
+
+
+        if(seen.has(key)){
+
+            if(
+                YHTIS_FILTER_COUNT_CACHE_V1.has(
+                    key
+                )
+            ){
+
+                yhtisSetFilterCountV1(
+                    btn,
+                    YHTIS_FILTER_COUNT_CACHE_V1.get(
+                        key
+                    )
+                );
+            }
+
+            continue;
+        }
+
+
+        seen.add(
+            key
+        );
+
+
+        await yhtisCountOneFilterV1(
+            btn
+        );
+    }
+}
+
+
+/* ============================================================
+   EMA 黃金交叉特殊按鈕
+   如果它不是 data-master-filter，
+   直接使用 Lifecycle V3 的 golden 數量。
+   ============================================================ */
+
+function yhtisUpdateGoldenSpecialCountV1(){
+
+    const goldenCount =
+        (
+            window.YHTIS_LB_V3
+            &&
+            window.YHTIS_LB_V3.stages
+            &&
+            Array.isArray(
+                window.YHTIS_LB_V3.stages.golden
+            )
+        )
+        ? window.YHTIS_LB_V3.stages.golden.length
+        : null;
+
+
+    /*
+     * 如果 Lifecycle store 沒暴露，
+     * 改讀生命週期上方現有 badge。
+     */
+    let count =
+        goldenCount;
+
+
+    if(count === null){
+
+        const life =
+            document.querySelector(
+                '[data-yhtis-life-stage-v3="golden"] '
+                + '.yhtis-lb-count-v3'
+            );
+
+
+        if(life){
+
+            const n =
+                parseInt(
+                    String(
+                        life.textContent || ""
+                    )
+                    .replace(/\D/g,""),
+                    10
+                );
+
+
+            if(Number.isFinite(n)){
+                count = n;
+            }
+        }
+    }
+
+
+    if(count === null){
+        return;
+    }
+
+
+    [
+        ...document.querySelectorAll(
+            "button"
+        )
+    ]
+    .filter(btn => {
+
+        if(
+            btn.hasAttribute(
+                "data-master-filter"
+            )
+        ){
+            return false;
+        }
+
+
+        const t =
+            String(
+                btn.textContent || ""
+            );
+
+
+        return (
+            t.includes(
+                "EMA黃金交叉"
+            )
+            ||
+            t.includes(
+                "黃金交叉"
+            )
+        );
+    })
+    .forEach(btn => {
+
+        yhtisSetFilterCountV1(
+            btn,
+            count
+        );
+    });
+}
+
+
+/* ============================================================
+   統一執行
+   ============================================================ */
+
+async function yhtisRunFilterCountsV1(){
+
+    await yhtisUpdateFilterCountsV1();
+
+    yhtisUpdateGoldenSpecialCountV1();
+}
+
+
+/*
+ * MASTER UI / 生命週期資料是分階段完成，
+ * 所以多刷新幾次。
+ */
+[
+    500,
+    1100,
+    2000,
+    3200,
+    5000
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisRunFilterCountsV1,
+        ms
+    );
+});
+
+
+/*
+ * 按鈕可能被重新搬位或重新建立。
+ */
+let yhtisFilterCountTimerV1 =
+    null;
+
+
+const yhtisFilterCountObserverV1 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisFilterCountTimerV1
+            );
+
+
+            yhtisFilterCountTimerV1 =
+                setTimeout(
+                    yhtisRunFilterCountsV1,
+                    140
+                );
+        }
+    );
+
+
+yhtisFilterCountObserverV1.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+/*
+ * 提供手動強制刷新
+ */
+window.yhtisRefreshFilterCounts =
+    function(){
+
+        return yhtisUpdateFilterCountsV1(
+            true
+        );
+    };
+
+
+})();
+
+
+/* YHTIS_MASTER_AUTOHIDE_ON_SCROLL_V1 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   往下滾動：
+   自動隱藏上方操作區
+
+   隱藏：
+   1. 股票搜尋列
+   2. 起漲生命週期
+   3. 最強一鍵 / 選股策略 / 活躍條件
+
+   保留：
+   快速導覽與 Dashboard 正文
+
+   往上滾：
+   自動恢復
+   ============================================================ */
+
+
+function yhtisAutoHideInstallStyleV1(){
+
+    if(
+        document.getElementById(
+            "yhtisAutoHideStyleV1"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "yhtisAutoHideStyleV1";
+
+
+    style.textContent = `
+
+        .yhtis-autohide-target-v1{
+
+            overflow:hidden;
+
+            transition:
+                max-height .20s ease,
+                opacity .16s ease,
+                transform .18s ease,
+                margin .20s ease,
+                padding .20s ease;
+        }
+
+
+        .yhtis-autohide-hidden-v1{
+
+            max-height:0 !important;
+
+            opacity:0 !important;
+
+            transform:
+                translateY(-12px) !important;
+
+            margin-top:0 !important;
+
+            margin-bottom:0 !important;
+
+            padding-top:0 !important;
+
+            padding-bottom:0 !important;
+
+            border-top-width:0 !important;
+
+            border-bottom-width:0 !important;
+
+            pointer-events:none !important;
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   找股票搜尋列
+   ============================================================ */
+
+function yhtisFindSearchRowV1(){
+
+    const input =
+        document.getElementById(
+            "yhtisMasterSearch"
+        );
+
+
+    if(!input){
+        return null;
+    }
+
+
+    let node =
+        input.parentElement;
+
+
+    /*
+     * 往上最多找 4 層，
+     * 找到同時含搜尋框＋查詢按鈕的最小容器。
+     */
+    for(
+        let i = 0;
+        i < 4 && node;
+        i++
+    ){
+
+        const buttons =
+            [
+                ...node.querySelectorAll(
+                    "button"
+                )
+            ];
+
+
+        const hasQuery =
+            buttons.some(btn =>
+                String(
+                    btn.textContent || ""
+                )
+                .includes("查詢")
+            );
+
+
+        const text =
+            String(
+                node.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        if(
+            hasQuery
+            &&
+            text.length < 300
+        ){
+            return node;
+        }
+
+
+        node =
+            node.parentElement;
+    }
+
+
+    return input.parentElement;
+}
+
+
+/* ============================================================
+   找出要一起隱藏的三個區塊
+   ============================================================ */
+
+function yhtisGetAutoHideTargetsV1(){
+
+    const targets = [];
+
+
+    const searchRow =
+        yhtisFindSearchRowV1();
+
+
+    const lifecycle =
+        document.getElementById(
+            "yhtisLifecycleCollapseV1"
+        );
+
+
+    const tools =
+        document.getElementById(
+            "yhtisLifecycleExternalToolsV1"
+        );
+
+
+    [
+        searchRow,
+        lifecycle,
+        tools
+    ]
+    .forEach(el => {
+
+        if(
+            el
+            &&
+            !targets.includes(el)
+        ){
+            targets.push(el);
+        }
+    });
+
+
+    return targets;
+}
+
+
+/* ============================================================
+   初始化 Target 高度
+   ============================================================ */
+
+function yhtisPrepareAutoHideTargetsV1(){
+
+    const targets =
+        yhtisGetAutoHideTargetsV1();
+
+
+    targets.forEach(el => {
+
+        el.classList.add(
+            "yhtis-autohide-target-v1"
+        );
+
+
+        /*
+         * 留足夠大的 max-height，
+         * 收合時才能做動畫。
+         */
+        if(
+            !el.classList.contains(
+                "yhtis-autohide-hidden-v1"
+            )
+        ){
+            el.style.maxHeight =
+                "500px";
+        }
+    });
+
+
+    return targets;
+}
+
+
+/* ============================================================
+   顯示 / 隱藏
+   ============================================================ */
+
+function yhtisSetTopControlsHiddenV1(
+    hidden
+){
+
+    const targets =
+        yhtisPrepareAutoHideTargetsV1();
+
+
+    /*
+     * 使用者正在搜尋框 / 控制按鈕內操作時，
+     * 不要突然把它收掉。
+     */
+    const active =
+        document.activeElement;
+
+
+    if(hidden){
+
+        const interacting =
+            targets.some(el =>
+                active
+                &&
+                el.contains(active)
+            );
+
+
+        if(interacting){
+            return;
+        }
+    }
+
+
+    targets.forEach(el => {
+
+        if(hidden){
+
+            el.classList.add(
+                "yhtis-autohide-hidden-v1"
+            );
+
+        }
+
+        else{
+
+            el.classList.remove(
+                "yhtis-autohide-hidden-v1"
+            );
+
+
+            el.style.maxHeight =
+                "500px";
+        }
+    });
+
+
+    document.body.setAttribute(
+        "data-yhtis-top-hidden",
+        hidden ? "1" : "0"
+    );
+}
+
+
+/* ============================================================
+   Scroll Direction
+   ============================================================ */
+
+let yhtisLastScrollYV1 =
+    window.scrollY || 0;
+
+
+let yhtisAutoHideLockedV1 =
+    false;
+
+
+function yhtisHandleAutoHideScrollV1(){
+
+    if(yhtisAutoHideLockedV1){
+        return;
+    }
+
+
+    yhtisAutoHideLockedV1 =
+        true;
+
+
+    requestAnimationFrame(
+        function(){
+
+            const y =
+                window.scrollY
+                ||
+                document.documentElement.scrollTop
+                ||
+                0;
+
+
+            const diff =
+                y - yhtisLastScrollYV1;
+
+
+            /*
+             * 頂端一定顯示
+             */
+            if(y < 70){
+
+                yhtisSetTopControlsHiddenV1(
+                    false
+                );
+
+            }
+
+
+            /*
+             * 明確向下捲
+             */
+            else if(diff > 8){
+
+                yhtisSetTopControlsHiddenV1(
+                    true
+                );
+
+            }
+
+
+            /*
+             * 明確向上捲
+             */
+            else if(diff < -8){
+
+                yhtisSetTopControlsHiddenV1(
+                    false
+                );
+
+            }
+
+
+            yhtisLastScrollYV1 =
+                y;
+
+
+            yhtisAutoHideLockedV1 =
+                false;
+        }
+    );
+}
+
+
+/* ============================================================
+   初始化
+   ============================================================ */
+
+function yhtisAutoHideRunV1(){
+
+    yhtisAutoHideInstallStyleV1();
+
+    yhtisPrepareAutoHideTargetsV1();
+}
+
+
+[
+    300,
+    700,
+    1300,
+    2200,
+    3500
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisAutoHideRunV1,
+        ms
+    );
+});
+
+
+window.addEventListener(
+    "scroll",
+    yhtisHandleAutoHideScrollV1,
+    {
+        passive:true
+    }
+);
+
+
+/*
+ * MASTER 元件有可能稍晚才建立。
+ */
+let yhtisAutoHideObserverTimerV1 =
+    null;
+
+
+const yhtisAutoHideObserverV1 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisAutoHideObserverTimerV1
+            );
+
+
+            yhtisAutoHideObserverTimerV1 =
+                setTimeout(
+                    yhtisAutoHideRunV1,
+                    120
+                );
+        }
+    );
+
+
+yhtisAutoHideObserverV1.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+/*
+ * Debug / 手動控制
+ */
+window.yhtisShowTopControls =
+    function(){
+
+        yhtisSetTopControlsHiddenV1(
+            false
+        );
+    };
+
+
+window.yhtisHideTopControls =
+    function(){
+
+        yhtisSetTopControlsHiddenV1(
+            true
+        );
+    };
+
+
+})();
+
+
+/* YHTIS_LIFECYCLE_EXTERNAL_TOOLS_V1 */
+
 function yhtisLBMergeToolsV3(){
 
     const bar =
@@ -8295,16 +12098,15 @@ function yhtisLBMergeToolsV3(){
             "yhtisLifecycleButtonBarV3"
         );
 
-
     if(!bar){
         return;
     }
 
 
     /*
-     * 舊的生命週期按鈕會重複：
-     * 🌱剛起漲 / 強力買入
-     * 直接隱藏。
+     * ========================================================
+     * 1. 生命週期只保留五階段
+     * ========================================================
      */
 
     document
@@ -8336,31 +12138,136 @@ function yhtisLBMergeToolsV3(){
 
 
     /*
-     * 👑 最強一鍵
+     * ========================================================
+     * 2. 找三個獨立工具
+     * ========================================================
      */
+
     const strongest =
         document.querySelector(
             '[data-strongest-oneclick="1"]'
         );
 
 
-    /*
-     * 🎯 選股策略
-     */
     const strategy =
         yhtisLBFindButtonByTextV3(
             "選股策略"
         );
 
 
-    /*
-     * ⚡ 活躍條件
-     */
     const activity =
         yhtisLBFindButtonByTextV3(
             "活躍條件"
         );
 
+
+    /*
+     * ========================================================
+     * 3. 建立生命週期外部工具列
+     * ========================================================
+     */
+
+    let external =
+        document.getElementById(
+            "yhtisLifecycleExternalToolsV1"
+        );
+
+
+    if(!external){
+
+        external =
+            document.createElement(
+                "div"
+            );
+
+        external.id =
+            "yhtisLifecycleExternalToolsV1";
+
+
+        external.style.cssText =
+            "display:flex;"
+            + "align-items:stretch;"
+            + "gap:8px;"
+            + "width:100%;"
+            + "box-sizing:border-box;"
+            + "margin:9px 0 10px 0;"
+            + "overflow-x:auto;"
+            + "padding:0 0 2px 0;";
+
+
+        /*
+         * 若生命週期已經包成 details，
+         * 放在 details 正下方。
+         */
+        const details =
+            document.getElementById(
+                "yhtisLifecycleCollapseV1"
+            );
+
+
+        if(
+            details
+            &&
+            details.parentElement
+        ){
+
+            details.insertAdjacentElement(
+                "afterend",
+                external
+            );
+        }
+
+        else if(
+            bar.parentElement
+        ){
+
+            bar.parentElement.insertBefore(
+                external,
+                bar.nextSibling
+            );
+        }
+    }
+
+
+    /*
+     * ========================================================
+     * 4. 如果生命週期後來才完成收合，
+     *    保證工具列還是在外面
+     * ========================================================
+     */
+
+    const details =
+        document.getElementById(
+            "yhtisLifecycleCollapseV1"
+        );
+
+
+    if(
+        details
+        &&
+        details.parentElement
+        &&
+        external.parentElement
+            !== details.parentElement
+    ){
+
+        details.insertAdjacentElement(
+            "afterend",
+            external
+        );
+    }
+
+
+    /*
+     * ========================================================
+     * 5. 三個按鈕搬到外部
+     *
+     * 正式順序：
+     * 👑 最強一鍵
+     * 🎯 選股策略
+     * ⚡ 活躍條件
+     * ========================================================
+     */
 
     [
         strongest,
@@ -8379,36 +12286,70 @@ function yhtisLBMergeToolsV3(){
         );
 
 
-        bar.appendChild(
+        el.style.setProperty(
+            "display",
+            "",
+            "important"
+        );
+
+
+        el.style.setProperty(
+            "flex",
+            "0 0 auto",
+            "important"
+        );
+
+
+        el.style.setProperty(
+            "min-width",
+            "150px",
+            "important"
+        );
+
+
+        el.style.setProperty(
+            "min-height",
+            "58px",
+            "important"
+        );
+
+
+        el.style.setProperty(
+            "margin",
+            "0",
+            "important"
+        );
+
+
+        external.appendChild(
             el
         );
     });
 
 
     /*
-     * 舊 compact primary 如果已經只剩被隱藏元素，
-     * 整排收掉。
+     * ========================================================
+     * 6. 舊 primary 若只剩被隱藏元素就收掉
+     * ========================================================
      */
+
     const primary =
         document.getElementById(
             "yhtisCompactPrimary"
         );
 
 
-    if(
-        primary
-        &&
-        !primary.closest(
-            "#yhtisLifecycleButtonBarV3"
-        )
-    ){
+    if(primary){
 
         const visible =
             [...primary.children]
             .some(el => {
 
+                const style =
+                    getComputedStyle(el);
+
                 return (
-                    el.style.display
+                    style.display
                     !== "none"
                 );
             });
@@ -8416,8 +12357,11 @@ function yhtisLBMergeToolsV3(){
 
         if(!visible){
 
-            primary.style.display =
-                "none";
+            primary.style.setProperty(
+                "display",
+                "none",
+                "important"
+            );
         }
     }
 }
