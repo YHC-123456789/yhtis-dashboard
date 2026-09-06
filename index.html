@@ -4600,6 +4600,87 @@ setTimeout(
 
 
 
+
+/* YHTIS_MOBILE_MASTER_FIX_V1 */
+
+function yhtisInstallMobileMasterCSS(){
+
+    if(
+        document.getElementById(
+            "yhtisMobileMasterStyle"
+        )
+    ){
+        return;
+    }
+
+    const style =
+        document.createElement("style");
+
+    style.id =
+        "yhtisMobileMasterStyle";
+
+    style.textContent = `
+
+    @media (max-width: 700px) {
+
+        #yhtisMasterSuggestions {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+            padding: 10px !important;
+            margin-top: 10px !important;
+            margin-bottom: 14px !important;
+            overflow: visible !important;
+        }
+
+        #yhtisMasterSuggestions
+        > *:not(#yhtisMasterSuggestionClose) {
+            width: 100% !important;
+            max-width: none !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        [data-yhtis-strongest-card="1"] {
+            display: block !important;
+            padding: 14px !important;
+            min-height: 0 !important;
+            text-align: left !important;
+        }
+
+        [data-yhtis-strongest-card="1"] > div {
+            display: block !important;
+            width: 100% !important;
+            float: none !important;
+            clear: both !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        #yhtisMasterSuggestionClose {
+            width: 28px !important;
+            height: 28px !important;
+            line-height: 26px !important;
+            font-size: 15px !important;
+            top: 6px !important;
+            right: 6px !important;
+        }
+
+        [data-strongest-oneclick="1"],
+        [data-early-launch-oneclick="1"] {
+            min-height: 50px !important;
+            padding: 8px 11px !important;
+        }
+    }
+
+    `;
+
+    document.head.appendChild(style);
+}
+
+yhtisInstallMobileMasterCSS();
+
+
 /* YHTIS_STRONGEST_RICH_RESULTS_V1 */
 
 function yhtisDecorateStrongestResults(){
@@ -4710,6 +4791,23 @@ function yhtisDecorateStrongestResults(){
         `;
 
 
+        el.setAttribute(
+            "data-yhtis-strongest-card",
+            "1"
+        );
+
+        /*
+         * 每一項原因都獨立一行。
+         * 手機不再全部擠在同一排。
+         */
+        [...el.children].forEach(child => {
+
+            child.style.display = "block";
+            child.style.width = "100%";
+            child.style.float = "none";
+            child.style.clear = "both";
+        });
+
         el.style.textAlign =
             "left";
 
@@ -4748,15 +4846,51 @@ function yhtisDecorateStrongestResults(){
     }
 
 
+    /* YHTIS_STRONGEST_VERTICAL_RESULTS_V1 */
+
     /*
-     * 保持目前的橫向卡片版型
+     * 👑 最強一鍵：
+     * 一檔一整列，往下排列
      */
-    if(
-        typeof yhtisApplyHorizontalResultLayout
-        === "function"
-    ){
-        yhtisApplyHorizontalResultLayout();
-    }
+    box.style.display =
+        "grid";
+
+    box.style.gridTemplateColumns =
+        "1fr";
+
+    box.style.gap =
+        "8px";
+
+    box.style.width =
+        "100%";
+
+    [...box.children].forEach(el => {
+
+        if(
+            el.id ===
+            "yhtisMasterSuggestionClose"
+        ){
+            return;
+        }
+
+        el.style.display =
+            "block";
+
+        el.style.width =
+            "100%";
+
+        el.style.maxWidth =
+            "none";
+
+        el.style.minWidth =
+            "0";
+
+        el.style.minHeight =
+            "0";
+
+        el.style.boxSizing =
+            "border-box";
+    });
 
 
     /*
@@ -7432,7 +7566,7 @@ window.addEventListener(
 <br>
 
 🔄 系統更新：
-2026-09-05 21:54:38
+2026-09-06 09:43:20
 
 </div>
 
