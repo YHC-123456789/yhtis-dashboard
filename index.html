@@ -5821,6 +5821,368 @@ setTimeout(
 );
 
 
+
+/* YHTIS_DECISION_SEMANTICS_V2 */
+
+
+/* =========================================================
+   1. Context 改成交易者看得懂的中文
+   ========================================================= */
+
+function yhtisNormalizeContextWordingV2(){
+
+    const walker =
+        document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT
+        );
+
+    const nodes = [];
+
+    while(
+        walker.nextNode()
+    ){
+        nodes.push(
+            walker.currentNode
+        );
+    }
+
+
+    nodes.forEach(node => {
+
+        const parent =
+            node.parentElement;
+
+        if(
+            !parent
+            ||
+            ["SCRIPT","STYLE"].includes(
+                parent.tagName
+            )
+        ){
+            return;
+        }
+
+        let t =
+            node.nodeValue || "";
+
+        let n =
+            t;
+
+        /*
+         * 未通過不是淘汰，
+         * 改成「市場環境未確認」
+         */
+        n = n
+            .split("⚠️ Context未通過")
+            .join("🟡 市場環境未確認");
+
+        n = n
+            .split("Context未通過")
+            .join("市場環境未確認");
+
+
+        /*
+         * 台股方向：
+         * 通過 / 多方 → 紅
+         */
+        n = n
+            .split("🟢 Context通過")
+            .join("🔴 市場環境通過");
+
+        n = n
+            .split("Context通過")
+            .join("市場環境通過");
+
+
+        if(n !== t){
+            node.nodeValue =
+                n;
+        }
+    });
+
+
+    /*
+     * 剛起漲結果有 Context 未確認時，
+     * 加一條統一解釋。
+     */
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    if(
+        box
+        &&
+        box.textContent.includes(
+            "市場環境未確認"
+        )
+        &&
+        !box.querySelector(
+            ".yhtis-context-explain-v2"
+        )
+    ){
+
+        const note =
+            document.createElement(
+                "div"
+            );
+
+        note.className =
+            "yhtis-context-explain-v2";
+
+        note.style.cssText =
+            "grid-column:1/-1;"
+            + "margin-top:4px;"
+            + "padding:9px 11px;"
+            + "border:1px solid rgba(245,158,11,.5);"
+            + "border-radius:9px;"
+            + "background:rgba(120,53,15,.13);"
+            + "font-size:12px;"
+            + "line-height:1.55;"
+            + "color:#fde68a;";
+
+        note.innerHTML =
+            "🟡 <b>市場環境未確認</b>"
+            + "＝個股 EMA＋MACD＋CCI 起漲條件已成立，"
+            + "但 Market Regime／Breadth 尚未形成足夠共振。"
+            + "<br>"
+            + "這不是淘汰，而是<b>等待市場確認</b>。";
+
+        box.appendChild(
+            note
+        );
+    }
+}
+
+
+/* =========================================================
+   2. 淘汰紀錄明確標成「歷史舊訊號」
+   ========================================================= */
+
+function yhtisClarifyEliminationHistoryV2(){
+
+    const candidates =
+        [...document.querySelectorAll(
+            "h1,h2,h3,h4,div,span"
+        )];
+
+    candidates.forEach(el => {
+
+        const t =
+            String(
+                el.textContent || ""
+            )
+            .replace(/\s+/g, " ")
+            .trim();
+
+        if(
+            t !== "🔴 淘汰紀錄"
+            &&
+            t !== "淘汰紀錄"
+            &&
+            t !== "🔴 歷史淘汰紀錄"
+        ){
+            return;
+        }
+
+
+        /*
+         * 避免改到大型父容器
+         */
+        if(
+            el.children.length > 4
+        ){
+            return;
+        }
+
+
+        el.textContent =
+            "📕 歷史淘汰紀錄（舊訊號）";
+
+
+        const parent =
+            el.parentElement;
+
+        if(
+            !parent
+            ||
+            parent.querySelector(
+                ".yhtis-elimination-explain-v2"
+            )
+        ){
+            return;
+        }
+
+
+        const note =
+            document.createElement(
+                "div"
+            );
+
+        note.className =
+            "yhtis-elimination-explain-v2";
+
+        note.style.cssText =
+            "margin:5px 0 10px 0;"
+            + "font-size:12px;"
+            + "line-height:1.5;"
+            + "color:#94a3b8;";
+
+        note.innerHTML =
+            "此區只代表<b>過去那一次追蹤訊號</b>已失效，"
+            + "不是永久淘汰這檔股票。"
+            + "若後續重新形成新的起漲／共振 setup，"
+            + "仍可再次入選。";
+
+        el.insertAdjacentElement(
+            "afterend",
+            note
+        );
+    });
+}
+
+
+/* =========================================================
+   3. 台股方向語意補正
+   僅處理明確方向詞，不亂改風險／估值警示
+   ========================================================= */
+
+function yhtisTaiwanDirectionSemanticV2(){
+
+    const walker =
+        document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT
+        );
+
+    const nodes = [];
+
+    while(
+        walker.nextNode()
+    ){
+        nodes.push(
+            walker.currentNode
+        );
+    }
+
+
+    const pairs = [
+
+        ["🟢 多頭", "🔴 多頭"],
+        ["🟢 偏多", "🔴 偏多"],
+        ["🟢 買超", "🔴 買超"],
+        ["🟢 上漲", "🔴 上漲"],
+        ["🟢 突破", "🔴 突破"],
+        ["🟢 轉強", "🔴 轉強"],
+
+        ["🔴 空頭", "🟢 空頭"],
+        ["🔴 偏空", "🟢 偏空"],
+        ["🔴 賣超", "🟢 賣超"],
+        ["🔴 下跌", "🟢 下跌"],
+        ["🔴 跌破", "🟢 跌破"],
+        ["🔴 轉弱", "🟢 轉弱"],
+    ];
+
+
+    nodes.forEach(node => {
+
+        const p =
+            node.parentElement;
+
+        if(
+            !p
+            ||
+            ["SCRIPT","STYLE"].includes(
+                p.tagName
+            )
+        ){
+            return;
+        }
+
+        let t =
+            node.nodeValue || "";
+
+        let n =
+            t;
+
+        pairs.forEach(
+            ([a,b]) => {
+                n =
+                    n.split(a).join(b);
+            }
+        );
+
+        if(n !== t){
+            node.nodeValue =
+                n;
+        }
+    });
+}
+
+
+/* =========================================================
+   4. 統一執行
+   ========================================================= */
+
+function yhtisDecisionSemanticsV2(){
+
+    yhtisNormalizeContextWordingV2();
+
+    yhtisClarifyEliminationHistoryV2();
+
+    yhtisTaiwanDirectionSemanticV2();
+}
+
+
+setTimeout(
+    yhtisDecisionSemanticsV2,
+    600
+);
+
+setTimeout(
+    yhtisDecisionSemanticsV2,
+    1400
+);
+
+setTimeout(
+    yhtisDecisionSemanticsV2,
+    2600
+);
+
+
+/*
+ * MASTER 結果是動態產生，
+ * 每次 DOM 更新後再補一次。
+ */
+let yhtisDecisionSemanticTimerV2 = null;
+
+const yhtisDecisionSemanticObserverV2 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisDecisionSemanticTimerV2
+            );
+
+            yhtisDecisionSemanticTimerV2 =
+                setTimeout(
+                    yhtisDecisionSemanticsV2,
+                    100
+                );
+        }
+    );
+
+
+yhtisDecisionSemanticObserverV2.observe(
+    document.body,
+    {
+        childList: true,
+        subtree: true
+    }
+);
+
+
 /* YHTIS_MOBILE_MASTER_FIX_V1 */
 
 function yhtisInstallMobileMasterCSS(){
