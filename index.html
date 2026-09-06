@@ -8293,6 +8293,2200 @@ function yhtisLBFindButtonByTextV3(
 
 
 
+
+
+
+/* YHTIS_CANCELLABLE_STACK_FILTER_V6 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   可取消 AND 疊加篩選 V6
+
+   今日作戰策略：Toggle
+   高活躍：Toggle
+
+   換手：
+   同組單選
+   再點目前值 = 取消整個換手條件
+
+   筆量：
+   同組單選
+   再點目前值 = 取消整個筆量條件
+
+   指標：
+   Checkbox 多選 / 可取消
+
+   取消條件時：
+   清底層狀態 → 重播仍保留條件
+   避免「畫面關了、實際還在篩」
+   ============================================================ */
+
+
+let yhtisV6Replaying =
+    false;
+
+
+const YHTIS_V6_STATE = {
+    selected:
+        new Set()
+};
+
+
+/* ============================================================
+   Style
+   ============================================================ */
+
+function yhtisV6Style(){
+
+    if(
+        document.getElementById(
+            "yhtisV6Style"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "yhtisV6Style";
+
+
+    style.textContent = `
+
+        .yhtis-filter-selected-v6{
+
+            box-shadow:
+                0 0 0 2px
+                rgba(59,130,246,.88)
+                inset !important;
+
+            background:
+                rgba(37,99,235,.88) !important;
+
+            border-color:
+                #60a5fa !important;
+        }
+
+
+        .yhtis-filter-selected-v6::after{
+
+            content:" ✓";
+
+            font-size:9px;
+
+            opacity:.85;
+        }
+
+
+        #yhtisIndicatorFilterMenuV1
+        input[type="checkbox"]{
+
+            cursor:pointer;
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   找活躍條件內容區
+   ============================================================ */
+
+function yhtisV6Panel(){
+
+    if(
+        typeof yhtisIndicatorRealActivityPanelV4
+        === "function"
+    ){
+
+        const p =
+            yhtisIndicatorRealActivityPanelV4();
+
+        if(p){
+            return p;
+        }
+    }
+
+
+    const nodes =
+        [
+            ...document.querySelectorAll(
+                "div,section,aside,details"
+            )
+        ];
+
+
+    const hit =
+        nodes
+        .filter(el => {
+
+            const t =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            return (
+                t.includes("今日作戰策略")
+                &&
+                t.includes("高活躍")
+                &&
+                t.includes("換手")
+                &&
+                t.includes("筆量")
+                &&
+                t.includes("套用")
+                &&
+                t.includes("清除")
+                &&
+                t.length < 1400
+            );
+        })
+        .sort(
+            (a,b) =>
+                String(
+                    a.textContent || ""
+                ).length
+                -
+                String(
+                    b.textContent || ""
+                ).length
+        )[0];
+
+
+    return hit || null;
+}
+
+
+/* ============================================================
+   正規化文字
+   ============================================================ */
+
+function yhtisV6Text(el){
+
+    return String(
+        el?.textContent || ""
+    )
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+
+/* ============================================================
+   每個可選條件的 Key
+   ============================================================ */
+
+function yhtisV6Key(btn){
+
+    const t =
+        yhtisV6Text(btn);
+
+
+    if(
+        t.includes(
+            "今日作戰策略"
+        )
+    ){
+        return "strategy:today";
+    }
+
+
+    if(
+        t === "🔥 高活躍"
+        ||
+        t.includes("高活躍")
+    ){
+        return "activity:high";
+    }
+
+
+    let m =
+        t.match(
+            /換手\s*≥\s*([\d.]+)%/
+        );
+
+
+    if(m){
+        return "turnover:" + m[1];
+    }
+
+
+    m =
+        t.match(
+            /筆量\s*≥\s*([\d.]+K?)/
+        );
+
+
+    if(m){
+        return "volume:" + m[1];
+    }
+
+
+    return null;
+}
+
+
+/* ============================================================
+   找所有條件按鈕
+   ============================================================ */
+
+function yhtisV6Buttons(){
+
+    const panel =
+        yhtisV6Panel();
+
+
+    if(!panel){
+        return [];
+    }
+
+
+    return [
+        ...panel.querySelectorAll(
+            "button"
+        )
+    ]
+    .filter(
+        btn =>
+            !!yhtisV6Key(btn)
+    );
+}
+
+
+/* ============================================================
+   同組
+   ============================================================ */
+
+function yhtisV6Group(key){
+
+    if(
+        key.startsWith(
+            "turnover:"
+        )
+    ){
+        return "turnover";
+    }
+
+
+    if(
+        key.startsWith(
+            "volume:"
+        )
+    ){
+        return "volume";
+    }
+
+
+    return key;
+}
+
+
+/* ============================================================
+   UI selected
+   ============================================================ */
+
+function yhtisV6SetSelected(
+    btn,
+    selected
+){
+
+    if(!btn){
+        return;
+    }
+
+
+    const key =
+        yhtisV6Key(btn);
+
+
+    if(!key){
+        return;
+    }
+
+
+    btn.dataset
+        .yhtisSelectedV6 =
+        selected
+        ? "1"
+        : "0";
+
+
+    btn.setAttribute(
+        "aria-pressed",
+        selected
+        ? "true"
+        : "false"
+    );
+
+
+    btn.classList.toggle(
+        "yhtis-filter-selected-v6",
+        selected
+    );
+
+
+    if(selected){
+
+        YHTIS_V6_STATE
+            .selected
+            .add(key);
+
+    }
+
+    else{
+
+        YHTIS_V6_STATE
+            .selected
+            .delete(key);
+    }
+}
+
+
+/* ============================================================
+   同組單選
+   ============================================================ */
+
+function yhtisV6SelectExclusive(
+    btn,
+    key
+){
+
+    const group =
+        yhtisV6Group(key);
+
+
+    if(
+        group !== "turnover"
+        &&
+        group !== "volume"
+    ){
+
+        yhtisV6SetSelected(
+            btn,
+            true
+        );
+
+        return;
+    }
+
+
+    yhtisV6Buttons()
+    .forEach(other => {
+
+        const ok =
+            yhtisV6Key(other);
+
+
+        if(
+            ok
+            &&
+            yhtisV6Group(ok)
+                === group
+        ){
+
+            yhtisV6SetSelected(
+                other,
+                other === btn
+            );
+        }
+    });
+}
+
+
+/* ============================================================
+   找清除按鈕
+   ============================================================ */
+
+function yhtisV6ClearButton(){
+
+    const panel =
+        yhtisV6Panel();
+
+
+    if(!panel){
+        return null;
+    }
+
+
+    return [
+        ...panel.querySelectorAll(
+            "button"
+        )
+    ]
+    .find(btn => {
+
+        const t =
+            yhtisV6Text(btn);
+
+
+        return (
+            t.includes("清除")
+            &&
+            !t.includes("清除指標")
+        );
+    }) || null;
+}
+
+
+/* ============================================================
+   指標 snapshot
+   ============================================================ */
+
+function yhtisV6IndicatorSnapshot(){
+
+    const selected = [];
+
+
+    const menu =
+        document.getElementById(
+            "yhtisIndicatorFilterMenuV1"
+        );
+
+
+    if(!menu){
+        return selected;
+    }
+
+
+    menu
+    .querySelectorAll(
+        'input[type="checkbox"]:checked'
+    )
+    .forEach(input => {
+
+        selected.push(
+            String(
+                input.value || ""
+            )
+        );
+    });
+
+
+    return selected;
+}
+
+
+/* ============================================================
+   重建底層條件
+
+   這是 V6 關鍵：
+   不是只改 CSS。
+
+   先真的按一次「清除」，
+   再把剩下條件重新點回去。
+   ============================================================ */
+
+function yhtisV6RebuildState(
+    keepKeys,
+    indicatorIds
+){
+
+    const clear =
+        yhtisV6ClearButton();
+
+
+    yhtisV6Replaying =
+        true;
+
+
+    try{
+
+        /*
+         * 1. 使用原系統自己的清除
+         */
+        if(clear){
+            clear.click();
+        }
+
+
+        /*
+         * 2. 清 V6 畫面狀態
+         */
+        yhtisV6Buttons()
+        .forEach(btn => {
+
+            yhtisV6SetSelected(
+                btn,
+                false
+            );
+        });
+
+
+        YHTIS_V6_STATE
+            .selected
+            .clear();
+
+
+        /*
+         * 3. 指標也先真正取消
+         */
+        const menu =
+            document.getElementById(
+                "yhtisIndicatorFilterMenuV1"
+            );
+
+
+        if(menu){
+
+            menu
+            .querySelectorAll(
+                'input[type="checkbox"]'
+            )
+            .forEach(input => {
+
+                if(input.checked){
+
+                    input.click();
+                }
+            });
+        }
+
+
+        /*
+         * 4. 重播仍然保留的條件
+         */
+        for(
+            const key
+            of keepKeys
+        ){
+
+            const btn =
+                yhtisV6Buttons()
+                .find(
+                    x =>
+                        yhtisV6Key(x)
+                        === key
+                );
+
+
+            if(!btn){
+                continue;
+            }
+
+
+            /*
+             * 呼叫原本系統的 handler
+             */
+            btn.click();
+
+
+            yhtisV6SetSelected(
+                btn,
+                true
+            );
+        }
+
+
+        /*
+         * 5. 指標選項重新勾回
+         */
+        if(menu){
+
+            for(
+                const id
+                of indicatorIds
+            ){
+
+                const input =
+                    menu.querySelector(
+                        'input[type="checkbox"]'
+                        + '[value="'
+                        + CSS.escape(id)
+                        + '"]'
+                    );
+
+
+                if(
+                    input
+                    &&
+                    !input.checked
+                ){
+                    input.click();
+                }
+            }
+        }
+
+    }
+
+    finally{
+
+        setTimeout(
+            function(){
+
+                yhtisV6Replaying =
+                    false;
+
+            },
+            50
+        );
+    }
+
+
+    /*
+     * 保持活躍條件展開
+     */
+    if(
+        typeof yhtisKeepActivityOpenV5
+        === "function"
+    ){
+
+        setTimeout(
+            yhtisKeepActivityOpenV5,
+            70
+        );
+    }
+}
+
+
+/* ============================================================
+   點擊 Toggle
+
+   Capture phase：
+   第二次點已選條件時，
+   阻止舊 handler 再把它選回去。
+   ============================================================ */
+
+document.addEventListener(
+    "click",
+    function(e){
+
+        if(yhtisV6Replaying){
+            return;
+        }
+
+
+        const btn =
+            e.target.closest(
+                "button"
+            );
+
+
+        if(!btn){
+            return;
+        }
+
+
+        const panel =
+            yhtisV6Panel();
+
+
+        if(
+            !panel
+            ||
+            !panel.contains(btn)
+        ){
+            return;
+        }
+
+
+        const key =
+            yhtisV6Key(btn);
+
+
+        if(!key){
+            return;
+        }
+
+
+        const already =
+            btn.dataset
+                .yhtisSelectedV6
+            === "1";
+
+
+        /*
+         * --------------------------------
+         * 已選 → 再點 = 取消
+         * --------------------------------
+         */
+        if(already){
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            e.stopImmediatePropagation();
+
+
+            const keep =
+                [
+                    ...YHTIS_V6_STATE
+                        .selected
+                ]
+                .filter(
+                    x =>
+                        x !== key
+                );
+
+
+            const indicators =
+                yhtisV6IndicatorSnapshot();
+
+
+            yhtisV6RebuildState(
+                keep,
+                indicators
+            );
+
+
+            return;
+        }
+
+
+        /*
+         * --------------------------------
+         * 第一次選取：
+         * 讓原系統 handler 正常執行，
+         * 執行完再同步 V6。
+         * --------------------------------
+         */
+        setTimeout(
+            function(){
+
+                if(
+                    yhtisV6Replaying
+                ){
+                    return;
+                }
+
+
+                const group =
+                    yhtisV6Group(
+                        key
+                    );
+
+
+                if(
+                    group === "turnover"
+                    ||
+                    group === "volume"
+                ){
+
+                    yhtisV6SelectExclusive(
+                        btn,
+                        key
+                    );
+
+                }
+
+                else{
+
+                    yhtisV6SetSelected(
+                        btn,
+                        true
+                    );
+                }
+
+            },
+            20
+        );
+
+    },
+    true
+);
+
+
+/* ============================================================
+   清除 = V6 也全部歸零
+   ============================================================ */
+
+document.addEventListener(
+    "click",
+    function(e){
+
+        if(yhtisV6Replaying){
+            return;
+        }
+
+
+        const btn =
+            e.target.closest(
+                "button"
+            );
+
+
+        if(!btn){
+            return;
+        }
+
+
+        const t =
+            yhtisV6Text(btn);
+
+
+        if(
+            !t.includes("清除")
+            ||
+            t.includes("清除指標")
+        ){
+            return;
+        }
+
+
+        setTimeout(
+            function(){
+
+                YHTIS_V6_STATE
+                    .selected
+                    .clear();
+
+
+                yhtisV6Buttons()
+                .forEach(x => {
+
+                    yhtisV6SetSelected(
+                        x,
+                        false
+                    );
+                });
+
+            },
+            30
+        );
+    }
+);
+
+
+/* ============================================================
+   初始化
+
+   如果原本已有 active / selected class，
+   嘗試同步。
+   ============================================================ */
+
+function yhtisV6Init(){
+
+    yhtisV6Style();
+
+
+    yhtisV6Buttons()
+    .forEach(btn => {
+
+        if(
+            btn.dataset
+                .yhtisSelectedV6
+        ){
+            return;
+        }
+
+
+        const cls =
+            String(
+                btn.className || ""
+            );
+
+
+        const aria =
+            btn.getAttribute(
+                "aria-pressed"
+            );
+
+
+        const active =
+            aria === "true"
+            ||
+            /\b(active|selected|on)\b/i
+            .test(cls);
+
+
+        btn.dataset
+            .yhtisSelectedV6 =
+            active
+            ? "1"
+            : "0";
+
+
+        if(active){
+
+            yhtisV6SetSelected(
+                btn,
+                true
+            );
+        }
+    });
+}
+
+
+/* ============================================================
+   Run
+   ============================================================ */
+
+[
+    300,
+    700,
+    1200,
+    2000,
+    3500
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisV6Init,
+        ms
+    );
+});
+
+
+let yhtisV6Timer = null;
+
+
+const yhtisV6Observer =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisV6Timer
+            );
+
+
+            yhtisV6Timer =
+                setTimeout(
+                    yhtisV6Init,
+                    80
+                );
+        }
+    );
+
+
+yhtisV6Observer.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_INDICATOR_INLINE_NEXT_TO_VOLUME_V4 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   V4
+
+   活躍條件排列：
+
+   今日作戰策略
+   高活躍
+   換手
+   筆量
+   篩選指標
+
+   指標放在「筆量」正右邊。
+
+   操作篩選指標期間：
+   - 上方控制區不自動隱藏
+   - 選單不因勾選而關閉
+   - 點外面才解除鎖定
+   ============================================================ */
+
+
+function yhtisIndicatorInlineStyleV4(){
+
+    if(
+        document.getElementById(
+            "yhtisIndicatorInlineStyleV4"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+    style.id =
+        "yhtisIndicatorInlineStyleV4";
+
+
+    style.textContent = `
+
+        /*
+         * 指標改成與換手 / 筆量同一排
+         */
+        #yhtisIndicatorFilterWrapV1.yhtis-indicator-inline-v4{
+
+            display:inline-flex !important;
+
+            width:auto !important;
+
+            min-width:0 !important;
+
+            position:relative !important;
+
+            margin:0 !important;
+
+            padding:0 !important;
+
+            border:0 !important;
+
+            vertical-align:middle !important;
+
+            box-sizing:border-box !important;
+
+            flex:0 0 auto !important;
+        }
+
+
+        #yhtisIndicatorFilterWrapV1.yhtis-indicator-inline-v4
+        #yhtisIndicatorFilterButtonV1{
+
+            width:auto !important;
+
+            min-width:145px !important;
+
+            min-height:43px !important;
+
+            margin:0 !important;
+
+            padding:7px 12px !important;
+
+            border-radius:9px !important;
+
+            box-sizing:border-box !important;
+
+            white-space:nowrap !important;
+        }
+
+
+        /*
+         * 下拉選單改回浮動式，
+         * 不再撐高整個活躍條件區塊。
+         */
+        #yhtisIndicatorFilterWrapV1.yhtis-indicator-inline-v4
+        #yhtisIndicatorFilterMenuV1{
+
+            position:absolute !important;
+
+            top:calc(100% + 6px) !important;
+
+            left:0 !important;
+
+            width:260px !important;
+
+            min-width:260px !important;
+
+            max-height:390px !important;
+
+            overflow-y:auto !important;
+
+            z-index:100000 !important;
+
+            margin:0 !important;
+
+            box-sizing:border-box !important;
+
+            box-shadow:
+                0 18px 36px
+                rgba(0,0,0,.48) !important;
+        }
+
+
+        /*
+         * 舊版多加的標題完全不要。
+         */
+        .yhtis-indicator-label-v2,
+        .yhtis-activity-indicator-label-v1{
+
+            display:none !important;
+        }
+
+
+        /*
+         * 篩選中鎖定：
+         * 即使舊 AutoHide 已經加 hidden class，
+         * 也強制保持畫面可見。
+         */
+        body.yhtis-indicator-filtering-v4
+        .yhtis-autohide-target-v1{
+
+            max-height:600px !important;
+
+            opacity:1 !important;
+
+            transform:none !important;
+
+            pointer-events:auto !important;
+        }
+
+
+        body.yhtis-indicator-filtering-v4
+        .yhtis-autohide-hidden-v1{
+
+            max-height:600px !important;
+
+            opacity:1 !important;
+
+            transform:none !important;
+
+            margin-top:initial !important;
+
+            margin-bottom:initial !important;
+
+            padding-top:initial !important;
+
+            padding-bottom:initial !important;
+
+            pointer-events:auto !important;
+        }
+
+
+        @media(max-width:850px){
+
+            #yhtisIndicatorFilterWrapV1.yhtis-indicator-inline-v4
+            #yhtisIndicatorFilterButtonV1{
+
+                min-width:128px !important;
+            }
+
+
+            #yhtisIndicatorFilterWrapV1.yhtis-indicator-inline-v4
+            #yhtisIndicatorFilterMenuV1{
+
+                width:245px !important;
+
+                min-width:245px !important;
+            }
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   找真正的活躍條件面板
+   ============================================================ */
+
+function yhtisIndicatorRealActivityPanelV4(){
+
+    const nodes =
+        [
+            ...document.querySelectorAll(
+                "div,section,aside,details"
+            )
+        ];
+
+
+    const candidates =
+        nodes.filter(el => {
+
+            const t =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            if(
+                !t.includes("高活躍")
+                ||
+                !t.includes("換手")
+                ||
+                !t.includes("筆量")
+                ||
+                !t.includes("套用")
+                ||
+                !t.includes("清除")
+            ){
+                return false;
+            }
+
+
+            /*
+             * 防止抓整頁。
+             */
+            if(t.length > 1200){
+                return false;
+            }
+
+
+            /*
+             * 最強一鍵區禁止使用。
+             */
+            if(
+                el.matches(
+                    '[data-strongest-oneclick="1"]'
+                )
+                ||
+                el.closest(
+                    '[data-strongest-oneclick="1"]'
+                )
+            ){
+                return false;
+            }
+
+
+            return true;
+        });
+
+
+    if(!candidates.length){
+        return null;
+    }
+
+
+    candidates.sort(
+        (a,b) =>
+            String(
+                a.textContent || ""
+            ).length
+            -
+            String(
+                b.textContent || ""
+            ).length
+    );
+
+
+    return candidates[0];
+}
+
+
+/* ============================================================
+   找「筆量」控制
+   ============================================================ */
+
+function yhtisFindVolumeControlV4(
+    panel
+){
+
+    if(!panel){
+        return null;
+    }
+
+
+    const controls =
+        [
+            ...panel.querySelectorAll(
+                "button,summary"
+            )
+        ];
+
+
+    const volume =
+        controls.find(el => {
+
+            const t =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            return (
+                t.includes("筆量")
+                &&
+                !t.includes("篩選指標")
+            );
+        });
+
+
+    return volume || null;
+}
+
+
+/* ============================================================
+   移到筆量右側
+   ============================================================ */
+
+function yhtisMoveIndicatorNextToVolumeV4(){
+
+    const wrap =
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        );
+
+
+    const panel =
+        yhtisIndicatorRealActivityPanelV4();
+
+
+    if(
+        !wrap
+        ||
+        !panel
+    ){
+        return false;
+    }
+
+
+    const volume =
+        yhtisFindVolumeControlV4(
+            panel
+        );
+
+
+    if(!volume){
+        return false;
+    }
+
+
+    /*
+     * 如果筆量按鈕本身在一個小 wrapper 裡，
+     * 優先與該 wrapper 同層。
+     */
+    let reference =
+        volume;
+
+
+    const parent =
+        volume.parentElement;
+
+
+    if(
+        parent
+        &&
+        parent !== panel
+        &&
+        parent.children.length <= 3
+    ){
+        reference =
+            parent;
+    }
+
+
+    /*
+     * 確保不是把東西塞進 button 裡。
+     */
+    if(
+        reference.tagName === "BUTTON"
+        ||
+        reference.tagName === "SUMMARY"
+    ){
+
+        reference.insertAdjacentElement(
+            "afterend",
+            wrap
+        );
+
+    }
+
+    else{
+
+        reference.insertAdjacentElement(
+            "afterend",
+            wrap
+        );
+    }
+
+
+    wrap.classList.add(
+        "yhtis-indicator-inline-v4"
+    );
+
+
+    /*
+     * V3 曾經可能直接設 display:none important，
+     * 現在在正確面板時移除。
+     */
+    wrap.style.removeProperty(
+        "display"
+    );
+
+
+    /*
+     * 活躍區允許 dropdown 超出。
+     */
+    let n =
+        wrap.parentElement;
+
+
+    for(
+        let i = 0;
+        i < 3 && n;
+        i++
+    ){
+
+        n.style.setProperty(
+            "overflow",
+            "visible"
+        );
+
+        n =
+            n.parentElement;
+    }
+
+
+    return true;
+}
+
+
+/* ============================================================
+   篩選中 Lock
+   ============================================================ */
+
+function yhtisIndicatorSetFilteringLockV4(
+    locked
+){
+
+    document.body.classList.toggle(
+        "yhtis-indicator-filtering-v4",
+        locked
+    );
+
+
+    if(
+        locked
+        &&
+        typeof window.yhtisShowTopControls
+            === "function"
+    ){
+
+        window.yhtisShowTopControls();
+    }
+}
+
+
+/* ============================================================
+   同步 Menu 狀態
+   ============================================================ */
+
+function yhtisIndicatorSyncLockV4(){
+
+    const menu =
+        document.getElementById(
+            "yhtisIndicatorFilterMenuV1"
+        );
+
+
+    if(!menu){
+        return;
+    }
+
+
+    const open =
+        menu.classList.contains(
+            "open"
+        );
+
+
+    yhtisIndicatorSetFilteringLockV4(
+        open
+    );
+}
+
+
+/* ============================================================
+   使用者正在指標區操作時：
+   永遠保持上方控制列
+   ============================================================ */
+
+document.addEventListener(
+    "pointerdown",
+    function(e){
+
+        const wrap =
+            document.getElementById(
+                "yhtisIndicatorFilterWrapV1"
+            );
+
+
+        if(
+            wrap
+            &&
+            wrap.contains(
+                e.target
+            )
+        ){
+
+            yhtisIndicatorSetFilteringLockV4(
+                true
+            );
+
+
+            if(
+                typeof window.yhtisShowTopControls
+                    === "function"
+            ){
+                window.yhtisShowTopControls();
+            }
+        }
+    },
+    true
+);
+
+
+document.addEventListener(
+    "change",
+    function(e){
+
+        const wrap =
+            document.getElementById(
+                "yhtisIndicatorFilterWrapV1"
+            );
+
+
+        if(
+            wrap
+            &&
+            wrap.contains(
+                e.target
+            )
+        ){
+
+            /*
+             * 勾選 checkbox 後不收起。
+             */
+            const menu =
+                document.getElementById(
+                    "yhtisIndicatorFilterMenuV1"
+                );
+
+
+            if(menu){
+
+                menu.classList.add(
+                    "open"
+                );
+            }
+
+
+            yhtisIndicatorSetFilteringLockV4(
+                true
+            );
+        }
+    },
+    true
+);
+
+
+/* ============================================================
+   點外面：
+   交給原本邏輯關閉 menu，
+   再解除鎖定。
+   ============================================================ */
+
+document.addEventListener(
+    "click",
+    function(e){
+
+        const wrap =
+            document.getElementById(
+                "yhtisIndicatorFilterWrapV1"
+            );
+
+
+        if(
+            wrap
+            &&
+            wrap.contains(
+                e.target
+            )
+        ){
+
+            setTimeout(
+                yhtisIndicatorSyncLockV4,
+                20
+            );
+
+            return;
+        }
+
+
+        setTimeout(
+            function(){
+
+                yhtisIndicatorSyncLockV4();
+
+            },
+            100
+        );
+    }
+);
+
+
+/* ============================================================
+   監控 menu open
+   ============================================================ */
+
+function yhtisObserveIndicatorMenuV4(){
+
+    const menu =
+        document.getElementById(
+            "yhtisIndicatorFilterMenuV1"
+        );
+
+
+    if(
+        !menu
+        ||
+        menu.dataset
+            .yhtisLockObserverV4
+            === "1"
+    ){
+        return;
+    }
+
+
+    menu.dataset
+        .yhtisLockObserverV4 =
+        "1";
+
+
+    const observer =
+        new MutationObserver(
+            yhtisIndicatorSyncLockV4
+        );
+
+
+    observer.observe(
+        menu,
+        {
+            attributes:true,
+            attributeFilter:[
+                "class",
+                "style"
+            ]
+        }
+    );
+}
+
+
+/* ============================================================
+   Run
+   ============================================================ */
+
+function yhtisIndicatorInlineRunV4(){
+
+    yhtisIndicatorInlineStyleV4();
+
+    yhtisMoveIndicatorNextToVolumeV4();
+
+    yhtisObserveIndicatorMenuV4();
+
+    yhtisIndicatorSyncLockV4();
+}
+
+
+[
+    300,
+    700,
+    1200,
+    2000,
+    3500
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisIndicatorInlineRunV4,
+        ms
+    );
+});
+
+
+let yhtisIndicatorInlineTimerV4 =
+    null;
+
+
+const yhtisIndicatorInlineObserverV4 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisIndicatorInlineTimerV4
+            );
+
+
+            yhtisIndicatorInlineTimerV4 =
+                setTimeout(
+                    yhtisIndicatorInlineRunV4,
+                    90
+                );
+        }
+    );
+
+
+yhtisIndicatorInlineObserverV4.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_INDICATOR_VISIBILITY_FIX_V3 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   V3 目標
+
+   1. 移除孤立：
+      📊 技術／階段指標
+
+   2. 活躍條件關閉：
+      📊 篩選指標整區一起隱藏
+
+   3. 點其他控制：
+      指標子選單自動關閉
+
+   4. 不修改任何篩選條件
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   移除舊的額外標題
+   ------------------------------------------------------------ */
+
+function yhtisRemoveIndicatorOrphanLabelsV3(){
+
+    document
+    .querySelectorAll(
+        ".yhtis-indicator-label-v2,"
+        + ".yhtis-activity-indicator-label-v1"
+    )
+    .forEach(el => {
+
+        el.remove();
+    });
+
+
+    /*
+     * 再掃純文字殘留
+     */
+    [
+        ...document.querySelectorAll(
+            "div,span,p,label"
+        )
+    ]
+    .forEach(el => {
+
+        if(el.children.length){
+            return;
+        }
+
+
+        const t =
+            String(
+                el.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        if(
+            t === "📊 技術／階段指標"
+            ||
+            t === "技術／階段指標"
+            ||
+            t === "📊 技術/階段指標"
+        ){
+            el.remove();
+        }
+    });
+}
+
+
+/* ------------------------------------------------------------
+   找活躍條件按鈕
+   ------------------------------------------------------------ */
+
+function yhtisIndicatorActivityButtonV3(){
+
+    return [
+        ...document.querySelectorAll(
+            "button,summary"
+        )
+    ]
+    .find(el => {
+
+        const t =
+            String(
+                el.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        return (
+            t.includes("活躍條件")
+            &&
+            !t.includes("最強一鍵")
+        );
+    }) || null;
+}
+
+
+/* ------------------------------------------------------------
+   找真正活躍面板
+   ------------------------------------------------------------ */
+
+function yhtisIndicatorActivityPanelV3(){
+
+    const wrap =
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        );
+
+
+    if(!wrap){
+        return null;
+    }
+
+
+    let node =
+        wrap.parentElement;
+
+
+    for(
+        let i = 0;
+        i < 6 && node;
+        i++
+    ){
+
+        const t =
+            String(
+                node.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        if(
+            t.includes("高活躍")
+            &&
+            t.includes("換手")
+            &&
+            t.includes("筆量")
+            &&
+            t.includes("套用")
+            &&
+            t.includes("清除")
+            &&
+            t.length < 1500
+        ){
+            return node;
+        }
+
+
+        node =
+            node.parentElement;
+    }
+
+
+    return null;
+}
+
+
+/* ------------------------------------------------------------
+   判斷活躍條件現在是否真的展開
+   ------------------------------------------------------------ */
+
+function yhtisActivityIsOpenV3(){
+
+    const btn =
+        yhtisIndicatorActivityButtonV3();
+
+
+    const panel =
+        yhtisIndicatorActivityPanelV3();
+
+
+    if(!btn || !panel){
+        return false;
+    }
+
+
+    /*
+     * details / summary
+     */
+    const details =
+        btn.closest("details");
+
+
+    if(details){
+        return details.open;
+    }
+
+
+    /*
+     * aria-expanded
+     */
+    const expanded =
+        btn.getAttribute(
+            "aria-expanded"
+        );
+
+
+    if(expanded !== null){
+
+        return expanded === "true";
+    }
+
+
+    /*
+     * CSS 實際可見性
+     */
+    const style =
+        getComputedStyle(panel);
+
+
+    return (
+        style.display !== "none"
+        &&
+        style.visibility !== "hidden"
+        &&
+        panel.getClientRects().length > 0
+    );
+}
+
+
+/* ------------------------------------------------------------
+   關閉指標自己的子選單
+   ------------------------------------------------------------ */
+
+function yhtisCloseIndicatorMenuV3(){
+
+    const menu =
+        document.getElementById(
+            "yhtisIndicatorFilterMenuV1"
+        );
+
+
+    if(menu){
+
+        menu.classList.remove(
+            "open"
+        );
+    }
+}
+
+
+/* ------------------------------------------------------------
+   同步顯示狀態
+   ------------------------------------------------------------ */
+
+function yhtisSyncIndicatorVisibilityV3(){
+
+    yhtisRemoveIndicatorOrphanLabelsV3();
+
+
+    const wrap =
+        document.getElementById(
+            "yhtisIndicatorFilterWrapV1"
+        );
+
+
+    if(!wrap){
+        return;
+    }
+
+
+    const open =
+        yhtisActivityIsOpenV3();
+
+
+    /*
+     * 活躍條件關閉時：
+     * 指標區不能殘留
+     */
+    if(!open){
+
+        yhtisCloseIndicatorMenuV3();
+
+
+        /*
+         * 如果 wrap 不小心跑出活躍面板，
+         * 直接先隱藏。
+         */
+        const panel =
+            yhtisIndicatorActivityPanelV3();
+
+
+        if(
+            !panel
+            ||
+            !panel.contains(wrap)
+        ){
+            wrap.style.setProperty(
+                "display",
+                "none",
+                "important"
+            );
+        }
+
+    }
+
+    else{
+
+        /*
+         * 活躍條件展開後恢復
+         */
+        wrap.style.removeProperty(
+            "display"
+        );
+    }
+}
+
+
+/* ------------------------------------------------------------
+   點其他按鈕時自動收掉指標子選單
+   ------------------------------------------------------------ */
+
+document.addEventListener(
+    "click",
+    function(e){
+
+        const indicatorWrap =
+            document.getElementById(
+                "yhtisIndicatorFilterWrapV1"
+            );
+
+
+        /*
+         * 點在指標裡面不處理
+         */
+        if(
+            indicatorWrap
+            &&
+            indicatorWrap.contains(
+                e.target
+            )
+        ){
+            return;
+        }
+
+
+        const control =
+            e.target.closest(
+                "button,summary"
+            );
+
+
+        if(control){
+
+            const t =
+                String(
+                    control.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            /*
+             * 點其他控制時：
+             * 指標下拉先關閉
+             */
+            if(
+                !t.includes(
+                    "篩選指標"
+                )
+            ){
+                yhtisCloseIndicatorMenuV3();
+            }
+        }
+
+
+        setTimeout(
+            yhtisSyncIndicatorVisibilityV3,
+            80
+        );
+
+        setTimeout(
+            yhtisSyncIndicatorVisibilityV3,
+            250
+        );
+    }
+);
+
+
+/* ------------------------------------------------------------
+   初始化
+   ------------------------------------------------------------ */
+
+[
+    200,
+    500,
+    1000,
+    1800,
+    3000
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisSyncIndicatorVisibilityV3,
+        ms
+    );
+});
+
+
+let yhtisIndicatorVisibilityTimerV3 =
+    null;
+
+
+const yhtisIndicatorVisibilityObserverV3 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisIndicatorVisibilityTimerV3
+            );
+
+
+            yhtisIndicatorVisibilityTimerV3 =
+                setTimeout(
+                    yhtisSyncIndicatorVisibilityV3,
+                    80
+                );
+        }
+    );
+
+
+yhtisIndicatorVisibilityObserverV3.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true,
+        attributes:true,
+        attributeFilter:[
+            "class",
+            "style",
+            "open",
+            "aria-expanded"
+        ]
+    }
+);
+
+
+})();
+
+
 /* YHTIS_INDICATOR_INTO_ACTIVITY_FIX_V2 */
 
 (function(){
