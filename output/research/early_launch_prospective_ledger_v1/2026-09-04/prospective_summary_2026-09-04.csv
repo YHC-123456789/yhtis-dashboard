@@ -1,0 +1,2 @@
+﻿SignalDate,FrozenRuleVersion,PreContextCandidates,PreContextCodes,MarketRegime,Breadth5D,Breadth20D,MarketRet20,MarketRet60,BreadthCausalPctl,BreadthStrong95,ContextPass,FinalTop5Count,FinalTop5Codes,Decision,Reason,ResearchOnly,ProspectiveStatus
+2026-09-04,early_launch_top5_frozen_v1,7,4534;6988;2066;2923;4807;6579;6691,2,0.3552550706822373,0.5273509526736324,0.3703703703703764,-3.806330586552437,30.286738351254485,False,False,0,,NO_SIGNAL,MARKET_REGIME!=1 AND BREADTH_CAUSAL_PCTL<95,True,FROZEN
