@@ -5095,6 +5095,4456 @@ setTimeout(
 );
 
 
+
+
+
+
+
+/* YHTIS_LIFECYCLE_COLLAPSE_V1 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   📍 起漲生命週期
+   預設收合
+
+   收合時仍顯示：
+   🔥 強力買入數
+   🔴 強勢確認數
+   ✨ 黃金交叉數
+   🌱 剛起漲數
+   👀 觀察數
+   ============================================================ */
+
+
+function yhtisLifeCollapseInstallStyleV1(){
+
+    if(
+        document.getElementById(
+            "yhtisLifeCollapseStyleV1"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "yhtisLifeCollapseStyleV1";
+
+
+    style.textContent = `
+
+        #yhtisLifecycleCollapseV1{
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            margin:8px 0 10px 0;
+
+            border:
+                1px solid rgba(51,65,85,.82);
+
+            border-radius:11px;
+
+            background:
+                rgba(2,6,23,.22);
+
+            overflow:hidden;
+        }
+
+
+        #yhtisLifecycleCollapseV1
+        > summary{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:9px;
+
+            min-height:52px;
+
+            padding:
+                0 14px;
+
+            box-sizing:border-box;
+
+            cursor:pointer;
+
+            list-style:none;
+
+            user-select:none;
+
+            color:#f8fafc;
+
+            font-size:14px;
+
+            font-weight:900;
+        }
+
+
+        #yhtisLifecycleCollapseV1
+        > summary::-webkit-details-marker{
+
+            display:none;
+        }
+
+
+        #yhtisLifecycleCollapseV1
+        .yhtis-life-collapse-arrow-v1{
+
+            display:inline-block;
+
+            margin-left:auto;
+
+            color:#94a3b8;
+
+            font-size:10px;
+
+            transition:
+                transform .15s ease;
+        }
+
+
+        #yhtisLifecycleCollapseV1[open]
+        .yhtis-life-collapse-arrow-v1{
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        #yhtisLifecycleCollapseV1
+        .yhtis-life-collapse-counts-v1{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:8px;
+
+            color:#cbd5e1;
+
+            font-size:11px;
+
+            font-weight:850;
+
+            white-space:nowrap;
+        }
+
+
+        #yhtisLifecycleCollapseContentV1{
+
+            padding:
+                0 4px 7px 4px;
+        }
+
+
+        /*
+         * 原本 V3 bar 搬進 details 後
+         * 不需要再有外部上下 margin。
+         */
+        #yhtisLifecycleCollapseContentV1
+        #yhtisLifecycleButtonBarV3{
+
+            margin:
+                0 !important;
+        }
+
+
+        @media(max-width:850px){
+
+            #yhtisLifecycleCollapseV1
+            > summary{
+
+                min-height:48px;
+
+                padding:
+                    0 11px;
+
+                font-size:13px;
+            }
+
+
+            #yhtisLifecycleCollapseV1
+            .yhtis-life-collapse-counts-v1{
+
+                gap:5px;
+
+                font-size:10px;
+            }
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   從 V3 按鈕讀目前檔數
+   ============================================================ */
+
+function yhtisLifeCollapseReadCountV1(
+    key
+){
+
+    const btn =
+        document.querySelector(
+            '[data-yhtis-life-stage-v3="'
+            + key
+            + '"]'
+        );
+
+
+    if(!btn){
+        return "…";
+    }
+
+
+    const count =
+        btn.querySelector(
+            ".yhtis-lb-count-v3"
+        );
+
+
+    if(!count){
+        return "…";
+    }
+
+
+    return String(
+        count.textContent || "…"
+    )
+    .replace(
+        "檔",
+        ""
+    )
+    .trim();
+}
+
+
+/* ============================================================
+   更新收合標題上的即時數字
+   ============================================================ */
+
+function yhtisLifeCollapseUpdateSummaryV1(){
+
+    const box =
+        document.getElementById(
+            "yhtisLifeCollapseCountsV1"
+        );
+
+
+    if(!box){
+        return;
+    }
+
+
+    const strong =
+        yhtisLifeCollapseReadCountV1(
+            "strong"
+        );
+
+
+    const confirm =
+        yhtisLifeCollapseReadCountV1(
+            "confirm"
+        );
+
+
+    const golden =
+        yhtisLifeCollapseReadCountV1(
+            "golden"
+        );
+
+
+    const early =
+        yhtisLifeCollapseReadCountV1(
+            "early"
+        );
+
+
+    const watch =
+        yhtisLifeCollapseReadCountV1(
+            "watch"
+        );
+
+
+    box.innerHTML =
+        "<span>🔥"
+        + strong
+        + "</span>"
+
+        + "<span>🔴"
+        + confirm
+        + "</span>"
+
+        + "<span>✨"
+        + golden
+        + "</span>"
+
+        + "<span>🌱"
+        + early
+        + "</span>"
+
+        + "<span>👀"
+        + watch
+        + "</span>";
+}
+
+
+/* ============================================================
+   建立生命週期收合框
+   ============================================================ */
+
+function yhtisLifeCollapseInstallV1(){
+
+    const bar =
+        document.getElementById(
+            "yhtisLifecycleButtonBarV3"
+        );
+
+
+    if(!bar){
+        return false;
+    }
+
+
+    /*
+     * 已經包好了
+     */
+    const existing =
+        document.getElementById(
+            "yhtisLifecycleCollapseV1"
+        );
+
+
+    if(existing){
+
+        yhtisLifeCollapseUpdateSummaryV1();
+
+        return true;
+    }
+
+
+    const details =
+        document.createElement(
+            "details"
+        );
+
+
+    details.id =
+        "yhtisLifecycleCollapseV1";
+
+
+    /*
+     * 不設定 open
+     * = 預設收合
+     */
+
+
+    const summary =
+        document.createElement(
+            "summary"
+        );
+
+
+    summary.innerHTML =
+        "<span>📍 起漲生命週期</span>"
+
+        + "<span "
+        + "id='yhtisLifeCollapseCountsV1' "
+        + "class='yhtis-life-collapse-counts-v1'>"
+        + "🔥… 🔴… ✨… 🌱… 👀…"
+        + "</span>"
+
+        + "<span "
+        + "class='yhtis-life-collapse-arrow-v1'>"
+        + "▶"
+        + "</span>";
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.id =
+        "yhtisLifecycleCollapseContentV1";
+
+
+    /*
+     * 把目前整條生命週期 V3
+     * 搬進收合內容。
+     *
+     * 包含：
+     * 🔥 強力買入
+     * 🔴 強勢確認
+     * ✨ 黃金交叉
+     * 🌱 剛起漲
+     * 👀 觀察
+     * 🎯 選股策略
+     * ⚡ 活躍條件
+     */
+    bar.parentElement.insertBefore(
+        details,
+        bar
+    );
+
+
+    details.appendChild(
+        summary
+    );
+
+
+    details.appendChild(
+        content
+    );
+
+
+    content.appendChild(
+        bar
+    );
+
+
+    yhtisLifeCollapseUpdateSummaryV1();
+
+
+    return true;
+}
+
+
+/* ============================================================
+   執行
+   ============================================================ */
+
+function yhtisLifeCollapseRunV1(){
+
+    yhtisLifeCollapseInstallStyleV1();
+
+    yhtisLifeCollapseInstallV1();
+
+    yhtisLifeCollapseUpdateSummaryV1();
+}
+
+
+/*
+ * V3 資料讀取需要時間，
+ * 多更新幾次數字。
+ */
+[
+    300,
+    700,
+    1200,
+    1800,
+    2800,
+    4500
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisLifeCollapseRunV1,
+        ms
+    );
+});
+
+
+/*
+ * 生命週期數字更新後，
+ * summary 同步刷新。
+ */
+let yhtisLifeCollapseTimerV1 = null;
+
+
+const yhtisLifeCollapseObserverV1 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisLifeCollapseTimerV1
+            );
+
+
+            yhtisLifeCollapseTimerV1 =
+                setTimeout(
+                    yhtisLifeCollapseRunV1,
+                    100
+                );
+        }
+    );
+
+
+yhtisLifeCollapseObserverV1.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true,
+        characterData:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_QUICK_NAV_COLLAPSE_V1 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   ⚡ 快速導覽
+   預設收合，點擊後才顯示細項
+   ============================================================ */
+
+function yhtisQuickNavInstallStyleV1(){
+
+    if(
+        document.getElementById(
+            "yhtisQuickNavStyleV1"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+    style.id =
+        "yhtisQuickNavStyleV1";
+
+
+    style.textContent = `
+
+        #yhtisQuickNavDetailsV1{
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            margin:10px 0 12px 0;
+
+            border-top:
+                1px solid rgba(51,65,85,.85);
+
+            border-bottom:
+                1px solid rgba(51,65,85,.85);
+
+            background:
+                rgba(2,6,23,.25);
+        }
+
+
+        #yhtisQuickNavDetailsV1
+        > summary{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:8px;
+
+            min-height:54px;
+
+            padding:0 18px;
+
+            cursor:pointer;
+
+            list-style:none;
+
+            font-size:16px;
+
+            font-weight:900;
+
+            color:#f8fafc;
+
+            user-select:none;
+        }
+
+
+        #yhtisQuickNavDetailsV1
+        > summary::-webkit-details-marker{
+
+            display:none;
+        }
+
+
+        #yhtisQuickNavDetailsV1
+        .yhtis-qn-arrow-v1{
+
+            display:inline-block;
+
+            font-size:11px;
+
+            color:#94a3b8;
+
+            transition:
+                transform .15s ease;
+        }
+
+
+        #yhtisQuickNavDetailsV1[open]
+        .yhtis-qn-arrow-v1{
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        #yhtisQuickNavDetailsV1
+        .yhtis-qn-hint-v1{
+
+            margin-left:auto;
+
+            font-size:10px;
+
+            font-weight:700;
+
+            color:#64748b;
+        }
+
+
+        #yhtisQuickNavContentV1{
+
+            display:flex;
+
+            align-items:center;
+
+            flex-wrap:wrap;
+
+            gap:8px 16px;
+
+            padding:
+                4px 18px 15px 18px;
+
+            overflow-x:auto;
+        }
+
+
+        #yhtisQuickNavContentV1
+        a{
+
+            white-space:nowrap;
+        }
+
+
+        @media(max-width:850px){
+
+            #yhtisQuickNavDetailsV1
+            > summary{
+
+                min-height:48px;
+
+                padding:
+                    0 12px;
+
+                font-size:14px;
+            }
+
+
+            #yhtisQuickNavContentV1{
+
+                flex-wrap:nowrap;
+
+                padding:
+                    4px 12px 13px 12px;
+
+                overflow-x:auto;
+            }
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   找出真正的快速導覽區
+   ============================================================ */
+
+function yhtisFindQuickNavV1(){
+
+    const nodes =
+        [
+            ...document.querySelectorAll(
+                "div,nav,section"
+            )
+        ];
+
+
+    /*
+     * 優先找同時包含：
+     * 快速導覽 + 我的追蹤股
+     * 避免誤抓其它文字。
+     */
+    const candidates =
+        nodes.filter(el => {
+
+            if(
+                el.closest(
+                    "#yhtisQuickNavDetailsV1"
+                )
+            ){
+                return false;
+            }
+
+
+            const text =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            return (
+                text.includes(
+                    "快速導覽"
+                )
+                &&
+                text.includes(
+                    "我的追蹤股"
+                )
+            );
+        });
+
+
+    if(!candidates.length){
+        return null;
+    }
+
+
+    /*
+     * 取文字最短者，
+     * 通常就是最內層真正 nav container。
+     */
+    candidates.sort(
+        (a,b) =>
+            String(
+                a.textContent || ""
+            ).length
+            -
+            String(
+                b.textContent || ""
+            ).length
+    );
+
+
+    return candidates[0];
+}
+
+
+/* ============================================================
+   建立收合版
+   ============================================================ */
+
+function yhtisInstallQuickNavCollapseV1(){
+
+    if(
+        document.getElementById(
+            "yhtisQuickNavDetailsV1"
+        )
+    ){
+        return true;
+    }
+
+
+    const old =
+        yhtisFindQuickNavV1();
+
+
+    if(!old){
+        return false;
+    }
+
+
+    /*
+     * 避免誤抓整個 Dashboard。
+     */
+    const text =
+        String(
+            old.textContent || ""
+        )
+        .replace(/\s+/g," ")
+        .trim();
+
+
+    if(
+        text.length > 700
+    ){
+        return false;
+    }
+
+
+    const details =
+        document.createElement(
+            "details"
+        );
+
+
+    details.id =
+        "yhtisQuickNavDetailsV1";
+
+
+    /*
+     * 預設不 open：
+     * 也就是載入頁面時收合。
+     */
+
+
+    const summary =
+        document.createElement(
+            "summary"
+        );
+
+
+    summary.innerHTML =
+        "<span>⚡ 快速導覽</span>"
+        + "<span class='yhtis-qn-arrow-v1'>▶</span>"
+        + "<span class='yhtis-qn-hint-v1'>點擊展開</span>";
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.id =
+        "yhtisQuickNavContentV1";
+
+
+    /*
+     * 把原本導覽裡的連結 / 按鈕移過來。
+     * 「快速導覽」標題本身不要重複。
+     */
+    const controls =
+        [
+            ...old.querySelectorAll(
+                "a,button"
+            )
+        ];
+
+
+    controls.forEach(el => {
+
+        /*
+         * 快速導覽本身若剛好是按鈕，
+         * 不搬。
+         */
+        const t =
+            String(
+                el.textContent || ""
+            )
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        if(
+            t === "快速導覽"
+            ||
+            t === "⚡ 快速導覽"
+        ){
+            return;
+        }
+
+
+        /*
+         * 舊名稱一起統一
+         */
+        if(
+            el.innerHTML.includes(
+                "明天入場"
+            )
+        ){
+            el.innerHTML =
+                el.innerHTML.replace(
+                    /明天入場/g,
+                    "明日佈局"
+                );
+        }
+
+
+        if(
+            el.innerHTML.includes(
+                "明日入場"
+            )
+        ){
+            el.innerHTML =
+                el.innerHTML.replace(
+                    /明日入場/g,
+                    "明日佈局"
+                );
+        }
+
+
+        content.appendChild(
+            el
+        );
+    });
+
+
+    /*
+     * 若來源不是 a/button 結構，
+     * fallback 搬有 href / onclick 的子元素。
+     */
+    if(!content.children.length){
+
+        [
+            ...old.children
+        ]
+        .forEach(el => {
+
+            const t =
+                String(
+                    el.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            if(
+                t.includes(
+                    "快速導覽"
+                )
+                &&
+                t.length < 20
+            ){
+                return;
+            }
+
+
+            content.appendChild(
+                el
+            );
+        });
+    }
+
+
+    details.appendChild(
+        summary
+    );
+
+
+    details.appendChild(
+        content
+    );
+
+
+    old.parentElement.insertBefore(
+        details,
+        old
+    );
+
+
+    /*
+     * 舊導覽完整收掉。
+     */
+    old.style.setProperty(
+        "display",
+        "none",
+        "important"
+    );
+
+
+    old.setAttribute(
+        "data-yhtis-old-quicknav-hidden",
+        "1"
+    );
+
+
+    /*
+     * 打開 / 收合時更新提示。
+     */
+    details.addEventListener(
+        "toggle",
+        function(){
+
+            const hint =
+                details.querySelector(
+                    ".yhtis-qn-hint-v1"
+                );
+
+
+            if(hint){
+
+                hint.textContent =
+                    details.open
+                    ? "點擊收合"
+                    : "點擊展開";
+            }
+        }
+    );
+
+
+    return true;
+}
+
+
+/* ============================================================
+   執行
+   ============================================================ */
+
+function yhtisQuickNavRunV1(){
+
+    yhtisQuickNavInstallStyleV1();
+
+    yhtisInstallQuickNavCollapseV1();
+}
+
+
+[
+    300,
+    700,
+    1300,
+    2200,
+    3500
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisQuickNavRunV1,
+        ms
+    );
+});
+
+
+let yhtisQuickNavTimerV1 = null;
+
+
+const yhtisQuickNavObserverV1 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisQuickNavTimerV1
+            );
+
+
+            yhtisQuickNavTimerV1 =
+                setTimeout(
+                    yhtisQuickNavRunV1,
+                    100
+                );
+        }
+    );
+
+
+yhtisQuickNavObserverV1.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_HIDE_ORPHAN_ACTIVITY_V2 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   舊版「活躍度：」已無用途
+
+   現在正式入口已經是：
+   ⚡ 活躍條件
+
+   所以只隱藏孤立的舊標題 / 空容器，
+   不碰新的活躍條件按鈕。
+   ============================================================ */
+
+
+function yhtisHideOrphanActivityV2(){
+
+    const nodes =
+        document.querySelectorAll(
+            "div,span,p,label,section"
+        );
+
+
+    nodes.forEach(el => {
+
+        /*
+         * 新生命週期控制列完全不碰
+         */
+        if(
+            el.closest(
+                "#yhtisLifecycleButtonBarV3"
+            )
+        ){
+            return;
+        }
+
+
+        /*
+         * 不碰真正可以操作的控制項
+         */
+        if(
+            el.matches(
+                "button,input,select,a,summary"
+            )
+        ){
+            return;
+        }
+
+
+        /*
+         * 只看該元素自己的直接文字，
+         * 防止誤判大型父容器。
+         */
+        const directText =
+            [...el.childNodes]
+            .filter(
+                n =>
+                    n.nodeType
+                    === Node.TEXT_NODE
+            )
+            .map(
+                n =>
+                    String(
+                        n.nodeValue || ""
+                    )
+            )
+            .join(" ")
+            .replace(/\s+/g," ")
+            .trim();
+
+
+        if(
+            directText !== "活躍度："
+            &&
+            directText !== "活躍度:"
+        ){
+            return;
+        }
+
+
+        /*
+         * 先從文字本身開始，
+         * 再向上找「只有這個標題」的空殼。
+         */
+        let target =
+            el;
+
+
+        for(
+            let i = 0;
+            i < 3;
+            i++
+        ){
+
+            const parent =
+                target.parentElement;
+
+
+            if(
+                !parent
+                ||
+                parent === document.body
+            ){
+                break;
+            }
+
+
+            /*
+             * 如果父層內還有真正功能，
+             * 絕不能整層隱藏。
+             */
+            if(
+                parent.querySelector(
+                    "button,input,select,a,summary,details"
+                )
+            ){
+                break;
+            }
+
+
+            const parentText =
+                String(
+                    parent.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            if(
+                parentText === "活躍度："
+                ||
+                parentText === "活躍度:"
+            ){
+                target =
+                    parent;
+            }
+
+            else{
+                break;
+            }
+        }
+
+
+        target.setAttribute(
+            "data-yhtis-orphan-activity-hidden",
+            "1"
+        );
+
+
+        target.style.setProperty(
+            "display",
+            "none",
+            "important"
+        );
+
+
+        target.style.setProperty(
+            "margin",
+            "0",
+            "important"
+        );
+
+
+        target.style.setProperty(
+            "padding",
+            "0",
+            "important"
+        );
+
+
+        target.style.setProperty(
+            "height",
+            "0",
+            "important"
+        );
+    });
+}
+
+
+/*
+ * 初始頁面
+ */
+[
+    300,
+    700,
+    1200,
+    2200
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisHideOrphanActivityV2,
+        ms
+    );
+});
+
+
+/*
+ * MASTER / 生命週期區塊可能後建立，
+ * DOM 更新後再檢查一次。
+ */
+let yhtisActivityHideTimerV2 = null;
+
+
+const yhtisActivityHideObserverV2 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisActivityHideTimerV2
+            );
+
+
+            yhtisActivityHideTimerV2 =
+                setTimeout(
+                    yhtisHideOrphanActivityV2,
+                    80
+                );
+        }
+    );
+
+
+yhtisActivityHideObserverV2.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+})();
+
+
+/* YHTIS_LIFECYCLE_BUTTON_BAR_V3 */
+
+(function(){
+
+"use strict";
+
+
+/* ============================================================
+   YHTIS Lifecycle Button Bar V3
+
+   單一控制列：
+
+   🔥 強力買入
+   🔴 強勢確認
+   ✨ 黃金交叉
+   🌱 剛起漲
+   👀 觀察
+   👑 最強一鍵
+   🎯 選股策略
+   ⚡ 活躍條件
+
+   前五個生命週期按鈕會：
+   1. 顯示目前檔數
+   2. 點擊顯示該階段股票
+   3. 股票卡 data-master-code
+      直接沿用 MASTER 個股資訊入口
+
+   階段互斥：
+   強力買入 > 強勢確認 > 黃金交叉 > 剛起漲 > 觀察
+   ============================================================ */
+
+
+/* ============================================================
+   CSS
+   ============================================================ */
+
+function yhtisLBInstallStyleV3(){
+
+    if(
+        document.getElementById(
+            "yhtisLBStyleV3"
+        )
+    ){
+        return;
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+    style.id =
+        "yhtisLBStyleV3";
+
+
+    style.textContent = `
+
+        /*
+         * 舊生命週期展示列停用。
+         * V3 自己就是生命週期按鈕。
+         */
+        #yhtisLifecycleFunnelV2{
+            display:none !important;
+        }
+
+        /*
+         * 舊版生命週期卡片第一行繼續隱藏，
+         * V2 股票狀態列若存在可保留。
+         */
+        .yhtis-lifecycle-first-row-v1{
+            display:none !important;
+        }
+
+
+        #yhtisLifecycleButtonBarV3{
+
+            display:flex;
+
+            align-items:stretch;
+
+            gap:7px;
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            margin:8px 0 12px 0;
+
+            overflow-x:auto;
+
+            padding-bottom:2px;
+        }
+
+
+        #yhtisLifecycleButtonBarV3
+        .yhtis-lb-btn-v3{
+
+            flex:1 0 126px;
+
+            min-width:126px;
+
+            min-height:64px;
+
+            box-sizing:border-box;
+
+            border-radius:11px;
+
+            padding:7px 9px;
+
+            cursor:pointer;
+
+            color:#e5e7eb;
+
+            font-family:inherit;
+
+            transition:
+                transform .12s ease,
+                border-color .12s ease,
+                background .12s ease;
+        }
+
+
+        #yhtisLifecycleButtonBarV3
+        .yhtis-lb-btn-v3:hover{
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        #yhtisLifecycleButtonBarV3
+        .yhtis-lb-main-v3{
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            gap:5px;
+
+            font-size:14px;
+
+            font-weight:900;
+
+            white-space:nowrap;
+        }
+
+
+        #yhtisLifecycleButtonBarV3
+        .yhtis-lb-count-v3{
+
+            display:inline-flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            min-width:31px;
+
+            padding:2px 5px;
+
+            border-radius:999px;
+
+            background:
+                rgba(255,255,255,.10);
+
+            font-size:10px;
+
+            font-weight:900;
+        }
+
+
+        #yhtisLifecycleButtonBarV3
+        .yhtis-lb-sub-v3{
+
+            margin-top:5px;
+
+            text-align:center;
+
+            color:#94a3b8;
+
+            font-size:9px;
+
+            font-weight:700;
+
+            white-space:nowrap;
+        }
+
+
+        .yhtis-lb-strong-v3{
+
+            border:
+                1px solid #ef4444;
+
+            background:
+                rgba(127,29,29,.24);
+        }
+
+
+        .yhtis-lb-confirm-v3{
+
+            border:
+                1px solid #f87171;
+
+            background:
+                rgba(69,10,10,.15);
+        }
+
+
+        .yhtis-lb-golden-v3{
+
+            border:
+                1px solid #f59e0b;
+
+            background:
+                rgba(120,53,15,.14);
+        }
+
+
+        .yhtis-lb-early-v3{
+
+            border:
+                1px solid #22c55e;
+
+            background:
+                rgba(20,83,45,.15);
+        }
+
+
+        .yhtis-lb-watch-v3{
+
+            border:
+                1px solid #64748b;
+
+            background:
+                rgba(30,41,59,.35);
+        }
+
+
+        #yhtisLifecycleButtonBarV3
+        .yhtis-lb-active-v3{
+
+            box-shadow:
+                0 0 0 2px
+                rgba(59,130,246,.85)
+                inset;
+        }
+
+
+        /*
+         * 被搬進新控制列的既有工具按鈕
+         */
+        #yhtisLifecycleButtonBarV3
+        .yhtis-lb-tool-v3{
+
+            flex:1 0 126px !important;
+
+            min-width:126px !important;
+
+            min-height:64px !important;
+
+            margin:0 !important;
+
+            box-sizing:border-box !important;
+
+            white-space:nowrap !important;
+        }
+
+
+        /*
+         * 階段搜尋結果
+         */
+        .yhtis-lb-result-card-v3{
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            padding:12px 13px;
+
+            border:
+                1px solid
+                rgba(100,116,139,.55);
+
+            border-radius:10px;
+
+            background:
+                rgba(15,23,42,.82);
+
+            cursor:pointer;
+
+            transition:
+                border-color .12s ease,
+                transform .12s ease;
+        }
+
+
+        .yhtis-lb-result-card-v3:hover{
+
+            border-color:#60a5fa;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .yhtis-lb-result-title-v3{
+
+            font-size:16px;
+
+            font-weight:900;
+        }
+
+
+        .yhtis-lb-result-stage-v3{
+
+            margin-top:5px;
+
+            font-size:12px;
+
+            font-weight:900;
+        }
+
+
+        .yhtis-lb-result-detail-v3{
+
+            margin-top:4px;
+
+            color:#cbd5e1;
+
+            font-size:11px;
+
+            line-height:1.5;
+        }
+
+
+        .yhtis-lb-result-open-v3{
+
+            margin-top:7px;
+
+            padding-top:6px;
+
+            border-top:
+                1px solid
+                rgba(148,163,184,.16);
+
+            color:#93c5fd;
+
+            font-size:10px;
+
+            font-weight:900;
+        }
+
+
+        @media(max-width:850px){
+
+            #yhtisLifecycleButtonBarV3{
+
+                overflow-x:auto;
+            }
+
+
+            #yhtisLifecycleButtonBarV3
+            .yhtis-lb-btn-v3,
+            #yhtisLifecycleButtonBarV3
+            .yhtis-lb-tool-v3{
+
+                flex:
+                    0 0 118px !important;
+
+                min-width:
+                    118px !important;
+            }
+        }
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ============================================================
+   CSV
+   ============================================================ */
+
+function yhtisLBParseCSVV3(text){
+
+    const rows = [];
+
+    let row = [];
+    let cell = "";
+    let quoted = false;
+
+
+    for(
+        let i = 0;
+        i < text.length;
+        i++
+    ){
+
+        const ch =
+            text[i];
+
+
+        if(ch === '"'){
+
+            if(
+                quoted
+                &&
+                text[i + 1] === '"'
+            ){
+                cell += '"';
+                i++;
+            }
+
+            else{
+                quoted = !quoted;
+            }
+        }
+
+
+        else if(
+            ch === ","
+            &&
+            !quoted
+        ){
+            row.push(cell);
+            cell = "";
+        }
+
+
+        else if(
+            (
+                ch === "\n"
+                ||
+                ch === "\r"
+            )
+            &&
+            !quoted
+        ){
+
+            if(
+                ch === "\r"
+                &&
+                text[i + 1] === "\n"
+            ){
+                i++;
+            }
+
+
+            row.push(cell);
+
+
+            if(
+                row.some(
+                    x =>
+                        String(x).trim()
+                )
+            ){
+                rows.push(row);
+            }
+
+
+            row = [];
+            cell = "";
+        }
+
+
+        else{
+            cell += ch;
+        }
+    }
+
+
+    if(
+        cell.length
+        ||
+        row.length
+    ){
+        row.push(cell);
+        rows.push(row);
+    }
+
+
+    if(!rows.length){
+        return [];
+    }
+
+
+    const header =
+        rows.shift()
+        .map(x =>
+            String(x)
+            .replace(/^\uFEFF/, "")
+            .trim()
+        );
+
+
+    return rows.map(r => {
+
+        const obj = {};
+
+        header.forEach(
+            (h,i) => {
+
+                obj[h] =
+                    r[i] === undefined
+                    ? ""
+                    : r[i];
+            }
+        );
+
+        return obj;
+    });
+}
+
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+
+function yhtisLBNumV3(v){
+
+    const n =
+        Number(
+            String(
+                v ?? ""
+            )
+            .replace(/,/g,"")
+            .replace(/%/g,"")
+        );
+
+    return Number.isFinite(n)
+        ? n
+        : null;
+}
+
+
+function yhtisLBBoolV3(v){
+
+    return [
+        "true",
+        "1",
+        "yes",
+        "y"
+    ].includes(
+        String(
+            v ?? ""
+        )
+        .trim()
+        .toLowerCase()
+    );
+}
+
+
+function yhtisLBCodeV3(row){
+
+    const candidates = [
+        row.code,
+        row.Code,
+        row.CODE,
+        row.股票代號,
+        row.代號
+    ];
+
+
+    for(const v of candidates){
+
+        const s =
+            String(v ?? "")
+            .replace(/\.0$/, "")
+            .trim();
+
+
+        if(/^\d{4}$/.test(s)){
+            return s;
+        }
+    }
+
+
+    return "";
+}
+
+
+function yhtisLBNameV3(row){
+
+    return String(
+        row.name
+        ||
+        row.Name
+        ||
+        row.股票名稱
+        ||
+        row.名稱
+        ||
+        ""
+    ).trim();
+}
+
+
+function yhtisLBMarketDateV3(){
+
+    const txt =
+        String(
+            document.body.innerText || ""
+        );
+
+
+    let m =
+        txt.match(
+            /行情日期\s*[:：]?\s*(\d{4}-\d{2}-\d{2})/
+        );
+
+
+    if(m){
+        return m[1];
+    }
+
+
+    m =
+        txt.match(
+            /資料日期\s*[:：]?\s*(\d{4}-\d{2}-\d{2})/
+        );
+
+
+    return m
+        ? m[1]
+        : "";
+}
+
+
+/* ============================================================
+   強力買入 Gate
+   不重新修改 V13 分數。
+
+   必須：
+   A+
+   Setup 未失效
+   未過度延伸
+   Risk <= V13 原本 8%
+   且執行文字沒有等待 / 不追
+   ============================================================ */
+
+function yhtisLBStrongPassV3(x){
+
+    if(!x){
+        return false;
+    }
+
+
+    const grade =
+        String(
+            x.grade || ""
+        );
+
+
+    if(
+        !grade.includes("A+")
+    ){
+        return false;
+    }
+
+
+    if(
+        yhtisLBBoolV3(
+            x.setup_invalid
+        )
+    ){
+        return false;
+    }
+
+
+    if(
+        yhtisLBBoolV3(
+            x.overextended
+        )
+    ){
+        return false;
+    }
+
+
+    const risk =
+        yhtisLBNumV3(
+            x.current_risk
+        );
+
+
+    if(
+        risk === null
+        ||
+        risk > 8
+    ){
+        return false;
+    }
+
+
+    const text =
+        [
+            x.action,
+            x.title,
+            x.price_state,
+            x.issue
+        ]
+        .map(x =>
+            String(x || "")
+        )
+        .join(" ");
+
+
+    const blocked = [
+        "等待",
+        "等確認",
+        "等回踩",
+        "不追",
+        "禁止",
+        "過熱",
+        "觀望",
+        "失效"
+    ];
+
+
+    if(
+        blocked.some(
+            x => text.includes(x)
+        )
+    ){
+        return false;
+    }
+
+
+    return true;
+}
+
+
+/* ============================================================
+   Stage Store
+
+   strong
+   confirm
+   golden
+   early
+   watch
+   ============================================================ */
+
+const YHTIS_LB_V3 = {
+
+    loaded:false,
+
+    loading:false,
+
+    stocks:new Map(),
+
+    stages:{
+        strong:[],
+        confirm:[],
+        golden:[],
+        early:[],
+        watch:[]
+    }
+};
+
+
+function yhtisLBUpsertV3(
+    code,
+    patch
+){
+
+    if(!code){
+        return;
+    }
+
+
+    const old =
+        YHTIS_LB_V3.stocks.get(code)
+        ||
+        {
+            code:code,
+            name:"",
+            finalRow:null,
+            goldenRow:null,
+            earlyRow:null,
+            isGolden:false,
+            isEarly:false
+        };
+
+
+    Object.assign(
+        old,
+        patch
+    );
+
+
+    if(
+        !old.name
+        &&
+        patch.name
+    ){
+        old.name =
+            patch.name;
+    }
+
+
+    YHTIS_LB_V3.stocks.set(
+        code,
+        old
+    );
+}
+
+
+/* ============================================================
+   Load Final V13
+   ============================================================ */
+
+async function yhtisLBLoadFinalV3(){
+
+    const r =
+        await fetch(
+            "/output/final_decision_v13.csv?v="
+            + Date.now(),
+            {
+                cache:"no-store"
+            }
+        );
+
+
+    if(!r.ok){
+        throw new Error(
+            "Final V13 HTTP "
+            + r.status
+        );
+    }
+
+
+    const rows =
+        yhtisLBParseCSVV3(
+            await r.text()
+        );
+
+
+    rows.forEach(x => {
+
+        const code =
+            yhtisLBCodeV3(x);
+
+
+        if(!code){
+            return;
+        }
+
+
+        yhtisLBUpsertV3(
+            code,
+            {
+                name:
+                    yhtisLBNameV3(x),
+
+                finalRow:x
+            }
+        );
+    });
+}
+
+
+/* ============================================================
+   Load EMA Golden Cross
+   ============================================================ */
+
+async function yhtisLBLoadGoldenV3(){
+
+    const r =
+        await fetch(
+            "/output/research/ema_golden_cross_v1/latest.csv?v="
+            + Date.now(),
+            {
+                cache:"no-store"
+            }
+        );
+
+
+    if(!r.ok){
+        return;
+    }
+
+
+    const rows =
+        yhtisLBParseCSVV3(
+            await r.text()
+        );
+
+
+    rows.forEach(x => {
+
+        const code =
+            yhtisLBCodeV3(x);
+
+
+        if(!code){
+            return;
+        }
+
+
+        yhtisLBUpsertV3(
+            code,
+            {
+                name:
+                    yhtisLBNameV3(x),
+
+                goldenRow:x,
+
+                isGolden:true
+            }
+        );
+    });
+}
+
+
+/* ============================================================
+   Load Early Launch
+   ============================================================ */
+
+async function yhtisLBLoadEarlyV3(){
+
+    const date =
+        yhtisLBMarketDateV3();
+
+
+    if(!date){
+        return;
+    }
+
+
+    const url =
+        "/output/research/"
+        + "early_launch_prospective_ledger_v1/"
+        + date
+        + "/precontext_candidates_"
+        + date
+        + ".csv?v="
+        + Date.now();
+
+
+    const r =
+        await fetch(
+            url,
+            {
+                cache:"no-store"
+            }
+        );
+
+
+    if(!r.ok){
+        return;
+    }
+
+
+    const rows =
+        yhtisLBParseCSVV3(
+            await r.text()
+        );
+
+
+    rows.forEach(x => {
+
+        const code =
+            yhtisLBCodeV3(x);
+
+
+        if(!code){
+            return;
+        }
+
+
+        /*
+         * 沿用你現在 Early Launch 正式條件。
+         */
+        const macd =
+            yhtisLBNumV3(
+                x.MACD
+            );
+
+        const signal =
+            yhtisLBNumV3(
+                x.MACD_SIGNAL
+            );
+
+        const hist =
+            yhtisLBNumV3(
+                x.MACD_HIST_T
+            );
+
+
+        const pass =
+            (
+                macd !== null
+                &&
+                signal !== null
+                &&
+                macd > signal
+            )
+            &&
+            (
+                hist !== null
+                &&
+                hist > 0
+            )
+            &&
+            yhtisLBBoolV3(
+                x.CCI_NEGATIVE_RISING
+            )
+            &&
+            yhtisLBBoolV3(
+                x.A_SIGNAL
+            )
+            &&
+            yhtisLBBoolV3(
+                x.FROZEN_GROUP_A
+            );
+
+
+        if(!pass){
+            return;
+        }
+
+
+        yhtisLBUpsertV3(
+            code,
+            {
+                name:
+                    yhtisLBNameV3(x),
+
+                earlyRow:x,
+
+                isEarly:true
+            }
+        );
+    });
+}
+
+
+/* ============================================================
+   Exclusive Stage Assignment
+   ============================================================ */
+
+function yhtisLBAssignStagesV3(){
+
+    const stages = {
+        strong:[],
+        confirm:[],
+        golden:[],
+        early:[],
+        watch:[]
+    };
+
+
+    for(
+        const stock
+        of YHTIS_LB_V3.stocks.values()
+    ){
+
+        const f =
+            stock.finalRow;
+
+
+        /*
+         * ⑤ 最高：強力買入
+         */
+        if(
+            f
+            &&
+            yhtisLBStrongPassV3(f)
+        ){
+
+            stock.stageKey =
+                "strong";
+
+            stages.strong.push(
+                stock
+            );
+
+            continue;
+        }
+
+
+        /*
+         * ④ 強勢確認
+         */
+        if(
+            f
+            &&
+            String(
+                f.grade || ""
+            )
+            .includes("A+")
+        ){
+
+            stock.stageKey =
+                "confirm";
+
+            stages.confirm.push(
+                stock
+            );
+
+            continue;
+        }
+
+
+        /*
+         * ③ 黃金交叉
+         */
+        if(stock.isGolden){
+
+            stock.stageKey =
+                "golden";
+
+            stages.golden.push(
+                stock
+            );
+
+            continue;
+        }
+
+
+        /*
+         * ② 剛起漲
+         */
+        if(stock.isEarly){
+
+            stock.stageKey =
+                "early";
+
+            stages.early.push(
+                stock
+            );
+
+            continue;
+        }
+
+
+        /*
+         * ① Final V13 其餘候選 → 觀察
+         */
+        if(f){
+
+            stock.stageKey =
+                "watch";
+
+            stages.watch.push(
+                stock
+            );
+        }
+    }
+
+
+    /*
+     * Final V13 優先用分數排序，
+     * 其他依股票代號。
+     */
+    for(
+        const key
+        of Object.keys(stages)
+    ){
+
+        stages[key].sort(
+            (a,b) => {
+
+                const af =
+                    a.finalRow || {};
+
+                const bf =
+                    b.finalRow || {};
+
+
+                const as =
+                    yhtisLBNumV3(
+                        af.FINAL_SCORE
+                        ??
+                        af.final_score
+                        ??
+                        af.score
+                    );
+
+                const bs =
+                    yhtisLBNumV3(
+                        bf.FINAL_SCORE
+                        ??
+                        bf.final_score
+                        ??
+                        bf.score
+                    );
+
+
+                if(
+                    as !== null
+                    &&
+                    bs !== null
+                    &&
+                    as !== bs
+                ){
+                    return bs - as;
+                }
+
+
+                return (
+                    a.code.localeCompare(
+                        b.code
+                    )
+                );
+            }
+        );
+    }
+
+
+    YHTIS_LB_V3.stages =
+        stages;
+}
+
+
+/* ============================================================
+   Load all
+   ============================================================ */
+
+async function yhtisLBLoadAllV3(){
+
+    if(
+        YHTIS_LB_V3.loaded
+        ||
+        YHTIS_LB_V3.loading
+    ){
+        return;
+    }
+
+
+    YHTIS_LB_V3.loading =
+        true;
+
+
+    try{
+
+        await Promise.all([
+            yhtisLBLoadFinalV3(),
+            yhtisLBLoadGoldenV3(),
+            yhtisLBLoadEarlyV3()
+        ]);
+
+
+        yhtisLBAssignStagesV3();
+
+
+        YHTIS_LB_V3.loaded =
+            true;
+
+
+        yhtisLBUpdateCountsV3();
+
+
+        console.log(
+            "✅ Lifecycle V3 stages",
+            {
+                strong:
+                    YHTIS_LB_V3.stages.strong.length,
+
+                confirm:
+                    YHTIS_LB_V3.stages.confirm.length,
+
+                golden:
+                    YHTIS_LB_V3.stages.golden.length,
+
+                early:
+                    YHTIS_LB_V3.stages.early.length,
+
+                watch:
+                    YHTIS_LB_V3.stages.watch.length
+            }
+        );
+    }
+
+    catch(e){
+
+        console.error(
+            "Lifecycle V3 load failed:",
+            e
+        );
+    }
+
+    finally{
+
+        YHTIS_LB_V3.loading =
+            false;
+    }
+}
+
+
+/* ============================================================
+   Lifecycle Button
+   ============================================================ */
+
+const YHTIS_LB_CFG_V3 = {
+
+    strong:{
+        label:"🔥 強力買入",
+        sub:"核心加碼",
+        cls:"yhtis-lb-strong-v3",
+        stage:"🔥 強力買入",
+        action:"🔥 核心加碼"
+    },
+
+    confirm:{
+        label:"🔴 強勢確認",
+        sub:"主力佈局",
+        cls:"yhtis-lb-confirm-v3",
+        stage:"🔴 強勢確認",
+        action:"🔥 主力佈局"
+    },
+
+    golden:{
+        label:"✨ 黃金交叉",
+        sub:"第一加碼",
+        cls:"yhtis-lb-golden-v3",
+        stage:"✨ 黃金交叉",
+        action:"➕ 第一加碼"
+    },
+
+    early:{
+        label:"🌱 剛起漲",
+        sub:"預佈局",
+        cls:"yhtis-lb-early-v3",
+        stage:"🌱 剛起漲",
+        action:"🧩 預佈局"
+    },
+
+    watch:{
+        label:"👀 觀察",
+        sub:"等待確認",
+        cls:"yhtis-lb-watch-v3",
+        stage:"👀 觀察",
+        action:"⏸ 等待確認"
+    }
+};
+
+
+function yhtisLBCreateStageButtonV3(
+    key
+){
+
+    const cfg =
+        YHTIS_LB_CFG_V3[key];
+
+
+    const btn =
+        document.createElement(
+            "button"
+        );
+
+
+    btn.type =
+        "button";
+
+
+    btn.className =
+        "yhtis-lb-btn-v3 "
+        + cfg.cls;
+
+
+    btn.setAttribute(
+        "data-yhtis-life-stage-v3",
+        key
+    );
+
+
+    btn.innerHTML =
+        "<div class='yhtis-lb-main-v3'>"
+        + cfg.label
+        + " "
+        + "<span class='yhtis-lb-count-v3'>"
+        + "…檔"
+        + "</span>"
+        + "</div>"
+        + "<div class='yhtis-lb-sub-v3'>"
+        + cfg.sub
+        + "</div>";
+
+
+    btn.addEventListener(
+        "click",
+        async function(e){
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+
+            await yhtisLBLoadAllV3();
+
+
+            document
+            .querySelectorAll(
+                "[data-yhtis-life-stage-v3]"
+            )
+            .forEach(x =>
+                x.classList.remove(
+                    "yhtis-lb-active-v3"
+                )
+            );
+
+
+            btn.classList.add(
+                "yhtis-lb-active-v3"
+            );
+
+
+            yhtisLBRenderStageV3(
+                key
+            );
+        }
+    );
+
+
+    return btn;
+}
+
+
+/* ============================================================
+   Counts
+   ============================================================ */
+
+function yhtisLBUpdateCountsV3(){
+
+    for(
+        const key
+        of Object.keys(
+            YHTIS_LB_CFG_V3
+        )
+    ){
+
+        const btn =
+            document.querySelector(
+                '[data-yhtis-life-stage-v3="'
+                + key
+                + '"]'
+            );
+
+
+        if(!btn){
+            continue;
+        }
+
+
+        const count =
+            btn.querySelector(
+                ".yhtis-lb-count-v3"
+            );
+
+
+        if(count){
+
+            count.textContent =
+                (
+                    YHTIS_LB_V3.stages[key]
+                    || []
+                ).length
+                + "檔";
+        }
+    }
+}
+
+
+/* ============================================================
+   Result Detail
+   ============================================================ */
+
+function yhtisLBDetailV3(
+    stock,
+    key
+){
+
+    const f =
+        stock.finalRow || {};
+
+    const g =
+        stock.goldenRow || {};
+
+    const e =
+        stock.earlyRow || {};
+
+
+    if(
+        key === "strong"
+        ||
+        key === "confirm"
+        ||
+        key === "watch"
+    ){
+
+        const bits = [];
+
+
+        if(f.grade){
+            bits.push(
+                String(f.grade)
+            );
+        }
+
+
+        if(f.current){
+            bits.push(
+                "現 "
+                + f.current
+            );
+        }
+
+
+        if(f.current_risk !== undefined){
+
+            const r =
+                yhtisLBNumV3(
+                    f.current_risk
+                );
+
+
+            if(r !== null){
+                bits.push(
+                    "風險 "
+                    + r.toFixed(1)
+                    + "%"
+                );
+            }
+        }
+
+
+        if(f.rr1 !== undefined){
+
+            const rr =
+                yhtisLBNumV3(
+                    f.rr1
+                );
+
+
+            if(rr !== null){
+                bits.push(
+                    "R/R "
+                    + rr.toFixed(2)
+                );
+            }
+        }
+
+
+        return bits.join(
+            " ｜ "
+        );
+    }
+
+
+    if(key === "golden"){
+
+        const bits = [];
+
+
+        const close =
+            g.Close
+            ??
+            g.close
+            ??
+            g.今日收盤;
+
+
+        if(close){
+            bits.push(
+                "收盤 "
+                + close
+            );
+        }
+
+
+        const strength =
+            g.CROSS_STRENGTH_PCT
+            ??
+            g.cross_strength_pct
+            ??
+            g.交叉強度;
+
+
+        if(strength !== undefined){
+
+            const n =
+                yhtisLBNumV3(
+                    strength
+                );
+
+
+            if(n !== null){
+                bits.push(
+                    "交叉強度 "
+                    + n.toFixed(3)
+                    + "%"
+                );
+            }
+        }
+
+
+        return bits.join(
+            " ｜ "
+        );
+    }
+
+
+    if(key === "early"){
+
+        const bits = [];
+
+
+        const gap =
+            e.EMA_GAP_PCT
+            ??
+            e.EMA_DISTANCE_PCT
+            ??
+            e.EMA_DISTANCE;
+
+
+        const hist =
+            e.MACD_HIST_T;
+
+
+        const cci =
+            e.CCI20
+            ??
+            e.CCI;
+
+
+        if(
+            yhtisLBNumV3(gap)
+            !== null
+        ){
+            bits.push(
+                "EMA距離 "
+                + yhtisLBNumV3(gap)
+                    .toFixed(2)
+                + "%"
+            );
+        }
+
+
+        if(
+            yhtisLBNumV3(hist)
+            !== null
+        ){
+            bits.push(
+                "MACD柱 "
+                + yhtisLBNumV3(hist)
+                    .toFixed(3)
+            );
+        }
+
+
+        if(
+            yhtisLBNumV3(cci)
+            !== null
+        ){
+            bits.push(
+                "CCI "
+                + yhtisLBNumV3(cci)
+                    .toFixed(1)
+            );
+        }
+
+
+        const context =
+            e.FROZEN_CONTEXT_PASS;
+
+
+        if(
+            context !== undefined
+            &&
+            context !== ""
+        ){
+
+            bits.push(
+                yhtisLBBoolV3(context)
+                ? "🔴 市場環境通過"
+                : "🟡 市場環境未確認"
+            );
+        }
+
+
+        return bits.join(
+            " ｜ "
+        );
+    }
+
+
+    return "";
+}
+
+
+/* ============================================================
+   Render selected lifecycle stage
+   ============================================================ */
+
+function yhtisLBRenderStageV3(
+    key
+){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+
+    const msg =
+        document.getElementById(
+            "yhtisMasterSearchMsg"
+        );
+
+
+    if(!box){
+        return;
+    }
+
+
+    const cfg =
+        YHTIS_LB_CFG_V3[key];
+
+
+    const rows =
+        YHTIS_LB_V3.stages[key]
+        || [];
+
+
+    if(msg){
+
+        msg.textContent =
+            cfg.label
+            + "｜"
+            + rows.length
+            + " 檔";
+    }
+
+
+    box.innerHTML = "";
+
+    box.style.display =
+        "grid";
+
+    box.style.gridTemplateColumns =
+        "repeat(auto-fit,minmax(230px,1fr))";
+
+    box.style.gap =
+        "10px";
+
+
+    if(!rows.length){
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+
+        empty.style.cssText =
+            "grid-column:1/-1;"
+            + "padding:15px;"
+            + "border:1px solid #334155;"
+            + "border-radius:10px;"
+            + "background:rgba(15,23,42,.7);"
+            + "font-size:13px;";
+
+
+        empty.innerHTML =
+            "<b>"
+            + cfg.label
+            + " 0 檔"
+            + "</b>"
+            + "<br>"
+            + "目前沒有股票處於這個生命週期階段。";
+
+
+        box.appendChild(
+            empty
+        );
+
+
+        return;
+    }
+
+
+    rows.forEach(stock => {
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+
+        /*
+         * 直接沿用 MASTER 現成的股票點擊入口。
+         */
+        card.setAttribute(
+            "data-master-code",
+            stock.code
+        );
+
+
+        card.className =
+            "yhtis-lb-result-card-v3";
+
+
+        const name =
+            stock.name
+            ? " " + stock.name
+            : "";
+
+
+        card.innerHTML =
+            "<div class='yhtis-lb-result-title-v3'>"
+            + stock.code
+            + name
+            + "</div>"
+
+            + "<div class='yhtis-lb-result-stage-v3'>"
+            + "📍 "
+            + cfg.stage
+            + "　"
+            + "💰 "
+            + cfg.action
+            + "</div>"
+
+            + "<div class='yhtis-lb-result-detail-v3'>"
+            + yhtisLBDetailV3(
+                stock,
+                key
+            )
+            + "</div>"
+
+            + "<div class='yhtis-lb-result-open-v3'>"
+            + "🔍 點擊進入股票完整資訊"
+            + "</div>";
+
+
+        box.appendChild(
+            card
+        );
+    });
+
+
+    box.scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+    });
+}
+
+
+/* ============================================================
+   Merge existing tools into same row
+   ============================================================ */
+
+function yhtisLBFindButtonByTextV3(
+    keyword
+){
+
+    return [
+        ...document.querySelectorAll(
+            "button"
+        )
+    ].find(btn => {
+
+        if(
+            btn.closest(
+                "#yhtisLifecycleButtonBarV3"
+            )
+        ){
+            return false;
+        }
+
+
+        return String(
+            btn.textContent || ""
+        )
+        .includes(
+            keyword
+        );
+    });
+}
+
+
+function yhtisLBMergeToolsV3(){
+
+    const bar =
+        document.getElementById(
+            "yhtisLifecycleButtonBarV3"
+        );
+
+
+    if(!bar){
+        return;
+    }
+
+
+    /*
+     * 舊的生命週期按鈕會重複：
+     * 🌱剛起漲 / 強力買入
+     * 直接隱藏。
+     */
+
+    document
+    .querySelectorAll(
+        '[data-early-launch-oneclick="1"]'
+    )
+    .forEach(x => {
+
+        if(
+            !x.closest(
+                "#yhtisLifecycleButtonBarV3"
+            )
+        ){
+            x.style.display =
+                "none";
+        }
+    });
+
+
+    document
+    .querySelectorAll(
+        '[data-strong-buy-execution="1"]'
+    )
+    .forEach(x => {
+
+        x.style.display =
+            "none";
+    });
+
+
+    /*
+     * 👑 最強一鍵
+     */
+    const strongest =
+        document.querySelector(
+            '[data-strongest-oneclick="1"]'
+        );
+
+
+    /*
+     * 🎯 選股策略
+     */
+    const strategy =
+        yhtisLBFindButtonByTextV3(
+            "選股策略"
+        );
+
+
+    /*
+     * ⚡ 活躍條件
+     */
+    const activity =
+        yhtisLBFindButtonByTextV3(
+            "活躍條件"
+        );
+
+
+    [
+        strongest,
+        strategy,
+        activity
+    ]
+    .forEach(el => {
+
+        if(!el){
+            return;
+        }
+
+
+        el.classList.add(
+            "yhtis-lb-tool-v3"
+        );
+
+
+        bar.appendChild(
+            el
+        );
+    });
+
+
+    /*
+     * 舊 compact primary 如果已經只剩被隱藏元素，
+     * 整排收掉。
+     */
+    const primary =
+        document.getElementById(
+            "yhtisCompactPrimary"
+        );
+
+
+    if(
+        primary
+        &&
+        !primary.closest(
+            "#yhtisLifecycleButtonBarV3"
+        )
+    ){
+
+        const visible =
+            [...primary.children]
+            .some(el => {
+
+                return (
+                    el.style.display
+                    !== "none"
+                );
+            });
+
+
+        if(!visible){
+
+            primary.style.display =
+                "none";
+        }
+    }
+}
+
+
+/* ============================================================
+   Install one single row
+   ============================================================ */
+
+function yhtisLBInstallBarV3(){
+
+    if(
+        document.getElementById(
+            "yhtisLifecycleButtonBarV3"
+        )
+    ){
+        yhtisLBMergeToolsV3();
+        return true;
+    }
+
+
+    const primary =
+        document.getElementById(
+            "yhtisCompactPrimary"
+        );
+
+
+    let reference =
+        primary;
+
+
+    if(!reference){
+
+        const strongest =
+            document.querySelector(
+                '[data-strongest-oneclick="1"]'
+            );
+
+
+        if(strongest){
+            reference =
+                strongest.parentElement;
+        }
+    }
+
+
+    if(
+        !reference
+        ||
+        !reference.parentElement
+    ){
+        return false;
+    }
+
+
+    const bar =
+        document.createElement(
+            "div"
+        );
+
+
+    bar.id =
+        "yhtisLifecycleButtonBarV3";
+
+
+    [
+        "strong",
+        "confirm",
+        "golden",
+        "early",
+        "watch"
+    ]
+    .forEach(key => {
+
+        bar.appendChild(
+            yhtisLBCreateStageButtonV3(
+                key
+            )
+        );
+    });
+
+
+    reference.parentElement.insertBefore(
+        bar,
+        reference
+    );
+
+
+    yhtisLBMergeToolsV3();
+
+
+    /*
+     * 一建立就讀資料與更新數量。
+     */
+    yhtisLBLoadAllV3();
+
+
+    return true;
+}
+
+
+/* ============================================================
+   Run
+   ============================================================ */
+
+function yhtisLBRunV3(){
+
+    yhtisLBInstallStyleV3();
+
+    yhtisLBInstallBarV3();
+
+    yhtisLBMergeToolsV3();
+
+
+    if(
+        YHTIS_LB_V3.loaded
+    ){
+        yhtisLBUpdateCountsV3();
+    }
+}
+
+
+[
+    500,
+    1000,
+    1800,
+    3000
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisLBRunV3,
+        ms
+    );
+});
+
+
+/*
+ * 其他 MASTER 程式可能較晚重建控制列，
+ * 所以持續整理回同一排。
+ */
+let yhtisLBTimerV3 = null;
+
+
+const yhtisLBObserverV3 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisLBTimerV3
+            );
+
+
+            yhtisLBTimerV3 =
+                setTimeout(
+                    yhtisLBRunV3,
+                    100
+                );
+        }
+    );
+
+
+yhtisLBObserverV3.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+/* ============================================================
+   Debug
+   ============================================================ */
+
+window.yhtisDebugLifecycleV3 =
+    function(){
+
+        const data = {
+
+            loaded:
+                YHTIS_LB_V3.loaded,
+
+            strong:
+                YHTIS_LB_V3.stages.strong.length,
+
+            confirm:
+                YHTIS_LB_V3.stages.confirm.length,
+
+            golden:
+                YHTIS_LB_V3.stages.golden.length,
+
+            early:
+                YHTIS_LB_V3.stages.early.length,
+
+            watch:
+                YHTIS_LB_V3.stages.watch.length
+        };
+
+
+        console.table(
+            data
+        );
+
+
+        return data;
+    };
+
+
+})();
+
+
+/* YHTIS_LIFECYCLE_FUNNEL_V2 */
+
+(function(){
+
+"use strict";
+
+
+/* ==========================================================
+   YHTIS 起漲生命週期 V2
+
+   左 → 右：
+   🔥 強力買入
+   🔴 強勢確認
+   ✨ 黃金交叉
+   🌱 剛起漲
+   👀 觀察
+
+   另外：
+   🚀 主升
+   ⌛ 回測
+   🟢 失效
+   屬於持股 / 風控狀態，
+   顯示在每檔股票第一排。
+   ========================================================== */
+
+
+function yhtisLifeInstallStyleV2(){
+
+    if(
+        document.getElementById(
+            "yhtisLifeStyleV2"
+        )
+    ){
+        return;
+    }
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+    style.id =
+        "yhtisLifeStyleV2";
+
+    style.textContent = `
+
+        /*
+         * 舊版第一排隱藏，
+         * 防止 V1 / V2 重複。
+         */
+        .yhtis-lifecycle-first-row-v1{
+            display:none !important;
+        }
+
+
+        #yhtisLifecycleFunnelV2{
+            width:100%;
+            box-sizing:border-box;
+            margin:0 0 10px 0;
+        }
+
+
+        #yhtisLifecycleFunnelV2
+        .yhtis-life-label-v2{
+
+            margin:0 0 6px 2px;
+
+            font-size:11px;
+            font-weight:850;
+
+            color:#94a3b8;
+        }
+
+
+        #yhtisLifecycleFunnelV2
+        .yhtis-life-grid-v2{
+
+            display:grid;
+
+            grid-template-columns:
+                repeat(5,minmax(0,1fr));
+
+            gap:7px;
+
+            width:100%;
+        }
+
+
+        .yhtis-life-box-v2{
+
+            min-width:0;
+
+            padding:8px 5px;
+
+            border:
+                1px solid #334155;
+
+            border-radius:10px;
+
+            background:#0f172a;
+
+            text-align:center;
+
+            box-sizing:border-box;
+        }
+
+
+        .yhtis-life-box-v2
+        .main{
+
+            font-size:13px;
+            font-weight:900;
+            white-space:nowrap;
+        }
+
+
+        .yhtis-life-box-v2
+        .sub{
+
+            margin-top:3px;
+
+            font-size:9px;
+
+            color:#94a3b8;
+
+            white-space:nowrap;
+        }
+
+
+        .yhtis-life-strong-v2{
+
+            border-color:#ef4444;
+
+            background:
+                rgba(127,29,29,.22);
+        }
+
+
+        .yhtis-life-confirm-v2{
+            border-color:#f87171;
+        }
+
+
+        .yhtis-life-cross-v2{
+            border-color:#f59e0b;
+        }
+
+
+        .yhtis-life-early-v2{
+            border-color:#22c55e;
+        }
+
+
+        .yhtis-life-watch-v2{
+            border-color:#64748b;
+        }
+
+
+        /*
+         * 每檔股票卡片第一排
+         */
+        .yhtis-life-stock-row-v2{
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:
+                space-between;
+
+            gap:8px;
+
+            width:100%;
+
+            box-sizing:border-box;
+
+            margin:
+                0 0 7px 0;
+
+            padding:
+                6px 8px;
+
+            border:
+                1px solid
+                rgba(148,163,184,.25);
+
+            border-radius:8px;
+
+            background:
+                rgba(15,23,42,.72);
+
+            font-size:11px;
+
+            line-height:1.35;
+
+            font-weight:800;
+        }
+
+
+        .yhtis-life-stock-row-v2
+        .yhtis-life-stage-v2{
+
+            min-width:0;
+        }
+
+
+        .yhtis-life-stock-row-v2
+        .yhtis-life-action-v2{
+
+            white-space:nowrap;
+        }
+
+
+        @media(max-width:850px){
+
+            #yhtisLifecycleFunnelV2{
+
+                overflow-x:auto;
+
+                padding-bottom:2px;
+            }
+
+
+            #yhtisLifecycleFunnelV2
+            .yhtis-life-grid-v2{
+
+                min-width:590px;
+            }
+
+
+            .yhtis-life-stock-row-v2{
+
+                flex-direction:column;
+
+                align-items:flex-start;
+
+                gap:3px;
+            }
+        }
+    `;
+
+    document.head.appendChild(
+        style
+    );
+}
+
+
+/* ==========================================================
+   第一排生命週期
+   ========================================================== */
+
+function yhtisLifeInstallFunnelV2(){
+
+    if(
+        document.getElementById(
+            "yhtisLifecycleFunnelV2"
+        )
+    ){
+        return true;
+    }
+
+
+    let primary =
+        document.getElementById(
+            "yhtisCompactPrimary"
+        );
+
+
+    /*
+     * fallback：
+     * 用最強一鍵找出控制區。
+     */
+    if(!primary){
+
+        const strongest =
+            document.querySelector(
+                '[data-strongest-oneclick="1"]'
+            );
+
+        if(strongest){
+            primary =
+                strongest.parentElement;
+        }
+    }
+
+
+    if(!primary){
+        return false;
+    }
+
+
+    if(!primary.parentElement){
+        return false;
+    }
+
+
+    const funnel =
+        document.createElement(
+            "div"
+        );
+
+
+    funnel.id =
+        "yhtisLifecycleFunnelV2";
+
+
+    funnel.innerHTML = `
+
+        <div class="yhtis-life-label-v2">
+            📍 起漲生命週期｜左側為較高執行階段
+        </div>
+
+
+        <div class="yhtis-life-grid-v2">
+
+            <div class="
+                yhtis-life-box-v2
+                yhtis-life-strong-v2
+            ">
+                <div class="main">
+                    🔥 強力買入
+                </div>
+
+                <div class="sub">
+                    核心加碼
+                </div>
+            </div>
+
+
+            <div class="
+                yhtis-life-box-v2
+                yhtis-life-confirm-v2
+            ">
+                <div class="main">
+                    🔴 強勢確認
+                </div>
+
+                <div class="sub">
+                    主力佈局
+                </div>
+            </div>
+
+
+            <div class="
+                yhtis-life-box-v2
+                yhtis-life-cross-v2
+            ">
+                <div class="main">
+                    ✨ 黃金交叉
+                </div>
+
+                <div class="sub">
+                    第一加碼
+                </div>
+            </div>
+
+
+            <div class="
+                yhtis-life-box-v2
+                yhtis-life-early-v2
+            ">
+                <div class="main">
+                    🌱 剛起漲
+                </div>
+
+                <div class="sub">
+                    預佈局
+                </div>
+            </div>
+
+
+            <div class="
+                yhtis-life-box-v2
+                yhtis-life-watch-v2
+            ">
+                <div class="main">
+                    👀 觀察
+                </div>
+
+                <div class="sub">
+                    等待確認
+                </div>
+            </div>
+
+        </div>
+    `;
+
+
+    primary.parentElement.insertBefore(
+        funnel,
+        primary
+    );
+
+
+    return true;
+}
+
+
+/* ==========================================================
+   判斷股票現在處於哪個生命週期
+   ========================================================== */
+
+function yhtisLifeDetectStageV2(el){
+
+    const text =
+        String(
+            el.textContent || ""
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
+        .trim();
+
+
+    /*
+     * ---------------------------
+     * 風控優先覆蓋
+     * ---------------------------
+     */
+
+    if(
+        /Setup失效|setup invalid|跌破防守|轉弱|禁止加碼|❌ 不做|🟢 不做/i
+        .test(text)
+    ){
+        return {
+            stage:
+                "🟢 失效／轉弱",
+
+            action:
+                "🛑 禁止加碼"
+        };
+    }
+
+
+    if(
+        /等待回測|等待回踩|等回踩|過熱・不追|過熱不追|不追價/i
+        .test(text)
+    ){
+        return {
+            stage:
+                "⌛ 回測／等待",
+
+            action:
+                "👀 等待加碼"
+        };
+    }
+
+
+    /*
+     * ---------------------------
+     * 主升
+     * ---------------------------
+     */
+
+    if(
+        /主升段|主動爆發|爆發期|強勢噴發/i
+        .test(text)
+    ){
+        return {
+            stage:
+                "🚀 主升／爆發",
+
+            action:
+                "💎 持有・不追價"
+        };
+    }
+
+
+    /*
+     * ---------------------------
+     * 強力買入
+     * A+ 本身不能冒充強力買入。
+     * ---------------------------
+     */
+
+    if(
+        /🔴 強力買入|🔥 強力買入|V13 全條件通過|強力買入期/i
+        .test(text)
+    ){
+        return {
+            stage:
+                "🔥 強力買入",
+
+            action:
+                "🔥 核心加碼"
+        };
+    }
+
+
+    /*
+     * ---------------------------
+     * 強勢確認
+     * ---------------------------
+     */
+
+    if(
+        /A\+\s*優先候選|強勢確認期|強勢確認|可進場/i
+        .test(text)
+    ){
+        return {
+            stage:
+                "🔴 強勢確認",
+
+            action:
+                "🔥 主力佈局"
+        };
+    }
+
+
+    /*
+     * ---------------------------
+     * EMA 黃金交叉
+     * ---------------------------
+     */
+
+    const yBelow =
+        /昨日[^]*EMA9[^<]{0,30}<[^]*EMA20/i
+        .test(text);
+
+
+    const tAbove =
+        /今日[^]*EMA9[^>≥]{0,30}(?:>=|≥)[^]*EMA20/i
+        .test(text);
+
+
+    if(
+        /EMA黃金交叉|黃金交叉確認/i
+        .test(text)
+
+        ||
+
+        (
+            yBelow
+            &&
+            tAbove
+        )
+    ){
+
+        /*
+         * 市場 Context 沒通過時，
+         * 階段仍是黃金交叉，
+         * 但動作不能直接加碼。
+         */
+
+        if(
+            /市場環境未確認|Context未通過/i
+            .test(text)
+        ){
+            return {
+                stage:
+                    "✨ 黃金交叉",
+
+                action:
+                    "🟡 等市場確認"
+            };
+        }
+
+
+        return {
+            stage:
+                "✨ 黃金交叉",
+
+            action:
+                "➕ 第一加碼"
+        };
+    }
+
+
+    /*
+     * ---------------------------
+     * 剛起漲
+     * ---------------------------
+     */
+
+    if(
+        /EMA交叉前|剛起漲|PRE-GOLDEN|預佈局/i
+        .test(text)
+    ){
+
+        if(
+            /市場環境未確認|Context未通過/i
+            .test(text)
+        ){
+            return {
+                stage:
+                    "🌱 剛起漲",
+
+                action:
+                    "🟡 等市場確認"
+            };
+        }
+
+
+        return {
+            stage:
+                "🌱 剛起漲",
+
+            action:
+                "🧩 預佈局"
+        };
+    }
+
+
+    /*
+     * ---------------------------
+     * 觀察
+     * ---------------------------
+     */
+
+    if(
+        /B\s*等確認|等確認|WATCH|觀察|候選/i
+        .test(text)
+    ){
+        return {
+            stage:
+                "👀 觀察",
+
+            action:
+                "⏸ 等待確認"
+        };
+    }
+
+
+    return null;
+}
+
+
+/* ==========================================================
+   找股票代號
+   ========================================================== */
+
+function yhtisLifeGetCodeV2(el){
+
+    const explicit =
+        el.getAttribute(
+            "data-master-code"
+        );
+
+
+    if(
+        explicit
+        &&
+        /^\d{4}$/.test(
+            explicit
+        )
+    ){
+        return explicit;
+    }
+
+
+    const text =
+        String(
+            el.textContent || ""
+        );
+
+
+    const m =
+        text.match(
+            /(?:^|\D)(\d{4})(?:\D|$)/
+        );
+
+
+    return m
+        ? m[1]
+        : "";
+}
+
+
+/* ==========================================================
+   股票卡第一排
+   ========================================================== */
+
+function yhtisLifeApplyCardV2(el){
+
+    if(
+        !el
+        ||
+        el.nodeType !== 1
+    ){
+        return;
+    }
+
+
+    if(
+        el.closest(
+            "button,nav,#yhtisLifecycleFunnelV2"
+        )
+    ){
+        return;
+    }
+
+
+    if(
+        el.id ===
+        "yhtisMasterSuggestionClose"
+    ){
+        return;
+    }
+
+
+    const code =
+        yhtisLifeGetCodeV2(
+            el
+        );
+
+
+    if(!code){
+        return;
+    }
+
+
+    const state =
+        yhtisLifeDetectStageV2(
+            el
+        );
+
+
+    if(!state){
+        return;
+    }
+
+
+    let row =
+        el.querySelector(
+            ":scope > .yhtis-life-stock-row-v2"
+        );
+
+
+    if(!row){
+
+        row =
+            document.createElement(
+                "div"
+            );
+
+        row.className =
+            "yhtis-life-stock-row-v2";
+
+
+        el.insertBefore(
+            row,
+            el.firstChild
+        );
+    }
+
+
+    row.innerHTML =
+        "<span class='yhtis-life-stage-v2'>"
+        + "📍 目前階段："
+        + "<b>"
+        + state.stage
+        + "</b>"
+        + "</span>"
+
+        +
+
+        "<span class='yhtis-life-action-v2'>"
+        + "💰 "
+        + state.action
+        + "</span>";
+}
+
+
+/* ==========================================================
+   MASTER 結果卡
+   ========================================================== */
+
+function yhtisLifeApplyMasterV2(){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+
+    if(!box){
+        return;
+    }
+
+
+    [...box.children]
+    .forEach(
+        yhtisLifeApplyCardV2
+    );
+}
+
+
+/* ==========================================================
+   Dashboard 其他股票卡
+   ========================================================== */
+
+function yhtisLifeApplyDashboardV2(){
+
+    document
+    .querySelectorAll(
+        "[data-master-code],"
+        + ".stock-card,"
+        + ".card,"
+        + ".item"
+    )
+    .forEach(el => {
+
+        if(
+            el.closest(
+                "#yhtisMasterSuggestions"
+            )
+        ){
+            return;
+        }
+
+
+        /*
+         * 防止把整塊 Dashboard
+         * 誤認為單一股票。
+         */
+        if(
+            String(
+                el.textContent || ""
+            ).length > 1600
+        ){
+            return;
+        }
+
+
+        yhtisLifeApplyCardV2(
+            el
+        );
+    });
+}
+
+
+/* ==========================================================
+   統一執行
+   ========================================================== */
+
+function yhtisLifeRunV2(){
+
+    yhtisLifeInstallStyleV2();
+
+    yhtisLifeInstallFunnelV2();
+
+    yhtisLifeApplyMasterV2();
+
+    yhtisLifeApplyDashboardV2();
+}
+
+
+[
+    500,
+    1000,
+    1800,
+    3000
+]
+.forEach(ms => {
+
+    setTimeout(
+        yhtisLifeRunV2,
+        ms
+    );
+});
+
+
+let yhtisLifeTimerV2 = null;
+
+
+const yhtisLifeObserverV2 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisLifeTimerV2
+            );
+
+
+            yhtisLifeTimerV2 =
+                setTimeout(
+                    yhtisLifeRunV2,
+                    90
+                );
+        }
+    );
+
+
+yhtisLifeObserverV2.observe(
+    document.body,
+    {
+        childList:true,
+        subtree:true
+    }
+);
+
+
+window.yhtisDebugLifecycleV2 =
+    function(){
+
+        console.log(
+            "Lifecycle funnel =",
+            !!document.getElementById(
+                "yhtisLifecycleFunnelV2"
+            )
+        );
+
+        console.log(
+            "Lifecycle card rows =",
+            document.querySelectorAll(
+                ".yhtis-life-stock-row-v2"
+            ).length
+        );
+    };
+
+
+})();
+
+
 /* YHTIS_COMPACT_HIERARCHY_V1 */
 
 function yhtisBuildCompactHierarchy(){
@@ -9574,7 +14024,7 @@ window.addEventListener(
 <br>
 
 🔄 系統更新：
-2026-09-06 10:13:28
+2026-09-06 10:46:58
 
 </div>
 
