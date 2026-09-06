@@ -5822,6 +5822,432 @@ setTimeout(
 
 
 
+
+/* YHTIS_LIFECYCLE_FIRST_ROW_V1 */
+
+
+/* =========================================================
+   YHTIS 起漲生命週期
+   第一排直接顯示：
+   目前階段 + 倉位動作
+   ========================================================= */
+
+function yhtisDetectLifecycleV1(el){
+
+    const text =
+        String(
+            el.textContent || ""
+        )
+        .replace(/\s+/g, " ")
+        .trim();
+
+
+    /*
+     * ⑦ 風控覆蓋優先
+     */
+    if(
+        /Setup失效|setup invalid|轉弱|禁止加碼|跌破防守|❌ 不做|🟢 不做/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "🟢 ⑦ 轉弱／失效",
+            action:
+                "🛑 禁止加碼"
+        };
+    }
+
+
+    if(
+        /等待回測|等待回踩|等回踩|過熱・不追|過熱不追|不追價|等待加碼/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "⌛ ⑦ 回測／等待期",
+            action:
+                "👀 等待加碼"
+        };
+    }
+
+
+    /*
+     * ⑥ 主升 / 爆發
+     */
+    if(
+        /主升段|主動爆發|爆發期|強勢噴發/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "🚀 ⑥ 主升／爆發期",
+            action:
+                "💎 持有為主・不追價"
+        };
+    }
+
+
+    /*
+     * ⑤ 強力買入
+     * 必須明確已有強力買入燈號，
+     * 不因 A+ 自動升級。
+     */
+    if(
+        /🔴 強力買入|🔥 強力買入|V13 全條件通過/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "🔥 ⑤ 強力買入期",
+            action:
+                "🔥 核心加碼"
+        };
+    }
+
+
+    /*
+     * ④ 強勢確認
+     */
+    if(
+        /A\+\s*優先候選|A\+|強勢確認|可進場/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "🔴 ④ 強勢確認期",
+            action:
+                "🔥 主力佈局"
+        };
+    }
+
+
+    /*
+     * ③ EMA 黃金交叉
+     */
+    if(
+        /EMA黃金交叉|EMA9\/20黃金交叉|黃金交叉確認|✨\s*EMA/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "✨ ③ 黃金交叉確認期",
+            action:
+                "➕ 第一加碼"
+        };
+    }
+
+
+    /*
+     * ② Early Launch
+     */
+    if(
+        /剛起漲|EMA交叉前|PRE-GOLDEN|預佈局/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "🌱 ② 剛起漲／預佈局期",
+            action:
+                "🧩 小部位試單"
+        };
+    }
+
+
+    /*
+     * ① 等確認 / 觀察
+     */
+    if(
+        /等確認|觀察|WATCH|候選/i.test(
+            text
+        )
+    ){
+        return {
+            stage:
+                "👀 ① 觀察／等確認期",
+            action:
+                "⏸ 暫不加碼"
+        };
+    }
+
+
+    return null;
+}
+
+
+/* =========================================================
+   找卡片股票代號
+   ========================================================= */
+
+function yhtisLifecycleCodeV1(el){
+
+    const explicit =
+        el.getAttribute(
+            "data-master-code"
+        );
+
+    if(
+        explicit
+        &&
+        /^\d{4}$/.test(
+            explicit
+        )
+    ){
+        return explicit;
+    }
+
+
+    const text =
+        String(
+            el.textContent || ""
+        );
+
+    const m =
+        text.match(
+            /(?:^|\D)(\d{4})(?:\D|$)/
+        );
+
+    return m
+        ? m[1]
+        : "";
+}
+
+
+/* =========================================================
+   第一排
+   ========================================================= */
+
+function yhtisApplyLifecycleRowV1(el){
+
+    if(
+        !el
+        ||
+        el.nodeType !== 1
+    ){
+        return;
+    }
+
+
+    /*
+     * 不處理控制按鈕 / 說明區
+     */
+    if(
+        el.closest(
+            "button, nav"
+        )
+        ||
+        el.id ===
+            "yhtisMasterSuggestionClose"
+        ||
+        el.classList.contains(
+            "yhtis-context-explain-v2"
+        )
+    ){
+        return;
+    }
+
+
+    const code =
+        yhtisLifecycleCodeV1(
+            el
+        );
+
+    if(!code){
+        return;
+    }
+
+
+    const life =
+        yhtisDetectLifecycleV1(
+            el
+        );
+
+    if(!life){
+        return;
+    }
+
+
+    let row =
+        el.querySelector(
+            ":scope > .yhtis-lifecycle-first-row-v1"
+        );
+
+
+    if(!row){
+
+        row =
+            document.createElement(
+                "div"
+            );
+
+        row.className =
+            "yhtis-lifecycle-first-row-v1";
+
+        row.style.cssText =
+            "display:flex;"
+            + "align-items:center;"
+            + "justify-content:space-between;"
+            + "gap:8px;"
+            + "width:100%;"
+            + "box-sizing:border-box;"
+            + "margin:0 0 8px 0;"
+            + "padding:7px 9px;"
+            + "border:1px solid rgba(148,163,184,.24);"
+            + "border-radius:8px;"
+            + "background:rgba(15,23,42,.55);"
+            + "font-size:12px;"
+            + "line-height:1.35;"
+            + "font-weight:800;";
+
+
+        el.insertBefore(
+            row,
+            el.firstChild
+        );
+    }
+
+
+    row.innerHTML =
+        "<span>"
+        + "📍 目前階段："
+        + "<b>"
+        + life.stage
+        + "</b>"
+        + "</span>"
+
+        + "<span style='white-space:nowrap;'>"
+        + "💰 "
+        + life.action
+        + "</span>";
+}
+
+
+/* =========================================================
+   MASTER 結果
+   ========================================================= */
+
+function yhtisLifecycleMasterV1(){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    if(!box){
+        return;
+    }
+
+
+    [...box.children]
+    .forEach(el => {
+
+        yhtisApplyLifecycleRowV1(
+            el
+        );
+    });
+}
+
+
+/* =========================================================
+   Dashboard 其他選股卡片 / 表格
+   ========================================================= */
+
+function yhtisLifecycleDashboardV1(){
+
+    const nodes =
+        document.querySelectorAll(
+            ".card, .stock-card, .item, "
+            + "[data-master-code]"
+        );
+
+
+    nodes.forEach(el => {
+
+        /*
+         * MASTER 已由另一函式處理
+         */
+        if(
+            el.closest(
+                "#yhtisMasterSuggestions"
+            )
+        ){
+            return;
+        }
+
+
+        yhtisApplyLifecycleRowV1(
+            el
+        );
+    });
+}
+
+
+/* =========================================================
+   統一執行
+   ========================================================= */
+
+function yhtisRunLifecycleV1(){
+
+    yhtisLifecycleMasterV1();
+
+    yhtisLifecycleDashboardV1();
+}
+
+
+setTimeout(
+    yhtisRunLifecycleV1,
+    700
+);
+
+setTimeout(
+    yhtisRunLifecycleV1,
+    1500
+);
+
+setTimeout(
+    yhtisRunLifecycleV1,
+    2600
+);
+
+
+/*
+ * 搜尋 / 快捷選股是動態產生，
+ * DOM 更新後重新判讀。
+ */
+let yhtisLifecycleTimerV1 = null;
+
+const yhtisLifecycleObserverV1 =
+    new MutationObserver(
+        function(){
+
+            clearTimeout(
+                yhtisLifecycleTimerV1
+            );
+
+            yhtisLifecycleTimerV1 =
+                setTimeout(
+                    yhtisRunLifecycleV1,
+                    80
+                );
+        }
+    );
+
+
+yhtisLifecycleObserverV1.observe(
+    document.body,
+    {
+        childList: true,
+        subtree: true
+    }
+);
+
+
 /* YHTIS_DECISION_SEMANTICS_V2 */
 
 
