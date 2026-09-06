@@ -4602,6 +4602,499 @@ setTimeout(
 
 
 
+
+/* YHTIS_EMA_GOLDEN_CROSS_STRATEGY_V1 */
+
+
+function yhtisParseGoldenCSV(text){
+
+    const rows = [];
+    let row = [];
+    let cell = "";
+    let quoted = false;
+
+    for(
+        let i = 0;
+        i < text.length;
+        i++
+    ){
+
+        const ch = text[i];
+
+        if(ch === '"'){
+
+            if(
+                quoted
+                &&
+                text[i + 1] === '"'
+            ){
+                cell += '"';
+                i++;
+            }
+            else{
+                quoted = !quoted;
+            }
+
+        }
+        else if(
+            ch === ","
+            &&
+            !quoted
+        ){
+            row.push(cell);
+            cell = "";
+        }
+        else if(
+            (ch === "\n" || ch === "\r")
+            &&
+            !quoted
+        ){
+
+            if(
+                ch === "\r"
+                &&
+                text[i + 1] === "\n"
+            ){
+                i++;
+            }
+
+            row.push(cell);
+
+            if(
+                row.some(
+                    x => String(x).trim()
+                )
+            ){
+                rows.push(row);
+            }
+
+            row = [];
+            cell = "";
+        }
+        else{
+            cell += ch;
+        }
+    }
+
+    if(
+        cell.length
+        ||
+        row.length
+    ){
+        row.push(cell);
+        rows.push(row);
+    }
+
+    if(!rows.length){
+        return [];
+    }
+
+    const header =
+        rows.shift()
+        .map(x =>
+            String(x)
+            .replace(/^\uFEFF/, "")
+            .trim()
+        );
+
+    return rows.map(r => {
+
+        const o = {};
+
+        header.forEach(
+            (h, i) => {
+                o[h] =
+                    r[i] === undefined
+                    ? ""
+                    : r[i];
+            }
+        );
+
+        return o;
+    });
+}
+
+
+function yhtisFmtGoldenNumber(
+    value,
+    digits=2
+){
+
+    const n =
+        Number(value);
+
+    if(!Number.isFinite(n)){
+        return "-";
+    }
+
+    return n.toLocaleString(
+        "zh-TW",
+        {
+            maximumFractionDigits:
+                digits
+        }
+    );
+}
+
+
+async function yhtisShowEMAGoldenCross(){
+
+    const box =
+        document.getElementById(
+            "yhtisMasterSuggestions"
+        );
+
+    if(!box){
+        return;
+    }
+
+    box.innerHTML = "";
+
+    box.style.display =
+        "grid";
+
+    box.style.gridTemplateColumns =
+        "1fr";
+
+    box.style.gap =
+        "8px";
+
+    box.style.position =
+        "relative";
+
+    box.style.width =
+        "100%";
+
+
+    const close =
+        document.createElement(
+            "button"
+        );
+
+    close.id =
+        "yhtisMasterSuggestionClose";
+
+    close.type =
+        "button";
+
+    close.textContent =
+        "✕";
+
+    close.style.cssText =
+        "position:absolute;"
+        + "right:6px;"
+        + "top:6px;"
+        + "z-index:10;"
+        + "width:30px;"
+        + "height:30px;"
+        + "border-radius:50%;"
+        + "border:1px solid #ef4444;"
+        + "background:#7f1d1d;"
+        + "color:#fff;"
+        + "font-weight:900;"
+        + "cursor:pointer;";
+
+    close.onclick =
+        function(){
+
+            if(
+                typeof
+                yhtisCloseMasterSuggestions
+                === "function"
+            ){
+                yhtisCloseMasterSuggestions();
+            }
+            else{
+                box.style.display =
+                    "none";
+            }
+        };
+
+    box.appendChild(
+        close
+    );
+
+
+    const status =
+        document.createElement(
+            "div"
+        );
+
+    status.style.cssText =
+        "font-size:13px;"
+        + "font-weight:800;"
+        + "padding:5px 38px 5px 4px;"
+        + "color:#fbbf24;";
+
+    status.textContent =
+        "✨ 正在讀取 EMA9/20 今日黃金交叉…";
+
+    box.appendChild(
+        status
+    );
+
+
+    try{
+
+        const r =
+            await fetch(
+                "/output/research/"
+                + "ema_golden_cross_v1/"
+                + "latest.csv?v="
+                + Date.now(),
+                {
+                    cache: "no-store"
+                }
+            );
+
+        if(!r.ok){
+            throw new Error(
+                "HTTP "
+                + r.status
+            );
+        }
+
+        const text =
+            await r.text();
+
+        const rows =
+            yhtisParseGoldenCSV(
+                text
+            );
+
+
+        if(!rows.length){
+
+            status.textContent =
+                "✨ 今日沒有 EMA9/20 黃金交叉股票";
+
+            return;
+        }
+
+
+        const dataDate =
+            rows[0].Date
+            || "";
+
+        status.textContent =
+            "✨ EMA9/20 今日黃金交叉 "
+            + rows.length
+            + " 檔"
+            + (
+                dataDate
+                ? " ｜ " + dataDate
+                : ""
+            );
+
+
+        rows.forEach(x => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.setAttribute(
+                "data-ema-golden-card",
+                "1"
+            );
+
+            card.style.cssText =
+                "display:block;"
+                + "width:100%;"
+                + "box-sizing:border-box;"
+                + "padding:12px 14px;"
+                + "border:1px solid rgba(245,158,11,.45);"
+                + "border-radius:10px;"
+                + "background:rgba(120,53,15,.16);"
+                + "text-align:left;";
+
+            const code =
+                x.Code || "";
+
+            const name =
+                x.Name || "";
+
+            card.innerHTML =
+                "<div style='font-size:15px;font-weight:900;'>"
+                + "✨ "
+                + code
+                + " "
+                + name
+                + "</div>"
+
+                + "<div style='margin-top:5px;font-size:12px;'>"
+                + "今日收盤 "
+                + yhtisFmtGoldenNumber(
+                    x.Close,
+                    2
+                )
+                + "</div>"
+
+                + "<div style='margin-top:3px;font-size:12px;'>"
+                + "昨日：EMA9 "
+                + yhtisFmtGoldenNumber(
+                    x.EMA9_PREV,
+                    2
+                )
+                + " ＜ EMA20 "
+                + yhtisFmtGoldenNumber(
+                    x.EMA20_PREV,
+                    2
+                )
+                + "</div>"
+
+                + "<div style='margin-top:3px;font-size:12px;color:#fbbf24;font-weight:800;'>"
+                + "今日：EMA9 "
+                + yhtisFmtGoldenNumber(
+                    x.EMA9,
+                    2
+                )
+                + " ≥ EMA20 "
+                + yhtisFmtGoldenNumber(
+                    x.EMA20,
+                    2
+                )
+                + "</div>"
+
+                + "<div style='margin-top:3px;font-size:11px;opacity:.8;'>"
+                + "交叉強度 "
+                + yhtisFmtGoldenNumber(
+                    x.CROSS_STRENGTH_PCT,
+                    3
+                )
+                + "%"
+                + "</div>";
+
+            box.appendChild(
+                card
+            );
+        });
+
+
+        box.scrollIntoView(
+            {
+                behavior: "smooth",
+                block: "nearest"
+            }
+        );
+
+    }
+    catch(e){
+
+        console.error(
+            "EMA Golden Cross:",
+            e
+        );
+
+        status.textContent =
+            "❌ EMA黃金交叉資料讀取失敗";
+    }
+}
+
+
+function yhtisInstallEMAGoldenStrategy(){
+
+    const panel =
+        document.getElementById(
+            "yhtisStrategyPanel"
+        );
+
+    if(!panel){
+        return false;
+    }
+
+    if(
+        panel.querySelector(
+            '[data-ema-golden-cross="1"]'
+        )
+    ){
+        return true;
+    }
+
+
+    const btn =
+        document.createElement(
+            "button"
+        );
+
+    btn.type =
+        "button";
+
+    btn.setAttribute(
+        "data-ema-golden-cross",
+        "1"
+    );
+
+    btn.textContent =
+        "✨ EMA黃金交叉";
+
+    btn.style.cssText =
+        "border:1px solid #f59e0b;"
+        + "border-radius:9px;"
+        + "padding:7px 11px;"
+        + "min-height:42px;"
+        + "background:#111827;"
+        + "color:#fde68a;"
+        + "font-size:13px;"
+        + "font-weight:900;"
+        + "cursor:pointer;"
+        + "white-space:nowrap;";
+
+
+    btn.addEventListener(
+        "click",
+        async function(ev){
+
+            ev.stopPropagation();
+
+            panel.style.display =
+                "none";
+
+            await yhtisShowEMAGoldenCross();
+        }
+    );
+
+
+    /*
+     * 放在「強力買進」之後
+     */
+    if(
+        panel.children.length >= 1
+    ){
+        panel.insertBefore(
+            btn,
+            panel.children[1]
+            || null
+        );
+    }
+    else{
+        panel.appendChild(
+            btn
+        );
+    }
+
+
+    return true;
+}
+
+
+setTimeout(
+    yhtisInstallEMAGoldenStrategy,
+    1900
+);
+
+setTimeout(
+    yhtisInstallEMAGoldenStrategy,
+    2600
+);
+
+setTimeout(
+    yhtisInstallEMAGoldenStrategy,
+    3600
+);
+
+
 /* YHTIS_COMPACT_HIERARCHY_V1 */
 
 function yhtisBuildCompactHierarchy(){
@@ -8293,7 +8786,7 @@ window.addEventListener(
 <br>
 
 🔄 系統更新：
-2026-09-06 09:50:17
+2026-09-06 10:13:28
 
 </div>
 
