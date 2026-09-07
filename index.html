@@ -8667,8 +8667,14 @@ async function yhtisLBLoadAllV3(){
         yhtisLBAssignStagesV3();
 
 
+        /*
+         * YHTIS_LIFECYCLE_BOOTSTRAP_FIX_V5
+         * 真正有股票資料才視為 loaded。
+         * 若第一次網路載入失敗而 stocks=0，
+         * 後續 RunV3 可以自動重試。
+         */
         YHTIS_LB_V3.loaded =
-            true;
+            YHTIS_LB_V3.stocks.size > 0;
 
 
         yhtisLBUpdateCountsV3();
@@ -10672,7 +10678,21 @@ function yhtisLBInstallBarV3(){
             "yhtisLifecycleButtonBarV3"
         )
     ){
+        /*
+         * YHTIS_LIFECYCLE_BOOTSTRAP_FIX_V5
+         * Bar 已存在時仍必須確保資料有載入。
+         */
         yhtisLBMergeToolsV3();
+
+        if(
+            YHTIS_LB_V3.loaded
+        ){
+            yhtisLBUpdateCountsV3();
+        }
+        else{
+            yhtisLBLoadAllV3();
+        }
+
         return true;
     }
 
@@ -10774,6 +10794,13 @@ function yhtisLBRunV3(){
         YHTIS_LB_V3.loaded
     ){
         yhtisLBUpdateCountsV3();
+    }
+    else{
+        /*
+         * YHTIS_LIFECYCLE_BOOTSTRAP_FIX_V5
+         * 未載入時不得只等待，主動重新 LoadAll。
+         */
+        yhtisLBLoadAllV3();
     }
 }
 
