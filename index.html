@@ -27207,47 +27207,61 @@ function yhtisEnsureReLaunchPanelV1(){
         + "z-index:99999;"
         + "box-shadow:0 18px 60px rgba(0,0,0,.55);";
 
-    const external =
+    let overlay =
         document.getElementById(
-            "yhtisLifecycleExternalToolsV1"
+            "yhtisReLaunchOverlayV2"
         );
 
-    if(
-        external
-        &&
-        external.parentElement
-    ){
+    if(!overlay){
 
-        external.insertAdjacentElement(
-            "afterend",
-            panel
+        overlay =
+            document.createElement(
+                "div"
+            );
+
+        overlay.id =
+            "yhtisReLaunchOverlayV2";
+
+        overlay.style.cssText =
+            "display:none;"
+            + "position:fixed;"
+            + "inset:0;"
+            + "z-index:2147483646;"
+            + "background:rgba(2,6,23,.84);"
+            + "overflow:auto;"
+            + "box-sizing:border-box;"
+            + "padding:24px 14px;";
+
+        overlay.addEventListener(
+            "click",
+            function(e){
+
+                if(
+                    e.target === overlay
+                    ||
+                    e.target.closest(
+                        "#yhtisReLaunchCloseV1"
+                    )
+                ){
+
+                    overlay.style.display =
+                        "none";
+
+                    panel.style.display =
+                        "none";
+                }
+            },
+            true
+        );
+
+        document.body.appendChild(
+            overlay
         );
     }
-    else{
 
-        const strongest =
-            document.querySelector(
-                '[data-strongest-oneclick="1"]'
-            );
-
-        if(
-            strongest
-            &&
-            strongest.parentElement
-        ){
-
-            strongest.parentElement
-            .insertAdjacentElement(
-                "afterend",
-                panel
-            );
-        }
-        else{
-            document.body.appendChild(
-                panel
-            );
-        }
-    }
+    overlay.appendChild(
+        panel
+    );
 
     return panel;
 }
@@ -27451,6 +27465,16 @@ function yhtisRenderReLaunchV1(
         );
     }
 
+    const overlay =
+        document.getElementById(
+            "yhtisReLaunchOverlayV2"
+        );
+
+    if(overlay){
+        overlay.style.display =
+            "block";
+    }
+
     panel.style.display =
         "block";
 
@@ -27520,6 +27544,16 @@ async function yhtisRunReLaunchOneClickV1(){
             "RE-LAUNCH ONE CLICK",
             err
         );
+
+        const overlay =
+            document.getElementById(
+                "yhtisReLaunchOverlayV2"
+            );
+
+        if(overlay){
+            overlay.style.display =
+                "block";
+        }
 
         panel.style.display =
             "block";
