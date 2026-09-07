@@ -8630,11 +8630,38 @@ async function yhtisLBLoadAllV3(){
 
     try{
 
-        await Promise.all([
-            yhtisLBLoadFinalV3(),
-            yhtisLBLoadGoldenV3(),
-            yhtisLBLoadEarlyV3()
-        ]);
+        /*
+         * YHTIS_LIFECYCLE_RESILIENT_LOAD_V4
+         * 任一資料源失敗，不得讓整套生命週期變成空白。
+         */
+        const loadResults =
+            await Promise.allSettled([
+                yhtisLBLoadFinalV3(),
+                yhtisLBLoadGoldenV3(),
+                yhtisLBLoadEarlyV3()
+            ]);
+
+        [
+            "Final",
+            "Golden",
+            "Early"
+        ]
+        .forEach((name, i) => {
+
+            const r = loadResults[i];
+
+            if(
+                r
+                &&
+                r.status === "rejected"
+            ){
+                console.error(
+                    "Lifecycle V3 source failed:",
+                    name,
+                    r.reason
+                );
+            }
+        });
 
 
         yhtisLBAssignStagesV3();
