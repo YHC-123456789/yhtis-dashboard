@@ -9126,52 +9126,148 @@ function yhtisLBRenderStageV3(
     key
 ){
 
-    const box =
-        document.getElementById(
-            "yhtisMasterSuggestions"
-        );
-
-
-    const msg =
-        document.getElementById(
-            "yhtisMasterSearchMsg"
-        );
-
-
-    if(!box){
-        return;
-    }
-
-
     const cfg =
         YHTIS_LB_CFG_V3[key];
-
 
     const rows =
         YHTIS_LB_V3.stages[key]
         || [];
 
 
-    if(msg){
+    /*
+     * YHTIS_LIFECYCLE_MODAL_V3
+     * 五個生命週期統一使用獨立 Modal。
+     * 不修改任何分類、訊號或資料來源。
+     */
 
-        msg.textContent =
-            cfg.label
-            + "｜"
-            + rows.length
-            + " 檔";
+    const old =
+        document.getElementById(
+            "yhtisLifecycleModalV3"
+        );
+
+    if(old){
+        old.remove();
     }
 
 
-    box.innerHTML = "";
+    const overlay =
+        document.createElement(
+            "div"
+        );
 
-    box.style.display =
-        "grid";
+    overlay.id =
+        "yhtisLifecycleModalV3";
 
-    box.style.gridTemplateColumns =
-        "repeat(auto-fit,minmax(230px,1fr))";
+    overlay.style.cssText =
+        "position:fixed;"
+        + "inset:0;"
+        + "z-index:2147483000;"
+        + "background:rgba(2,6,23,.82);"
+        + "backdrop-filter:blur(3px);"
+        + "display:flex;"
+        + "align-items:flex-start;"
+        + "justify-content:center;"
+        + "padding:28px 12px 90px;"
+        + "box-sizing:border-box;"
+        + "overflow:auto;";
 
-    box.style.gap =
-        "10px";
+
+    const panel =
+        document.createElement(
+            "div"
+        );
+
+    panel.style.cssText =
+        "position:relative;"
+        + "width:min(760px,100%);"
+        + "max-height:calc(100vh - 120px);"
+        + "overflow:auto;"
+        + "background:#07101f;"
+        + "border:1px solid #334155;"
+        + "border-radius:16px;"
+        + "box-shadow:0 24px 80px rgba(0,0,0,.55);"
+        + "padding:18px;"
+        + "box-sizing:border-box;";
+
+
+    const close =
+        document.createElement(
+            "button"
+        );
+
+    close.type =
+        "button";
+
+    close.textContent =
+        "×";
+
+    close.setAttribute(
+        "aria-label",
+        "關閉"
+    );
+
+    close.style.cssText =
+        "position:sticky;"
+        + "top:0;"
+        + "float:right;"
+        + "z-index:5;"
+        + "width:42px;"
+        + "height:42px;"
+        + "border-radius:50%;"
+        + "border:1px solid #ef4444;"
+        + "background:#b91c1c;"
+        + "color:#fff;"
+        + "font-size:28px;"
+        + "line-height:36px;"
+        + "font-weight:900;"
+        + "cursor:pointer;";
+
+
+    const title =
+        document.createElement(
+            "div"
+        );
+
+    title.style.cssText =
+        "padding:4px 52px 14px 2px;"
+        + "font-size:18px;"
+        + "font-weight:900;"
+        + "color:#f8fafc;";
+
+    title.textContent =
+        cfg.label
+        + "｜"
+        + rows.length
+        + " 檔";
+
+
+    const subtitle =
+        document.createElement(
+            "div"
+        );
+
+    subtitle.style.cssText =
+        "margin:-8px 0 14px;"
+        + "font-size:12px;"
+        + "color:#94a3b8;";
+
+    subtitle.textContent =
+        cfg.stage
+        + " ｜ "
+        + cfg.action;
+
+
+    const grid =
+        document.createElement(
+            "div"
+        );
+
+    grid.style.cssText =
+        "display:grid;"
+        + "grid-template-columns:"
+        + "repeat(auto-fit,minmax(230px,1fr));"
+        + "gap:10px;"
+        + "clear:both;";
 
 
     if(!rows.length){
@@ -9181,15 +9277,15 @@ function yhtisLBRenderStageV3(
                 "div"
             );
 
-
         empty.style.cssText =
             "grid-column:1/-1;"
-            + "padding:15px;"
+            + "padding:22px;"
             + "border:1px solid #334155;"
-            + "border-radius:10px;"
-            + "background:rgba(15,23,42,.7);"
-            + "font-size:13px;";
-
+            + "border-radius:12px;"
+            + "background:rgba(15,23,42,.8);"
+            + "font-size:13px;"
+            + "line-height:1.6;"
+            + "color:#cbd5e1;";
 
         empty.innerHTML =
             "<b>"
@@ -9199,80 +9295,136 @@ function yhtisLBRenderStageV3(
             + "<br>"
             + "目前沒有股票處於這個生命週期階段。";
 
-
-        box.appendChild(
+        grid.appendChild(
             empty
         );
 
+    }
+    else{
 
-        return;
+        rows.forEach(stock => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.setAttribute(
+                "data-master-code",
+                stock.code
+            );
+
+            card.className =
+                "yhtis-lb-result-card-v3";
+
+            card.style.cursor =
+                "pointer";
+
+            const name =
+                stock.name
+                ? " " + stock.name
+                : "";
+
+            card.innerHTML =
+                "<div class='yhtis-lb-result-title-v3'>"
+                + stock.code
+                + name
+                + "</div>"
+
+                + "<div class='yhtis-lb-result-stage-v3'>"
+                + "📍 "
+                + cfg.stage
+                + "　"
+                + "💰 "
+                + cfg.action
+                + "</div>"
+
+                + "<div class='yhtis-lb-result-detail-v3'>"
+                + yhtisLBDetailV3(
+                    stock,
+                    key
+                )
+                + "</div>"
+
+                + "<div class='yhtis-lb-result-open-v3'>"
+                + "🔍 點擊進入股票完整資訊"
+                + "</div>";
+
+            grid.appendChild(
+                card
+            );
+        });
     }
 
 
-    rows.forEach(stock => {
+    close.addEventListener(
+        "click",
+        function(e){
 
-        const card =
-            document.createElement(
-                "div"
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            overlay.remove();
+        }
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        function(e){
+
+            if(e.target === overlay){
+                overlay.remove();
+            }
+        }
+    );
+
+
+    function onKey(e){
+
+        if(e.key === "Escape"){
+
+            overlay.remove();
+
+            document.removeEventListener(
+                "keydown",
+                onKey
             );
+        }
+    }
+
+    document.addEventListener(
+        "keydown",
+        onKey
+    );
 
 
-        /*
-         * 直接沿用 MASTER 現成的股票點擊入口。
-         */
-        card.setAttribute(
-            "data-master-code",
-            stock.code
-        );
+    panel.appendChild(
+        close
+    );
 
+    panel.appendChild(
+        title
+    );
 
-        card.className =
-            "yhtis-lb-result-card-v3";
+    panel.appendChild(
+        subtitle
+    );
 
+    panel.appendChild(
+        grid
+    );
 
-        const name =
-            stock.name
-            ? " " + stock.name
-            : "";
+    overlay.appendChild(
+        panel
+    );
 
-
-        card.innerHTML =
-            "<div class='yhtis-lb-result-title-v3'>"
-            + stock.code
-            + name
-            + "</div>"
-
-            + "<div class='yhtis-lb-result-stage-v3'>"
-            + "📍 "
-            + cfg.stage
-            + "　"
-            + "💰 "
-            + cfg.action
-            + "</div>"
-
-            + "<div class='yhtis-lb-result-detail-v3'>"
-            + yhtisLBDetailV3(
-                stock,
-                key
-            )
-            + "</div>"
-
-            + "<div class='yhtis-lb-result-open-v3'>"
-            + "🔍 點擊進入股票完整資訊"
-            + "</div>";
-
-
-        box.appendChild(
-            card
-        );
-    });
-
-
-    box.scrollIntoView({
-        behavior:"smooth",
-        block:"nearest"
-    });
+    document.body.appendChild(
+        overlay
+    );
 }
+
 
 
 /* ============================================================
