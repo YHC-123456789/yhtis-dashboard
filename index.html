@@ -7123,6 +7123,371 @@ function yhtisInstallQuickNavCollapseV1(){
 
 
     /*
+     * YHTIS_QUICK_NAV_FIXED_MODAL_V1
+     *
+     * 快速導覽保留原本按鈕 / 連結功能，
+     * 但若能辨識目的區塊，
+     * 就使用既有的固定 Overlay Modal 顯示。
+     *
+     * 不修改任何資料與選股邏輯。
+     */
+    function yhtisQuickNavResolveTargetV1(el){
+
+        if(!el){
+            return null;
+        }
+
+
+        /*
+         * ① href="#xxx"
+         */
+        const href =
+            el.getAttribute(
+                "href"
+            );
+
+        if(
+            href
+            &&
+            href.startsWith("#")
+            &&
+            href.length > 1
+        ){
+
+            try{
+
+                const node =
+                    document.querySelector(
+                        href
+                    );
+
+                if(node){
+                    return node;
+                }
+
+            }
+            catch(_e){}
+        }
+
+
+        /*
+         * ② aria-controls="xxx"
+         */
+        const aria =
+            el.getAttribute(
+                "aria-controls"
+            );
+
+        if(aria){
+
+            const node =
+                document.getElementById(
+                    aria.replace(/^#/,"")
+                );
+
+            if(node){
+                return node;
+            }
+        }
+
+
+        /*
+         * ③ 常見 data target
+         */
+        const attrs = [
+            "data-target",
+            "data-bs-target",
+            "data-scroll-target",
+            "data-section-target",
+            "data-nav-target"
+        ];
+
+
+        for(const attr of attrs){
+
+            const value =
+                el.getAttribute(
+                    attr
+                );
+
+            if(!value){
+                continue;
+            }
+
+
+            const id =
+                value.replace(/^#/,"");
+
+            let node =
+                document.getElementById(
+                    id
+                );
+
+
+            if(!node){
+
+                try{
+
+                    node =
+                        document.querySelector(
+                            value
+                        );
+
+                }
+                catch(_e){}
+            }
+
+
+            if(node){
+                return node;
+            }
+        }
+
+
+        /*
+         * ④ inline onclick 中的
+         * getElementById("xxx")
+         */
+        const onclick =
+            String(
+                el.getAttribute(
+                    "onclick"
+                )
+                || ""
+            );
+
+
+        let m =
+            onclick.match(
+                /getElementById\(\s*['"]([^'"]+)['"]\s*\)/
+            );
+
+
+        if(
+            m
+            &&
+            m[1]
+        ){
+
+            const node =
+                document.getElementById(
+                    m[1]
+                );
+
+            if(node){
+                return node;
+            }
+        }
+
+
+        /*
+         * ⑤ inline querySelector("#xxx")
+         */
+        m =
+            onclick.match(
+                /querySelector\(\s*['"]([^'"]+)['"]\s*\)/
+            );
+
+
+        if(
+            m
+            &&
+            m[1]
+        ){
+
+            try{
+
+                const node =
+                    document.querySelector(
+                        m[1]
+                    );
+
+                if(node){
+                    return node;
+                }
+
+            }
+            catch(_e){}
+        }
+
+
+        return null;
+    }
+
+
+    content.addEventListener(
+        "click",
+        function(ev){
+
+            const control =
+                ev.target.closest(
+                    "a,button"
+                );
+
+
+            if(
+                !control
+                ||
+                !content.contains(
+                    control
+                )
+            ){
+                return;
+            }
+
+
+            const target =
+                yhtisQuickNavResolveTargetV1(
+                    control
+                );
+
+
+            /*
+             * 找不到明確目的區塊：
+             * 完全保留原本功能，不攔截。
+             */
+            if(!target){
+                return;
+            }
+
+
+            /*
+             * 不能把快速導覽自己搬進自己的 Modal。
+             */
+            if(
+                target === details
+                ||
+                target.closest(
+                    "#yhtisQuickNavDetailsV1"
+                )
+            ){
+                return;
+            }
+
+
+            const href =
+                control.getAttribute(
+                    "href"
+                );
+
+
+            /*
+             * 阻止 anchor 跳到頁面中間，
+             * 但不阻止原本 click handler 執行。
+             */
+            if(
+                href
+                &&
+                href.startsWith("#")
+            ){
+                ev.preventDefault();
+            }
+
+
+            const keepY =
+                window.scrollY;
+
+
+            const title =
+                "⚡ "
+                +
+                String(
+                    control.textContent
+                    || "快速導覽"
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+
+            /*
+             * 等原本按鈕自己的 click handler
+             * 先完成，再把目的區塊搬進固定 Modal。
+             */
+            setTimeout(
+                function(){
+
+                    try{
+
+                        window.scrollTo(
+                            0,
+                            keepY
+                        );
+
+                    }
+                    catch(_e){}
+
+
+                    if(
+                        typeof window
+                        .yhtisOpenExistingToolModalV1
+                        !== "function"
+                    ){
+
+                        /*
+                         * 若既有 Modal helper 尚未存在，
+                         * 保留原本導覽功能。
+                         */
+                        return;
+                    }
+
+
+                    let displayMode =
+                        "block";
+
+
+                    try{
+
+                        const currentDisplay =
+                            window
+                            .getComputedStyle(
+                                target
+                            )
+                            .display;
+
+
+                        if(
+                            currentDisplay
+                            === "flex"
+                            ||
+                            currentDisplay
+                            === "grid"
+                        ){
+                            displayMode =
+                                currentDisplay;
+                        }
+
+                    }
+                    catch(_e){}
+
+
+                    if(
+                        target.tagName
+                        &&
+                        target.tagName
+                            .toLowerCase()
+                        === "details"
+                    ){
+                        target.open = true;
+                    }
+
+
+                    window
+                    .yhtisOpenExistingToolModalV1(
+                        target,
+                        title,
+                        "quicknav",
+                        displayMode
+                    );
+
+                },
+                60
+            );
+        },
+        true
+    );
+
+
+    /*
      * 若來源不是 a/button 結構，
      * fallback 搬有 href / onclick 的子元素。
      */
@@ -8942,7 +9307,13 @@ function yhtisLBCreateStageButtonV3(
 
             e.preventDefault();
 
-            e.stopPropagation();
+            /*
+             * YHTIS_LIFECYCLE_CLICK_ISOLATION_V1
+             * Lifecycle V3 自己完整處理點擊，
+             * 不讓同一顆按鈕上的其它 listener
+             * 再產生第二個空白視窗。
+             */
+            e.stopImmediatePropagation();
 
 
             await yhtisLBLoadAllV3();
