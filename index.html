@@ -7588,11 +7588,205 @@ function yhtisInstallQuickNavCollapseV1(){
    執行
    ============================================================ */
 
+/*
+ * YHTIS_QUICK_NAV_TOOLBAR_V2
+ *
+ * 🧭 快速導覽升級為主工具列按鈕。
+ * 固定放在 ⚡ 活躍條件旁邊。
+ * 原快速導覽內容仍使用同一份 DOM，
+ * 不複製、不改原功能、不碰選股資料。
+ */
+function yhtisPromoteQuickNavToolbarV2(){
+
+    const details =
+        document.getElementById(
+            "yhtisQuickNavDetailsV1"
+        );
+
+    const content =
+        document.getElementById(
+            "yhtisQuickNavContentV1"
+        );
+
+
+    if(
+        !details
+        ||
+        !content
+    ){
+        return false;
+    }
+
+
+    let btn =
+        document.querySelector(
+            '[data-yhtis-quicknav-toolbar-v2="1"]'
+        );
+
+
+    /*
+     * 找上方真正的 ⚡ 活躍條件按鈕。
+     */
+    const activity =
+        [
+            ...document.querySelectorAll(
+                "button"
+            )
+        ]
+        .find(x => {
+
+            if(
+                x.closest(
+                    "#yhtisQuickNavDetailsV1"
+                )
+            ){
+                return false;
+            }
+
+            const t =
+                String(
+                    x.textContent || ""
+                )
+                .replace(/\s+/g," ")
+                .trim();
+
+            return t.includes(
+                "活躍條件"
+            );
+        });
+
+
+    if(!activity){
+        return false;
+    }
+
+
+    if(!btn){
+
+        btn =
+            document.createElement(
+                "button"
+            );
+
+        btn.type =
+            "button";
+
+        btn.setAttribute(
+            "data-yhtis-quicknav-toolbar-v2",
+            "1"
+        );
+
+
+        /*
+         * 完全沿用活躍條件的外觀 class。
+         */
+        btn.className =
+            activity.className;
+
+        btn.style.cssText =
+            activity.style.cssText;
+
+        btn.innerHTML =
+            "<div>🧭 快速導覽</div>";
+
+
+        /*
+         * 若工具列有 order lock，
+         * 永遠排在活躍條件下一格。
+         */
+        try{
+
+            const activityOrder =
+                parseInt(
+                    window
+                    .getComputedStyle(
+                        activity
+                    )
+                    .order,
+                    10
+                );
+
+            if(
+                Number.isFinite(
+                    activityOrder
+                )
+            ){
+
+                btn.style.setProperty(
+                    "order",
+                    String(
+                        activityOrder + 1
+                    ),
+                    "important"
+                );
+            }
+
+        }
+        catch(_e){}
+
+
+        activity.insertAdjacentElement(
+            "afterend",
+            btn
+        );
+
+
+        btn.addEventListener(
+            "click",
+            function(e){
+
+                e.preventDefault();
+                e.stopPropagation();
+
+
+                if(
+                    typeof window
+                    .yhtisOpenExistingToolModalV1
+                    !== "function"
+                ){
+                    return;
+                }
+
+
+                window
+                .yhtisOpenExistingToolModalV1(
+                    content,
+                    "🧭 快速導覽",
+                    "quicknav-toolbar",
+                    "flex"
+                );
+            }
+        );
+    }
+
+
+    /*
+     * 下方舊的收合快速導覽不再重複顯示。
+     * 內容仍保留，關閉 Modal 後會回到這裡。
+     */
+    details.style.setProperty(
+        "display",
+        "none",
+        "important"
+    );
+
+    details.setAttribute(
+        "data-yhtis-quicknav-toolbar-hidden-v2",
+        "1"
+    );
+
+
+    return true;
+}
+
+
 function yhtisQuickNavRunV1(){
 
     yhtisQuickNavInstallStyleV1();
 
     yhtisInstallQuickNavCollapseV1();
+
+    yhtisPromoteQuickNavToolbarV2();
 }
 
 
