@@ -26762,6 +26762,960 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 
 <!-- YHTIS_FINAL_STABILIZE_V13_4_END -->
 
+
+<script>
+
+/* ============================================================
+   YHTIS_RELAUNCH_UI_V1
+
+   🌿 二次起漲｜Research UI only
+
+   - 只讀 frozen Re-Launch Prospective
+   - 不改五大生命週期
+   - 不改 V13.4 決策
+   - 不做人為排名
+   ============================================================ */
+
+(function(){
+
+"use strict";
+
+if(window.__YHTIS_RELAUNCH_UI_V1__){
+    return;
+}
+
+window.__YHTIS_RELAUNCH_UI_V1__ = true;
+
+
+/* ------------------------------------------------------------
+   CSV parser
+   ------------------------------------------------------------ */
+
+function yhtisReLaunchParseCSVV1(text){
+
+    const rows = [];
+    let row = [];
+    let cell = "";
+    let quoted = false;
+
+    for(let i=0;i<text.length;i++){
+
+        const ch = text[i];
+
+        if(quoted){
+
+            if(ch === '"'){
+
+                if(
+                    i + 1 < text.length
+                    &&
+                    text[i + 1] === '"'
+                ){
+                    cell += '"';
+                    i++;
+                }
+                else{
+                    quoted = false;
+                }
+            }
+            else{
+                cell += ch;
+            }
+
+            continue;
+        }
+
+        if(ch === '"'){
+            quoted = true;
+        }
+        else if(ch === ","){
+            row.push(cell);
+            cell = "";
+        }
+        else if(ch === "\n"){
+
+            row.push(
+                cell.replace(/\r$/, "")
+            );
+
+            if(
+                row.some(
+                    x => String(x).trim() !== ""
+                )
+            ){
+                rows.push(row);
+            }
+
+            row = [];
+            cell = "";
+        }
+        else{
+            cell += ch;
+        }
+    }
+
+    if(
+        cell !== ""
+        ||
+        row.length
+    ){
+
+        row.push(
+            cell.replace(/\r$/, "")
+        );
+
+        if(
+            row.some(
+                x => String(x).trim() !== ""
+            )
+        ){
+            rows.push(row);
+        }
+    }
+
+    return rows;
+}
+
+
+/* ------------------------------------------------------------
+   HTML escape
+   ------------------------------------------------------------ */
+
+function yhtisReLaunchEscapeV1(v){
+
+    return String(
+        v == null ? "" : v
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* ------------------------------------------------------------
+   找最新 prospective SignalDate
+
+   直接沿用已凍結 D10 Prospective registry，
+   不看盤中結果決定日期。
+   ------------------------------------------------------------ */
+
+async function yhtisReLaunchLatestDateV1(){
+
+    const url =
+        "/output/research/d10_explosion_prospective_v1/"
+        + "prospective_registry_v1.csv?v="
+        + Date.now();
+
+    const res = await fetch(
+        url,
+        {
+            cache:"no-store"
+        }
+    );
+
+    if(!res.ok){
+        throw new Error(
+            "D10 registry HTTP "
+            + res.status
+        );
+    }
+
+    const rows =
+        yhtisReLaunchParseCSVV1(
+            await res.text()
+        );
+
+    if(rows.length < 2){
+        throw new Error(
+            "D10 registry empty"
+        );
+    }
+
+    const header =
+        rows[0].map(
+            x => String(x).trim()
+        );
+
+    const idx =
+        header.indexOf(
+            "SignalDate"
+        );
+
+    if(idx < 0){
+        throw new Error(
+            "SignalDate column missing"
+        );
+    }
+
+    const dates =
+        rows
+        .slice(1)
+        .map(
+            r =>
+                String(
+                    r[idx] || ""
+                ).trim()
+        )
+        .filter(Boolean);
+
+    if(!dates.length){
+        throw new Error(
+            "No SignalDate"
+        );
+    }
+
+    return dates[
+        dates.length - 1
+    ].slice(
+        0,
+        10
+    );
+}
+
+
+/* ------------------------------------------------------------
+   讀取 Re-Launch frozen candidates
+   ------------------------------------------------------------ */
+
+async function yhtisLoadReLaunchCandidatesV1(){
+
+    const day =
+        await yhtisReLaunchLatestDateV1();
+
+    const url =
+        "/output/research/relaunch_prospective_v1/"
+        + day
+        + "/relaunch_candidates_v1.csv?v="
+        + Date.now();
+
+    const res = await fetch(
+        url,
+        {
+            cache:"no-store"
+        }
+    );
+
+    if(!res.ok){
+
+        throw new Error(
+            "Re-Launch "
+            + day
+            + " HTTP "
+            + res.status
+        );
+    }
+
+    const raw =
+        yhtisReLaunchParseCSVV1(
+            await res.text()
+        );
+
+    if(raw.length < 2){
+
+        return {
+            day,
+            rows:[]
+        };
+    }
+
+    const header =
+        raw[0].map(
+            x => String(x).trim()
+        );
+
+    const rows =
+        raw
+        .slice(1)
+        .filter(
+            r =>
+                r.some(
+                    x =>
+                        String(
+                            x || ""
+                        ).trim() !== ""
+                )
+        )
+        .map(r => {
+
+            const obj = {};
+
+            header.forEach(
+                (h,i) => {
+                    obj[h] =
+                        r[i] == null
+                            ? ""
+                            : r[i];
+                }
+            );
+
+            return obj;
+        })
+        .filter(
+            x =>
+                /^\d{4}$/.test(
+                    String(
+                        x.Code || ""
+                    ).trim()
+                )
+        );
+
+    return {
+        day,
+        rows
+    };
+}
+
+
+/* ------------------------------------------------------------
+   Track 顯示
+   ------------------------------------------------------------ */
+
+function yhtisReLaunchTrackTextV1(x){
+
+    const yes = v =>
+        String(v)
+        .toLowerCase()
+        .trim() === "true"
+        ||
+        String(v).trim() === "1";
+
+    const out = [];
+
+    if(yes(x.R0_BASE_ONSET)){
+        out.push("R0 基礎");
+    }
+
+    if(yes(x.R1_CCI_ONSET)){
+        out.push("R1 CCI");
+    }
+
+    if(yes(x.R2_J_ONSET)){
+        out.push("R2 J");
+    }
+
+    if(yes(x.R3_EITHER_ONSET)){
+        out.push("R3 再加速");
+    }
+
+    if(yes(x.R4_BOTH_ONSET)){
+        out.push("R4 雙轉強");
+    }
+
+    return out.join("・")
+        ||
+        String(
+            x.TrackFlags || ""
+        );
+}
+
+
+/* ------------------------------------------------------------
+   點股票 → MASTER 搜尋
+   ------------------------------------------------------------ */
+
+function yhtisReLaunchOpenStockV1(code){
+
+    const input =
+        document.getElementById(
+            "yhtisMasterSearch"
+        )
+        ||
+        document.querySelector(
+            'input[placeholder*="股票"]'
+        );
+
+    if(input){
+
+        input.value = code;
+
+        input.dispatchEvent(
+            new Event(
+                "input",
+                {
+                    bubbles:true
+                }
+            )
+        );
+    }
+
+    const queryBtn =
+        document.getElementById(
+            "yhtisMasterSearchBtn"
+        )
+        ||
+        [
+            ...document.querySelectorAll(
+                "button"
+            )
+        ].find(
+            x =>
+                String(
+                    x.textContent || ""
+                ).includes(
+                    "查詢"
+                )
+        );
+
+    if(queryBtn){
+        queryBtn.click();
+    }
+}
+
+
+/* ------------------------------------------------------------
+   結果面板
+   ------------------------------------------------------------ */
+
+function yhtisEnsureReLaunchPanelV1(){
+
+    let panel =
+        document.getElementById(
+            "yhtisReLaunchPanelV1"
+        );
+
+    if(panel){
+        return panel;
+    }
+
+    panel =
+        document.createElement(
+            "div"
+        );
+
+    panel.id =
+        "yhtisReLaunchPanelV1";
+
+    panel.style.cssText =
+        "display:none;"
+        + "position:fixed;"
+        + "top:72px;"
+        + "left:50%;"
+        + "transform:translateX(-50%);"
+        + "width:min(1100px,94vw);"
+        + "max-height:calc(100vh - 96px);"
+        + "overflow-y:auto;"
+        + "overscroll-behavior:contain;"
+        + "box-sizing:border-box;"
+        + "margin:0;"
+        + "padding:14px;"
+        + "border:1px solid rgba(34,197,94,.55);"
+        + "border-radius:14px;"
+        + "background:#07130d;"
+        + "color:#e5e7eb;"
+        + "z-index:99999;"
+        + "box-shadow:0 18px 60px rgba(0,0,0,.55);";
+
+    const external =
+        document.getElementById(
+            "yhtisLifecycleExternalToolsV1"
+        );
+
+    if(
+        external
+        &&
+        external.parentElement
+    ){
+
+        external.insertAdjacentElement(
+            "afterend",
+            panel
+        );
+    }
+    else{
+
+        const strongest =
+            document.querySelector(
+                '[data-strongest-oneclick="1"]'
+            );
+
+        if(
+            strongest
+            &&
+            strongest.parentElement
+        ){
+
+            strongest.parentElement
+            .insertAdjacentElement(
+                "afterend",
+                panel
+            );
+        }
+        else{
+            document.body.appendChild(
+                panel
+            );
+        }
+    }
+
+    return panel;
+}
+
+
+/* ------------------------------------------------------------
+   Render
+   ------------------------------------------------------------ */
+
+function yhtisRenderReLaunchV1(
+    day,
+    rows
+){
+
+    const panel =
+        yhtisEnsureReLaunchPanelV1();
+
+    panel.innerHTML = `
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
+            margin-bottom:10px;
+        ">
+            <div>
+                <div style="
+                    font-size:17px;
+                    font-weight:900;
+                    color:#86efac;
+                ">
+                    🌿 二次起漲
+                </div>
+
+                <div style="
+                    font-size:12px;
+                    color:#94a3b8;
+                    margin-top:2px;
+                ">
+                    ${yhtisReLaunchEscapeV1(day)}
+                    ｜ ${rows.length} 檔
+                    ｜ Re-Launch 凍結研究名單
+                </div>
+            </div>
+
+            <button
+                type="button"
+                id="yhtisReLaunchCloseV1"
+                style="
+                    border:1px solid #475569;
+                    border-radius:8px;
+                    background:#111827;
+                    color:#e5e7eb;
+                    padding:6px 10px;
+                    cursor:pointer;
+                    font-weight:800;
+                "
+            >
+                ✕ 關閉
+            </button>
+        </div>
+
+        <div
+            id="yhtisReLaunchGridV1"
+            style="
+                display:grid;
+                grid-template-columns:
+                    repeat(auto-fit,minmax(175px,1fr));
+                gap:8px;
+            "
+        ></div>
+    `;
+
+    const grid =
+        panel.querySelector(
+            "#yhtisReLaunchGridV1"
+        );
+
+    if(!rows.length){
+
+        grid.innerHTML = `
+            <div style="
+                color:#94a3b8;
+                padding:12px;
+            ">
+                ⚪ 本日沒有 Re-Launch 候選
+            </div>
+        `;
+    }
+    else{
+
+        grid.innerHTML =
+            rows.map(
+                x => {
+
+                    const code =
+                        yhtisReLaunchEscapeV1(
+                            x.Code
+                        );
+
+                    const name =
+                        yhtisReLaunchEscapeV1(
+                            x.Name
+                        );
+
+                    const close =
+                        Number(
+                            x.Close
+                        );
+
+                    const closeText =
+                        Number.isFinite(
+                            close
+                        )
+                        ?
+                        close.toFixed(2)
+                        :
+                        "-";
+
+                    const tracks =
+                        yhtisReLaunchEscapeV1(
+                            yhtisReLaunchTrackTextV1(
+                                x
+                            )
+                        );
+
+                    return `
+                        <button
+                            type="button"
+                            data-relaunch-code="${code}"
+                            style="
+                                text-align:left;
+                                border:1px solid rgba(34,197,94,.34);
+                                border-radius:10px;
+                                background:#0f1f16;
+                                color:#e5e7eb;
+                                padding:10px;
+                                cursor:pointer;
+                                min-width:0;
+                            "
+                        >
+                            <div style="
+                                font-size:15px;
+                                font-weight:900;
+                                margin-bottom:4px;
+                            ">
+                                ${code} ${name}
+                            </div>
+
+                            <div style="
+                                font-size:12px;
+                                color:#86efac;
+                            ">
+                                ${tracks}
+                            </div>
+
+                            <div style="
+                                font-size:11px;
+                                color:#cbd5e1;
+                                margin-top:4px;
+                            ">
+                                收盤 ${closeText}
+                            </div>
+                        </button>
+                    `;
+                }
+            ).join("");
+    }
+
+    panel.querySelectorAll(
+        "[data-relaunch-code]"
+    )
+    .forEach(btn => {
+
+        btn.addEventListener(
+            "click",
+            function(){
+
+                yhtisReLaunchOpenStockV1(
+                    btn.dataset
+                    .relaunchCode
+                );
+            }
+        );
+    });
+
+    const closeBtn =
+        panel.querySelector(
+            "#yhtisReLaunchCloseV1"
+        );
+
+    if(closeBtn){
+
+        closeBtn.addEventListener(
+            "click",
+            function(){
+
+                panel.style.display =
+                    "none";
+            }
+        );
+    }
+
+    panel.style.display =
+        "block";
+
+    panel.scrollTop = 0;
+}
+
+
+/* ------------------------------------------------------------
+   一鍵執行
+   ------------------------------------------------------------ */
+
+async function yhtisRunReLaunchOneClickV1(){
+
+    const btn =
+        document.querySelector(
+            '[data-relaunch-oneclick="1"]'
+        );
+
+    const panel =
+        yhtisEnsureReLaunchPanelV1();
+
+    if(
+        panel.style.display !== "none"
+        &&
+        panel.dataset.loaded === "1"
+    ){
+
+        panel.style.display =
+            "none";
+
+        return;
+    }
+
+    if(btn){
+        btn.disabled = true;
+        btn.style.opacity = ".70";
+    }
+
+    try{
+
+        const data =
+            await yhtisLoadReLaunchCandidatesV1();
+
+        yhtisRenderReLaunchV1(
+            data.day,
+            data.rows
+        );
+
+        panel.dataset.loaded =
+            "1";
+
+        if(btn){
+
+            btn.innerHTML =
+                '<div style="font-weight:900;">'
+                + '🌿 二次起漲'
+                + '</div>'
+                + '<div style="font-size:11px;margin-top:3px;">'
+                + data.rows.length
+                + ' 檔'
+                + '</div>';
+        }
+    }
+    catch(err){
+
+        console.error(
+            "RE-LAUNCH ONE CLICK",
+            err
+        );
+
+        panel.style.display =
+            "block";
+
+        panel.innerHTML = `
+            <div style="
+                color:#fca5a5;
+                font-weight:800;
+            ">
+                ❌ 二次起漲資料讀取失敗
+            </div>
+
+            <div style="
+                margin-top:5px;
+                color:#94a3b8;
+                font-size:12px;
+            ">
+                ${yhtisReLaunchEscapeV1(
+                    err.message || err
+                )}
+            </div>
+        `;
+    }
+    finally{
+
+        if(btn){
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+    }
+}
+
+
+/* ------------------------------------------------------------
+   建立按鈕
+
+   固定位置：
+   👑 最強一鍵 → 🌿 二次起漲
+   ------------------------------------------------------------ */
+
+function yhtisEnsureReLaunchButtonV1(){
+
+    const strongest =
+        document.querySelector(
+            '[data-strongest-oneclick="1"]'
+        );
+
+    if(!strongest){
+        return false;
+    }
+
+    let btn =
+        document.querySelector(
+            '[data-relaunch-oneclick="1"]'
+        );
+
+    if(!btn){
+
+        btn =
+            document.createElement(
+                "button"
+            );
+
+        btn.type =
+            "button";
+
+        btn.setAttribute(
+            "data-relaunch-oneclick",
+            "1"
+        );
+
+        btn.title =
+            "🌿 Re-Launch｜回踩後重新加速｜研究雷達";
+
+        btn.innerHTML =
+            '<div style="font-weight:900;font-size:15px;">'
+            + '🌿 二次起漲'
+            + '</div>'
+            + '<div style="font-size:11px;margin-top:3px;">'
+            + '…檔'
+            + '</div>';
+
+        btn.style.cssText =
+            "border:1px solid #22c55e;"
+            + "border-radius:11px;"
+            + "padding:8px 14px;"
+            + "min-width:150px;"
+            + "min-height:58px;"
+            + "background:#14532d;"
+            + "color:#dcfce7;"
+            + "cursor:pointer;"
+            + "font-family:inherit;"
+            + "font-weight:800;"
+            + "white-space:nowrap;"
+            + "flex:0 0 auto;"
+            + "box-sizing:border-box;";
+
+        btn.addEventListener(
+            "click",
+            yhtisRunReLaunchOneClickV1
+        );
+    }
+
+    /*
+     * strongest 之後無論是否已被搬進外部工具列，
+     * 都把 Re-Launch 緊跟在 strongest 後面。
+     */
+
+    if(
+        strongest.parentElement
+        &&
+        btn.previousElementSibling
+            !== strongest
+    ){
+
+        strongest.insertAdjacentElement(
+            "afterend",
+            btn
+        );
+    }
+
+    return true;
+}
+
+
+/* ------------------------------------------------------------
+   預載 count，但不打開結果
+   ------------------------------------------------------------ */
+
+async function yhtisPreloadReLaunchCountV1(){
+
+    try{
+
+        const data =
+            await yhtisLoadReLaunchCandidatesV1();
+
+        const btn =
+            document.querySelector(
+                '[data-relaunch-oneclick="1"]'
+            );
+
+        if(btn){
+
+            btn.innerHTML =
+                '<div style="font-weight:900;font-size:15px;">'
+                + '🌿 二次起漲'
+                + '</div>'
+                + '<div style="font-size:11px;margin-top:3px;">'
+                + data.rows.length
+                + ' 檔'
+                + '</div>';
+        }
+    }
+    catch(err){
+
+        console.warn(
+            "RE-LAUNCH PRELOAD",
+            err
+        );
+    }
+}
+
+
+/* ------------------------------------------------------------
+   多次保證位置。
+   Existing toolbar 可能晚於 strongest 建立。
+   ------------------------------------------------------------ */
+
+[
+    350,
+    900,
+    1500,
+    2500,
+    5000
+]
+.forEach(ms => {
+
+    setTimeout(
+        function(){
+
+            if(
+                yhtisEnsureReLaunchButtonV1()
+            ){
+
+                if(ms === 1500){
+                    yhtisPreloadReLaunchCountV1();
+                }
+            }
+        },
+        ms
+    );
+});
+
+})();
+
+</script>
 </body>
 
 </html>
