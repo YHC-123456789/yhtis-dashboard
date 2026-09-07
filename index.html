@@ -10529,11 +10529,23 @@ function yhtisLBMergeToolsV3(){
         strategy,
         activity
     ]
-    .forEach(el => {
+    .forEach((el, yhtisToolOrderIndex) => {
 
         if(!el){
             return;
         }
+
+        /*
+         * YHTIS_MOBILE_TOOL_ORDER_LOCK_V2
+         * 不論其他 JS 如何 append / insert，
+         * Flex 視覺順序固定：
+         * 👑 → 🌿 → 🎯 → ⚡
+         */
+        el.style.setProperty(
+            "order",
+            String(yhtisToolOrderIndex + 1),
+            "important"
+        );
 
 
         el.classList.add(
