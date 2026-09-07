@@ -10045,9 +10045,18 @@ function yhtisUpdateGoldenSpecialCountV1(){
     ]
     .filter(btn => {
 
+        /*
+         * YHTIS_GOLDEN_DUPLICATE_COUNT_FIX_V1
+         * Lifecycle V3 已由 yhtisLBUpdateCountsV3() 管理數量，
+         * Golden Special 不得再次附加 count。
+         */
         if(
             btn.hasAttribute(
                 "data-master-filter"
+            )
+            ||
+            btn.hasAttribute(
+                "data-yhtis-life-stage-v3"
             )
         ){
             return false;
