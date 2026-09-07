@@ -1,0 +1,125 @@
+YHTIS D10 EXPLOSION PROSPECTIVE DAILY V1
+
+VERSION:
+yhtis_d10_explosion_prospective_daily_v1
+
+PURPOSE:
+Generate genuinely prospective D10 Explosion rankings
+before the next market session.
+
+CURRENT D0:
+Latest Date in frozen market_context_v1.csv.
+
+CURRENT STOCK FEATURES:
+Use only data/features/<code>.csv rows with Date <= D0.
+
+A stock is eligible only if:
+1. Its latest available feature Date equals D0.
+2. HISTORY_BARS >= 70.
+3. Frozen Phase2 CORE features are non-null.
+
+STALE FEATURE:
+Excluded.
+No forward fill.
+No previous-day substitution.
+
+CURRENT D0 RECONSTRUCTION:
+Exact frozen Phase2 formulas.
+
+EMA9:
+Close.ewm(span=9, adjust=False, min_periods=9).mean()
+
+EMA_GAP_PCT:
+Phase2 pct_ratio(EMA9, EMA20).
+
+EMA9_DELTA_PCT:
+Phase2 pct_ratio(EMA9, EMA9.shift(1)).
+
+EMA20_DELTA_PCT:
+Phase2 pct_ratio(EMA20, EMA20.shift(1)).
+
+PRICE_VS_MA20_PCT:
+Phase2 pct_ratio(Close, MA20).
+
+PRICE_VS_MA60_PCT:
+Phase2 pct_ratio(Close, MA60).
+
+MACD_ACCEL1:
+MACD_HIST.diff()
+
+MACD_ACCEL2:
+MACD_ACCEL1.diff()
+
+CCI20:
+Exact Phase2 calc_cci20 helper extracted from
+build_d10_feature_matrix_v1.py.
+
+CCI20_DELTA1:
+CCI20.diff()
+
+J:
+3*K - 2*D
+
+J_DELTA1:
+J.diff()
+
+BB_WIDTH_DELTA1:
+BB_WIDTH.diff()
+
+DI_SPREAD:
+DI_PLUS - DI_MINUS
+
+MARKET CONTEXT:
+Exact D0 row from frozen market_context_v1.csv.
+
+MODEL FEATURES:
+Exactly the frozen 52 Walk-Forward V1 features.
+
+TRAINING:
+feature_matrix_v1.csv.gz only.
+TARGET_FIRST15_M5_D10 must be known.
+D10Date must be strictly earlier than D0.
+
+MODEL:
+Exactly frozen Walk-Forward V1 HistGradientBoosting parameters.
+
+NO:
+hyperparameter search
+threshold tuning
+feature selection
+future feature use
+stale D0 forward-fill
+production integration
+
+DAILY RANKING:
+Raw class-1 model score descending.
+Tie break Code ascending.
+
+Raw model score is NOT claimed to be a calibrated probability.
+
+DAILY FREEZE:
+Once a D0 metadata_v1.json exists, that day's ranking
+must never be overwritten by this V1.
+
+SELECTION-ERA SNAPSHOT:
+The exact D0 feature rows used for ranking are preserved.
+
+PHASE2_BUILDER_SHA256:
+fb231c6354fc5374fbe0a00a6ee5b28990c0e685fe6d2835e533dd5e86835b14
+
+PHASE2_FEATURE_FREEZE_FILE_SHA256:
+7cd7bfcc67e10f54a5c493ecb1faa703e3f74e9acbc9ef143cf2c9461f2e5755
+
+WALKFORWARD_RULE_HASH:
+ed96cb47a9425720ca6e39c52f283d651538134be10cb21a4f94da5a74e4bc37
+
+WALKFORWARD_FREEZE_FILE_SHA256:
+6cf429e6d70feab333ebecda5785d59e5e11c087ec7b0322e451cbf8e886e2ea
+
+V13.4 remains unchanged.
+Pure MACD remains unchanged.
+CCI20 Shadow remains unchanged.
+Dual Confirmation remains unchanged.
+Opening Launch Snapshot V1 remains unchanged.
+
+PROSPECTIVE_RULE_SHA256=84ba42e0a7d5b2a0e2193d1b2a4c94576186ea9e045470925e1f472095a19834

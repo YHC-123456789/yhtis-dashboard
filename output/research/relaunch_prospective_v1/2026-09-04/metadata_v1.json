@@ -1,0 +1,28 @@
+{
+  "version": "yhtis_relaunch_prospective_daily_v1",
+  "signal_date": "2026-09-04",
+  "generated_at": "2026-09-06T15:58:34.533748-07:00",
+  "rule_hash": "c462ff4b5d81778e23819b7b0d7d26a299fecd07ecf4c70e448482979329a929",
+  "historical_relaunch_freeze_sha256": "24669ff316e3d3830f446c400588a8c72b3c1e48e9279d426cd671ba188d9f1f",
+  "feature_files_seen": 1980,
+  "relaunch_candidate_n": 140,
+  "track_counts": {
+    "R0_BASE_ONSET": 140,
+    "R1_CCI_ONSET": 78,
+    "R2_J_ONSET": 101,
+    "R3_EITHER_ONSET": 110,
+    "R4_BOTH_ONSET": 69
+  },
+  "excluded_n": 1,
+  "opening_watch_pool_n": 153,
+  "d10_top20_n": 20,
+  "relaunch_watch_n": 140,
+  "both_sources_n": 7,
+  "candidate_sha256": "5a446c40012c83bfa820cd216be9ac379aeb907fba10a8cb027814e08243c4c1",
+  "opening_watch_pool_sha256": "b16c8c4efd71b3eb643e2af26a7eb370d546a2dc4fcc5f4442c58ae77dae2dfd",
+  "outputs": {
+    "candidates": "/Users/yaohui/taiwan_trading_system/output/research/relaunch_prospective_v1/2026-09-04/relaunch_candidates_v1.csv",
+    "opening_watch_pool": "/Users/yaohui/taiwan_trading_system/output/research/relaunch_prospective_v1/2026-09-04/opening_watch_pool_v1.csv",
+    "exclusions": "/Users/yaohui/taiwan_trading_system/output/research/relaunch_prospective_v1/2026-09-04/exclusions_v1.csv"
+  }
+}

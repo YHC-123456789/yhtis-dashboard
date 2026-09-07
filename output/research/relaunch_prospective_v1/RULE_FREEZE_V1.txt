@@ -1,0 +1,85 @@
+YHTIS RE-LAUNCH PROSPECTIVE DAILY V1
+
+VERSION:
+yhtis_relaunch_prospective_daily_v1
+
+CURRENT D0:
+2026-09-04
+
+PURPOSE:
+Freeze current Re-Launch onset candidates before
+the next market session.
+
+RULE SOURCE:
+Exactly the frozen Re-Launch Historical Study V1.
+
+BASE:
+
+TREND_ESTABLISHED =
+EMA9 > EMA20
+AND Close > EMA20
+
+EMA_REACCEL =
+EMA9_DELTA_PCT > EMA20_DELTA_PCT
+
+MACD_REACCEL =
+MACD_HIST > 0
+AND MACD_ACCEL1 > 0
+AND MACD_ACCEL2 > 0
+
+PULLBACK_RECOVERY =
+current 1-day Close return > 0
+AND at least one PRIOR THREE 1-day return < 0
+
+R0_BASE =
+TREND_ESTABLISHED
+AND EMA_REACCEL
+AND MACD_REACCEL
+AND PULLBACK_RECOVERY
+
+CCI_TURN =
+CCI20_DELTA1 > 0
+AND prior CCI20_DELTA1 <= 0
+
+J_TURN =
+J_DELTA1 > 0
+AND prior J_DELTA1 <= 0
+
+R1_CCI =
+R0_BASE AND CCI_TURN
+
+R2_J =
+R0_BASE AND J_TURN
+
+R3_EITHER =
+R0_BASE AND (CCI_TURN OR J_TURN)
+
+R4_BOTH =
+R0_BASE AND CCI_TURN AND J_TURN
+
+Every track uses false -> true onset.
+
+NO:
+CCI>100 gate
+J>90 gate
+post-hoc thresholds
+forward fill of stale features
+Re-Launch artificial ranking
+production integration
+
+OPENING WATCH POOL:
+Union of:
+1. frozen current Re-Launch R0 onset candidates
+2. already frozen D10 Prospective Top20
+
+Re-Launch track flags are descriptive only.
+R4 is NOT assumed superior to R1/R2/R3.
+
+Historical Re-Launch freeze SHA256:
+24669ff316e3d3830f446c400588a8c72b3c1e48e9279d426cd671ba188d9f1f
+
+V13.4 unchanged.
+D10 Prospective unchanged.
+Opening Launch collector unchanged.
+
+RULE_SHA256=c462ff4b5d81778e23819b7b0d7d26a299fecd07ecf4c70e448482979329a929
