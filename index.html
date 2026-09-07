@@ -26889,6 +26889,253 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 
 <!-- YHTIS_FINAL_STABILIZE_V13_4_END -->
 
+
+<!-- YHTIS_LIFECYCLE_DIAG_V1_BEGIN -->
+<script>
+(async function(){
+
+    if(
+        new URLSearchParams(
+            location.search
+        ).get("diag") !== "1"
+    ){
+        return;
+    }
+
+    const box =
+        document.createElement("pre");
+
+    box.id =
+        "yhtisLifecycleDiagV1";
+
+    box.style.cssText =
+        "position:fixed;"
+        + "left:8px;"
+        + "right:8px;"
+        + "top:8px;"
+        + "z-index:2147483647;"
+        + "max-height:85vh;"
+        + "overflow:auto;"
+        + "padding:12px;"
+        + "background:#07111f;"
+        + "color:#e5e7eb;"
+        + "border:2px solid #38bdf8;"
+        + "border-radius:12px;"
+        + "font:12px/1.5 monospace;"
+        + "white-space:pre-wrap;";
+
+    document.body.appendChild(box);
+
+    const lines = [];
+
+    function log(x){
+        lines.push(String(x));
+        box.textContent =
+            lines.join("\n");
+    }
+
+    log("YHTIS Lifecycle DIAG V1");
+    log("==========================");
+    log("href = " + location.href);
+    log("pathname = " + location.pathname);
+    log("baseURI = " + document.baseURI);
+    log("");
+
+    async function testCSV(
+        label,
+        url
+    ){
+        try{
+            const abs =
+                new URL(
+                    url,
+                    document.baseURI
+                ).href;
+
+            log(label + " URL = " + abs);
+
+            const r =
+                await fetch(
+                    url + "?diag=" + Date.now(),
+                    {
+                        cache:"no-store"
+                    }
+                );
+
+            log(
+                label
+                + " HTTP = "
+                + r.status
+            );
+
+            const txt =
+                await r.text();
+
+            log(
+                label
+                + " bytes = "
+                + txt.length
+            );
+
+            if(
+                typeof yhtisLBParseCSVV3
+                === "function"
+            ){
+                const rows =
+                    yhtisLBParseCSVV3(
+                        txt
+                    );
+
+                log(
+                    label
+                    + " parsed rows = "
+                    + rows.length
+                );
+
+                if(
+                    typeof yhtisLBCodeV3
+                    === "function"
+                ){
+                    const valid =
+                        rows.filter(
+                            x =>
+                                !!yhtisLBCodeV3(x)
+                        );
+
+                    log(
+                        label
+                        + " valid codes = "
+                        + valid.length
+                    );
+
+                    log(
+                        label
+                        + " sample = "
+                        + valid
+                            .slice(0,5)
+                            .map(
+                                x =>
+                                    yhtisLBCodeV3(x)
+                            )
+                            .join(",")
+                    );
+                }
+            }
+
+            log("");
+        }
+        catch(e){
+            log(
+                label
+                + " ERROR = "
+                + String(e)
+            );
+            log("");
+        }
+    }
+
+    await testCSV(
+        "FINAL",
+        "output/final_decision_v13.csv"
+    );
+
+    await testCSV(
+        "GOLDEN",
+        "output/research/ema_golden_cross_v1/latest.csv"
+    );
+
+    log("等待 Lifecycle 執行 5 秒...");
+    log("");
+
+    await new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                5000
+            )
+    );
+
+    try{
+        if(
+            typeof YHTIS_LB_V3
+            !== "undefined"
+        ){
+            log(
+                "loaded = "
+                + YHTIS_LB_V3.loaded
+            );
+
+            log(
+                "loading = "
+                + YHTIS_LB_V3.loading
+            );
+
+            log(
+                "stocks.size = "
+                + YHTIS_LB_V3.stocks.size
+            );
+
+            log(
+                "strong = "
+                + YHTIS_LB_V3.stages.strong.length
+            );
+
+            log(
+                "confirm = "
+                + YHTIS_LB_V3.stages.confirm.length
+            );
+
+            log(
+                "golden = "
+                + YHTIS_LB_V3.stages.golden.length
+            );
+
+            log(
+                "early = "
+                + YHTIS_LB_V3.stages.early.length
+            );
+
+            log(
+                "watch = "
+                + YHTIS_LB_V3.stages.watch.length
+            );
+        }
+        else{
+            log(
+                "❌ YHTIS_LB_V3 不存在"
+            );
+        }
+    }
+    catch(e){
+        log(
+            "STATE ERROR = "
+            + String(e)
+        );
+    }
+
+    log("");
+    log("畫面按鈕：");
+
+    document
+    .querySelectorAll(
+        "[data-yhtis-life-stage-v3]"
+    )
+    .forEach(btn => {
+
+        log(
+            btn.getAttribute(
+                "data-yhtis-life-stage-v3"
+            )
+            + " => "
+            + btn.innerText
+                .replace(/\s+/g," ")
+        );
+    });
+
+})();
+</script>
+<!-- YHTIS_LIFECYCLE_DIAG_V1_END -->
+
 </body>
 
 </html>
