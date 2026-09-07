@@ -3991,6 +3991,9 @@ function ensureActivityQuickFilterButtons(){
 
             yhtisUpdateActivityButtons();
 
+            window.YHTIS_TOOL_MODAL_CONTEXT_V1 =
+                "strongest";
+
             await yhtisRenderActivityMulti();
 
             /*
@@ -12827,22 +12830,458 @@ function yhtisBuildCompactHierarchy(){
     }
 
 
+
+    /* ======================================================
+       YHTIS_FINAL_TOOLS_MODAL_V1
+       👑 最強一鍵 / 🎯 選股策略 / ⚡ 活躍條件
+       僅改顯示方式，不修改任何篩選邏輯。
+       ====================================================== */
+
+    window.YHTIS_TOOL_MODAL_CONTEXT_V1 =
+        window.YHTIS_TOOL_MODAL_CONTEXT_V1 || "";
+
+
+    window.yhtisCloseToolModalV1 =
+        function(clearContext=true){
+
+            const overlay =
+                document.getElementById(
+                    "yhtisToolPanelOverlayV1"
+                );
+
+            if(!overlay){
+                if(clearContext){
+                    window.YHTIS_TOOL_MODAL_CONTEXT_V1 = "";
+                }
+                return;
+            }
+
+            const node =
+                overlay.__yhtisNode;
+
+            const placeholder =
+                overlay.__yhtisPlaceholder;
+
+            const oldStyle =
+                overlay.__yhtisOldStyle;
+
+            if(
+                node
+                &&
+                placeholder
+                &&
+                placeholder.parentNode
+            ){
+                placeholder.parentNode.replaceChild(
+                    node,
+                    placeholder
+                );
+
+                if(oldStyle === null){
+                    node.removeAttribute("style");
+                }
+                else{
+                    node.setAttribute(
+                        "style",
+                        oldStyle
+                    );
+                }
+
+                node.style.display = "none";
+            }
+
+            overlay.remove();
+
+            if(clearContext){
+                window.YHTIS_TOOL_MODAL_CONTEXT_V1 = "";
+            }
+        };
+
+
+    window.yhtisOpenExistingToolModalV1 =
+        function(
+            node,
+            title,
+            context,
+            displayMode
+        ){
+
+            if(!node){
+                return;
+            }
+
+            window.yhtisCloseToolModalV1(
+                false
+            );
+
+            window.YHTIS_TOOL_MODAL_CONTEXT_V1 =
+                context || "";
+
+
+            const placeholder =
+                document.createComment(
+                    "YHTIS_TOOL_MODAL_PLACEHOLDER_V1"
+                );
+
+            if(!node.parentNode){
+                return;
+            }
+
+            node.parentNode.insertBefore(
+                placeholder,
+                node
+            );
+
+
+            const oldStyle =
+                node.getAttribute(
+                    "style"
+                );
+
+
+            const overlay =
+                document.createElement(
+                    "div"
+                );
+
+            overlay.id =
+                "yhtisToolPanelOverlayV1";
+
+            overlay.__yhtisNode =
+                node;
+
+            overlay.__yhtisPlaceholder =
+                placeholder;
+
+            overlay.__yhtisOldStyle =
+                oldStyle;
+
+            overlay.style.cssText =
+                "position:fixed;"
+                + "inset:0;"
+                + "z-index:2147483100;"
+                + "background:rgba(2,6,23,.84);"
+                + "backdrop-filter:blur(3px);"
+                + "padding:26px 12px 90px;"
+                + "box-sizing:border-box;"
+                + "overflow:auto;"
+                + "display:flex;"
+                + "align-items:flex-start;"
+                + "justify-content:center;";
+
+
+            const shell =
+                document.createElement(
+                    "div"
+                );
+
+            shell.style.cssText =
+                "width:min(760px,100%);"
+                + "max-height:calc(100vh - 90px);"
+                + "overflow:auto;"
+                + "background:#07101f;"
+                + "border:1px solid #334155;"
+                + "border-radius:16px;"
+                + "box-shadow:0 24px 80px rgba(0,0,0,.6);"
+                + "padding:16px;"
+                + "box-sizing:border-box;";
+
+
+            const header =
+                document.createElement(
+                    "div"
+                );
+
+            header.style.cssText =
+                "display:flex;"
+                + "align-items:center;"
+                + "justify-content:space-between;"
+                + "gap:10px;"
+                + "margin-bottom:12px;"
+                + "position:sticky;"
+                + "top:0;"
+                + "z-index:20;"
+                + "background:#07101f;"
+                + "padding-bottom:8px;";
+
+
+            const heading =
+                document.createElement(
+                    "div"
+                );
+
+            heading.textContent =
+                title || "YHTIS";
+
+            heading.style.cssText =
+                "font-size:18px;"
+                + "font-weight:900;"
+                + "color:#f8fafc;";
+
+
+            const close =
+                document.createElement(
+                    "button"
+                );
+
+            close.type =
+                "button";
+
+            close.textContent =
+                "×";
+
+            close.style.cssText =
+                "flex:0 0 auto;"
+                + "width:42px;"
+                + "height:42px;"
+                + "border-radius:50%;"
+                + "border:1px solid #ef4444;"
+                + "background:#b91c1c;"
+                + "color:#fff;"
+                + "font-size:28px;"
+                + "font-weight:900;"
+                + "cursor:pointer;";
+
+
+            close.addEventListener(
+                "click",
+                function(ev){
+
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    window.yhtisCloseToolModalV1(
+                        true
+                    );
+                }
+            );
+
+
+            header.appendChild(
+                heading
+            );
+
+            header.appendChild(
+                close
+            );
+
+            shell.appendChild(
+                header
+            );
+
+            shell.appendChild(
+                node
+            );
+
+            overlay.appendChild(
+                shell
+            );
+
+            document.body.appendChild(
+                overlay
+            );
+
+
+            node.style.position =
+                "static";
+
+            node.style.left =
+                "auto";
+
+            node.style.right =
+                "auto";
+
+            node.style.top =
+                "auto";
+
+            node.style.bottom =
+                "auto";
+
+            node.style.width =
+                "100%";
+
+            node.style.maxWidth =
+                "100%";
+
+            node.style.maxHeight =
+                "none";
+
+            node.style.overflow =
+                "visible";
+
+            node.style.display =
+                displayMode || "block";
+
+
+            overlay.addEventListener(
+                "click",
+                function(ev){
+
+                    if(ev.target === overlay){
+
+                        window.yhtisCloseToolModalV1(
+                            true
+                        );
+                    }
+                }
+            );
+        };
+
+
+    window.yhtisOpenMasterSuggestionsModalV1 =
+        function(title){
+
+            const box =
+                document.getElementById(
+                    "yhtisMasterSuggestions"
+                );
+
+            if(!box){
+                return;
+            }
+
+            if(
+                box.closest(
+                    "#yhtisToolPanelOverlayV1"
+                )
+            ){
+                return;
+            }
+
+            window.yhtisOpenExistingToolModalV1(
+                box,
+                title,
+                window.YHTIS_TOOL_MODAL_CONTEXT_V1,
+                "block"
+            );
+        };
+
+
+    if(
+        !window.__YHTIS_TOOL_MODAL_ESC_V1
+    ){
+        window.__YHTIS_TOOL_MODAL_ESC_V1 =
+            true;
+
+        document.addEventListener(
+            "keydown",
+            function(ev){
+
+                if(
+                    ev.key === "Escape"
+                    &&
+                    document.getElementById(
+                        "yhtisToolPanelOverlayV1"
+                    )
+                ){
+                    window.yhtisCloseToolModalV1(
+                        true
+                    );
+                }
+            }
+        );
+    }
+
+
+    if(
+        !window.__YHTIS_TOOL_MODAL_RESULT_OBSERVER_V1
+    ){
+        window.__YHTIS_TOOL_MODAL_RESULT_OBSERVER_V1 =
+            true;
+
+        setTimeout(
+            function(){
+
+                const box =
+                    document.getElementById(
+                        "yhtisMasterSuggestions"
+                    );
+
+                if(!box){
+                    return;
+                }
+
+                const obs =
+                    new MutationObserver(
+                        function(){
+
+                            const ctx =
+                                window.YHTIS_TOOL_MODAL_CONTEXT_V1;
+
+                            if(
+                                !ctx
+                                ||
+                                box.closest(
+                                    "#yhtisToolPanelOverlayV1"
+                                )
+                                ||
+                                box.style.display === "none"
+                                ||
+                                !box.children.length
+                            ){
+                                return;
+                            }
+
+                            const titles = {
+                                strongest:
+                                    "👑 最強一鍵",
+                                strategy:
+                                    "🎯 選股策略",
+                                activity:
+                                    "⚡ 活躍條件"
+                            };
+
+                            setTimeout(
+                                function(){
+
+                                    if(
+                                        window.YHTIS_TOOL_MODAL_CONTEXT_V1
+                                        === ctx
+                                    ){
+                                        window.yhtisOpenMasterSuggestionsModalV1(
+                                            titles[ctx]
+                                            || "YHTIS 結果"
+                                        );
+                                    }
+                                },
+                                0
+                            );
+                        }
+                    );
+
+                obs.observe(
+                    box,
+                    {
+                        childList:true,
+                        subtree:true,
+                        attributes:true,
+                        attributeFilter:[
+                            "style"
+                        ]
+                    }
+                );
+
+            },
+            0
+        );
+    }
+
+
     strategyTrigger.addEventListener(
         "click",
         function(ev){
 
+            ev.preventDefault();
             ev.stopPropagation();
-
-            const open =
-                strategyPanel.style.display
-                === "flex";
 
             closeMenus();
 
-            if(!open){
-                strategyPanel.style.display =
-                    "flex";
-            }
+            window.yhtisOpenExistingToolModalV1(
+                strategyPanel,
+                "🎯 選股策略",
+                "strategy",
+                "flex"
+            );
         }
     );
 
@@ -12851,18 +13290,17 @@ function yhtisBuildCompactHierarchy(){
         "click",
         function(ev){
 
+            ev.preventDefault();
             ev.stopPropagation();
-
-            const open =
-                activityPanel.style.display
-                === "flex";
 
             closeMenus();
 
-            if(!open){
-                activityPanel.style.display =
-                    "flex";
-            }
+            window.yhtisOpenExistingToolModalV1(
+                activityPanel,
+                "⚡ 活躍條件",
+                "activity",
+                "flex"
+            );
         }
     );
 
@@ -12873,6 +13311,15 @@ function yhtisBuildCompactHierarchy(){
     document.addEventListener(
         "click",
         function(ev){
+
+            if(
+                ev.target.closest(
+                    "#yhtisToolPanelOverlayV1"
+                )
+            ){
+                return;
+            }
+
 
             if(
                 !shell.contains(
