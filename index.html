@@ -2161,6 +2161,38 @@ function drawMasterKline(
         }
     }
 
+    const yhtisTradeMapMobileV1 =
+        window.matchMedia(
+            "(max-width:600px)"
+        ).matches;
+
+    const yhtisTradeMapScrollV1 =
+        document.getElementById(
+            "yhtisTradeMapScrollV1"
+        );
+
+    if(yhtisTradeMapMobileV1){
+
+        canvas.style.setProperty(
+            "width",
+            "720px",
+            "important"
+        );
+
+        canvas.style.setProperty(
+            "height",
+            "430px",
+            "important"
+        );
+
+        canvas.style.setProperty(
+            "max-width",
+            "none",
+            "important"
+        );
+    }
+
+
     const ratio =
         window.devicePixelRatio
         || 1;
@@ -2195,13 +2227,46 @@ function drawMasterKline(
         H
     );
 
+    if(
+        yhtisTradeMapMobileV1
+        &&
+        yhtisTradeMapScrollV1
+        &&
+        yhtisTradeMapScrollV1.dataset.yhtisInitialScrollV1
+            !== "1"
+    ){
 
-    const pad = {
-        l:55,
-        r:95,
-        t:25,
-        b:30
-    };
+        yhtisTradeMapScrollV1.dataset.yhtisInitialScrollV1 =
+            "1";
+
+        requestAnimationFrame(
+            function(){
+
+                yhtisTradeMapScrollV1.scrollLeft =
+                    Math.max(
+                        0,
+                        yhtisTradeMapScrollV1.scrollWidth
+                        - yhtisTradeMapScrollV1.clientWidth
+                    );
+            }
+        );
+    }
+
+
+    const pad =
+        yhtisTradeMapMobileV1
+        ? {
+            l:48,
+            r:130,
+            t:28,
+            b:34
+        }
+        : {
+            l:55,
+            r:95,
+            t:25,
+            b:30
+        };
 
 
     let prices = [];
@@ -2591,21 +2656,53 @@ function drawMasterKline(
 
         ctx.setLineDash([]);
 
-        ctx.fillStyle =
-            "#e2e8f0";
-
-        ctx.font =
-            "12px sans-serif";
-
-        ctx.fillText(
+        const yhtisLevelTextV1 =
             label
             + " "
             + fmt(
                 value,
                 2
-            ),
-            W-pad.r+7,
-            yy+4
+            );
+
+        ctx.font =
+            yhtisTradeMapMobileV1
+            ? "11px sans-serif"
+            : "12px sans-serif";
+
+        const yhtisLevelXV1 =
+            W - pad.r + 7;
+
+        const yhtisLevelYV1 =
+            yy + 4;
+
+        if(yhtisTradeMapMobileV1){
+
+            const tw =
+                ctx.measureText(
+                    yhtisLevelTextV1
+                ).width;
+
+            ctx.fillStyle =
+                "rgba(2,6,23,.88)";
+
+            ctx.fillRect(
+                yhtisLevelXV1 - 3,
+                yhtisLevelYV1 - 13,
+                Math.min(
+                    tw + 7,
+                    pad.r - 10
+                ),
+                17
+            );
+        }
+
+        ctx.fillStyle =
+            "#e2e8f0";
+
+        ctx.fillText(
+            yhtisLevelTextV1,
+            yhtisLevelXV1,
+            yhtisLevelYV1
         );
     }
 
@@ -2733,13 +2830,36 @@ function drawMasterKline(
             ctx.fill();
 
             ctx.font =
-                "12px sans-serif";
+                yhtisTradeMapMobileV1
+                ? "11px sans-serif"
+                : "12px sans-serif";
 
-            ctx.fillText(
-                "YHTIS首次",
-                cx+7,
-                yy+4
-            );
+            if(
+                yhtisTradeMapMobileV1
+                &&
+                cx + 78 > W - pad.r
+            ){
+
+                ctx.textAlign =
+                    "right";
+
+                ctx.fillText(
+                    "YHTIS首次",
+                    cx - 7,
+                    yy + 4
+                );
+
+                ctx.textAlign =
+                    "start";
+            }
+            else{
+
+                ctx.fillText(
+                    "YHTIS首次",
+                    cx + 7,
+                    yy + 4
+                );
+            }
         }
     }
 }
@@ -3212,9 +3332,15 @@ function renderMaster(
 
             <div class="master-detail-content">
 
-                <canvas
-                    id="yhtisTradeMap"
-                ></canvas>
+                <!-- YHTIS_MOBILE_KLINE_READABILITY_V1 -->
+                <div
+                    id="yhtisTradeMapScrollV1"
+                    style="width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;"
+                >
+                    <canvas
+                        id="yhtisTradeMap"
+                    ></canvas>
+                </div>
 
                 <div
                     class="master-muted"
