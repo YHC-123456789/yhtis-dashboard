@@ -13,16 +13,16 @@
     "High": 30.35,
     "Low": 30.35,
     "ChangePct": 0.0,
-    "Date": "2026-09-10",
-    "日期": "2026-09-10",
-    "MIS_Date": "20260910",
+    "Date": "2026-09-11",
+    "日期": "2026-09-11",
+    "MIS_Date": "20260911",
     "MIS_Time": "13:30:00",
-    "PriceSource": "last",
-    "TradePrice": 30.35,
+    "PriceSource": "locked_price",
+    "TradePrice": null,
     "EstimatePrice": null,
     "DisplayPrice": 30.35,
     "IsEstimated": false,
-    "RawLast": 30.35,
+    "RawLast": null,
     "RawBid": 30.2,
     "RawAsk": 30.35,
     "PriceGuard": "OK"
@@ -1512,8 +1512,8 @@
   "YHTIS綜合判讀": "🟡 震盪｜共振 ⚪ WATCH",
   "行情同步": {
     "來源": "data/intraday/latest.csv",
-    "MIS_Date": "20260910",
-    "日期": "2026-09-10",
+    "MIS_Date": "20260911",
+    "日期": "2026-09-11",
     "價格欄位": "Price"
   }
 }

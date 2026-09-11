@@ -9,17 +9,17 @@
     "DisplayPrice": 19.95,
     "IsEstimated": false,
     "RawLast": 19.95,
-    "RawBid": 19.45,
+    "RawBid": 18.3,
     "RawAsk": 20.0,
-    "PrevClose": 20.05,
+    "PrevClose": 19.95,
     "PriceGuard": "OK",
     "Open": 19.95,
     "High": 19.95,
     "Low": 19.95,
-    "ChangePct": -0.4987531172069848,
+    "ChangePct": 0.0,
     "PriceSource": "last",
     "MIS_Time": "13:30:00",
-    "MIS_Date": "20260910",
+    "MIS_Date": "20260911",
     "MarketChannel": "otc",
     "Market": "TPEx",
     "TransactionCount": 2.0,
@@ -29,9 +29,9 @@
     "收盤": 19.95,
     "最新價": 19.95,
     "現在價格": 19.95,
-    "前收": 20.05,
-    "Date": "2026-09-10",
-    "日期": "2026-09-10"
+    "前收": 19.95,
+    "Date": "2026-09-11",
+    "日期": "2026-09-11"
   },
   "基本面目標": {},
   "基本面估值": {},
@@ -1603,8 +1603,8 @@
   "YHTIS綜合判讀": "🟡 震盪｜🔥 二次起漲啟動｜共振 🔵 B",
   "行情同步": {
     "來源": "data/intraday/latest.csv",
-    "MIS_Date": "20260910",
-    "日期": "2026-09-10",
+    "MIS_Date": "20260911",
+    "日期": "2026-09-11",
     "價格欄位": "Price"
   }
 }
