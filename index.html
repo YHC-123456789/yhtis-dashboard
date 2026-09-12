@@ -88040,6 +88040,1209 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 
 
 
+<!-- YHTIS_INDUSTRY_MODAL_V1_START -->
+
+<style id="yhtisIndustryModalStyleV1">
+
+#yhtisIndustryModalV1 {
+    position:fixed;
+    inset:0;
+    z-index:999999;
+
+    display:none;
+
+    background:
+        rgba(2,8,18,.82);
+
+    backdrop-filter:
+        blur(7px);
+}
+
+#yhtisIndustryModalV1.yim-open {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.yim-shell {
+    width:min(
+        1180px,
+        calc(100% - 24px)
+    );
+
+    max-height:
+        calc(100vh - 32px);
+
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+
+    border:
+        1px solid
+        rgba(120,150,200,.30);
+
+    border-radius:20px;
+
+    background:#0b1322;
+
+    box-shadow:
+        0 24px 80px
+        rgba(0,0,0,.55);
+}
+
+.yim-head {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+
+    padding:17px 18px;
+
+    border-bottom:
+        1px solid
+        rgba(120,150,200,.18);
+}
+
+.yim-title {
+    font-size:22px;
+    font-weight:900;
+}
+
+.yim-subtitle {
+    margin-top:4px;
+    font-size:12px;
+    opacity:.68;
+}
+
+.yim-close {
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    border:
+        1px solid
+        rgba(150,170,210,.3);
+
+    background:
+        rgba(255,255,255,.04);
+
+    font-size:21px;
+    cursor:pointer;
+}
+
+.yim-body {
+    padding:14px;
+    overflow:auto;
+}
+
+.yim-topbar {
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+}
+
+.yim-back {
+    display:none;
+
+    border:
+        1px solid
+        rgba(120,150,200,.28);
+
+    border-radius:10px;
+    padding:8px 11px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    cursor:pointer;
+    font-weight:800;
+}
+
+.yim-grid {
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(180px,1fr)
+        );
+
+    gap:9px;
+}
+
+.yim-industry-card {
+    border:
+        1px solid
+        rgba(120,150,200,.22);
+
+    border-radius:14px;
+
+    padding:14px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    cursor:pointer;
+
+    text-align:left;
+}
+
+.yim-industry-card:hover {
+    background:
+        rgba(100,140,220,.12);
+}
+
+.yim-industry-name {
+    font-size:15px;
+    font-weight:850;
+}
+
+.yim-industry-count {
+    margin-top:5px;
+    font-size:22px;
+    font-weight:900;
+}
+
+.yim-stock-list {
+    display:none;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(270px,1fr)
+        );
+
+    gap:9px;
+}
+
+.yim-stock {
+    border:
+        1px solid
+        rgba(120,150,200,.20);
+
+    border-radius:13px;
+
+    padding:12px;
+
+    background:
+        rgba(255,255,255,.028);
+}
+
+.yim-stock-head {
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.yim-stock-name {
+    font-size:16px;
+    font-weight:850;
+}
+
+.yim-status {
+    font-size:12px;
+    font-weight:800;
+}
+
+.yim-meta {
+    display:grid;
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:6px;
+
+    margin-top:10px;
+}
+
+.yim-meta div {
+    padding:7px 8px;
+
+    border-radius:8px;
+
+    background:
+        rgba(130,150,190,.07);
+}
+
+.yim-meta span {
+    display:block;
+    font-size:10px;
+    opacity:.6;
+}
+
+.yim-meta b {
+    display:block;
+    margin-top:2px;
+    font-size:13px;
+}
+
+.yim-detail-btn {
+    width:100%;
+    margin-top:9px;
+
+    padding:8px;
+
+    border-radius:8px;
+
+    border:
+        1px solid
+        rgba(90,140,230,.35);
+
+    background:
+        rgba(70,120,220,.12);
+
+    cursor:pointer;
+    font-weight:800;
+}
+
+.yim-empty {
+    padding:30px;
+    text-align:center;
+    opacity:.65;
+}
+
+@media(max-width:700px) {
+
+    .yim-shell {
+        width:
+            calc(100% - 10px);
+
+        max-height:
+            calc(100vh - 10px);
+
+        border-radius:14px;
+    }
+
+    .yim-title {
+        font-size:19px;
+    }
+
+    .yim-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .yim-stock-list {
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+
+<div
+    id="yhtisIndustryModalV1"
+    aria-hidden="true"
+>
+
+    <div class="yim-shell">
+
+        <div class="yim-head">
+
+            <div>
+
+                <div
+                    id="yhtisIndustryTitleV1"
+                    class="yim-title"
+                >
+                    🏭 產業分類
+                </div>
+
+                <div
+                    id="yhtisIndustrySubtitleV1"
+                    class="yim-subtitle"
+                >
+                    持續追蹤股票依產業分類
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="yim-close"
+                onclick="yhtisIndustryCloseV1()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="yim-body">
+
+            <div class="yim-topbar">
+
+                <button
+                    type="button"
+                    id="yhtisIndustryBackV1"
+                    class="yim-back"
+                    onclick="yhtisIndustryHomeV1()"
+                >
+                    ← 返回產業分類
+                </button>
+
+            </div>
+
+
+            <div
+                id="yhtisIndustryGridV1"
+                class="yim-grid"
+            ></div>
+
+
+            <div
+                id="yhtisIndustryStocksV1"
+                class="yim-stock-list"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script id="yhtisIndustryModalScriptV1">
+
+(function(){
+
+    "use strict";
+
+    const DATA =
+        [{"code": "6933", "name": "AMAX-KY", "industry": "電腦及週邊設備", "status": "👑 主升段", "currentReturn": 64.524, "maxReturn": 70.18, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6538", "name": "倉和", "industry": "電子零組件業", "status": "👑 主升段", "currentReturn": 90.674, "maxReturn": 63.212, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3374", "name": "精材", "industry": "半導體業", "status": "👑 主升段", "currentReturn": 53.223, "maxReturn": 56.198, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6226", "name": "光鼎", "industry": "光電業", "status": "👑 主升段", "currentReturn": 28.755, "maxReturn": 52.575, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "4939", "name": "亞電", "industry": "電子零組件業", "status": "👑 主升段", "currentReturn": 26.38, "maxReturn": 44.939, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "1303", "name": "南亞", "industry": "塑膠工業", "status": "👑 主升段", "currentReturn": 30.278, "maxReturn": 37.778, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "7711", "name": "永擎", "industry": "電腦及週邊設備", "status": "🔥 持續爆發", "currentReturn": 6.734, "maxReturn": 35.678, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "8039", "name": "台虹", "industry": "電子零組件業", "status": "🟡 持續觀察", "currentReturn": 2.642, "maxReturn": 33.019, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "5314", "name": "世紀民生科技股份有限公司", "industry": "其他", "status": "👑 主升段", "currentReturn": 47.378, "maxReturn": 32.867, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3234", "name": "光環科技股份有限公司", "industry": "通信網路業", "status": "🔥 持續爆發", "currentReturn": 12.952, "maxReturn": 32.53, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3081", "name": "聯亞", "industry": "通信網路業", "status": "🟡 持續觀察", "currentReturn": 1.627, "maxReturn": 28.933, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3406", "name": "玉晶光", "industry": "光電業", "status": "👑 主升段", "currentReturn": 27.098, "maxReturn": 28.297, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "3441", "name": "聯一光電股份有限公司", "industry": "光電業", "status": "👑 主升段", "currentReturn": 47.556, "maxReturn": 28.0, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6213", "name": "聯茂", "industry": "電子零組件業", "status": "🔥 持續爆發", "currentReturn": 5.492, "maxReturn": 24.145, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "1815", "name": "富喬工業股份有限公司", "industry": "電子零組件業", "status": "👑 主升段", "currentReturn": 18.605, "maxReturn": 23.588, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3450", "name": "聯鈞", "industry": "半導體業", "status": "🟡 持續觀察", "currentReturn": 0.986, "maxReturn": 23.471, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6949", "name": "沛爾生醫-創", "industry": "生技醫療", "status": "🔴 失效", "currentReturn": -95.709, "maxReturn": 20.648, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3498", "name": "陽程", "industry": "其他電子業", "status": "🟢 強勢追蹤", "currentReturn": 3.784, "maxReturn": 19.73, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3443", "name": "創意", "industry": "半導體業", "status": "🔥 持續爆發", "currentReturn": 14.073, "maxReturn": 18.733, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6187", "name": "萬潤", "industry": "半導體業", "status": "🟢 強勢追蹤", "currentReturn": 3.734, "maxReturn": 18.672, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "2465", "name": "麗臺", "industry": "電腦及週邊設備", "status": "🟡 持續觀察", "currentReturn": -1.854, "maxReturn": 17.23, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3605", "name": "宏致", "industry": "電子零組件業", "status": "🔥 持續爆發", "currentReturn": 6.061, "maxReturn": 16.017, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "2301", "name": "光寶科", "industry": "電腦及週邊設備", "status": "🟠 轉弱追蹤", "currentReturn": -3.484, "maxReturn": 14.286, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "8046", "name": "南電", "industry": "電子零組件業", "status": "🟠 轉弱追蹤", "currentReturn": -4.846, "maxReturn": 14.097, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6426", "name": "統新", "industry": "通信網路業", "status": "🔥 持續爆發", "currentReturn": 16.378, "maxReturn": 14.066, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "6716", "name": "應廣", "industry": "半導體業", "status": "🟠 轉弱追蹤", "currentReturn": -6.122, "maxReturn": 12.653, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3629", "name": "地心引力股份有限公司", "industry": "未分類", "status": "🔥 持續爆發", "currentReturn": 11.142, "maxReturn": 11.421, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "3532", "name": "台勝科", "industry": "半導體業", "status": "🔥 持續爆發", "currentReturn": 12.351, "maxReturn": 11.155, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6907", "name": "雅特力科技(開曼)股份有限公司", "industry": "半導體業", "status": "🟡 持續觀察", "currentReturn": 0.0, "maxReturn": 10.833, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "2408", "name": "南亞科", "industry": "半導體業", "status": "🟡 持續觀察", "currentReturn": -1.597, "maxReturn": 10.778, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "1459", "name": "聯發", "industry": "紡織纖維", "status": "🟢 強勢追蹤", "currentReturn": 5.442, "maxReturn": 8.844, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "1709", "name": "和益", "industry": "化學工業", "status": "🟢 強勢追蹤", "currentReturn": 4.473, "maxReturn": 8.802, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "8996", "name": "高力", "industry": "電機機械", "status": "🟡 持續觀察", "currentReturn": 1.527, "maxReturn": 7.634, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "7750", "name": "新代", "industry": "電機機械", "status": "🔴 失效", "currentReturn": -13.261, "maxReturn": 7.609, "days": "10", "firstDate": "2026-08-28", "lastSignal": "2026-08-28"}, {"code": "4931", "name": "新盛力科技股份有限公司", "industry": "電腦及週邊設備", "status": "🟠 轉弱追蹤", "currentReturn": -7.143, "maxReturn": 6.746, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "2033", "name": "佳大", "industry": "鋼鐵工業", "status": "🟢 強勢追蹤", "currentReturn": 10.721, "maxReturn": 6.628, "days": "10", "firstDate": "2026-08-28", "lastSignal": "2026-08-28"}, {"code": "5351", "name": "鈺創", "industry": "半導體業", "status": "🔴 失效", "currentReturn": -8.051, "maxReturn": 4.661, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "4534", "name": "慶騰", "industry": "電機機械", "status": "🟠 轉弱追蹤", "currentReturn": -5.603, "maxReturn": 4.584, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "2359", "name": "所羅門", "industry": "其他電子業", "status": "🔴 失效", "currentReturn": -12.027, "maxReturn": 4.124, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "8093", "name": "保銳科技股份有限公司", "industry": "電子零組件業", "status": "🟠 轉弱追蹤", "currentReturn": -6.593, "maxReturn": 4.029, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "4556", "name": "旭然", "industry": "其他", "status": "🟢 強勢追蹤", "currentReturn": 27.322, "maxReturn": 3.634, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "7795", "name": "長廣", "industry": "電子零組件業", "status": "🔴 失效", "currentReturn": -10.739, "maxReturn": 3.521, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "2491", "name": "吉祥全", "industry": "光電業", "status": "🔴 失效", "currentReturn": -22.807, "maxReturn": 3.119, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "2351", "name": "順德", "industry": "半導體業", "status": "🟡 持續觀察", "currentReturn": -2.5, "maxReturn": 1.875, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "6805", "name": "富世達", "industry": "電子零組件業", "status": "🟠 轉弱追蹤", "currentReturn": -3.371, "maxReturn": 1.798, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "3504", "name": "揚明光", "industry": "光電業", "status": "🔴 失效", "currentReturn": -14.24, "maxReturn": 1.594, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "6141", "name": "柏承", "industry": "電子零組件業", "status": "🔴 失效", "currentReturn": -12.371, "maxReturn": 0.859, "days": "10", "firstDate": "2026-08-28", "lastSignal": "2026-08-28"}, {"code": "4747", "name": "強生化學製藥廠股份有限公司", "industry": "生技醫療", "status": "🔴 失效", "currentReturn": -12.212, "maxReturn": 0.0, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "3489", "name": "森寶開發股份有限公司", "industry": "建材營造", "status": "🟠 轉弱追蹤", "currentReturn": -5.195, "maxReturn": -0.649, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "3229", "name": "晟鈦", "industry": "電子零組件業", "status": "🟢 強勢追蹤", "currentReturn": 13.065, "maxReturn": -2.68, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6103", "name": "合邦電子股份有限公司", "industry": "半導體業", "status": "🔴 失效", "currentReturn": -35.532, "maxReturn": -4.255, "days": "10", "firstDate": "2026-08-28", "lastSignal": "2026-08-28"}, {"code": "1515", "name": "力山", "industry": "電機機械", "status": "🔴 失效", "currentReturn": -12.712, "maxReturn": -6.497, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "4188", "name": "安克生醫股份有限公司", "industry": "生技醫療", "status": "🔴 失效", "currentReturn": -8.1, "maxReturn": -7.788, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}, {"code": "6715", "name": "嘉基", "industry": "電子零組件業", "status": "🔴 失效", "currentReturn": -20.322, "maxReturn": -8.302, "days": "14", "firstDate": "2026-08-24", "lastSignal": "2026-08-28"}, {"code": "6446", "name": "藥華藥", "industry": "生技醫療", "status": "🔴 失效", "currentReturn": -17.949, "maxReturn": -11.859, "days": "11", "firstDate": "2026-08-27", "lastSignal": "2026-08-28"}];
+
+
+    function esc(v){
+
+        return String(
+            v === null
+            ||
+            v === undefined
+            ? ""
+            : v
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        );
+
+    }
+
+
+    function pct(v){
+
+        if(
+            v === null
+            ||
+            v === undefined
+            ||
+            Number.isNaN(
+                Number(v)
+            )
+        ){
+            return "—";
+        }
+
+        const n =
+            Number(v);
+
+        return (
+            (
+                n > 0
+                ? "+"
+                : ""
+            )
+            +
+            n.toFixed(2)
+            +
+            "%"
+        );
+
+    }
+
+
+    function groupData(){
+
+        const map = {};
+
+        DATA.forEach(function(r){
+
+            const key =
+                r.industry
+                ||
+                "未分類";
+
+            if(!map[key]){
+                map[key] = [];
+            }
+
+            map[key].push(r);
+
+        });
+
+        return map;
+
+    }
+
+
+    window.yhtisIndustryHomeV1 =
+        function(){
+
+            const map =
+                groupData();
+
+            const entries =
+                Object.entries(map)
+                .sort(function(a,b){
+
+                    if(
+                        b[1].length
+                        !==
+                        a[1].length
+                    ){
+                        return (
+                            b[1].length
+                            -
+                            a[1].length
+                        );
+                    }
+
+                    return a[0]
+                        .localeCompare(
+                            b[0],
+                            "zh-Hant"
+                        );
+
+                });
+
+
+            const grid =
+                document.getElementById(
+                    "yhtisIndustryGridV1"
+                );
+
+            const stocks =
+                document.getElementById(
+                    "yhtisIndustryStocksV1"
+                );
+
+            const back =
+                document.getElementById(
+                    "yhtisIndustryBackV1"
+                );
+
+            const title =
+                document.getElementById(
+                    "yhtisIndustryTitleV1"
+                );
+
+            const sub =
+                document.getElementById(
+                    "yhtisIndustrySubtitleV1"
+                );
+
+
+            title.textContent =
+                "🏭 產業分類";
+
+            sub.textContent =
+                "持續追蹤 "
+                +
+                DATA.length
+                +
+                " 檔｜點產業查看股票";
+
+
+            back.style.display =
+                "none";
+
+            stocks.style.display =
+                "none";
+
+            grid.style.display =
+                "grid";
+
+
+            let html = "";
+
+
+            html +=
+                '<button class="yim-industry-card" '
+                +
+                'onclick="yhtisIndustryShowV1(\'__ALL__\')">'
+                +
+                '<div class="yim-industry-name">'
+                +
+                '📌 全部追蹤'
+                +
+                '</div>'
+                +
+                '<div class="yim-industry-count">'
+                +
+                DATA.length
+                +
+                '</div>'
+                +
+                '</button>';
+
+
+            entries.forEach(function(pair){
+
+                const name =
+                    pair[0];
+
+                const rows =
+                    pair[1];
+
+                html +=
+                    '<button '
+                    +
+                    'class="yim-industry-card" '
+                    +
+                    'data-industry="'
+                    +
+                    esc(name)
+                    +
+                    '">'
+                    +
+                    '<div class="yim-industry-name">'
+                    +
+                    esc(name)
+                    +
+                    '</div>'
+                    +
+                    '<div class="yim-industry-count">'
+                    +
+                    rows.length
+                    +
+                    '</div>'
+                    +
+                    '</button>';
+
+            });
+
+
+            grid.innerHTML =
+                html;
+
+
+            grid
+            .querySelectorAll(
+                "[data-industry]"
+            )
+            .forEach(function(btn){
+
+                btn.addEventListener(
+                    "click",
+                    function(){
+
+                        window
+                        .yhtisIndustryShowV1(
+                            btn.getAttribute(
+                                "data-industry"
+                            )
+                        );
+
+                    }
+                );
+
+            });
+
+        };
+
+
+    window.yhtisIndustryShowV1 =
+        function(industry){
+
+            let rows =
+                DATA.slice();
+
+            let label =
+                "全部追蹤";
+
+
+            if(
+                industry
+                !==
+                "__ALL__"
+            ){
+
+                rows =
+                    DATA.filter(
+                        function(r){
+                            return (
+                                r.industry
+                                ===
+                                industry
+                            );
+                        }
+                    );
+
+                label =
+                    industry;
+
+            }
+
+
+            rows.sort(
+                function(a,b){
+
+                    const ar =
+                        Number(
+                            a.currentReturn
+                            ||
+                            -999999
+                        );
+
+                    const br =
+                        Number(
+                            b.currentReturn
+                            ||
+                            -999999
+                        );
+
+                    return br - ar;
+
+                }
+            );
+
+
+            const grid =
+                document.getElementById(
+                    "yhtisIndustryGridV1"
+                );
+
+            const stocks =
+                document.getElementById(
+                    "yhtisIndustryStocksV1"
+                );
+
+            const back =
+                document.getElementById(
+                    "yhtisIndustryBackV1"
+                );
+
+            const title =
+                document.getElementById(
+                    "yhtisIndustryTitleV1"
+                );
+
+            const sub =
+                document.getElementById(
+                    "yhtisIndustrySubtitleV1"
+                );
+
+
+            grid.style.display =
+                "none";
+
+            stocks.style.display =
+                "grid";
+
+            back.style.display =
+                "inline-block";
+
+            title.textContent =
+                "🏭 "
+                +
+                label;
+
+            sub.textContent =
+                "追蹤中 "
+                +
+                rows.length
+                +
+                " 檔";
+
+
+            if(!rows.length){
+
+                stocks.innerHTML =
+                    '<div class="yim-empty">'
+                    +
+                    '目前沒有股票'
+                    +
+                    '</div>';
+
+                return;
+            }
+
+
+            stocks.innerHTML =
+                rows.map(
+                    function(r){
+
+                        return (
+                            '<div class="yim-stock">'
+                            +
+                            '<div class="yim-stock-head">'
+                            +
+                            '<div class="yim-stock-name">'
+                            +
+                            esc(r.code)
+                            +
+                            ' '
+                            +
+                            esc(r.name)
+                            +
+                            '</div>'
+                            +
+                            '<div class="yim-status">'
+                            +
+                            esc(r.status)
+                            +
+                            '</div>'
+                            +
+                            '</div>'
+
+                            +
+                            '<div class="yim-meta">'
+
+                            +
+                            '<div>'
+                            +
+                            '<span>目前累積</span>'
+                            +
+                            '<b>'
+                            +
+                            pct(r.currentReturn)
+                            +
+                            '</b>'
+                            +
+                            '</div>'
+
+                            +
+                            '<div>'
+                            +
+                            '<span>最高報酬</span>'
+                            +
+                            '<b>'
+                            +
+                            pct(r.maxReturn)
+                            +
+                            '</b>'
+                            +
+                            '</div>'
+
+                            +
+                            '<div>'
+                            +
+                            '<span>追蹤日數</span>'
+                            +
+                            '<b>'
+                            +
+                            esc(r.days || "—")
+                            +
+                            '</b>'
+                            +
+                            '</div>'
+
+                            +
+                            '<div>'
+                            +
+                            '<span>最近訊號</span>'
+                            +
+                            '<b>'
+                            +
+                            esc(r.lastSignal || "—")
+                            +
+                            '</b>'
+                            +
+                            '</div>'
+
+                            +
+                            '</div>'
+
+                            +
+                            '<button '
+                            +
+                            'class="yim-detail-btn" '
+                            +
+                            'data-stock-code="'
+                            +
+                            esc(r.code)
+                            +
+                            '">'
+                            +
+                            '🔎 個股專業分析'
+                            +
+                            '</button>'
+
+                            +
+                            '</div>'
+                        );
+
+                    }
+                )
+                .join("");
+
+
+            stocks
+            .querySelectorAll(
+                "[data-stock-code]"
+            )
+            .forEach(function(btn){
+
+                btn.addEventListener(
+                    "click",
+                    function(){
+
+                        window
+                        .yhtisIndustryOpenStockV1(
+                            btn.getAttribute(
+                                "data-stock-code"
+                            )
+                        );
+
+                    }
+                );
+
+            });
+
+        };
+
+
+    window.yhtisIndustryOpenStockV1 =
+        function(code){
+
+            window
+            .yhtisIndustryCloseV1();
+
+
+            const direct =
+                document.querySelector(
+                    '[data-master-code="'
+                    +
+                    code
+                    +
+                    '"]'
+                );
+
+            if(direct){
+
+                direct.scrollIntoView({
+                    behavior:"smooth",
+                    block:"center"
+                });
+
+                setTimeout(
+                    function(){
+                        direct.click();
+                    },
+                    250
+                );
+
+                return;
+            }
+
+
+            const inputs =
+                Array.from(
+                    document.querySelectorAll(
+                        "input"
+                    )
+                );
+
+
+            const targetInput =
+                inputs.find(
+                    function(inp){
+
+                        const text =
+                            (
+                                inp.placeholder
+                                ||
+                                ""
+                            )
+                            +
+                            " "
+                            +
+                            (
+                                inp.getAttribute(
+                                    "aria-label"
+                                )
+                                ||
+                                ""
+                            );
+
+                        return (
+                            /股票|代號|搜尋|查詢/i
+                            .test(text)
+                        );
+
+                    }
+                );
+
+
+            if(targetInput){
+
+                targetInput.focus();
+
+                targetInput.value =
+                    code;
+
+                targetInput.dispatchEvent(
+                    new Event(
+                        "input",
+                        {
+                            bubbles:true
+                        }
+                    )
+                );
+
+                targetInput.dispatchEvent(
+                    new Event(
+                        "change",
+                        {
+                            bubbles:true
+                        }
+                    )
+                );
+
+                targetInput.dispatchEvent(
+                    new KeyboardEvent(
+                        "keydown",
+                        {
+                            key:"Enter",
+                            code:"Enter",
+                            bubbles:true
+                        }
+                    )
+                );
+
+                return;
+            }
+
+
+            alert(
+                "找不到個股查詢入口，"
+                +
+                "請在原本個股查詢輸入："
+                +
+                code
+            );
+
+        };
+
+
+    window.yhtisIndustryOpenV1 =
+        function(){
+
+            const modal =
+                document.getElementById(
+                    "yhtisIndustryModalV1"
+                );
+
+            modal.classList.add(
+                "yim-open"
+            );
+
+            modal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            document.body.style.overflow =
+                "hidden";
+
+            window
+            .yhtisIndustryHomeV1();
+
+        };
+
+
+    window.yhtisIndustryCloseV1 =
+        function(){
+
+            const modal =
+                document.getElementById(
+                    "yhtisIndustryModalV1"
+                );
+
+            modal.classList.remove(
+                "yim-open"
+            );
+
+            modal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            document.body.style.overflow =
+                "";
+
+        };
+
+
+    function installButton(){
+
+        if(
+            document.getElementById(
+                "yhtisIndustryButtonV1"
+            )
+        ){
+            return;
+        }
+
+
+        const buttons =
+            Array.from(
+                document.querySelectorAll(
+                    "button"
+                )
+            );
+
+
+        const strongest =
+            buttons.find(
+                function(btn){
+                    return (
+                        btn.textContent
+                        &&
+                        btn.textContent
+                        .includes(
+                            "最強一鍵"
+                        )
+                    );
+                }
+            );
+
+
+        const btn =
+            document.createElement(
+                "button"
+            );
+
+        btn.id =
+            "yhtisIndustryButtonV1";
+
+        btn.type =
+            "button";
+
+        btn.textContent =
+            "🏭 產業分類";
+
+        btn.onclick =
+            window.yhtisIndustryOpenV1;
+
+
+        if(strongest){
+
+            btn.className =
+                strongest.className;
+
+            btn.style.cssText =
+                strongest.style.cssText;
+
+            strongest.insertAdjacentElement(
+                "afterend",
+                btn
+            );
+
+            return;
+        }
+
+
+        btn.style.position =
+            "fixed";
+
+        btn.style.right =
+            "16px";
+
+        btn.style.top =
+            "92px";
+
+        btn.style.zIndex =
+            "99990";
+
+        btn.style.padding =
+            "10px 14px";
+
+        btn.style.borderRadius =
+            "12px";
+
+        btn.style.cursor =
+            "pointer";
+
+        document.body.appendChild(
+            btn
+        );
+
+    }
+
+
+    const modal =
+        document.getElementById(
+            "yhtisIndustryModalV1"
+        );
+
+
+    modal.addEventListener(
+        "click",
+        function(e){
+
+            if(e.target === modal){
+                window
+                .yhtisIndustryCloseV1();
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(e){
+
+            if(e.key === "Escape"){
+                window
+                .yhtisIndustryCloseV1();
+            }
+
+        }
+    );
+
+
+    [
+        100,
+        600,
+        1500,
+        3000
+    ]
+    .forEach(
+        function(ms){
+
+            setTimeout(
+                installButton,
+                ms
+            );
+
+        }
+    );
+
+})();
+
+</script>
+
+<!-- YHTIS_INDUSTRY_MODAL_V1_END -->
+
+
+
 <!-- YHTIS_GLOBAL_NAV_V133_START -->
 
 <style>
