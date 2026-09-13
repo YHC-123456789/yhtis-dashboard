@@ -83685,13 +83685,13 @@ Risk Score：
 
     四條策略獨立運作。
     爆發潛力不代表適合追價，
-    穩健起漲與高風險爆發策略不混合。
+    起漲準備候選與高風險爆發策略不混合。
 
     </div>
 
 
     
-    <h3 id="stable-start">🟢 穩健起漲 Top5</h3>
+    <h3 id="stable-start">🟡 起漲準備 Top5｜非正式「剛起漲」</h3>
 
     <div style="overflow-x:auto;">
     <table>
@@ -89240,6 +89240,989 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 </script>
 
 <!-- YHTIS_INDUSTRY_MODAL_V1_END -->
+
+
+
+<!-- YHTIS_MODAL_HUB_V1_START -->
+
+<style id="yhtisModalHubStyleV1">
+
+#yhtisModalHubV1{
+    margin:12px auto 16px;
+    width:min(1180px,calc(100% - 20px));
+    padding:12px;
+
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(145px,1fr));
+
+    gap:8px;
+
+    border:
+        1px solid
+        rgba(120,150,210,.20);
+
+    border-radius:16px;
+
+    background:
+        rgba(10,20,38,.92);
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.22);
+}
+
+.yhtis-hub-btn-v1{
+    min-height:48px;
+
+    padding:9px 10px;
+
+    border-radius:11px;
+
+    border:
+        1px solid
+        rgba(120,150,210,.24);
+
+    background:
+        rgba(255,255,255,.045);
+
+    color:inherit;
+
+    font-size:13px;
+    font-weight:850;
+
+    cursor:pointer;
+}
+
+.yhtis-hub-btn-v1:hover{
+    background:
+        rgba(90,130,220,.14);
+}
+
+#yhtisSectionModalV1{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:60000;
+
+    background:
+        rgba(2,8,18,.84);
+
+    backdrop-filter:
+        blur(6px);
+
+    align-items:center;
+    justify-content:center;
+}
+
+#yhtisSectionModalV1.yhtis-open-v1{
+    display:flex;
+}
+
+.yhtis-section-shell-v1{
+    width:min(
+        1280px,
+        calc(100% - 20px)
+    );
+
+    max-height:
+        calc(100vh - 24px);
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(120,150,210,.28);
+
+    border-radius:18px;
+
+    background:#091322;
+
+    box-shadow:
+        0 24px 80px
+        rgba(0,0,0,.58);
+}
+
+.yhtis-section-head-v1{
+    flex:0 0 auto;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 16px;
+
+    border-bottom:
+        1px solid
+        rgba(120,150,210,.18);
+}
+
+#yhtisSectionTitleV1{
+    font-size:20px;
+    font-weight:900;
+}
+
+#yhtisSectionCloseV1{
+    width:42px;
+    height:42px;
+
+    border-radius:11px;
+
+    border:
+        1px solid
+        rgba(150,170,210,.28);
+
+    background:
+        rgba(255,255,255,.04);
+
+    color:inherit;
+
+    font-size:21px;
+
+    cursor:pointer;
+}
+
+#yhtisSectionBodyV1{
+    flex:1 1 auto;
+
+    min-height:0;
+
+    overflow:auto;
+
+    padding:14px;
+}
+
+#yhtisSectionBodyV1 > *{
+    width:100% !important;
+    max-width:none !important;
+}
+
+@media(max-width:700px){
+
+    #yhtisModalHubV1{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        width:
+            calc(100% - 10px);
+
+        padding:8px;
+    }
+
+    .yhtis-hub-btn-v1{
+        min-height:44px;
+        font-size:12px;
+    }
+
+    .yhtis-section-shell-v1{
+        width:
+            calc(100% - 8px);
+
+        max-height:
+            calc(100vh - 8px);
+
+        border-radius:13px;
+    }
+
+    #yhtisSectionTitleV1{
+        font-size:17px;
+    }
+
+}
+
+</style>
+
+
+<div id="yhtisModalHubV1">
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="strongest"
+    >
+        👑 最強一鍵
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="lifecycle"
+    >
+        📍 起漲生命週期
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="tracking"
+    >
+        📌 持續追蹤
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="industry"
+    >
+        🏭 產業分類
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="golden"
+    >
+        🌟 Golden Entry
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="relaunch"
+    >
+        🌿 二次起漲
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="pre"
+    >
+        🌱 PRE 起漲
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="explosion"
+    >
+        ⚡ 爆發／多軌
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="final"
+    >
+        🎯 最終交易
+    </button>
+
+    <button
+        type="button"
+        class="yhtis-hub-btn-v1"
+        data-yhtis-hub-action="tomorrow"
+    >
+        📅 明日觀察
+    </button>
+
+</div>
+
+
+<div
+    id="yhtisSectionModalV1"
+    aria-hidden="true"
+>
+
+    <div class="yhtis-section-shell-v1">
+
+        <div class="yhtis-section-head-v1">
+
+            <div id="yhtisSectionTitleV1">
+                YHTIS
+            </div>
+
+            <button
+                id="yhtisSectionCloseV1"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div id="yhtisSectionBodyV1"></div>
+
+    </div>
+
+</div>
+
+
+<script id="yhtisModalHubScriptV1">
+
+(function(){
+
+    "use strict";
+
+    if(
+        window.__YHTIS_MODAL_HUB_V1__
+    ){
+        return;
+    }
+
+    window.__YHTIS_MODAL_HUB_V1__ =
+        true;
+
+
+    const modal =
+        document.getElementById(
+            "yhtisSectionModalV1"
+        );
+
+    const body =
+        document.getElementById(
+            "yhtisSectionBodyV1"
+        );
+
+    const title =
+        document.getElementById(
+            "yhtisSectionTitleV1"
+        );
+
+    let moved =
+        null;
+
+    let oldBodyOverflow =
+        "";
+
+
+    function norm(v){
+
+        return String(
+            v || ""
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
+        .trim();
+
+    }
+
+
+    function closeSection(){
+
+        if(moved){
+
+            const node =
+                moved.node;
+
+            const marker =
+                moved.marker;
+
+            if(
+                marker
+                &&
+                marker.parentNode
+            ){
+
+                marker.parentNode
+                .insertBefore(
+                    node,
+                    marker
+                );
+
+                marker.remove();
+
+            }
+
+            moved = null;
+
+        }
+
+        modal.classList.remove(
+            "yhtis-open-v1"
+        );
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.style.overflow =
+            oldBodyOverflow;
+
+    }
+
+
+    function openNode(
+        node,
+        label
+    ){
+
+        if(!node){
+
+            alert(
+                "目前找不到："
+                +
+                label
+            );
+
+            return;
+
+        }
+
+        closeSection();
+
+        const marker =
+            document.createComment(
+                "YHTIS_MODAL_RETURN_V1"
+            );
+
+        node.parentNode
+            .insertBefore(
+                marker,
+                node
+            );
+
+        moved = {
+            node:node,
+            marker:marker
+        };
+
+        body.appendChild(
+            node
+        );
+
+        title.textContent =
+            label;
+
+        oldBodyOverflow =
+            document.body.style.overflow;
+
+        document.body.style.overflow =
+            "hidden";
+
+        modal.classList.add(
+            "yhtis-open-v1"
+        );
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        body.scrollTop =
+            0;
+
+    }
+
+
+    function openKnown(
+        id,
+        label
+    ){
+
+        const node =
+            document.getElementById(
+                id
+            );
+
+        openNode(
+            node,
+            label
+        );
+
+    }
+
+
+    function findLifecycleRoot(){
+
+        const all =
+            Array.from(
+                document.querySelectorAll(
+                    "span,h1,h2,h3,h4,div"
+                )
+            );
+
+        const head =
+            all.find(
+                function(el){
+
+                    const t =
+                        norm(
+                            el.textContent
+                        );
+
+                    return (
+                        t.includes(
+                            "📍 起漲生命週期"
+                        )
+                        &&
+                        t.length < 100
+                    );
+
+                }
+            );
+
+        if(!head){
+            return null;
+        }
+
+        let cur =
+            head;
+
+        const required = [
+            "強力買入",
+            "強勢確認",
+            "黃金交叉",
+            "剛起漲",
+        ];
+
+        for(
+            let i = 0;
+            i < 10;
+            i++
+        ){
+
+            if(
+                !cur
+                ||
+                cur === document.body
+            ){
+                break;
+            }
+
+            const text =
+                norm(
+                    cur.innerText
+                );
+
+            if(
+                required.every(
+                    function(k){
+                        return text.includes(k);
+                    }
+                )
+            ){
+                return cur;
+            }
+
+            cur =
+                cur.parentElement;
+
+        }
+
+        return null;
+
+    }
+
+
+    function oldButtons(
+        root
+    ){
+
+        return Array.from(
+            (
+                root
+                ||
+                document
+            )
+            .querySelectorAll(
+                'button,a,[role="button"]'
+            )
+        )
+        .filter(
+            function(el){
+
+                return !el.closest(
+                    "#yhtisModalHubV1"
+                );
+
+            }
+        );
+
+    }
+
+
+    function clickByText(
+        label,
+        root
+    ){
+
+        const buttons =
+            oldButtons(
+                root
+            );
+
+        const wanted =
+            norm(label);
+
+        let btn =
+            buttons.find(
+                function(el){
+
+                    return (
+                        norm(
+                            el.textContent
+                        )
+                        ===
+                        wanted
+                    );
+
+                }
+            );
+
+        if(!btn){
+
+            btn =
+                buttons.find(
+                    function(el){
+
+                        return norm(
+                            el.textContent
+                        )
+                        .includes(
+                            wanted
+                        );
+
+                    }
+                );
+
+        }
+
+        if(!btn){
+            return false;
+        }
+
+        closeSection();
+
+        btn.click();
+
+        return true;
+
+    }
+
+
+    function openMasterFilter(
+        label
+    ){
+
+        const root =
+            document.getElementById(
+                "yhtisMasterQuickFilters"
+            );
+
+        if(
+            root
+            &&
+            clickByText(
+                label,
+                root
+            )
+        ){
+            return;
+        }
+
+        if(
+            clickByText(
+                label,
+                document
+            )
+        ){
+            return;
+        }
+
+        alert(
+            "找不到原本的「"
+            +
+            label
+            +
+            "」按鈕"
+        );
+
+    }
+
+
+    function openIndustry(){
+
+        closeSection();
+
+        if(
+            typeof window
+                .yhtisIndustryOpenV1
+            ===
+            "function"
+        ){
+
+            window
+            .yhtisIndustryOpenV1();
+
+            return;
+
+        }
+
+        alert(
+            "產業分類 Modal 尚未載入"
+        );
+
+    }
+
+
+    function openReLaunch(){
+
+        if(
+            clickByText(
+                "二次起漲",
+                document
+            )
+        ){
+            return;
+        }
+
+        alert(
+            "找不到原本二次起漲入口"
+        );
+
+    }
+
+
+    function openStrongest(){
+
+        if(
+            clickByText(
+                "最強一鍵",
+                document
+            )
+        ){
+            return;
+        }
+
+        alert(
+            "找不到原本最強一鍵入口"
+        );
+
+    }
+
+
+    function runAction(
+        action
+    ){
+
+        switch(action){
+
+            case "strongest":
+
+                openStrongest();
+
+                break;
+
+
+            case "lifecycle":
+
+                openNode(
+                    findLifecycleRoot(),
+                    "📍 起漲生命週期"
+                );
+
+                break;
+
+
+            case "tracking":
+
+                openMasterFilter(
+                    "持續追蹤"
+                );
+
+                break;
+
+
+            case "industry":
+
+                openIndustry();
+
+                break;
+
+
+            case "golden":
+
+                openKnown(
+                    "yhtisGoldenV8Panel",
+                    "🌟 Golden Entry"
+                );
+
+                break;
+
+
+            case "relaunch":
+
+                openReLaunch();
+
+                break;
+
+
+            case "pre":
+
+                openKnown(
+                    "pre-explosion",
+                    "🌱 PRE 起漲"
+                );
+
+                break;
+
+
+            case "explosion":
+
+                openKnown(
+                    "active-explosion",
+                    "⚡ 爆發／多軌"
+                );
+
+                break;
+
+
+            case "final":
+
+                openKnown(
+                    "final-decision",
+                    "🎯 最終交易"
+                );
+
+                break;
+
+
+            case "tomorrow":
+
+                openKnown(
+                    "tomorrow-entry",
+                    "📅 明日觀察"
+                );
+
+                break;
+
+        }
+
+    }
+
+
+    document
+    .querySelectorAll(
+        "[data-yhtis-hub-action]"
+    )
+    .forEach(
+        function(btn){
+
+            btn.addEventListener(
+                "click",
+                function(){
+
+                    runAction(
+                        btn.getAttribute(
+                            "data-yhtis-hub-action"
+                        )
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    document
+    .getElementById(
+        "yhtisSectionCloseV1"
+    )
+    .addEventListener(
+        "click",
+        closeSection
+    );
+
+
+    modal.addEventListener(
+        "click",
+        function(e){
+
+            if(e.target === modal){
+                closeSection();
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(e){
+
+            if(
+                e.key === "Escape"
+                &&
+                modal.classList.contains(
+                    "yhtis-open-v1"
+                )
+            ){
+                closeSection();
+            }
+
+        }
+    );
+
+
+    function placeHub(){
+
+        const hub =
+            document.getElementById(
+                "yhtisModalHubV1"
+            );
+
+        const anchor =
+            document.getElementById(
+                "yhtisMasterBar"
+            );
+
+        if(
+            hub
+            &&
+            anchor
+            &&
+            anchor.nextElementSibling
+            !==
+            hub
+        ){
+
+            anchor.insertAdjacentElement(
+                "afterend",
+                hub
+            );
+
+        }
+
+    }
+
+
+    [
+        100,
+        500,
+        1500,
+        3000
+    ]
+    .forEach(
+        function(ms){
+
+            setTimeout(
+                placeHub,
+                ms
+            );
+
+        }
+    );
+
+
+    window.yhtisCloseSectionModalV1 =
+        closeSection;
+
+})();
+
+</script>
+
+<!-- YHTIS_MODAL_HUB_V1_END -->
 
 
 
