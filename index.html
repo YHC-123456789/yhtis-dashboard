@@ -88697,6 +88697,400 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 <!-- YHTIS_ROOM_M2_PROSPECTIVE_UI_V1 END -->
 
 
+<!-- YHTIS_PROFESSIONAL_HOME_V1 START -->
+
+<style id="yhtisProfessionalHomeStyle">
+
+/* ==========================================================
+   YHTIS PROFESSIONAL HOME V1
+   UI LAYER ONLY
+   ========================================================== */
+
+#yhtisProfessionalActionGrid {
+    width: 100%;
+    box-sizing: border-box;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin:
+        14px 0 18px;
+
+    overflow: visible;
+}
+
+/*
+ * 所有正式首頁 Action Card
+ */
+#yhtisProfessionalActionGrid > button {
+    width: 100% !important;
+
+    min-width: 0 !important;
+    min-height: 68px;
+
+    margin: 0 !important;
+
+    box-sizing: border-box;
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    white-space: normal;
+
+    text-align: center;
+
+    line-height: 1.25;
+
+    transition:
+        transform .12s ease,
+        border-color .12s ease,
+        background .12s ease;
+}
+
+#yhtisProfessionalActionGrid > button:hover {
+    transform: translateY(-1px);
+}
+
+#yhtisProfessionalActionGrid > button:active {
+    transform: translateY(0);
+}
+
+/*
+ * ROOM M2 已正式進 Professional Grid，
+ * 不再依靠原本 Action Bar 寬度。
+ */
+#roomM2ProspectiveBtn {
+    position: static !important;
+
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    min-height: 68px;
+
+    margin: 0 !important;
+
+    box-sizing: border-box;
+}
+
+/*
+ * 避免 Professional Home 本身產生橫向捲軸
+ */
+#yhtisProfessionalActionGrid,
+#yhtisProfessionalActionGrid * {
+    max-width: 100%;
+}
+
+/* =========================
+   Tablet
+   ========================= */
+
+@media (max-width: 1099px) {
+
+    #yhtisProfessionalActionGrid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+}
+
+/* =========================
+   Mobile
+   ========================= */
+
+@media (max-width: 700px) {
+
+    #yhtisProfessionalActionGrid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 8px;
+
+        margin:
+            10px 0 16px;
+    }
+
+    #yhtisProfessionalActionGrid > button {
+        min-height: 62px;
+
+        padding:
+            8px 6px !important;
+
+        font-size:
+            11px !important;
+
+        border-radius:
+            10px !important;
+    }
+
+    #yhtisProfessionalActionGrid
+    > button
+    > div:first-child {
+
+        font-size:
+            14px !important;
+    }
+
+}
+
+/* =========================
+   Very small phones
+   ========================= */
+
+@media (max-width: 390px) {
+
+    #yhtisProfessionalActionGrid {
+        gap: 7px;
+    }
+
+    #yhtisProfessionalActionGrid > button {
+        min-height: 60px;
+
+        padding:
+            7px 4px !important;
+    }
+
+}
+
+</style>
+
+<script id="yhtisProfessionalHomeScript">
+
+(function(){
+
+    "use strict";
+
+    const GRID_ID =
+        "yhtisProfessionalActionGrid";
+
+    /*
+     * 找目前正式 Action Bar。
+     * 最強一鍵是已確認的正式 anchor。
+     */
+    function getActionBar(){
+
+        const strongest =
+            document.querySelector(
+                '[data-strongest-oneclick="1"]'
+            );
+
+        if(!strongest){
+            return null;
+        }
+
+        return strongest.parentElement;
+    }
+
+
+    function ensureGrid(){
+
+        let grid =
+            document.getElementById(
+                GRID_ID
+            );
+
+        if(grid){
+            return grid;
+        }
+
+        const bar =
+            getActionBar();
+
+        if(!bar){
+            return null;
+        }
+
+        grid =
+            document.createElement(
+                "div"
+            );
+
+        grid.id =
+            GRID_ID;
+
+        /*
+         * 放在原 Action Bar 後面。
+         * 不破壞原本 filter/control DOM。
+         */
+        bar.insertAdjacentElement(
+            "afterend",
+            grid
+        );
+
+        return grid;
+    }
+
+
+    /*
+     * 只搬「主功能卡」。
+     * 不搬活躍度細項 filter buttons。
+     */
+    function collectMainActions(){
+
+        const strongest =
+            document.querySelector(
+                '[data-strongest-oneclick="1"]'
+            );
+
+        if(!strongest){
+            return [];
+        }
+
+        const bar =
+            strongest.parentElement;
+
+        if(!bar){
+            return [];
+        }
+
+        const buttons =
+            Array.from(
+                bar.querySelectorAll(
+                    ":scope > button"
+                )
+            );
+
+        return buttons.filter(
+            function(btn){
+
+                /*
+                 * 排除活躍度小型控制按鈕
+                 */
+                if(
+                    btn.hasAttribute(
+                        "data-activity-filter"
+                    )
+                ){
+                    return false;
+                }
+
+                if(
+                    btn.hasAttribute(
+                        "data-activity-clear"
+                    )
+                ){
+                    return false;
+                }
+
+                if(
+                    btn.hasAttribute(
+                        "data-activity-apply"
+                    )
+                ){
+                    return false;
+                }
+
+                return true;
+            }
+        );
+    }
+
+
+    function mountProfessionalHome(){
+
+        const grid =
+            ensureGrid();
+
+        if(!grid){
+            return false;
+        }
+
+        const actions =
+            collectMainActions();
+
+        actions.forEach(
+            function(btn){
+
+                if(
+                    btn.parentElement
+                    !== grid
+                ){
+                    grid.appendChild(
+                        btn
+                    );
+                }
+
+            }
+        );
+
+        /*
+         * ROOM M2 可能稍晚才建立。
+         */
+        const room =
+            document.getElementById(
+                "roomM2ProspectiveBtn"
+            );
+
+        if(room){
+
+            if(
+                room.parentElement
+                !== grid
+            ){
+                grid.appendChild(
+                    room
+                );
+            }
+
+            room.style.display =
+                "flex";
+        }
+
+        return (
+            grid.children.length
+            > 0
+        );
+    }
+
+
+    /*
+     * Dashboard 其他 injector 為動態建立，
+     * 因此短時間觀察 DOM。
+     */
+    let attempts = 0;
+
+    const timer =
+        setInterval(
+            function(){
+
+                attempts += 1;
+
+                mountProfessionalHome();
+
+                if(
+                    attempts >= 40
+                ){
+                    clearInterval(
+                        timer
+                    );
+                }
+
+            },
+            250
+        );
+
+
+    /*
+     * 初始頁面若已完成，
+     * 不必等待第一個 interval。
+     */
+    mountProfessionalHome();
+
+})();
+
+</script>
+
+<!-- YHTIS_PROFESSIONAL_HOME_V1 END -->
+
+
 
 <!-- YHTIS_GLOBAL_NAV_V133_START -->
 
