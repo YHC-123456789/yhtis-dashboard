@@ -88076,23 +88076,23 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 
 
 
+
+
+
 <!-- YHTIS_ROOM_M2_PROSPECTIVE_UI_V1 START -->
 
 <style>
 #roomM2ProspectiveBtn{
-    position:fixed;
-    right:18px;
-    bottom:82px;
-    z-index:9998;
-    border:1px solid rgba(148,163,184,.30);
-    border-radius:14px;
-    padding:11px 15px;
-    background:rgba(15,23,42,.96);
-    color:#f8fafc;
-    font-weight:900;
-    font-size:14px;
+    display:none;
+    border:1px solid #8b5cf6;
+    border-radius:8px;
+    padding:5px 10px;
+    background:#312e81;
+    color:#ede9fe;
+    font-weight:800;
+    font-size:12px;
     cursor:pointer;
-    box-shadow:0 12px 32px rgba(0,0,0,.30);
+    min-height:54px;
 }
 
 #roomM2ProspectiveModal{
@@ -88206,13 +88206,6 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 }
 
 @media(max-width:700px){
-
-    #roomM2ProspectiveBtn{
-        right:12px;
-        bottom:72px;
-        font-size:13px;
-        padding:10px 12px;
-    }
 
     .room-m2-panel{
         margin:1vh auto;
@@ -88564,6 +88557,85 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
         }
 
     }
+
+
+    function mountRoomM2HomeAction(){
+
+        if(!btn){
+            return false;
+        }
+
+        /*
+         * 優先尋找「最強一鍵」。
+         * 它已經位於首頁正式 Action Bar，
+         * ROOM M2 直接加入相同父容器。
+         */
+
+        const strongest =
+            document.querySelector(
+                '[data-strongest-oneclick="1"]'
+            );
+
+        if(!strongest){
+            return false;
+        }
+
+        const bar = strongest.parentElement;
+
+        if(!bar){
+            return false;
+        }
+
+        /*
+         * 已經在正確位置就不重複搬。
+         */
+        if(btn.parentElement !== bar){
+            bar.appendChild(btn);
+        }
+
+        btn.style.display = "";
+
+        btn.innerHTML =
+            '<div style="font-weight:900;font-size:15px;">'
+            + '🔭 對話前瞻'
+            + '</div>'
+            + '<div style="font-size:10px;opacity:.88;margin-top:2px;">'
+            + 'ROOM M2・Shadow'
+            + '</div>';
+
+        btn.title =
+            "ROOM M2 Prospective Shadow Research｜"
+            + "獨立研究，不參與正式評分";
+
+        return true;
+    }
+
+
+    /*
+     * Action Bar 是其他 UI script 動態建立，
+     * 因此允許短時間等待。
+     */
+
+    let roomM2MountTry = 0;
+
+    const roomM2MountTimer =
+        setInterval(
+            function(){
+
+                roomM2MountTry += 1;
+
+                if(
+                    mountRoomM2HomeAction()
+                    || roomM2MountTry >= 30
+                ){
+                    clearInterval(
+                        roomM2MountTimer
+                    );
+                }
+
+            },
+            250
+        );
 
 
     if(btn){
