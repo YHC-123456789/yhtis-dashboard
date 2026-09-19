@@ -88068,6 +88068,561 @@ window.YHTIS_FINAL_STABILIZE_V134 = {
 
 
 
+
+
+
+
+
+
+
+
+<!-- YHTIS_ROOM_M2_PROSPECTIVE_UI_V1 START -->
+
+<style>
+#roomM2ProspectiveBtn{
+    position:fixed;
+    right:18px;
+    bottom:82px;
+    z-index:9998;
+    border:1px solid rgba(148,163,184,.30);
+    border-radius:14px;
+    padding:11px 15px;
+    background:rgba(15,23,42,.96);
+    color:#f8fafc;
+    font-weight:900;
+    font-size:14px;
+    cursor:pointer;
+    box-shadow:0 12px 32px rgba(0,0,0,.30);
+}
+
+#roomM2ProspectiveModal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:rgba(2,6,23,.78);
+    backdrop-filter:blur(6px);
+    padding:16px;
+    overflow:auto;
+}
+
+.room-m2-panel{
+    max-width:1100px;
+    margin:4vh auto;
+    padding:20px;
+    border-radius:20px;
+    border:1px solid rgba(148,163,184,.22);
+    background:#0f172a;
+    color:#e2e8f0;
+    box-shadow:0 30px 90px rgba(0,0,0,.48);
+}
+
+.room-m2-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+    margin-bottom:16px;
+}
+
+.room-m2-title{
+    font-size:22px;
+    font-weight:900;
+}
+
+.room-m2-sub{
+    margin-top:5px;
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.55;
+}
+
+.room-m2-close{
+    flex:none;
+    border:0;
+    border-radius:10px;
+    padding:8px 12px;
+    background:#1e293b;
+    color:#f8fafc;
+    cursor:pointer;
+}
+
+.room-m2-status{
+    margin-bottom:14px;
+    padding:13px 14px;
+    border-radius:13px;
+    background:#111827;
+    line-height:1.55;
+}
+
+.room-m2-badge{
+    display:inline-block;
+    margin-top:7px;
+    padding:4px 8px;
+    border-radius:999px;
+    background:#1e293b;
+    color:#cbd5e1;
+    font-size:11px;
+    font-weight:800;
+}
+
+.room-m2-table-wrap{
+    width:100%;
+    overflow:auto;
+    border-radius:14px;
+    border:1px solid rgba(148,163,184,.14);
+}
+
+.room-m2-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+.room-m2-table th,
+.room-m2-table td{
+    padding:10px 11px;
+    border-bottom:1px solid rgba(148,163,184,.13);
+    text-align:left;
+    white-space:nowrap;
+}
+
+.room-m2-table th{
+    position:sticky;
+    top:0;
+    background:#111827;
+    color:#94a3b8;
+    font-weight:800;
+}
+
+.room-m2-table tr:last-child td{
+    border-bottom:0;
+}
+
+.room-m2-empty{
+    padding:34px 15px !important;
+    text-align:center !important;
+    color:#94a3b8;
+}
+
+@media(max-width:700px){
+
+    #roomM2ProspectiveBtn{
+        right:12px;
+        bottom:72px;
+        font-size:13px;
+        padding:10px 12px;
+    }
+
+    .room-m2-panel{
+        margin:1vh auto;
+        padding:15px;
+        border-radius:16px;
+    }
+
+    .room-m2-title{
+        font-size:19px;
+    }
+
+}
+</style>
+
+
+<button
+    id="roomM2ProspectiveBtn"
+    type="button"
+    title="ROOM M2 Shadow Research"
+>
+    🔭 對話前瞻
+</button>
+
+
+<div id="roomM2ProspectiveModal">
+
+    <div class="room-m2-panel">
+
+        <div class="room-m2-head">
+
+            <div>
+
+                <div class="room-m2-title">
+                    🔭 對話前瞻
+                </div>
+
+                <div class="room-m2-sub">
+                    ROOM M2 Prospective Shadow Research
+                    <br>
+                    獨立前瞻研究，不參與 Golden Entry、
+                    AI_SCORE、ENTRY_SCORE、FINAL_SCORE。
+                </div>
+
+                <span class="room-m2-badge">
+                    SHADOW RESEARCH
+                </span>
+
+            </div>
+
+            <button
+                id="roomM2ProspectiveClose"
+                class="room-m2-close"
+                type="button"
+            >
+                關閉
+            </button>
+
+        </div>
+
+
+        <div
+            id="roomM2ProspectiveStatus"
+            class="room-m2-status"
+        >
+            讀取 ROOM M2 前瞻資料中…
+        </div>
+
+
+        <div class="room-m2-table-wrap">
+
+            <table class="room-m2-table">
+
+                <thead
+                    id="roomM2ProspectiveHead"
+                ></thead>
+
+                <tbody
+                    id="roomM2ProspectiveBody"
+                ></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+(function(){
+
+    const btn =
+        document.getElementById(
+            "roomM2ProspectiveBtn"
+        );
+
+    const modal =
+        document.getElementById(
+            "roomM2ProspectiveModal"
+        );
+
+    const close =
+        document.getElementById(
+            "roomM2ProspectiveClose"
+        );
+
+    const status =
+        document.getElementById(
+            "roomM2ProspectiveStatus"
+        );
+
+    const head =
+        document.getElementById(
+            "roomM2ProspectiveHead"
+        );
+
+    const body =
+        document.getElementById(
+            "roomM2ProspectiveBody"
+        );
+
+    const DATA =
+        "output/research/" +
+        "room_m2_prospective_shadow_v2/" +
+        "latest.csv";
+
+
+    function esc(v){
+
+        return String(v ?? "")
+            .replaceAll("&","&amp;")
+            .replaceAll("<","&lt;")
+            .replaceAll(">","&gt;")
+            .replaceAll('"',"&quot;");
+
+    }
+
+
+    function parseCSV(text){
+
+        const rows = [];
+
+        let row = [];
+        let field = "";
+        let quote = false;
+
+        for(let i=0;i<text.length;i++){
+
+            const c = text[i];
+
+            if(c === '"'){
+
+                if(
+                    quote &&
+                    text[i+1] === '"'
+                ){
+                    field += '"';
+                    i++;
+                }
+                else{
+                    quote = !quote;
+                }
+
+            }
+            else if(
+                c === "," &&
+                !quote
+            ){
+
+                row.push(field);
+                field = "";
+
+            }
+            else if(
+                (c === "\n" || c === "\r") &&
+                !quote
+            ){
+
+                if(
+                    c === "\r" &&
+                    text[i+1] === "\n"
+                ){
+                    i++;
+                }
+
+                row.push(field);
+
+                if(
+                    row.some(
+                        x => String(x).trim() !== ""
+                    )
+                ){
+                    rows.push(row);
+                }
+
+                row = [];
+                field = "";
+
+            }
+            else{
+
+                field += c;
+
+            }
+
+        }
+
+        if(field.length || row.length){
+
+            row.push(field);
+
+            if(
+                row.some(
+                    x => String(x).trim() !== ""
+                )
+            ){
+                rows.push(row);
+            }
+
+        }
+
+        return rows;
+    }
+
+
+    async function loadData(){
+
+        status.textContent =
+            "讀取 ROOM M2 前瞻資料中…";
+
+        head.innerHTML = "";
+        body.innerHTML = "";
+
+        try{
+
+            const response = await fetch(
+                DATA + "?t=" + Date.now(),
+                {
+                    cache:"no-store"
+                }
+            );
+
+            if(!response.ok){
+
+                throw new Error(
+                    "HTTP " + response.status
+                );
+
+            }
+
+            const txt =
+                await response.text();
+
+            const rows =
+                parseCSV(txt);
+
+            if(rows.length <= 1){
+
+                status.innerHTML =
+                    "🟡 ROOM M2 資料已連線，"
+                    +
+                    "目前沒有符合條件的前瞻候選。"
+                    +
+                    "<br><small>"
+                    +
+                    "沒有候選不代表系統故障；"
+                    +
+                    "Shadow Research 會等待新的正式 EOD。"
+                    +
+                    "</small>";
+
+                body.innerHTML =
+                    '<tr>'
+                    +
+                    '<td class="room-m2-empty">'
+                    +
+                    '目前沒有 ROOM M2 前瞻訊號'
+                    +
+                    '</td>'
+                    +
+                    '</tr>';
+
+                return;
+            }
+
+
+            const columns = rows[0];
+            const dataRows = rows.slice(1);
+
+
+            head.innerHTML =
+                "<tr>"
+                +
+                columns.map(
+                    c =>
+                        "<th>"
+                        +
+                        esc(c)
+                        +
+                        "</th>"
+                ).join("")
+                +
+                "</tr>";
+
+
+            body.innerHTML =
+                dataRows.map(
+                    r =>
+                        "<tr>"
+                        +
+                        columns.map(
+                            (_,i) =>
+                                "<td>"
+                                +
+                                esc(r[i] ?? "")
+                                +
+                                "</td>"
+                        ).join("")
+                        +
+                        "</tr>"
+                ).join("");
+
+
+            status.innerHTML =
+                "🟢 ROOM M2 前瞻候選："
+                +
+                "<strong>"
+                +
+                dataRows.length
+                +
+                "</strong> 筆"
+                +
+                "<br><small>"
+                +
+                "資料來源：latest.csv｜"
+                +
+                "Prospective Shadow Research"
+                +
+                "</small>";
+
+        }
+        catch(err){
+
+            status.textContent =
+                "❌ ROOM M2 資料讀取失敗：" +
+                err.message;
+
+        }
+
+    }
+
+
+    if(btn){
+
+        btn.addEventListener(
+            "click",
+            async function(){
+
+                modal.style.display =
+                    "block";
+
+                await loadData();
+
+            }
+        );
+
+    }
+
+
+    if(close){
+
+        close.addEventListener(
+            "click",
+            function(){
+
+                modal.style.display =
+                    "none";
+
+            }
+        );
+
+    }
+
+
+    if(modal){
+
+        modal.addEventListener(
+            "click",
+            function(e){
+
+                if(e.target === modal){
+
+                    modal.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+    }
+
+})();
+</script>
+
+<!-- YHTIS_ROOM_M2_PROSPECTIVE_UI_V1 END -->
+
+
+
 <!-- YHTIS_GLOBAL_NAV_V133_START -->
 
 <style>
