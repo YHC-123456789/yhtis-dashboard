@@ -3,35 +3,35 @@
   "股票名稱": "欣新網",
   "最新行情": {
     "Name": "欣新網",
-    "Price": 63.6,
+    "Price": 63.1,
     "TradePrice": null,
-    "EstimatePrice": 63.6,
-    "DisplayPrice": 63.6,
+    "EstimatePrice": 63.1,
+    "DisplayPrice": 63.1,
     "IsEstimated": true,
     "RawLast": null,
-    "RawBid": 62.2,
-    "RawAsk": 65.0,
-    "PrevClose": 65.0,
+    "RawBid": 62.7,
+    "RawAsk": 63.5,
+    "PrevClose": 64.7,
     "PriceGuard": "OK",
     "Open": null,
     "High": null,
     "Low": null,
-    "ChangePct": -2.15384615384615,
+    "ChangePct": -2.472952086553326,
     "PriceSource": "bid_ask_mid",
-    "MIS_Time": "10:50:42",
-    "MIS_Date": "20260917",
+    "MIS_Time": "13:30:00",
+    "MIS_Date": "20260918",
     "MarketChannel": "otc",
     "Market": "TPEx",
     "TransactionCount": 4.0,
     "IssuedShares": 30641100.0,
     "TurnoverRate": 0.0098070891710806,
-    "Close": 63.6,
-    "收盤": 63.6,
-    "最新價": 63.6,
-    "現在價格": 63.6,
-    "前收": 65.0,
-    "Date": "2026-09-17",
-    "日期": "2026-09-17"
+    "Close": 63.1,
+    "收盤": 63.1,
+    "最新價": 63.1,
+    "現在價格": 63.1,
+    "前收": 64.7,
+    "Date": "2026-09-18",
+    "日期": "2026-09-18"
   },
   "基本面目標": {
     "股票名稱": "欣新網",
@@ -1543,23 +1543,6 @@
     "短中期趨勢": "🟢 多頭"
   },
   "YHTIS分析": {
-    "起漲前兆": {
-      "PRE_EXPLOSION_RANK": "1019",
-      "Date": "2026-09-15",
-      "Close": "61.20000076293945",
-      "PRE_EXPLOSION_SCORE": "37",
-      "PRE_EXPLOSION_SIGNAL": "⚪ 一般追蹤",
-      "PRE_EXPLOSION_RISK": "🔴 趨勢破壞",
-      "PRE_EXPLOSION_REASON": "貼近EMA20、接近突破、RS回升區",
-      "STRONG_MEMORY": "False",
-      "DIST_EMA20_PCT": "-1.8096557676505087",
-      "DIST_EMA60_PCT": "-3.1193639595523126",
-      "RS_COMPOSITE": "0.5339395491803278",
-      "RS_ACCEL": "-0.0012807377049179",
-      "BREAKOUT_RANK": "0.5852413423927266",
-      "CONTRACTION_RANK": "0.6878842213114753",
-      "V8_SCORE": "-0.193392859426421"
-    },
     "多軌共振": {
       "訊號日期": "2026-08-21",
       "股票名稱": null,
@@ -1614,11 +1597,11 @@
       "issue": null
     }
   },
-  "YHTIS綜合判讀": "🟢 多頭｜共振 ⚪ WATCH｜追價風險：🔴 趨勢破壞",
+  "YHTIS綜合判讀": "🟢 多頭｜共振 ⚪ WATCH",
   "行情同步": {
     "來源": "data/intraday/latest.csv",
-    "MIS_Date": "20260917",
-    "日期": "2026-09-17",
+    "MIS_Date": "20260918",
+    "日期": "2026-09-18",
     "價格欄位": "Price"
   }
 }

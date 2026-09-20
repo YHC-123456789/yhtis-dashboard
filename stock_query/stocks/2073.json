@@ -3,35 +3,35 @@
   "股票名稱": "雄順",
   "最新行情": {
     "Name": "雄順",
-    "Price": 25.700000000000003,
+    "Price": 25.65,
     "TradePrice": null,
-    "EstimatePrice": 25.700000000000003,
-    "DisplayPrice": 25.700000000000003,
+    "EstimatePrice": 25.65,
+    "DisplayPrice": 25.65,
     "IsEstimated": true,
     "RawLast": null,
     "RawBid": 25.1,
-    "RawAsk": 26.3,
+    "RawAsk": 26.2,
     "PrevClose": 26.0,
     "PriceGuard": "OK",
     "Open": null,
     "High": null,
     "Low": null,
-    "ChangePct": -1.1538461538461386,
+    "ChangePct": -1.3461538461538525,
     "PriceSource": "bid_ask_mid",
-    "MIS_Time": "10:50:29",
-    "MIS_Date": "20260917",
+    "MIS_Time": "13:30:00",
+    "MIS_Date": "20260918",
     "MarketChannel": "otc",
     "Market": "TPEx",
     "TransactionCount": 4.0,
     "IssuedShares": 27500000.0,
     "TurnoverRate": 0.0041090909090909,
-    "Close": 25.700000000000003,
-    "收盤": 25.700000000000003,
-    "最新價": 25.700000000000003,
-    "現在價格": 25.700000000000003,
+    "Close": 25.65,
+    "收盤": 25.65,
+    "最新價": 25.65,
+    "現在價格": 25.65,
     "前收": 26.0,
-    "Date": "2026-09-17",
-    "日期": "2026-09-17"
+    "Date": "2026-09-18",
+    "日期": "2026-09-18"
   },
   "基本面目標": {},
   "基本面估值": {},
@@ -1496,23 +1496,6 @@
     "短中期趨勢": "🟡 震盪"
   },
   "YHTIS分析": {
-    "起漲前兆": {
-      "PRE_EXPLOSION_RANK": "459",
-      "Date": "2026-09-15",
-      "Close": "25.700000762939453",
-      "PRE_EXPLOSION_SCORE": "48",
-      "PRE_EXPLOSION_SIGNAL": "⚪ 一般追蹤",
-      "PRE_EXPLOSION_RISK": "🟢 結構正常",
-      "PRE_EXPLOSION_REASON": "貼近EMA20、RS重新加速、RS中強",
-      "STRONG_MEMORY": "False",
-      "DIST_EMA20_PCT": "-1.3572138260737554",
-      "DIST_EMA60_PCT": "-2.5950363994616255",
-      "RS_COMPOSITE": "0.6366547131147541",
-      "RS_ACCEL": "0.0904200819672131",
-      "BREAKOUT_RANK": "0.7099959072410673",
-      "CONTRACTION_RANK": "0.3908811475409836",
-      "V8_SCORE": "0.5089619711614093"
-    },
     "多軌共振": {
       "訊號日期": "2026-08-21",
       "股票名稱": null,
@@ -1567,11 +1550,11 @@
       "issue": null
     }
   },
-  "YHTIS綜合判讀": "🟡 震盪｜共振 ⚪ WATCH｜追價風險：🟢 結構正常",
+  "YHTIS綜合判讀": "🟡 震盪｜共振 ⚪ WATCH",
   "行情同步": {
     "來源": "data/intraday/latest.csv",
-    "MIS_Date": "20260917",
-    "日期": "2026-09-17",
+    "MIS_Date": "20260918",
+    "日期": "2026-09-18",
     "價格欄位": "Price"
   }
 }

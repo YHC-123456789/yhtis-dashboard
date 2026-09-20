@@ -4,22 +4,22 @@
   "最新行情": {
     "Name": "青松健康",
     "Price": 39.2,
-    "TradePrice": null,
-    "EstimatePrice": 39.2,
+    "TradePrice": 39.2,
+    "EstimatePrice": null,
     "DisplayPrice": 39.2,
-    "IsEstimated": true,
-    "RawLast": null,
-    "RawBid": 39.1,
-    "RawAsk": 39.3,
+    "IsEstimated": false,
+    "RawLast": 39.2,
+    "RawBid": 39.2,
+    "RawAsk": 39.25,
     "PrevClose": 39.3,
     "PriceGuard": "OK",
-    "Open": 39.05,
-    "High": 39.25,
-    "Low": 39.05,
+    "Open": 39.3,
+    "High": 39.6,
+    "Low": 39.1,
     "ChangePct": -0.254452926208637,
-    "PriceSource": "bid_ask_mid",
-    "MIS_Time": "11:03:01",
-    "MIS_Date": "20260917",
+    "PriceSource": "last",
+    "MIS_Time": "13:30:00",
+    "MIS_Date": "20260918",
     "MarketChannel": "tse",
     "Market": "TWSE",
     "TransactionCount": 41.0,
@@ -30,8 +30,8 @@
     "最新價": 39.2,
     "現在價格": 39.2,
     "前收": 39.3,
-    "Date": "2026-09-17",
-    "日期": "2026-09-17"
+    "Date": "2026-09-18",
+    "日期": "2026-09-18"
   },
   "基本面目標": {
     "股票名稱": "青松健康",
@@ -1544,21 +1544,21 @@
   },
   "YHTIS分析": {
     "起漲前兆": {
-      "PRE_EXPLOSION_RANK": "1571",
-      "Date": "2026-09-15",
-      "Close": "39.5",
+      "PRE_EXPLOSION_RANK": "1703",
+      "Date": "2026-09-17",
+      "Close": "39.29999923706055",
       "PRE_EXPLOSION_SCORE": "25",
       "PRE_EXPLOSION_SIGNAL": "⚪ 一般追蹤",
       "PRE_EXPLOSION_RISK": "🔴 趨勢破壞",
       "PRE_EXPLOSION_REASON": "EMA20下方回測、接近突破",
       "STRONG_MEMORY": "False",
-      "DIST_EMA20_PCT": "-2.299529525803512",
-      "DIST_EMA60_PCT": "-3.1338714179349414",
-      "RS_COMPOSITE": "0.4424308401639344",
-      "RS_ACCEL": "-0.1171875",
-      "BREAKOUT_RANK": "0.4567720604269921",
-      "CONTRACTION_RANK": "0.5851690573770492",
-      "V8_SCORE": "0.1465278024913882"
+      "DIST_EMA20_PCT": "-2.2989832577427816",
+      "DIST_EMA60_PCT": "-3.398514095180105",
+      "RS_COMPOSITE": "0.3816598360655737",
+      "RS_ACCEL": "-0.0420081967213114",
+      "BREAKOUT_RANK": "0.5432262798587995",
+      "CONTRACTION_RANK": "0.6069415983606558",
+      "V8_SCORE": "0.0356732247057953"
     },
     "多軌共振": {
       "訊號日期": "2026-08-21",
@@ -1617,8 +1617,8 @@
   "YHTIS綜合判讀": "🔴 空頭｜共振 ⚪ WATCH｜追價風險：🔴 趨勢破壞",
   "行情同步": {
     "來源": "data/intraday/latest.csv",
-    "MIS_Date": "20260917",
-    "日期": "2026-09-17",
+    "MIS_Date": "20260918",
+    "日期": "2026-09-18",
     "價格欄位": "Price"
   }
 }

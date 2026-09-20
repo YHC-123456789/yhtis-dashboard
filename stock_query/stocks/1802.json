@@ -13,13 +13,13 @@
     "RawAsk": 58.9,
     "PrevClose": 58.5,
     "PriceGuard": "OK",
-    "Open": 59.1,
-    "High": 61.7,
-    "Low": 58.4,
+    "Open": 59.5,
+    "High": 61.3,
+    "Low": 57.9,
     "ChangePct": 0.512820512820511,
     "PriceSource": "last",
-    "MIS_Time": "11:03:35",
-    "MIS_Date": "20260917",
+    "MIS_Time": "13:30:00",
+    "MIS_Date": "20260918",
     "MarketChannel": "tse",
     "Market": "TWSE",
     "TransactionCount": 8550.0,
@@ -30,8 +30,8 @@
     "最新價": 58.8,
     "現在價格": 58.8,
     "前收": 58.5,
-    "Date": "2026-09-17",
-    "日期": "2026-09-17"
+    "Date": "2026-09-18",
+    "日期": "2026-09-18"
   },
   "基本面目標": {
     "股票名稱": "台玻",
@@ -1544,21 +1544,21 @@
   },
   "YHTIS分析": {
     "起漲前兆": {
-      "PRE_EXPLOSION_RANK": "1737",
-      "Date": "2026-09-15",
-      "Close": "56.0",
-      "PRE_EXPLOSION_SCORE": "18",
+      "PRE_EXPLOSION_RANK": "1306",
+      "Date": "2026-09-17",
+      "Close": "58.5",
+      "PRE_EXPLOSION_SCORE": "35",
       "PRE_EXPLOSION_SIGNAL": "⚪ 一般追蹤",
-      "PRE_EXPLOSION_RISK": "🔴 趨勢破壞",
-      "PRE_EXPLOSION_REASON": "突破前區",
+      "PRE_EXPLOSION_RISK": "🟢 結構正常",
+      "PRE_EXPLOSION_REASON": "貼近EMA20、突破前區",
       "STRONG_MEMORY": "False",
-      "DIST_EMA20_PCT": "-4.233671508196379",
-      "DIST_EMA60_PCT": "-5.189410236727532",
-      "RS_COMPOSITE": "0.2683145491803279",
-      "RS_ACCEL": "-0.2379610655737705",
-      "BREAKOUT_RANK": "0.2330681131553112",
-      "CONTRACTION_RANK": "0.5281762295081968",
-      "V8_SCORE": "0.6863460694782164"
+      "DIST_EMA20_PCT": "0.03405995952721064",
+      "DIST_EMA60_PCT": "-0.8956352415398383",
+      "RS_COMPOSITE": "0.4431352459016393",
+      "RS_ACCEL": "-0.0507172131147541",
+      "BREAKOUT_RANK": "0.2688501824301552",
+      "CONTRACTION_RANK": "0.5856813524590164",
+      "V8_SCORE": "0.8823992803918579"
     },
     "多軌共振": {
       "訊號日期": "2026-08-21",
@@ -1614,11 +1614,11 @@
       "issue": null
     }
   },
-  "YHTIS綜合判讀": "🟡 震盪｜共振 ⚪ WATCH｜追價風險：🔴 趨勢破壞",
+  "YHTIS綜合判讀": "🟡 震盪｜共振 ⚪ WATCH｜追價風險：🟢 結構正常",
   "行情同步": {
     "來源": "data/intraday/latest.csv",
-    "MIS_Date": "20260917",
-    "日期": "2026-09-17",
+    "MIS_Date": "20260918",
+    "日期": "2026-09-18",
     "價格欄位": "Price"
   }
 }

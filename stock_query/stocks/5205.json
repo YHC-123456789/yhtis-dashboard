@@ -3,35 +3,35 @@
   "股票名稱": "中茂",
   "最新行情": {
     "Name": "中茂",
-    "Price": 18.0,
+    "Price": 18.175,
     "TradePrice": null,
-    "EstimatePrice": 18.0,
-    "DisplayPrice": 18.0,
+    "EstimatePrice": 18.175,
+    "DisplayPrice": 18.175,
     "IsEstimated": true,
     "RawLast": null,
-    "RawBid": 17.35,
-    "RawAsk": 18.65,
+    "RawBid": 17.5,
+    "RawAsk": 18.85,
     "PrevClose": 18.65,
     "PriceGuard": "OK",
     "Open": null,
     "High": null,
     "Low": null,
-    "ChangePct": -3.4852546916889993,
+    "ChangePct": -2.5469168900804195,
     "PriceSource": "bid_ask_mid",
-    "MIS_Time": "11:01:15",
-    "MIS_Date": "20260917",
+    "MIS_Time": "13:30:00",
+    "MIS_Date": "20260918",
     "MarketChannel": "otc",
     "Market": "TPEx",
     "TransactionCount": 2.0,
     "IssuedShares": 13500000.0,
     "TurnoverRate": 0.0074148148148148,
-    "Close": 18.0,
-    "收盤": 18.0,
-    "最新價": 18.0,
-    "現在價格": 18.0,
+    "Close": 18.175,
+    "收盤": 18.175,
+    "最新價": 18.175,
+    "現在價格": 18.175,
     "前收": 18.65,
-    "Date": "2026-09-17",
-    "日期": "2026-09-17"
+    "Date": "2026-09-18",
+    "日期": "2026-09-18"
   },
   "基本面目標": {},
   "基本面估值": {},
@@ -1496,23 +1496,6 @@
     "短中期趨勢": "🔴 空頭"
   },
   "YHTIS分析": {
-    "起漲前兆": {
-      "PRE_EXPLOSION_RANK": "1648",
-      "Date": "2026-09-15",
-      "Close": "18.700000762939453",
-      "PRE_EXPLOSION_SCORE": "20",
-      "PRE_EXPLOSION_SIGNAL": "⚪ 一般追蹤",
-      "PRE_EXPLOSION_RISK": "🔴 趨勢破壞",
-      "PRE_EXPLOSION_REASON": "RS轉正、突破前區",
-      "STRONG_MEMORY": "False",
-      "DIST_EMA20_PCT": "-7.660958368257232",
-      "DIST_EMA60_PCT": "-13.174649240977953",
-      "RS_COMPOSITE": "0.164702868852459",
-      "RS_ACCEL": "0.0030737704918032",
-      "BREAKOUT_RANK": "0.2495116872950119",
-      "CONTRACTION_RANK": "0.5011526639344263",
-      "V8_SCORE": "0.0337743768633992"
-    },
     "多軌共振": {
       "訊號日期": "2026-08-21",
       "股票名稱": null,
@@ -1567,11 +1550,11 @@
       "issue": null
     }
   },
-  "YHTIS綜合判讀": "🔴 空頭｜共振 ⚪ WATCH｜追價風險：🔴 趨勢破壞",
+  "YHTIS綜合判讀": "🔴 空頭｜共振 ⚪ WATCH",
   "行情同步": {
     "來源": "data/intraday/latest.csv",
-    "MIS_Date": "20260917",
-    "日期": "2026-09-17",
+    "MIS_Date": "20260918",
+    "日期": "2026-09-18",
     "價格欄位": "Price"
   }
 }
