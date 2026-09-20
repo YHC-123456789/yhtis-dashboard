@@ -545,6 +545,126 @@ section {
 
 <!-- FINAL_COMPACT_V13_ACTIVE -->
 
+
+<!-- YHTIS_PRO_SAFE_VIEWPORT_V1 START -->
+
+<style id="yhtisProSafeViewportV1">
+
+/*
+ * YHTIS Professional Safe Viewport V1
+ *
+ * 目的：
+ * 1. 最後一排 Action 可以完整滑出
+ * 2. 不被固定底部導航遮住
+ * 3. 手機 Safari safe-area 可用
+ * 4. 不改任何功能 / 資料 / 模型
+ */
+
+html{
+    scroll-padding-bottom:
+        calc(
+            110px
+            + env(safe-area-inset-bottom, 0px)
+        );
+}
+
+body{
+    min-height:100%;
+    padding-bottom:
+        calc(
+            110px
+            + env(safe-area-inset-bottom, 0px)
+        ) !important;
+
+    box-sizing:border-box;
+}
+
+/*
+ * Professional Home 本身不能成為
+ * 第二個被鎖住的 viewport。
+ */
+#yhtisProfessionalHomeV1,
+.yhtis-professional-home,
+[data-yhtis-professional-home="1"]{
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+
+    overflow:visible !important;
+    overflow-y:visible !important;
+
+    padding-bottom:24px !important;
+}
+
+/*
+ * Professional Action 區域保留安全尾端。
+ */
+#yhtisProfessionalActionGrid,
+.yhtis-professional-action-grid,
+[data-yhtis-professional-grid="1"]{
+    height:auto !important;
+    max-height:none !important;
+
+    overflow:visible !important;
+
+    margin-bottom:24px !important;
+}
+
+/*
+ * 手機：
+ * 固定底欄 + Safari Home Indicator
+ * 需要更大的可點擊安全距離。
+ */
+@media (max-width:700px){
+
+    html{
+        scroll-padding-bottom:
+            calc(
+                145px
+                + env(safe-area-inset-bottom, 0px)
+            );
+    }
+
+    body{
+        padding-bottom:
+            calc(
+                145px
+                + env(safe-area-inset-bottom, 0px)
+            ) !important;
+    }
+
+    #yhtisProfessionalHomeV1,
+    .yhtis-professional-home,
+    [data-yhtis-professional-home="1"]{
+        padding-bottom:36px !important;
+    }
+
+}
+
+/*
+ * 平板
+ */
+@media (
+    min-width:701px
+)
+and (
+    max-width:1099px
+){
+
+    body{
+        padding-bottom:
+            calc(
+                125px
+                + env(safe-area-inset-bottom, 0px)
+            ) !important;
+    }
+
+}
+
+</style>
+
+<!-- YHTIS_PRO_SAFE_VIEWPORT_V1 END -->
+
 </head>
 
 
@@ -895,66 +1015,6 @@ td.code,
 <!-- ========================================================
      搜尋列
      ======================================================== -->
-
-<!-- YHTIS_GOLDEN_V8_UI_START -->
-<section
-    id="yhtisGoldenV8Panel"
-    data-golden-state="LATE_EOD"
-    data-official-eod="2026-09-15"
-    style="
-margin:18px auto;
-padding:18px;
-border:1px solid rgba(148,163,184,.24);
-border-radius:18px;
-background:rgba(15,23,42,.72);
-box-shadow:0 14px 36px rgba(0,0,0,.18);
-max-width:1500px;
-"
->
-    
-    <div style="
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:14px;
-        flex-wrap:wrap;
-    ">
-        <div>
-            <div style="
-                font-size:20px;
-                font-weight:900;
-            ">
-                🟡 Golden V8｜LATE EOD
-            </div>
-
-            <div style="
-                margin-top:6px;
-                opacity:.75;
-                font-size:13px;
-                line-height:1.7;
-            ">
-                Official EOD 2026-09-15
-                ｜本次於較晚 Taiwan 日期執行。
-                <br>
-                為保護 Prospective / OOS，
-                不事後補造當日 Golden 訊號。
-            </div>
-        </div>
-
-        <div style="
-            padding:7px 11px;
-            border-radius:999px;
-            background:rgba(245,158,11,.14);
-            color:#fcd34d;
-            font-weight:800;
-            font-size:13px;
-        ">
-            🟡 ANTI-LOOKAHEAD
-        </div>
-    </div>
-    
-</section>
-<!-- YHTIS_GOLDEN_V8_UI_END -->
 
 <div id="yhtisMasterBar">
 
@@ -4397,11 +4457,28 @@ async function yhtisRunEarlyLaunchOneClick(){
         const r =
             await fetch(url);
 
+        
+        if(r.status === 404){
+
+            if(msg){
+                msg.innerText =
+                    "🌱 本交易日尚無剛起漲前瞻研究快照";
+            }
+
+            box.innerHTML =
+                '<div style="padding:14px;color:#94a3b8;">'
+                + '🌱 本交易日尚無剛起漲前瞻研究快照'
+                + '</div>';
+
+            return;
+        }
+
         if(!r.ok){
             throw new Error(
                 "HTTP " + r.status
             );
         }
+
 
         const rows =
             yhtisParseCSV(
@@ -6043,12 +6120,22 @@ async function yhtisShowEMAGoldenCross(){
                 }
             );
 
+        
+        if(r.status === 404){
+
+            status.textContent =
+                "✨ 尚無 EMA9/20 黃金交叉研究快照";
+
+            return;
+        }
+
         if(!r.ok){
             throw new Error(
                 "HTTP "
                 + r.status
             );
         }
+
 
         const text =
             await r.text();
@@ -7430,12 +7517,12 @@ function yhtisInstallQuickNavCollapseV1(){
          */
         if(
             el.innerHTML.includes(
-                "明日佈局"
+                "明天入場"
             )
         ){
             el.innerHTML =
                 el.innerHTML.replace(
-                    /明日佈局/g,
+                    /明天入場/g,
                     "明日佈局"
                 );
         }
@@ -7443,12 +7530,12 @@ function yhtisInstallQuickNavCollapseV1(){
 
         if(
             el.innerHTML.includes(
-                "明日佈局"
+                "明日入場"
             )
         ){
             el.innerHTML =
                 el.innerHTML.replace(
-                    /明日佈局/g,
+                    /明日入場/g,
                     "明日佈局"
                 );
         }
