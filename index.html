@@ -2104,6 +2104,1486 @@ function buildPlan(stock, semantic){
    K線交易地圖
    ========================================================== */
 
+
+/* ============================================================
+   YHTIS_PRO_KLINE_V1_89D1
+
+   Professional K-Line V1
+   D / W / M
+   Candlestick
+   Volume
+   Crosshair
+   Wheel Zoom
+   Drag Pan
+
+   UI ONLY
+   NO MODEL CHANGE
+   NO SCORE CHANGE
+   NO RANK CHANGE
+   NO SOURCE DATA CHANGE
+
+   Legacy drawMasterKline() remains as fallback.
+   ============================================================ */
+
+const YHTIS_PRO_KLINE_STATE_V1 = {
+    code:"",
+    stock:null,
+    payload:null,
+    period:"D",
+    start:0,
+    visible:80,
+    hoverIndex:null,
+    dragging:false,
+    dragX:0,
+    dragStart:0,
+    resizeTimer:null
+};
+
+
+async function yhtisLoadProfessionalChartDataV1(code){
+
+    code = String(code || "")
+        .replace(/\.0$/, "")
+        .trim();
+
+    if(!code){
+        throw new Error("股票代號為空");
+    }
+
+    const url =
+        "/YHTIS_PRO/output/chart_data/"
+        + encodeURIComponent(code)
+        + ".json?v="
+        + Date.now();
+
+    const r = await fetch(
+        url,
+        {
+            cache:"no-store"
+        }
+    );
+
+    if(!r.ok){
+        throw new Error(
+            "Chart Data HTTP "
+            + r.status
+        );
+    }
+
+    const x = await r.json();
+
+    if(
+        !x
+        ||
+        x.schema !== "YHTIS_PRO_CHART_DATA_V1"
+        ||
+        !x.periods
+    ){
+        throw new Error(
+            "Chart Data schema invalid"
+        );
+    }
+
+    return x;
+}
+
+
+function yhtisProKlineFmtNumV1(v){
+
+    const n = Number(v);
+
+    if(!Number.isFinite(n)){
+        return "—";
+    }
+
+    return n.toLocaleString(
+        "zh-TW",
+        {
+            minimumFractionDigits:0,
+            maximumFractionDigits:2
+        }
+    );
+}
+
+
+function yhtisProKlineFmtVolumeV1(v){
+
+    const n = Number(v);
+
+    if(!Number.isFinite(n)){
+        return "—";
+    }
+
+    if(n >= 100000000){
+        return (n / 100000000).toFixed(2) + " 億";
+    }
+
+    if(n >= 10000){
+        return (n / 10000).toFixed(1) + " 萬";
+    }
+
+    return n.toLocaleString(
+        "zh-TW",
+        {
+            maximumFractionDigits:0
+        }
+    );
+}
+
+
+function yhtisProKlineGetRowsV1(){
+
+    const st = YHTIS_PRO_KLINE_STATE_V1;
+
+    if(
+        !st.payload
+        ||
+        !st.payload.periods
+    ){
+        return [];
+    }
+
+    const rows =
+        st.payload.periods[st.period];
+
+    return Array.isArray(rows)
+        ? rows
+        : [];
+}
+
+
+function yhtisProKlineClampWindowV1(){
+
+    const st = YHTIS_PRO_KLINE_STATE_V1;
+    const rows = yhtisProKlineGetRowsV1();
+    const n = rows.length;
+
+    if(!n){
+        st.start = 0;
+        return;
+    }
+
+    st.visible = Math.max(
+        15,
+        Math.min(
+            st.visible,
+            n
+        )
+    );
+
+    const maxStart =
+        Math.max(
+            0,
+            n - st.visible
+        );
+
+    st.start = Math.max(
+        0,
+        Math.min(
+            st.start,
+            maxStart
+        )
+    );
+}
+
+
+function yhtisProKlineResetWindowV1(){
+
+    const st = YHTIS_PRO_KLINE_STATE_V1;
+    const rows = yhtisProKlineGetRowsV1();
+    const n = rows.length;
+
+    if(st.period === "D"){
+        st.visible = Math.min(
+            80,
+            n
+        );
+    }
+
+    else if(st.period === "W"){
+        st.visible = Math.min(
+            70,
+            n
+        );
+    }
+
+    else{
+        st.visible = Math.min(
+            60,
+            n
+        );
+    }
+
+    st.visible = Math.max(
+        1,
+        st.visible
+    );
+
+    st.start = Math.max(
+        0,
+        n - st.visible
+    );
+
+    st.hoverIndex = null;
+}
+
+
+function yhtisProKlineCreateUIV1(canvas){
+
+    let shell =
+        document.getElementById(
+            "yhtisProKlineShellV1"
+        );
+
+    if(shell){
+        return shell;
+    }
+
+    shell = document.createElement("div");
+
+    shell.id =
+        "yhtisProKlineShellV1";
+
+    shell.style.cssText =
+        "width:100%;"
+        + "box-sizing:border-box;"
+        + "margin:8px 0 4px;"
+        + "border:1px solid rgba(148,163,184,.22);"
+        + "border-radius:12px;"
+        + "background:#0b1220;"
+        + "overflow:hidden;";
+
+    const toolbar =
+        document.createElement("div");
+
+    toolbar.id =
+        "yhtisProKlineToolbarV1";
+
+    toolbar.style.cssText =
+        "display:flex;"
+        + "align-items:center;"
+        + "justify-content:space-between;"
+        + "gap:8px;"
+        + "flex-wrap:wrap;"
+        + "padding:10px 12px;"
+        + "border-bottom:1px solid rgba(148,163,184,.16);"
+        + "background:#111827;";
+
+    const left =
+        document.createElement("div");
+
+    left.style.cssText =
+        "display:flex;"
+        + "align-items:center;"
+        + "gap:6px;"
+        + "flex-wrap:wrap;";
+
+    const title =
+        document.createElement("span");
+
+    title.id =
+        "yhtisProKlineTitleV1";
+
+    title.style.cssText =
+        "font-weight:900;"
+        + "font-size:14px;"
+        + "color:#f8fafc;"
+        + "margin-right:4px;";
+
+    title.textContent =
+        "專業 K 線";
+
+    left.appendChild(title);
+
+    [
+        ["D","日"],
+        ["W","週"],
+        ["M","月"]
+    ].forEach(function(item){
+
+        const btn =
+            document.createElement("button");
+
+        btn.type = "button";
+        btn.dataset.period = item[0];
+        btn.textContent = item[1];
+
+        btn.style.cssText =
+            "border:1px solid #475569;"
+            + "border-radius:8px;"
+            + "padding:6px 11px;"
+            + "font-weight:900;"
+            + "font-size:13px;"
+            + "background:#1e293b;"
+            + "color:#cbd5e1;"
+            + "cursor:pointer;";
+
+        btn.addEventListener(
+            "click",
+            function(ev){
+
+                ev.stopPropagation();
+
+                const p =
+                    btn.dataset.period;
+
+                if(
+                    !["D","W","M"].includes(p)
+                ){
+                    return;
+                }
+
+                YHTIS_PRO_KLINE_STATE_V1.period = p;
+
+                yhtisProKlineResetWindowV1();
+                yhtisProKlineUpdatePeriodButtonsV1();
+                yhtisProKlineDrawV1();
+            }
+        );
+
+        left.appendChild(btn);
+    });
+
+    const hint =
+        document.createElement("div");
+
+    hint.style.cssText =
+        "font-size:11px;"
+        + "color:#94a3b8;"
+        + "font-weight:700;";
+
+    hint.textContent =
+        "滾輪縮放 ｜ 拖曳平移 ｜ 游標查看 OHLC";
+
+    toolbar.appendChild(left);
+    toolbar.appendChild(hint);
+
+    const info =
+        document.createElement("div");
+
+    info.id =
+        "yhtisProKlineInfoV1";
+
+    info.style.cssText =
+        "min-height:38px;"
+        + "box-sizing:border-box;"
+        + "padding:8px 12px;"
+        + "display:flex;"
+        + "align-items:center;"
+        + "gap:12px;"
+        + "flex-wrap:wrap;"
+        + "font-size:12px;"
+        + "font-weight:800;"
+        + "color:#cbd5e1;"
+        + "border-bottom:1px solid rgba(148,163,184,.12);";
+
+    const chartWrap =
+        document.createElement("div");
+
+    chartWrap.id =
+        "yhtisProKlineChartWrapV1";
+
+    chartWrap.style.cssText =
+        "width:100%;"
+        + "height:520px;"
+        + "position:relative;"
+        + "background:#08111f;"
+        + "touch-action:none;";
+
+    if(canvas.parentNode){
+        canvas.parentNode.insertBefore(
+            shell,
+            canvas
+        );
+    }
+
+    shell.appendChild(toolbar);
+    shell.appendChild(info);
+    shell.appendChild(chartWrap);
+    chartWrap.appendChild(canvas);
+
+    canvas.style.cssText =
+        "display:block;"
+        + "width:100%;"
+        + "height:100%;"
+        + "cursor:crosshair;"
+        + "touch-action:none;";
+
+    return shell;
+}
+
+
+function yhtisProKlineUpdatePeriodButtonsV1(){
+
+    const st =
+        YHTIS_PRO_KLINE_STATE_V1;
+
+    document
+    .querySelectorAll(
+        "#yhtisProKlineToolbarV1 button[data-period]"
+    )
+    .forEach(function(btn){
+
+        const active =
+            btn.dataset.period === st.period;
+
+        btn.style.background =
+            active
+            ? "#f59e0b"
+            : "#1e293b";
+
+        btn.style.color =
+            active
+            ? "#111827"
+            : "#cbd5e1";
+
+        btn.style.borderColor =
+            active
+            ? "#fbbf24"
+            : "#475569";
+    });
+}
+
+
+function yhtisProKlineUpdateInfoV1(
+    row,
+    previous
+){
+
+    const box =
+        document.getElementById(
+            "yhtisProKlineInfoV1"
+        );
+
+    if(!box){
+        return;
+    }
+
+    if(!row){
+
+        box.textContent =
+            "尚無 K 線資料";
+
+        return;
+    }
+
+    const close =
+        Number(row.close);
+
+    const prevClose =
+        previous
+        ? Number(previous.close)
+        : NaN;
+
+    let pct = NaN;
+
+    if(
+        Number.isFinite(close)
+        &&
+        Number.isFinite(prevClose)
+        &&
+        prevClose !== 0
+    ){
+        pct =
+            (
+                close / prevClose - 1
+            ) * 100;
+    }
+
+    const pctText =
+        Number.isFinite(pct)
+        ? (
+            (pct >= 0 ? "+" : "")
+            + pct.toFixed(2)
+            + "%"
+        )
+        : "—";
+
+    const pctColor =
+        Number.isFinite(pct)
+        ? (
+            pct > 0
+            ? "#fb7185"
+            : pct < 0
+            ? "#4ade80"
+            : "#cbd5e1"
+        )
+        : "#cbd5e1";
+
+    box.innerHTML =
+        "<span style='color:#94a3b8'>"
+        + String(row.date || "—")
+        + "</span>"
+
+        + "<span>開 "
+        + yhtisProKlineFmtNumV1(row.open)
+        + "</span>"
+
+        + "<span>高 "
+        + yhtisProKlineFmtNumV1(row.high)
+        + "</span>"
+
+        + "<span>低 "
+        + yhtisProKlineFmtNumV1(row.low)
+        + "</span>"
+
+        + "<span>收 "
+        + yhtisProKlineFmtNumV1(row.close)
+        + "</span>"
+
+        + "<span style='color:"
+        + pctColor
+        + "'>"
+        + pctText
+        + "</span>"
+
+        + "<span>量 "
+        + yhtisProKlineFmtVolumeV1(row.volume)
+        + "</span>";
+}
+
+
+function yhtisProKlineDrawV1(){
+
+    const canvas =
+        document.getElementById(
+            "yhtisTradeMap"
+        );
+
+    if(!canvas){
+        return;
+    }
+
+    const wrap =
+        document.getElementById(
+            "yhtisProKlineChartWrapV1"
+        );
+
+    if(!wrap){
+        return;
+    }
+
+    const st =
+        YHTIS_PRO_KLINE_STATE_V1;
+
+    const rows =
+        yhtisProKlineGetRowsV1();
+
+    if(!rows.length){
+
+        const ctx =
+            canvas.getContext("2d");
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        yhtisProKlineUpdateInfoV1(
+            null,
+            null
+        );
+
+        return;
+    }
+
+    yhtisProKlineClampWindowV1();
+
+    const rect =
+        wrap.getBoundingClientRect();
+
+    const cssW =
+        Math.max(
+            320,
+            rect.width
+        );
+
+    const cssH =
+        Math.max(
+            360,
+            rect.height
+        );
+
+    const dpr =
+        Math.max(
+            1,
+            window.devicePixelRatio || 1
+        );
+
+    canvas.width =
+        Math.floor(cssW * dpr);
+
+    canvas.height =
+        Math.floor(cssH * dpr);
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+    ctx.clearRect(
+        0,
+        0,
+        cssW,
+        cssH
+    );
+
+    const margin = {
+        left:10,
+        right:62,
+        top:12,
+        bottom:24
+    };
+
+    const volumeH =
+        Math.max(
+            72,
+            cssH * 0.20
+        );
+
+    const gap = 12;
+
+    const priceTop =
+        margin.top;
+
+    const priceBottom =
+        cssH
+        - margin.bottom
+        - volumeH
+        - gap;
+
+    const volumeTop =
+        priceBottom + gap;
+
+    const volumeBottom =
+        cssH - margin.bottom;
+
+    const start = st.start;
+
+    const end =
+        Math.min(
+            rows.length,
+            start + st.visible
+        );
+
+    const visibleRows =
+        rows.slice(
+            start,
+            end
+        );
+
+    if(!visibleRows.length){
+        return;
+    }
+
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    let maxVol = 0;
+
+    visibleRows.forEach(function(r){
+
+        const hi = Number(r.high);
+        const lo = Number(r.low);
+        const vol = Number(r.volume);
+
+        if(Number.isFinite(hi)){
+            maxPrice = Math.max(
+                maxPrice,
+                hi
+            );
+        }
+
+        if(Number.isFinite(lo)){
+            minPrice = Math.min(
+                minPrice,
+                lo
+            );
+        }
+
+        if(Number.isFinite(vol)){
+            maxVol = Math.max(
+                maxVol,
+                vol
+            );
+        }
+    });
+
+    if(
+        !Number.isFinite(minPrice)
+        ||
+        !Number.isFinite(maxPrice)
+    ){
+        return;
+    }
+
+    if(maxPrice === minPrice){
+        maxPrice += 1;
+        minPrice -= 1;
+    }
+
+    const pad =
+        (
+            maxPrice - minPrice
+        ) * 0.06;
+
+    maxPrice += pad;
+    minPrice -= pad;
+
+    const plotW =
+        cssW
+        - margin.left
+        - margin.right;
+
+    const count =
+        visibleRows.length;
+
+    const step =
+        plotW
+        /
+        Math.max(
+            1,
+            count
+        );
+
+    const bodyW =
+        Math.max(
+            2,
+            Math.min(
+                14,
+                step * 0.62
+            )
+        );
+
+    function yPrice(v){
+
+        return (
+            priceTop
+            +
+            (
+                maxPrice - v
+            )
+            /
+            (
+                maxPrice - minPrice
+            )
+            *
+            (
+                priceBottom - priceTop
+            )
+        );
+    }
+
+    ctx.strokeStyle =
+        "rgba(148,163,184,.12)";
+
+    ctx.lineWidth = 1;
+
+    ctx.font =
+        "11px -apple-system,BlinkMacSystemFont,sans-serif";
+
+    ctx.fillStyle = "#94a3b8";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+
+    for(let g = 0; g <= 5; g++){
+
+        const ratio = g / 5;
+
+        const y =
+            priceTop
+            +
+            ratio
+            *
+            (
+                priceBottom - priceTop
+            );
+
+        ctx.beginPath();
+        ctx.moveTo(
+            margin.left,
+            y
+        );
+        ctx.lineTo(
+            cssW - margin.right,
+            y
+        );
+        ctx.stroke();
+
+        const val =
+            maxPrice
+            -
+            ratio
+            *
+            (
+                maxPrice - minPrice
+            );
+
+        ctx.fillText(
+            yhtisProKlineFmtNumV1(val),
+            cssW - margin.right + 6,
+            y
+        );
+    }
+
+    visibleRows.forEach(
+        function(r, i){
+
+            const o = Number(r.open);
+            const h = Number(r.high);
+            const l = Number(r.low);
+            const c = Number(r.close);
+            const v = Number(r.volume);
+
+            if(
+                ![o,h,l,c].every(
+                    Number.isFinite
+                )
+            ){
+                return;
+            }
+
+            const x =
+                margin.left
+                +
+                (
+                    i + 0.5
+                )
+                *
+                step;
+
+            const up = c >= o;
+
+            const color =
+                up
+                ? "#fb7185"
+                : "#4ade80";
+
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 1.2;
+
+            ctx.beginPath();
+            ctx.moveTo(
+                x,
+                yPrice(h)
+            );
+            ctx.lineTo(
+                x,
+                yPrice(l)
+            );
+            ctx.stroke();
+
+            const yO = yPrice(o);
+            const yC = yPrice(c);
+
+            const top =
+                Math.min(
+                    yO,
+                    yC
+                );
+
+            const bh =
+                Math.max(
+                    1,
+                    Math.abs(
+                        yC - yO
+                    )
+                );
+
+            ctx.fillRect(
+                x - bodyW / 2,
+                top,
+                bodyW,
+                bh
+            );
+
+            if(
+                Number.isFinite(v)
+                &&
+                maxVol > 0
+            ){
+
+                const vh =
+                    v
+                    /
+                    maxVol
+                    *
+                    (
+                        volumeBottom
+                        -
+                        volumeTop
+                    );
+
+                ctx.globalAlpha = 0.46;
+
+                ctx.fillRect(
+                    x - bodyW / 2,
+                    volumeBottom - vh,
+                    bodyW,
+                    vh
+                );
+
+                ctx.globalAlpha = 1;
+            }
+        }
+    );
+
+    ctx.strokeStyle =
+        "rgba(148,163,184,.18)";
+
+    ctx.beginPath();
+    ctx.moveTo(
+        margin.left,
+        volumeTop - gap / 2
+    );
+    ctx.lineTo(
+        cssW - margin.right,
+        volumeTop - gap / 2
+    );
+    ctx.stroke();
+
+    const labelEvery =
+        Math.max(
+            1,
+            Math.round(
+                count / 6
+            )
+        );
+
+    ctx.fillStyle = "#64748b";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+
+    visibleRows.forEach(
+        function(r, i){
+
+            if(
+                i % labelEvery !== 0
+                &&
+                i !== count - 1
+            ){
+                return;
+            }
+
+            const x =
+                margin.left
+                +
+                (
+                    i + 0.5
+                )
+                *
+                step;
+
+            ctx.fillText(
+                String(
+                    r.date || ""
+                ).slice(5),
+                x,
+                volumeBottom + 6
+            );
+        }
+    );
+
+    let hoverLocal = null;
+
+    if(
+        Number.isInteger(
+            st.hoverIndex
+        )
+        &&
+        st.hoverIndex >= start
+        &&
+        st.hoverIndex < end
+    ){
+        hoverLocal =
+            st.hoverIndex - start;
+    }
+
+    if(hoverLocal !== null){
+
+        const r =
+            visibleRows[hoverLocal];
+
+        const x =
+            margin.left
+            +
+            (
+                hoverLocal + 0.5
+            )
+            *
+            step;
+
+        const c =
+            Number(r.close);
+
+        const y =
+            Number.isFinite(c)
+            ? yPrice(c)
+            : priceBottom;
+
+        ctx.save();
+        ctx.setLineDash([4,4]);
+        ctx.strokeStyle =
+            "rgba(226,232,240,.65)";
+        ctx.lineWidth = 1;
+
+        ctx.beginPath();
+        ctx.moveTo(x, priceTop);
+        ctx.lineTo(x, volumeBottom);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(margin.left, y);
+        ctx.lineTo(
+            cssW - margin.right,
+            y
+        );
+        ctx.stroke();
+
+        ctx.restore();
+
+        const prev =
+            st.hoverIndex > 0
+            ? rows[
+                st.hoverIndex - 1
+              ]
+            : null;
+
+        yhtisProKlineUpdateInfoV1(
+            r,
+            prev
+        );
+    }
+
+    else{
+
+        const idx = end - 1;
+        const r = rows[idx];
+
+        const prev =
+            idx > 0
+            ? rows[idx - 1]
+            : null;
+
+        yhtisProKlineUpdateInfoV1(
+            r,
+            prev
+        );
+    }
+}
+
+
+function yhtisProKlineInstallEventsV1(canvas){
+
+    if(
+        canvas.dataset.proKlineEventsV1
+        ===
+        "1"
+    ){
+        return;
+    }
+
+    canvas.dataset.proKlineEventsV1 =
+        "1";
+
+    canvas.addEventListener(
+        "mousemove",
+        function(ev){
+
+            const st =
+                YHTIS_PRO_KLINE_STATE_V1;
+
+            const rows =
+                yhtisProKlineGetRowsV1();
+
+            if(!rows.length){
+                return;
+            }
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            const plotLeft = 10;
+            const plotRight =
+                rect.width - 62;
+
+            const plotW =
+                Math.max(
+                    1,
+                    plotRight - plotLeft
+                );
+
+            if(st.dragging){
+
+                const delta =
+                    ev.clientX - st.dragX;
+
+                const pixelsPerBar =
+                    plotW
+                    /
+                    Math.max(
+                        1,
+                        st.visible
+                    );
+
+                const shift =
+                    Math.round(
+                        -delta
+                        /
+                        Math.max(
+                            2,
+                            pixelsPerBar
+                        )
+                    );
+
+                st.start =
+                    st.dragStart + shift;
+
+                yhtisProKlineClampWindowV1();
+                yhtisProKlineDrawV1();
+
+                return;
+            }
+
+            const x =
+                ev.clientX
+                - rect.left;
+
+            if(
+                x < plotLeft
+                ||
+                x > plotRight
+            ){
+                st.hoverIndex = null;
+                yhtisProKlineDrawV1();
+                return;
+            }
+
+            const local =
+                Math.floor(
+                    (
+                        x - plotLeft
+                    )
+                    /
+                    plotW
+                    *
+                    st.visible
+                );
+
+            st.hoverIndex =
+                Math.min(
+                    rows.length - 1,
+                    Math.max(
+                        0,
+                        st.start + local
+                    )
+                );
+
+            yhtisProKlineDrawV1();
+        }
+    );
+
+    canvas.addEventListener(
+        "mouseleave",
+        function(){
+
+            const st =
+                YHTIS_PRO_KLINE_STATE_V1;
+
+            if(!st.dragging){
+                st.hoverIndex = null;
+                yhtisProKlineDrawV1();
+            }
+        }
+    );
+
+    canvas.addEventListener(
+        "mousedown",
+        function(ev){
+
+            if(ev.button !== 0){
+                return;
+            }
+
+            const st =
+                YHTIS_PRO_KLINE_STATE_V1;
+
+            st.dragging = true;
+            st.dragX = ev.clientX;
+            st.dragStart = st.start;
+
+            canvas.style.cursor =
+                "grabbing";
+
+            ev.preventDefault();
+        }
+    );
+
+    window.addEventListener(
+        "mouseup",
+        function(){
+
+            const st =
+                YHTIS_PRO_KLINE_STATE_V1;
+
+            if(!st.dragging){
+                return;
+            }
+
+            st.dragging = false;
+
+            canvas.style.cursor =
+                "crosshair";
+        }
+    );
+
+    canvas.addEventListener(
+        "wheel",
+        function(ev){
+
+            ev.preventDefault();
+
+            const st =
+                YHTIS_PRO_KLINE_STATE_V1;
+
+            const rows =
+                yhtisProKlineGetRowsV1();
+
+            if(!rows.length){
+                return;
+            }
+
+            const oldVisible =
+                st.visible;
+
+            const factor =
+                ev.deltaY < 0
+                ? 0.86
+                : 1.16;
+
+            st.visible =
+                Math.round(
+                    oldVisible * factor
+                );
+
+            st.visible =
+                Math.max(
+                    15,
+                    Math.min(
+                        rows.length,
+                        st.visible
+                    )
+                );
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            const ratio =
+                Math.max(
+                    0,
+                    Math.min(
+                        1,
+                        (
+                            ev.clientX
+                            - rect.left
+                            - 10
+                        )
+                        /
+                        Math.max(
+                            1,
+                            rect.width - 72
+                        )
+                    )
+                );
+
+            const anchor =
+                st.start
+                +
+                Math.round(
+                    oldVisible * ratio
+                );
+
+            st.start =
+                anchor
+                -
+                Math.round(
+                    st.visible * ratio
+                );
+
+            yhtisProKlineClampWindowV1();
+            yhtisProKlineDrawV1();
+        },
+        {
+            passive:false
+        }
+    );
+
+    window.addEventListener(
+        "resize",
+        function(){
+
+            clearTimeout(
+                YHTIS_PRO_KLINE_STATE_V1
+                .resizeTimer
+            );
+
+            YHTIS_PRO_KLINE_STATE_V1
+            .resizeTimer =
+                setTimeout(
+                    function(){
+                        yhtisProKlineDrawV1();
+                    },
+                    80
+                );
+        }
+    );
+}
+
+
+async function yhtisInstallProfessionalKlineV1(
+    code,
+    stock
+){
+
+    const canvas =
+        document.getElementById(
+            "yhtisTradeMap"
+        );
+
+    if(!canvas){
+        return false;
+    }
+
+    try{
+
+        const shell =
+            yhtisProKlineCreateUIV1(
+                canvas
+            );
+
+        const payload =
+            await yhtisLoadProfessionalChartDataV1(
+                code
+            );
+
+        const st =
+            YHTIS_PRO_KLINE_STATE_V1;
+
+        st.code =
+            String(code || "");
+
+        st.stock =
+            stock || null;
+
+        st.payload =
+            payload;
+
+        st.period = "D";
+
+        const title =
+            document.getElementById(
+                "yhtisProKlineTitleV1"
+            );
+
+        if(title){
+
+            title.textContent =
+                (
+                    payload.code || st.code
+                )
+                + " "
+                + (
+                    payload.name || ""
+                )
+                + "｜專業 K 線";
+        }
+
+        shell.style.display =
+            "block";
+
+        yhtisProKlineResetWindowV1();
+        yhtisProKlineUpdatePeriodButtonsV1();
+
+        yhtisProKlineInstallEventsV1(
+            canvas
+        );
+
+        yhtisProKlineDrawV1();
+
+        console.log(
+            "YHTIS Professional K-Line V1:",
+            st.code,
+            payload
+        );
+
+        return true;
+    }
+
+    catch(e){
+
+        console.error(
+            "Professional K-Line V1 failed:",
+            e
+        );
+
+        try{
+
+            const shell =
+                document.getElementById(
+                    "yhtisProKlineShellV1"
+                );
+
+            if(shell){
+
+                const parent =
+                    shell.parentNode;
+
+                if(
+                    parent
+                    &&
+                    canvas.parentNode !== parent
+                ){
+                    parent.insertBefore(
+                        canvas,
+                        shell
+                    );
+                }
+
+                shell.remove();
+            }
+
+            canvas.style.cssText = "";
+
+            drawMasterKline(
+                canvas,
+                stock
+                    ? stock["K線"]
+                    : null
+            );
+        }
+
+        catch(oldError){
+
+            console.error(
+                "Legacy K-Line fallback failed:",
+                oldError
+            );
+        }
+
+        return false;
+    }
+}
+
+
 function drawMasterKline(
     canvas,
     rows,
@@ -3611,15 +5091,10 @@ function renderMaster(
     setTimeout(
         ()=>{
 
-            drawMasterKline(
-                document.getElementById(
-                    "yhtisTradeMap"
-                ),
-                stock["K線"]
-                || [],
-                plan,
-                track
-            );
+            void yhtisInstallProfessionalKlineV1(
+        code,
+        stock
+    );
 
         },
         30
@@ -9421,17 +10896,125 @@ function yhtisLBCodeV3(row){
 
 function yhtisLBNameV3(row){
 
-    return String(
-        row.name
+    row = row || {};
+
+    /*
+     * STEP 88E-R2
+     * Leaderboard 中文名稱 Master Index fallback
+     *
+     * Priority:
+     * 1. row 自帶名稱
+     * 2. YHTIS_INDEX["股票名稱"]
+     * 3. 空字串
+     *
+     * UI ONLY
+     * NO MODEL CHANGE
+     * NO DATA CHANGE
+     * NO NEW FETCH
+     */
+
+    const directName =
+        String(
+            row.name
+            ||
+            row.Name
+            ||
+            row.股票名稱
+            ||
+            row.名稱
+            ||
+            ""
+        ).trim();
+
+    if(directName){
+        return directName;
+    }
+
+
+    const code =
+        yhtisLBCodeV3(row);
+
+
+    if(
+        !code
         ||
-        row.Name
+        !YHTIS_INDEX
         ||
-        row.股票名稱
-        ||
-        row.名稱
-        ||
-        ""
-    ).trim();
+        !YHTIS_INDEX["股票名稱"]
+    ){
+        return "";
+    }
+
+
+    const names =
+        YHTIS_INDEX["股票名稱"];
+
+
+    /*
+     * yhtisLBCodeV3 已負責股票代號 normalization。
+     * 這裡仍保留原 code + 4碼補零 fallback，
+     * 避免 ETF / 前導零代號遺失。
+     */
+    const candidates = [
+        String(code).trim()
+    ];
+
+
+    if(
+        /^\d+$/.test(
+            String(code).trim()
+        )
+    ){
+
+        const padded =
+            String(code)
+            .trim()
+            .padStart(
+                4,
+                "0"
+            );
+
+        if(
+            !candidates.includes(
+                padded
+            )
+        ){
+            candidates.push(
+                padded
+            );
+        }
+    }
+
+
+    for(
+        const candidate
+        of candidates
+    ){
+
+        if(
+            Object.prototype
+            .hasOwnProperty
+            .call(
+                names,
+                candidate
+            )
+        ){
+
+            const masterName =
+                String(
+                    names[candidate]
+                    ||
+                    ""
+                ).trim();
+
+            if(masterName){
+                return masterName;
+            }
+        }
+    }
+
+
+    return "";
 }
 
 
@@ -10769,9 +12352,29 @@ function yhtisLBRenderStageV3(
             card.style.cursor =
                 "pointer";
 
+            /*
+             * STEP 88G
+             * Final render name fallback.
+             *
+             * Priority:
+             * 1. stock.name
+             * 2. existing yhtisLBNameV3(stock)
+             * 3. code only
+             *
+             * UI ONLY
+             */
+            const resolvedName =
+                String(
+                    stock.name
+                    ||
+                    yhtisLBNameV3(stock)
+                    ||
+                    ""
+                ).trim();
+
             const name =
-                stock.name
-                ? " " + stock.name
+                resolvedName
+                ? " " + resolvedName
                 : "";
 
             card.innerHTML =
