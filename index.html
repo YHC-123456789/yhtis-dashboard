@@ -244,6 +244,30 @@ input{
 }
 
 </style>
+
+<style id="yhtisV19NativeResearchV2Style">
+.yhtis-native-metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.yhtis-native-metric{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.yhtis-native-metric b{display:block;font-size:22px;margin-top:4px}
+.yhtis-industry-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.yhtis-industry-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.yhtis-industry-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.yhtis-industry-name{font-size:20px;font-weight:850}
+.yhtis-scorebar{height:7px;border-radius:999px;overflow:hidden;background:var(--line);margin-top:8px}
+.yhtis-scorebar>i{display:block;height:100%;background:#60a5fa}
+.yhtis-chip{display:inline-block;border:1px solid var(--line);background:var(--card2);border-radius:999px;padding:3px 8px;margin:2px 3px 2px 0;font-size:12px}
+.yhtis-candidate-chip{cursor:pointer}
+.yhtis-candidate-chip:hover{border-color:#60a5fa}
+.yhtis-search-wrap{position:relative;flex:1;min-width:220px}
+.yhtis-search-wrap input{width:100%}
+.yhtis-search-suggest{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:2147483600;max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:#0b111b;box-shadow:0 16px 40px rgba(0,0,0,.42)}
+.yhtis-search-suggest.on{display:block}
+.yhtis-search-item{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+.yhtis-search-item:last-child{border-bottom:0}
+.yhtis-search-item:hover,.yhtis-search-item.active{background:#162235}
+@media(max-width:900px){.yhtis-native-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.yhtis-industry-grid{grid-template-columns:1fr}}
+</style>
+
 </head>
 <body>
 
@@ -259,6 +283,8 @@ input{
   <nav>
    <button class="on" data-page="home">首頁</button>
    <button data-page="swing">波段</button>
+   <button data-page="daytrade">⚡ 當沖</button>
+   <button data-page="industry">🏭 產業地圖</button>
    <button data-page="tracking">🎯 追蹤標的</button>
    <button data-page="special">👁️ 特別觀察</button>
    <button data-page="room">M2 前瞻研究</button>
@@ -295,6 +321,50 @@ input{
  </div>
 </section>
 
+
+<!-- YHTIS_V19_NATIVE_RESEARCH_V2_BEGIN -->
+<section id="daytrade" class="page">
+ <div class="row">
+  <div>
+   <h2>⚡ 當沖研究</h2>
+   <div class="mut">ROOM M2 Shadow＋A+萌芽｜研究用途，不把候選冒充盤中買進訊號</div>
+  </div>
+  <div id="daytradeMeta" class="mut">資料載入中…</div>
+ </div>
+ <div id="daytradeSummary" class="yhtis-native-metrics" style="margin-top:12px"></div>
+ <div class="card" style="margin-top:12px">
+  <h3>正式 ROOM M2 Shadow Signal</h3>
+  <div id="daytradeSignals"></div>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <h3>A+ 大波段萌芽｜下一層研究池</h3>
+  <div id="daytradeAPlus"></div>
+ </div>
+ <details class="card" style="margin-top:12px">
+  <summary><b>查看萌芽 / Band A 完整研究池</b></summary>
+  <h3 style="margin-top:14px">萌芽</h3>
+  <div id="daytradeSprout"></div>
+  <h3 style="margin-top:14px">Band A</h3>
+  <div id="daytradeGradeA"></div>
+ </details>
+</section>
+
+<section id="industry" class="page">
+ <div class="row">
+  <div>
+   <h2>🏭 產業地圖</h2>
+   <div class="mut">產業漲跌、擴散程度、領漲股與補漲研究分數</div>
+  </div>
+  <div id="industryMeta" class="mut">資料載入中…</div>
+ </div>
+ <div class="notice" style="margin-top:12px">
+  補漲研究分數為研究排序，不是已經 OOS 校準的真實勝率。
+ </div>
+ <div id="industryGrid" class="yhtis-industry-grid" style="margin-top:12px"></div>
+</section>
+<!-- YHTIS_V19_NATIVE_RESEARCH_V2_END -->
+
+
 <section id="tracking" class="page">
  <h2>🎯 追蹤標的</h2>
  <div class="notice">正式系統追蹤資料。此頁不改變模型與候選結果。</div>
@@ -330,7 +400,10 @@ input{
  <h2>個股工作區</h2>
  <div class="card">
   <div class="row">
-   <input id="stockInput" placeholder="輸入股票代號，例如 2337">
+   <div class="yhtis-search-wrap">
+    <input id="stockInput" autocomplete="off" placeholder="輸入股票代號或名稱，例如 2337 / 台積電">
+    <div id="yhtisSearchSuggest" class="yhtis-search-suggest"></div>
+   </div>
    <button onclick="loadStockFromInput()">查詢</button>
   </div>
   <div id="stockContent" class="mut">尚未選擇股票。</div>
@@ -7293,6 +7366,219 @@ async function openStock(code){
 }
 
 
+
+/* YHTIS_V19_NATIVE_RESEARCH_V2_JS */
+const YHTIS_PORTAL_NATIVE_URL='output/portal_v1/portal_data_v1.json';
+const YHTIS_SEARCH_V2_URL='stock_query/search_index_v2.json';
+let YHTIS_NATIVE_PORTAL_V2=null;
+let YHTIS_SEARCH_ROWS_V2=[];
+let YHTIS_SEARCH_HITS_V2=[];
+let YHTIS_SEARCH_ACTIVE_V2=-1;
+
+function yhtisAssetUrlV2(path){ return new URL(path,window.location.href).href; }
+
+async function yhtisFetchJsonV2(path){
+  const u=yhtisAssetUrlV2(path);
+  const r=await fetch(u+(u.includes('?')?'&':'?')+'v='+Date.now(),{cache:'no-store'});
+  if(!r.ok) throw new Error(path+' HTTP '+r.status);
+  return await r.json();
+}
+
+function yhtisNativeStockRowsV2(rows,emptyText){
+  if(!Array.isArray(rows)||!rows.length){
+    return `<div class="mut">${esc(emptyText||'目前 0 檔')}</div>`;
+  }
+  return rows.map(x=>{
+    const code=String(x.Code??x.code??x['股票代號']??'').trim();
+    const name=String(x.Name??x.name??x['股票名稱']??'').trim();
+    const early=String(x.EARLY_BAND??'').trim();
+    const stage=String(x.BIG_SWING_STAGE??'').trim();
+    const chips=[];
+    if(x.DIST_HIGH20!==undefined) chips.push(`<span class="yhtis-chip">距20高 ${esc(x.DIST_HIGH20)}%</span>`);
+    if(x.RANGE20_PCT!==undefined) chips.push(`<span class="yhtis-chip">20日區間 ${esc(x.RANGE20_PCT)}%</span>`);
+    if(x.RS_ACCEL_PCTL!==undefined){
+      const n=Number(x.RS_ACCEL_PCTL);
+      chips.push(`<span class="yhtis-chip">RS Pctl ${Number.isFinite(n)?(n*100).toFixed(1):'—'}</span>`);
+    }
+    return `<div class="row stocklink" data-yhtis-native-code="${esc(code)}">
+      <div><b>${esc(code)} ${esc(name)}</b><div class="mut">${esc([early,stage].filter(Boolean).join('｜'))}</div><div style="margin-top:5px">${chips.join('')}</div></div>
+      <div>查看 →</div></div>`;
+  }).join('');
+}
+
+function yhtisBindNativeStockRowsV2(root){
+  root.querySelectorAll('[data-yhtis-native-code]').forEach(el=>{
+    el.onclick=()=>{const code=el.getAttribute('data-yhtis-native-code');if(code)openStock(code);};
+  });
+}
+
+function yhtisRenderDaytradeV2(){
+  const p=YHTIS_NATIVE_PORTAL_V2;
+  const host=document.getElementById('daytrade');
+  if(!host)return;
+  if(!p){
+    document.getElementById('daytradeMeta').textContent='研究資料目前無法使用';
+    document.getElementById('daytradeSignals').innerHTML='<div class="bad">Portal research data 載入失敗。</div>';
+    return;
+  }
+  const d=p.daytrade||{},a=d.audit||{},c=p.contract||{};
+  document.getElementById('daytradeMeta').textContent=`M2 ${c.room_m2_date||'—'}｜Production ${c.production_date||'—'}`;
+  const metrics=[
+    ['正式 M2',a.ROOM_M2_N??(d.signals||[]).length??0],
+    ['A+萌芽',a.A_PLUS_SPROUT_N??(d.a_plus_sprout||[]).length??0],
+    ['萌芽',a.Sprout_N??(d.sprout||[]).length??0],
+    ['Band A',a.BandA_N??(d.grade_a||[]).length??0],
+    ['Breadth5D',Number.isFinite(Number(a.Breadth5D))?(Number(a.Breadth5D)*100).toFixed(1)+'%':'—']
+  ];
+  document.getElementById('daytradeSummary').innerHTML=metrics.map(([k,v])=>`<div class="yhtis-native-metric"><span class="mut">${esc(k)}</span><b>${esc(v)}</b></div>`).join('');
+  document.getElementById('daytradeSignals').innerHTML=yhtisNativeStockRowsV2(d.signals||[],'目前正式 ROOM M2 Shadow Signal 為 0 檔；這不是資料遺失。');
+  document.getElementById('daytradeAPlus').innerHTML=yhtisNativeStockRowsV2(d.a_plus_sprout||[],'目前 A+ 萌芽研究池為 0 檔。');
+  document.getElementById('daytradeSprout').innerHTML=yhtisNativeStockRowsV2(d.sprout||[],'目前萌芽研究池為 0 檔。');
+  document.getElementById('daytradeGradeA').innerHTML=yhtisNativeStockRowsV2(d.grade_a||[],'目前 Band A 為 0 檔。');
+  yhtisBindNativeStockRowsV2(host);
+}
+
+function yhtisParseCandidateCodesV2(text){
+  const out=[],seen=new Set();
+  const re=/(?:^|、|\s)(\d{4})(?:\s+([^、]+))?/g;
+  let m;
+  while((m=re.exec(String(text||'')))!==null){
+    const code=String(m[1]||'').trim(),name=String(m[2]||'').trim();
+    if(code&&!seen.has(code)){seen.add(code);out.push({code,name});}
+  }
+  return out;
+}
+
+function yhtisRenderIndustryV2(){
+  const p=YHTIS_NATIVE_PORTAL_V2,grid=document.getElementById('industryGrid');
+  if(!grid)return;
+  if(!p){
+    document.getElementById('industryMeta').textContent='產業資料目前無法使用';
+    grid.innerHTML='<div class="card bad">Industry data 載入失敗。</div>';
+    return;
+  }
+  const c=p.contract||{},rows=((p.industry||{}).industries||[]);
+  document.getElementById('industryMeta').textContent=`產業 ${c.industry_date||'—'}｜${rows.length} 類`;
+  if(!rows.length){grid.innerHTML='<div class="card">目前產業資料為 0 筆。</div>';return;}
+  grid.innerHTML=rows.map(x=>{
+    const score=Number(x['補漲研究分數']);
+    const width=Number.isFinite(score)?Math.max(0,Math.min(100,score)):0;
+    const r1=Number(x['產業1日(%)']),r5=Number(x['產業5日(%)']),r20=Number(x['產業20日(%)']);
+    const r1Class=Number.isFinite(r1)?(r1>0?'good':r1<0?'bad':''):'';
+    const candidates=yhtisParseCandidateCodesV2(x['補漲候選']);
+    const candidateHtml=candidates.length?candidates.slice(0,8).map(z=>`<span class="yhtis-chip yhtis-candidate-chip" data-yhtis-native-code="${esc(z.code)}">${esc(z.code)} ${esc(z.name)}</span>`).join(''):`<span class="mut">${esc(x['補漲候選']||'—')}</span>`;
+    return `<div class="yhtis-industry-card">
+      <div class="yhtis-industry-head"><div><div class="yhtis-industry-name">${esc(x['產業名稱'])}</div><div class="mut">${esc(x['產業階段']||'')}</div></div><div class="${r1Class}"><b>${Number.isFinite(r1)?r1.toFixed(2)+'%':'—'}</b></div></div>
+      <div style="margin-top:8px"><span class="yhtis-chip">5日 ${Number.isFinite(r5)?r5.toFixed(2)+'%':'—'}</span><span class="yhtis-chip">20日 ${Number.isFinite(r20)?r20.toFixed(2)+'%':'—'}</span><span class="yhtis-chip">5日上漲比 ${esc(x['5日上漲家數比(%)']??'—')}%</span></div>
+      <div style="margin-top:10px"><b>補漲研究分數 ${esc(x['補漲研究分數']??'—')} / 100</b><div class="mut">${esc(x['補漲等級']||'')}</div><div class="yhtis-scorebar"><i style="width:${width}%"></i></div></div>
+      <div style="margin-top:10px"><div class="mut">領漲股</div><div>${esc(x['領漲股']||'—')}</div></div>
+      <div style="margin-top:10px"><div class="mut">補漲候選</div><div>${candidateHtml}</div></div>
+    </div>`;
+  }).join('');
+  yhtisBindNativeStockRowsV2(grid);
+}
+
+function yhtisRenderRoomFromPortalV2(){
+  if(!YHTIS_NATIVE_PORTAL_V2)return;
+  const box=document.getElementById('roomList');
+  if(!box)return;
+  if(DATA&&Array.isArray(DATA.room_m2)&&DATA.room_m2.length)return;
+  const d=YHTIS_NATIVE_PORTAL_V2.daytrade||{};
+  const pool=(d.signals&&d.signals.length)?d.signals:(d.a_plus_sprout||[]);
+  box.innerHTML=yhtisNativeStockRowsV2(pool,'目前正式 M2 Signal 為 0 檔，A+萌芽研究池也為 0 檔。');
+  if(pool.length){
+    const note=document.createElement('div');
+    note.className='notice';note.style.marginBottom='10px';
+    note.textContent=(d.signals&&d.signals.length)?'顯示正式 ROOM M2 Shadow Signal。':'正式 M2 Signal 為 0；以下顯示 A+萌芽研究池，僅供前瞻研究。';
+    box.prepend(note);
+  }
+  yhtisBindNativeStockRowsV2(box);
+}
+
+async function yhtisLoadPortalNativeV2(){
+  try{YHTIS_NATIVE_PORTAL_V2=await yhtisFetchJsonV2(YHTIS_PORTAL_NATIVE_URL);}
+  catch(e){console.error('Portal native load failed',e);YHTIS_NATIVE_PORTAL_V2=null;}
+  yhtisRenderDaytradeV2();yhtisRenderIndustryV2();yhtisRenderRoomFromPortalV2();
+}
+
+function yhtisNormalizeSearchRowsV2(raw){
+  const out=[],seen=new Set();
+  const add=(code,name)=>{
+    code=String(code??'').trim();name=String(name??'').trim();
+    if(!/^\d{4}$/.test(code)||seen.has(code))return;
+    seen.add(code);out.push({code,name});
+  };
+  if(raw&&Array.isArray(raw.rows))raw.rows.forEach(x=>add(x.code??x.Code??x['股票代號'],x.name??x.Name??x['股票名稱']));
+  if(raw&&raw['股票名稱']&&typeof raw['股票名稱']==='object')Object.entries(raw['股票名稱']).forEach(([code,name])=>add(code,name));
+  if(raw&&raw['名稱索引']&&typeof raw['名稱索引']==='object')Object.entries(raw['名稱索引']).forEach(([name,code])=>add(code,name));
+  return out;
+}
+
+async function yhtisLoadSearchRowsV2(){
+  try{YHTIS_SEARCH_ROWS_V2=yhtisNormalizeSearchRowsV2(await yhtisFetchJsonV2(YHTIS_SEARCH_V2_URL));}
+  catch(e){
+    console.warn('search_index_v2 unavailable; fallback',e);
+    try{YHTIS_SEARCH_ROWS_V2=yhtisNormalizeSearchRowsV2(await yhtisFetchJsonV2('stock_query/index.json'));}
+    catch(e2){console.error('search index unavailable',e2);YHTIS_SEARCH_ROWS_V2=[];}
+  }
+}
+
+function yhtisSearchMatchesV2(q){
+  q=String(q||'').trim().toLowerCase();if(!q)return[];
+  const prefix=[],contains=[];
+  (YHTIS_SEARCH_ROWS_V2||[]).forEach(x=>{
+    const code=String(x.code||'').toLowerCase(),name=String(x.name||'').toLowerCase();
+    if(code.startsWith(q)||name.startsWith(q))prefix.push(x);
+    else if(code.includes(q)||name.includes(q))contains.push(x);
+  });
+  return [...prefix,...contains].slice(0,15);
+}
+
+function yhtisCloseSuggestV2(){
+  const box=document.getElementById('yhtisSearchSuggest');
+  if(box){box.classList.remove('on');box.innerHTML='';}
+  YHTIS_SEARCH_HITS_V2=[];YHTIS_SEARCH_ACTIVE_V2=-1;
+}
+
+function yhtisRenderSuggestV2(q){
+  const box=document.getElementById('yhtisSearchSuggest');if(!box)return;
+  const hits=yhtisSearchMatchesV2(q);YHTIS_SEARCH_HITS_V2=hits;YHTIS_SEARCH_ACTIVE_V2=-1;
+  if(!String(q||'').trim()){yhtisCloseSuggestV2();return;}
+  if(!hits.length){box.innerHTML='<div class="yhtis-search-item"><div class="mut">找不到相關股票</div></div>';box.classList.add('on');return;}
+  box.innerHTML=hits.map((x,i)=>`<div class="yhtis-search-item" data-yhtis-suggest-index="${i}"><div><b>${esc(x.code)}</b> ${esc(x.name)}</div><div class="mut">查看 →</div></div>`).join('');
+  box.classList.add('on');
+  box.querySelectorAll('[data-yhtis-suggest-index]').forEach(el=>{
+    el.onclick=()=>{const x=hits[Number(el.getAttribute('data-yhtis-suggest-index'))];if(!x)return;const input=document.getElementById('stockInput');if(input)input.value=`${x.code} ${x.name}`;yhtisCloseSuggestV2();openStock(x.code);};
+  });
+}
+
+function yhtisHighlightSuggestV2(){
+  const box=document.getElementById('yhtisSearchSuggest');if(!box)return;
+  box.querySelectorAll('.yhtis-search-item').forEach((el,i)=>el.classList.toggle('active',i===YHTIS_SEARCH_ACTIVE_V2));
+}
+
+function yhtisInitSearchV2(){
+  const input=document.getElementById('stockInput');
+  if(!input||input.dataset.yhtisSuggestReady==='1')return;
+  input.dataset.yhtisSuggestReady='1';
+  input.addEventListener('input',()=>yhtisRenderSuggestV2(input.value));
+  input.addEventListener('focus',()=>{if(String(input.value||'').trim())yhtisRenderSuggestV2(input.value);});
+  input.addEventListener('keydown',e=>{
+    if(!YHTIS_SEARCH_HITS_V2.length)return;
+    if(e.key==='ArrowDown'){e.preventDefault();YHTIS_SEARCH_ACTIVE_V2=Math.min(YHTIS_SEARCH_HITS_V2.length-1,YHTIS_SEARCH_ACTIVE_V2+1);yhtisHighlightSuggestV2();}
+    else if(e.key==='ArrowUp'){e.preventDefault();YHTIS_SEARCH_ACTIVE_V2=Math.max(0,YHTIS_SEARCH_ACTIVE_V2-1);yhtisHighlightSuggestV2();}
+    else if(e.key==='Enter'){const i=YHTIS_SEARCH_ACTIVE_V2>=0?YHTIS_SEARCH_ACTIVE_V2:0;const x=YHTIS_SEARCH_HITS_V2[i];if(x){e.preventDefault();yhtisCloseSuggestV2();openStock(x.code);}}
+    else if(e.key==='Escape'){yhtisCloseSuggestV2();}
+  });
+  document.addEventListener('click',e=>{const wrap=input.closest('.yhtis-search-wrap');if(wrap&&!wrap.contains(e.target))yhtisCloseSuggestV2();});
+}
+
+async function yhtisV19NativeResearchInitV2(){
+  await Promise.all([yhtisLoadPortalNativeV2(),yhtisLoadSearchRowsV2()]);
+  yhtisInitSearchV2();
+}
+
+
 async function boot(){
   try{
     const r=await fetch(DATA_URL+'?v='+Date.now());
@@ -7303,6 +7589,7 @@ async function boot(){
     renderSwing();
     renderSpecial();
     renderRoom();
+    await yhtisV19NativeResearchInitV2();
   }catch(e){
     document.getElementById('dataDate').textContent='正式資料目前無法使用';
     document.getElementById('priority').innerHTML=
@@ -7477,142 +7764,5 @@ boot();
 
 <!-- YHTIS_GLOBAL_NAV_V133_END -->
 
-<!-- YHTIS_PORTAL_V1_BEGIN -->
-<style id="yhtisPortalV1Style">
-.yhtis-portal-btn{white-space:nowrap}
-#yhtisPortalOverlay{position:fixed;inset:0;z-index:9999;background:rgba(5,8,12,.92);display:none;overflow:auto;padding:18px}
-#yhtisPortalOverlay.on{display:block}
-.yhtis-portal-shell{max-width:1180px;margin:0 auto;background:#0b0f14;border:1px solid #273243;border-radius:16px;padding:16px;color:#eef3f8}
-.yhtis-portal-head{display:flex;gap:12px;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0b0f14;padding:6px 0 12px;z-index:2}
-.yhtis-portal-tabs{display:flex;gap:8px;overflow:auto;margin:10px 0 14px}
-.yhtis-portal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.yhtis-portal-card{background:#121821;border:1px solid #273243;border-radius:14px;padding:12px;cursor:pointer}
-.yhtis-portal-card:hover{background:#171f2b}
-.yhtis-portal-card .big{font-size:22px;font-weight:800}
-.yhtis-portal-muted{color:#91a0b5}
-.yhtis-portal-good{color:#39d98a}.yhtis-portal-warn{color:#f5c451}.yhtis-portal-bad{color:#ff6b6b}
-.yhtis-portal-chip{display:inline-block;border:1px solid #273243;border-radius:999px;padding:3px 8px;font-size:12px;margin:2px}
-.yhtis-portal-section{display:none}.yhtis-portal-section.on{display:block}
-.yhtis-ind-card{min-height:150px}
-.yhtis-ind-bar{height:7px;background:#273243;border-radius:999px;overflow:hidden;margin-top:8px}
-.yhtis-ind-bar>i{display:block;height:100%;background:#7aa2ff}
-@media(max-width:800px){.yhtis-portal-grid{grid-template-columns:1fr}}
-</style>
-
-<div id="yhtisPortalOverlay">
-  <div class="yhtis-portal-shell">
-    <div class="yhtis-portal-head">
-      <div>
-        <div style="font-size:22px;font-weight:850">YHTIS 研究中心</div>
-        <div id="yhtisPortalDate" class="yhtis-portal-muted">資料載入中…</div>
-      </div>
-      <button onclick="yhtisPortalClose()">關閉 ✕</button>
-    </div>
-    <div class="yhtis-portal-tabs">
-      <button onclick="yhtisPortalTab('daytrade')">⚡ 當沖</button>
-      <button onclick="yhtisPortalTab('industry')">🏭 產業地圖</button>
-    </div>
-    <section id="yhtisPortalDaytrade" class="yhtis-portal-section"></section>
-    <section id="yhtisPortalIndustry" class="yhtis-portal-section"></section>
-  </div>
-</div>
-
-<script id="yhtisPortalV1Script">
-const YHTIS_PORTAL_DATA='output/portal_v1/portal_data_v1.json';
-let YHTIS_PORTAL=null;
-function yhtisPEsc(v){return String(v??'—').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
-function yhtisPNum(v,d=2){const n=Number(v);return Number.isFinite(n)?n.toFixed(d):'—'}
-function yhtisPPct(v){const n=Number(v);return Number.isFinite(n)?n.toFixed(2)+'%':'—'}
-async function yhtisPortalLoad(){
-  const r=await fetch(YHTIS_PORTAL_DATA+'?v='+Date.now());
-  if(!r.ok) throw new Error('portal data HTTP '+r.status);
-  YHTIS_PORTAL=await r.json();
-  const c=YHTIS_PORTAL.contract||{};
-  document.getElementById('yhtisPortalDate').textContent=`正式 ${c.production_date||'—'}｜產業 ${c.industry_date||'—'}｜M2 ${c.room_m2_date||'—'}`;
-}
-function yhtisPortalClose(){document.getElementById('yhtisPortalOverlay').classList.remove('on')}
-async function yhtisPortalOpen(tab){
-  document.getElementById('yhtisPortalOverlay').classList.add('on');
-  if(!YHTIS_PORTAL){try{await yhtisPortalLoad()}catch(e){alert('研究資料載入失敗：'+e.message);return}}
-  yhtisPortalTab(tab);
-}
-function yhtisPortalTab(tab){
-  document.querySelectorAll('.yhtis-portal-section').forEach(x=>x.classList.remove('on'));
-  if(tab==='industry'){document.getElementById('yhtisPortalIndustry').classList.add('on');yhtisRenderIndustry()}
-  else{document.getElementById('yhtisPortalDaytrade').classList.add('on');yhtisRenderDaytrade()}
-}
-function yhtisOpenStock(code){
-  yhtisPortalClose();
-  if(typeof openStock==='function'){openStock(String(code));return}
-  location.href='?stock='+encodeURIComponent(code);
-}
-function yhtisStockCards(rows,label){
-  if(!rows||!rows.length)return `<div class="yhtis-portal-card"><div class="yhtis-portal-muted">${label}：目前 0 檔</div></div>`;
-  return rows.map(x=>`<div class="yhtis-portal-card" onclick="yhtisOpenStock('${yhtisPEsc(x.Code)}')">
-    <div class="big">${yhtisPEsc(x.Code)} ${yhtisPEsc(x.Name||'')}</div>
-    <div class="yhtis-portal-muted">${yhtisPEsc(x.EARLY_BAND||'')} ${yhtisPEsc(x.BIG_SWING_STAGE||'')}</div>
-    <div style="margin-top:8px">
-      <span class="yhtis-portal-chip">距20高 ${yhtisPPct(x.DIST_HIGH20)}</span>
-      <span class="yhtis-portal-chip">20日區間 ${yhtisPPct(x.RANGE20_PCT)}</span>
-      <span class="yhtis-portal-chip">RS Pctl ${yhtisPNum(Number(x.RS_ACCEL_PCTL)*100,1)}</span>
-    </div></div>`).join('');
-}
-function yhtisRenderDaytrade(){
-  const d=YHTIS_PORTAL.daytrade||{},a=d.audit||{};
-  const host=document.getElementById('yhtisPortalDaytrade');
-  host.innerHTML=`<div class="yhtis-portal-card" style="cursor:default;margin-bottom:12px">
-    <div class="big">⚡ 當沖／ROOM M2 前瞻研究</div>
-    <div class="yhtis-portal-muted">研究池自動更新；不把研究候選冒充盤中買進訊號。</div>
-    <div style="margin-top:8px">
-      <span class="yhtis-portal-chip">正式 M2 ${yhtisPEsc(a.ROOM_M2_N??0)} 檔</span>
-      <span class="yhtis-portal-chip">A+萌芽 ${yhtisPEsc(a.A_PLUS_SPROUT_N??0)} 檔</span>
-      <span class="yhtis-portal-chip">萌芽 ${yhtisPEsc(a.Sprout_N??0)} 檔</span>
-      <span class="yhtis-portal-chip">Band A ${yhtisPEsc(a.BandA_N??0)} 檔</span>
-      <span class="yhtis-portal-chip">Breadth5D ${yhtisPNum(Number(a.Breadth5D)*100,1)}%</span>
-    </div></div>
-    <h3>正式 ROOM M2 Shadow Signal</h3>
-    <div class="yhtis-portal-grid">${yhtisStockCards(d.signals,'正式 Signal')}</div>
-    <h3 style="margin-top:18px">A + 大波段萌芽｜下一層研究池</h3>
-    <div class="yhtis-portal-grid">${yhtisStockCards(d.a_plus_sprout,'A+萌芽')}</div>
-    <details style="margin-top:18px"><summary>查看全部萌芽 / Band A 研究池</summary>
-      <h3>萌芽</h3><div class="yhtis-portal-grid">${yhtisStockCards(d.sprout,'萌芽')}</div>
-      <h3>Band A</h3><div class="yhtis-portal-grid">${yhtisStockCards(d.grade_a,'Band A')}</div>
-    </details>`;
-}
-function yhtisRenderIndustry(){
-  const rows=((YHTIS_PORTAL.industry||{}).industries||[]);
-  const host=document.getElementById('yhtisPortalIndustry');
-  if(!rows.length){host.innerHTML='<div class="yhtis-portal-card">目前沒有產業資料。</div>';return}
-  host.innerHTML=`<div class="yhtis-portal-card" style="cursor:default;margin-bottom:12px">
-    <div class="big">🏭 產業漲跌熱圖＋補漲研究分數</div>
-    <div class="yhtis-portal-muted">漲跌與補漲分數分開顯示；補漲分數不是已校準勝率。</div></div>
-    <div class="yhtis-portal-grid">`+
-    rows.map(x=>{
-      const score=Number(x['補漲研究分數']);
-      const w=Number.isFinite(score)?Math.max(0,Math.min(100,score)):0;
-      const r1=Number(x['產業1日(%)']);
-      const cls=Number.isFinite(r1)?(r1>0?'yhtis-portal-good':r1<0?'yhtis-portal-bad':''):'';
-      return `<div class="yhtis-portal-card yhtis-ind-card">
-        <div style="display:flex;justify-content:space-between;gap:8px"><div class="big">${yhtisPEsc(x['產業名稱'])}</div><div class="${cls}">${yhtisPPct(r1)}</div></div>
-        <div class="yhtis-portal-muted">5日 ${yhtisPPct(x['產業5日(%)'])}｜20日 ${yhtisPPct(x['產業20日(%)'])}</div>
-        <div style="margin-top:8px"><b>補漲研究分數 ${yhtisPEsc(x['補漲研究分數'])}</b>｜${yhtisPEsc(x['補漲等級'])}</div>
-        <div class="yhtis-ind-bar"><i style="width:${w}%"></i></div>
-        <div style="margin-top:8px">${yhtisPEsc(x['產業階段'])}</div>
-        <div class="yhtis-portal-muted" style="margin-top:6px">領漲：${yhtisPEsc(x['領漲股']||'—')}</div>
-        <div class="yhtis-portal-muted">候選：${yhtisPEsc(x['補漲候選']||'—')}</div>
-      </div>`}).join('')+`</div>`;
-}
-(function(){
-  const nav=document.querySelector('nav');
-  if(nav && !document.getElementById('yhtisPortalDaytradeBtn')){
-    const b1=document.createElement('button');b1.id='yhtisPortalDaytradeBtn';b1.className='yhtis-portal-btn';b1.textContent='⚡ 當沖';b1.onclick=()=>yhtisPortalOpen('daytrade');
-    const b2=document.createElement('button');b2.id='yhtisPortalIndustryBtn';b2.className='yhtis-portal-btn';b2.textContent='🏭 產業地圖';b2.onclick=()=>yhtisPortalOpen('industry');
-    const swing=nav.querySelector('[data-page="swing"]');
-    if(swing){swing.insertAdjacentElement('afterend',b1);b1.insertAdjacentElement('afterend',b2)}
-    else{nav.appendChild(b1);nav.appendChild(b2)}
-  }
-})();
-</script>
-<!-- YHTIS_PORTAL_V1_END -->
 </body>
 </html>
