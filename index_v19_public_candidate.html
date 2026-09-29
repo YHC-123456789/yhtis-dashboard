@@ -724,6 +724,24 @@ nav button[data-page="darkhorse"]{font-weight:800}
 .v327-formal{border-color:rgba(34,197,94,.45)!important}
 .v327-fallback{border-color:rgba(245,158,11,.42)!important}
 </style>
+
+<style id="yhtisV328LabelStyle">
+.v328-score-label{font-size:11px;color:var(--muted);line-height:1.2;margin-bottom:2px;opacity:.95}
+.v328-score-value{font-size:inherit;font-weight:inherit;line-height:1.05}
+.v328-summary-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 16px 0}
+.v328-summary-card{border:1px solid rgba(96,165,250,.22);border-radius:14px;padding:14px 16px;background:rgba(15,23,42,.72);min-height:82px;display:flex;flex-direction:column;justify-content:center}
+.v328-summary-card.score{border-color:rgba(16,185,129,.38);box-shadow:inset 0 0 0 1px rgba(16,185,129,.08)}
+.v328-summary-card.price{border-color:rgba(96,165,250,.34)}
+.v328-summary-card.change{border-color:rgba(244,114,182,.24)}
+.v328-summary-card.pct{border-color:rgba(244,114,182,.24)}
+.v328-summary-title{font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:.2px}
+.v328-summary-value{font-size:20px;font-weight:800;line-height:1.15}
+.v328-summary-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.v328-pos{color:#fb7185}.v328-neg{color:#4ade80}
+.v328-note{font-size:11px;color:var(--muted);margin-top:8px}
+@media(max-width:900px){.v328-summary-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.v328-summary-row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -10105,6 +10123,161 @@ function renderSignalInstitutionV316(){
   setTimeout(render,300);
   setTimeout(render,1000);
 })();
+</script>
+
+<script id="yhtisScorePriceLabelV328Script">
+(function(){
+  function jd(id){
+    try{return JSON.parse(document.getElementById(id)?.textContent||'{}')}catch(e){return {}}
+  }
+  function num(v){ const n=Number(v); return Number.isFinite(n)?n:null; }
+  function fmt(v,d=1,s=''){ const n=Number(v); return Number.isFinite(n)?n.toFixed(d)+s:'—'; }
+  function esc(v){ return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  function byCodeFromSignal(){
+    const raw=jd('yhtisV316SignalInstitutionData');
+    const arr=[...(raw.all||[]), ...(raw.top10||[])];
+    const map={};
+    arr.forEach(x=>{ const c=String(x.code||'').trim(); if(c && !map[c]) map[c]=x; });
+    return map;
+  }
+
+  function dailyByCode(){
+    return (jd('yhtisV326OfficialDailyChangeData').by_code)||{};
+  }
+
+  function activeCode(){
+    const inputs=[...document.querySelectorAll('input')].filter(el=>{
+      const r=el.getBoundingClientRect();
+      return r.width>0 && r.height>0 && /^\d{4}$/.test(String(el.value||'').trim());
+    });
+    if(inputs.length) return String(inputs[0].value).trim();
+
+    const nodes=[...document.querySelectorAll('h1,h2,h3,strong,b,div,span')];
+    for(const el of nodes){
+      const txt=String(el.textContent||'').trim();
+      const m=txt.match(/^(\d{4})\s+/);
+      if(m) return m[1];
+    }
+    return null;
+  }
+
+  function relabelSignalCards(){
+    const host=document.getElementById('yhtisSignalInstitutionV316');
+    if(!host) return;
+
+    host.querySelectorAll('.v316-score').forEach(el=>{
+      if(el.dataset.v328Labeled==='1') return;
+      const raw=String(el.textContent||'').trim();
+      if(!raw) return;
+      el.dataset.v328Labeled='1';
+      el.innerHTML=''
+        + '<div class="v328-score-label">共振分數</div>'
+        + '<div class="v328-score-value">'+esc(raw)+'</div>';
+    });
+
+    if(!host.querySelector('.v328-note')){
+      const note=document.createElement('div');
+      note.className='v328-note';
+      note.textContent='共振分數＝技術 65% ＋ 法人 35%，用來表示研究強度，不是保證獲利。';
+      host.appendChild(note);
+    }
+  }
+
+  function findStockTitleElement(code){
+    const regex = new RegExp('^'+code+'\\s+');
+    const nodes=[...document.querySelectorAll('h1,h2,h3,strong,b,div,span')];
+    let best=null;
+    for(const el of nodes){
+      const txt=String(el.textContent||'').trim();
+      if(!regex.test(txt)) continue;
+      const rect=el.getBoundingClientRect();
+      if(rect.width<120 || rect.height<20) continue;
+      best=el; break;
+    }
+    return best;
+  }
+
+  function findInsertAnchor(titleEl){
+    if(!titleEl) return null;
+    let cur = titleEl.parentElement;
+    for(let i=0;i<5 && cur;i++,cur=cur.parentElement){
+      const kids=[...cur.children].filter(x=>x.nodeType===1);
+      if(kids.length>=2) return cur;
+    }
+    return titleEl.parentElement || titleEl;
+  }
+
+  function renderWorkspaceSummary(){
+    const code=activeCode();
+    if(!code) return;
+
+    const titleEl=findStockTitleElement(code);
+    if(!titleEl) return;
+
+    const signalMap=byCodeFromSignal();
+    const dailyMap=dailyByCode();
+    const sig=signalMap[code] || null;
+    const d=dailyMap[code] || null;
+
+    const scoreText=sig?fmt(sig.combo_score,1):'—';
+    const scoreSub=sig?'技術 '+fmt(sig.technical_score,1)+' ／ 法人 '+fmt(sig.institutional_score,1):'未納入強烈買進共振榜';
+    const priceText=d?fmt(d.close,0):'—';
+    const priceSub=d?('正式 EOD '+esc(d.date||'')):'缺少正式 EOD';
+    const chg=num(d?.change);
+    const pct=num(d?.change_pct);
+    const chgText=(chg===null)?'—':((chg>0?'+':'')+fmt(chg,2));
+    const pctText=(pct===null)?'—':((pct>0?'+':'')+fmt(pct,2,'%'));
+    const cls=(n)=>n===null?'':(n>0?' v328-pos':(n<0?' v328-neg':''));
+
+    const anchor=findInsertAnchor(titleEl);
+    if(!anchor) return;
+
+    let row=document.getElementById('v328ScorePriceSummary');
+    if(!row){
+      row=document.createElement('div');
+      row.id='v328ScorePriceSummary';
+      row.className='v328-summary-row';
+      if(anchor.nextSibling) anchor.parentNode.insertBefore(row, anchor.nextSibling);
+      else anchor.parentNode.appendChild(row);
+    }
+
+    row.innerHTML=''
+      + '<div class="v328-summary-card score">'
+      + '  <div class="v328-summary-title">共振分數</div>'
+      + '  <div class="v328-summary-value">'+esc(scoreText)+'</div>'
+      + '  <div class="v328-summary-sub">'+esc(scoreSub)+'</div>'
+      + '</div>'
+      + '<div class="v328-summary-card price">'
+      + '  <div class="v328-summary-title">股價（昨日收盤）</div>'
+      + '  <div class="v328-summary-value">'+esc(priceText)+'</div>'
+      + '  <div class="v328-summary-sub">'+priceSub+'</div>'
+      + '</div>'
+      + '<div class="v328-summary-card change">'
+      + '  <div class="v328-summary-title">漲跌</div>'
+      + '  <div class="v328-summary-value'+cls(chg)+'">'+esc(chgText)+'</div>'
+      + '  <div class="v328-summary-sub">對比昨收 / 參考價</div>'
+      + '</div>'
+      + '<div class="v328-summary-card pct">'
+      + '  <div class="v328-summary-title">漲跌幅</div>'
+      + '  <div class="v328-summary-value'+cls(pct)+'">'+esc(pctText)+'</div>'
+      + '  <div class="v328-summary-sub">官方日資料計算</div>'
+      + '</div>';
+  }
+
+  function run(){
+    relabelSignalCards();
+    renderWorkspaceSummary();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', run, {once:true});
+  else run();
+  window.addEventListener('load', run, {once:true});
+  setTimeout(run, 300);
+  setTimeout(run, 1200);
+  try{ new MutationObserver(run).observe(document.body, {subtree:true, childList:true, characterData:true}); }catch(e){}
+})();
+
 </script>
 </body>
 </html>
