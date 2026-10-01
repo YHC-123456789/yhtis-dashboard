@@ -1,0 +1,21 @@
+{
+  "Code": "5230",
+  "Date": "2026-09-30",
+  "Close": 23.35,
+  "VP_VAH": 22.9875,
+  "VP_POC": 20.6141,
+  "VP_VAL": 18.5469,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": true,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 2,
+  "VAH_DISTANCE_PCT": 1.58,
+  "VP_STATUS": "VAH_BREAKOUT",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

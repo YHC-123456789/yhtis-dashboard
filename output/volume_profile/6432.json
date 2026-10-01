@@ -1,0 +1,21 @@
+{
+  "Code": "6432",
+  "Date": "2026-09-30",
+  "Close": 63.5,
+  "VP_VAH": 79.3125,
+  "VP_POC": 74.8594,
+  "VP_VAL": 69.8125,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -19.94,
+  "VP_STATUS": "BELOW_VAL",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

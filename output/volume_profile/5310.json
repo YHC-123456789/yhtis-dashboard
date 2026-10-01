@@ -1,0 +1,21 @@
+{
+  "Code": "5310",
+  "Date": "2026-09-30",
+  "Close": 27.6,
+  "VP_VAH": 27.4156,
+  "VP_POC": 24.9578,
+  "VP_VAL": 23.5427,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": true,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 3,
+  "VAH_DISTANCE_PCT": 0.67,
+  "VP_STATUS": "RETEST_HOLD",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

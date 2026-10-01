@@ -1,0 +1,21 @@
+{
+  "Code": "5907",
+  "Date": "2026-09-30",
+  "Close": 4.81,
+  "VP_VAH": 5.0119,
+  "VP_POC": 4.9103,
+  "VP_VAL": 4.7931,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -4.03,
+  "VP_STATUS": "IN_VALUE_AREA",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

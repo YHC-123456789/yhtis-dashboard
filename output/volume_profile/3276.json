@@ -1,0 +1,21 @@
+{
+  "Code": "3276",
+  "Date": "2026-09-30",
+  "Close": 14.05,
+  "VP_VAH": 18.1635,
+  "VP_POC": 16.5005,
+  "VP_VAL": 14.9448,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -22.65,
+  "VP_STATUS": "BELOW_VAL",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

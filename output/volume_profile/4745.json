@@ -1,0 +1,21 @@
+{
+  "Code": "4745",
+  "Date": "2026-09-30",
+  "Close": 12.2,
+  "VP_VAH": 13.8031,
+  "VP_POC": 11.8953,
+  "VP_VAL": 10.4,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -11.61,
+  "VP_STATUS": "IN_VALUE_AREA",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

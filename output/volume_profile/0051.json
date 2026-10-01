@@ -1,0 +1,21 @@
+{
+  "Code": "0051",
+  "Date": "2026-09-30",
+  "Close": 149.05,
+  "VP_VAH": 148.075,
+  "VP_POC": 146.0188,
+  "VP_VAL": 137.5,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": true,
+  "VAH_RETEST_HOLD": true,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 2,
+  "VAH_DISTANCE_PCT": 0.66,
+  "VP_STATUS": "RETEST_HOLD",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

@@ -1,0 +1,21 @@
+{
+  "Code": "7743",
+  "Date": "2026-09-30",
+  "Close": 25.0,
+  "VP_VAH": 24.5,
+  "VP_POC": 20.9667,
+  "VP_VAL": 20.5,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": true,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 2,
+  "VAH_DISTANCE_PCT": 2.04,
+  "VP_STATUS": "VAH_BREAKOUT",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

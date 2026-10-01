@@ -1,0 +1,21 @@
+{
+  "Code": "4764",
+  "Date": "2026-09-30",
+  "Close": 189.0,
+  "VP_VAH": 324.6949,
+  "VP_POC": 237.71,
+  "VP_VAL": 219.5039,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -41.79,
+  "VP_STATUS": "BELOW_VAL",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

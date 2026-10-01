@@ -1,0 +1,21 @@
+{
+  "Code": "4526",
+  "Date": "2026-09-30",
+  "Close": 34.05,
+  "VP_VAH": 33.4635,
+  "VP_POC": 31.837,
+  "VP_VAL": 28.7646,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": true,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 1,
+  "VAH_DISTANCE_PCT": 1.75,
+  "VP_STATUS": "VAH_BREAKOUT",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

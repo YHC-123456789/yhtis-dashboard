@@ -1,0 +1,21 @@
+{
+  "Code": "6712",
+  "Date": "2026-09-30",
+  "Close": 162.0,
+  "VP_VAH": 171.75,
+  "VP_POC": 160.8125,
+  "VP_VAL": 143.75,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -5.68,
+  "VP_STATUS": "IN_VALUE_AREA",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

@@ -1,0 +1,21 @@
+{
+  "Code": "6150",
+  "Date": "2026-09-30",
+  "Close": 63.6,
+  "VP_VAH": 63.3,
+  "VP_POC": 61.4437,
+  "VP_VAL": 58.2375,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": true,
+  "VAH_RETEST_HOLD": true,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 1,
+  "VAH_DISTANCE_PCT": 0.47,
+  "VP_STATUS": "RETEST_HOLD",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

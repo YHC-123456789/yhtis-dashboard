@@ -1,0 +1,21 @@
+{
+  "Code": "6405",
+  "Date": "2026-09-30",
+  "Close": 50.1,
+  "VP_VAH": 45.3792,
+  "VP_POC": 41.6036,
+  "VP_VAL": 35.0823,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 2,
+  "VAH_DISTANCE_PCT": 10.4,
+  "VP_STATUS": "ACCEPTANCE",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

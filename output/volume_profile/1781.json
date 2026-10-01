@@ -1,0 +1,21 @@
+{
+  "Code": "1781",
+  "Date": "2026-09-30",
+  "Close": 9.99,
+  "VP_VAH": 12.4,
+  "VP_POC": 12.0125,
+  "VP_VAL": 10.85,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -19.44,
+  "VP_STATUS": "BELOW_VAL",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

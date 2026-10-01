@@ -1,0 +1,21 @@
+{
+  "Code": "7715",
+  "Date": "2026-09-30",
+  "Close": 28.4,
+  "VP_VAH": 37.4708,
+  "VP_POC": 35.2938,
+  "VP_VAL": 31.0542,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -24.21,
+  "VP_STATUS": "BELOW_VAL",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

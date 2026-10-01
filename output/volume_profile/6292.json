@@ -1,0 +1,21 @@
+{
+  "Code": "6292",
+  "Date": "2026-09-30",
+  "Close": 66.6,
+  "VP_VAH": 68.0458,
+  "VP_POC": 65.899,
+  "VP_VAL": 60.8896,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 0,
+  "VAH_DISTANCE_PCT": -2.12,
+  "VP_STATUS": "IN_VALUE_AREA",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

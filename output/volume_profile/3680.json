@@ -1,0 +1,21 @@
+{
+  "Code": "3680",
+  "Date": "2026-09-30",
+  "Close": 555.0,
+  "VP_VAH": 547.0,
+  "VP_POC": 536.1667,
+  "VP_VAL": 456.0,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": true,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 2,
+  "VAH_DISTANCE_PCT": 1.46,
+  "VP_STATUS": "RETEST_HOLD",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

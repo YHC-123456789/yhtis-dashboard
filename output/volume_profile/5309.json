@@ -1,0 +1,21 @@
+{
+  "Code": "5309",
+  "Date": "2026-09-30",
+  "Close": 62.7,
+  "VP_VAH": 61.4729,
+  "VP_POC": 53.3469,
+  "VP_VAL": 44.6604,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": true,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 1,
+  "VAH_DISTANCE_PCT": 2.0,
+  "VP_STATUS": "VAH_BREAKOUT",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

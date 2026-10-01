@@ -1,0 +1,21 @@
+{
+  "Code": "4198",
+  "Date": "2026-09-30",
+  "Close": 49.5,
+  "VP_VAH": 46.0031,
+  "VP_POC": 41.5172,
+  "VP_VAL": 38.8875,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 3,
+  "VAH_DISTANCE_PCT": 7.6,
+  "VP_STATUS": "ACCEPTANCE",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

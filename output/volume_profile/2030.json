@@ -1,0 +1,21 @@
+{
+  "Code": "2030",
+  "Date": "2026-09-30",
+  "Close": 36.7,
+  "VP_VAH": 28.15,
+  "VP_POC": 23.075,
+  "VP_VAL": 20.1,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 3,
+  "VAH_DISTANCE_PCT": 30.37,
+  "VP_STATUS": "ACCEPTANCE",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

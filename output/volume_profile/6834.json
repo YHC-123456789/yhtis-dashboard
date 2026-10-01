@@ -1,0 +1,21 @@
+{
+  "Code": "6834",
+  "Date": "2026-09-30",
+  "Close": 109.0,
+  "VP_VAH": 114.1833,
+  "VP_POC": 99.775,
+  "VP_VAL": 89.9167,
+  "ABOVE_VAH": false,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 1,
+  "VAH_DISTANCE_PCT": -4.54,
+  "VP_STATUS": "IN_VALUE_AREA",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

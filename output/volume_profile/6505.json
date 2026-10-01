@@ -1,0 +1,21 @@
+{
+  "Code": "6505",
+  "Date": "2026-09-30",
+  "Close": 97.3,
+  "VP_VAH": 88.55,
+  "VP_POC": 72.825,
+  "VP_VAL": 69.85,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": false,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": true,
+  "ABOVE_VAH_COUNT_3": 2,
+  "VAH_DISTANCE_PCT": 9.88,
+  "VP_STATUS": "ACCEPTANCE",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}

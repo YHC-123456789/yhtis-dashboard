@@ -1,0 +1,21 @@
+{
+  "Code": "2002",
+  "Date": "2026-09-30",
+  "Close": 37.25,
+  "VP_VAH": 19.2812,
+  "VP_POC": 18.9891,
+  "VP_VAL": 18.6281,
+  "ABOVE_VAH": true,
+  "VAH_BREAKOUT": true,
+  "VAH_RETEST_HOLD": false,
+  "VP_ACCEPTANCE": false,
+  "ABOVE_VAH_COUNT_3": 1,
+  "VAH_DISTANCE_PCT": 93.19,
+  "VP_STATUS": "VAH_BREAKOUT",
+  "VP_LOOKBACK": 60,
+  "VP_BINS": 48,
+  "VP_VALUE_AREA": 0.7,
+  "RESEARCH_ONLY": true,
+  "GOLDEN_ENTRY_MODIFIED": false,
+  "AI_SCORE_MODIFIED": false
+}
