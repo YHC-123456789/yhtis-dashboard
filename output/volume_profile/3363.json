@@ -1,7 +1,7 @@
 {
   "Code": "3363",
-  "Date": "2026-09-30",
-  "Close": 649.0,
+  "Date": "2026-10-01",
+  "Close": 641.0,
   "VP_VAH": 729.5417,
   "VP_POC": 613.3854,
   "VP_VAL": 557.4583,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -11.04,
+  "VAH_DISTANCE_PCT": -12.14,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "3045",
-  "Date": "2026-09-30",
-  "Close": 119.5,
+  "Date": "2026-10-01",
+  "Close": 122.0,
   "VP_VAH": 115.75,
   "VP_POC": 113.1094,
   "VP_VAL": 107.625,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 3.24,
+  "VAH_DISTANCE_PCT": 5.4,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

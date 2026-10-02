@@ -1,7 +1,7 @@
 {
   "Code": "3443",
-  "Date": "2026-09-30",
-  "Close": 8040.0,
+  "Date": "2026-10-01",
+  "Close": 7900.0,
   "VP_VAH": 6643.125,
   "VP_POC": 6027.8125,
   "VP_VAL": 4181.875,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 21.03,
+  "VAH_DISTANCE_PCT": 18.92,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

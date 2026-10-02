@@ -1,7 +1,7 @@
 {
   "Code": "3008",
-  "Date": "2026-09-30",
-  "Close": 5945.0,
+  "Date": "2026-10-01",
+  "Close": 6205.0,
   "VP_VAH": 6283.0208,
   "VP_POC": 3985.3646,
   "VP_VAL": 3670.0,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.38,
+  "VAH_DISTANCE_PCT": -1.24,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

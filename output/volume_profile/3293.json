@@ -1,7 +1,7 @@
 {
   "Code": "3293",
-  "Date": "2026-09-30",
-  "Close": 788.0,
+  "Date": "2026-10-01",
+  "Close": 814.0,
   "VP_VAH": 749.1667,
   "VP_POC": 706.5417,
   "VP_VAL": 694.9167,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 5.18,
+  "VAH_DISTANCE_PCT": 8.65,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

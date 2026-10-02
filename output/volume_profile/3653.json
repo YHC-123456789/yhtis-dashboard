@@ -1,7 +1,7 @@
 {
   "Code": "3653",
-  "Date": "2026-09-30",
-  "Close": 6800.0,
+  "Date": "2026-10-01",
+  "Close": 6875.0,
   "VP_VAH": 5596.25,
   "VP_POC": 3294.0625,
   "VP_VAL": 2990.0,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 21.51,
+  "VAH_DISTANCE_PCT": 22.85,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

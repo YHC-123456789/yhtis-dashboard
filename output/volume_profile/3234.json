@@ -1,7 +1,7 @@
 {
   "Code": "3234",
-  "Date": "2026-09-30",
-  "Close": 173.0,
+  "Date": "2026-10-01",
+  "Close": 172.0,
   "VP_VAH": 183.0042,
   "VP_POC": 141.7396,
   "VP_VAL": 94.7833,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.47,
+  "VAH_DISTANCE_PCT": -6.01,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

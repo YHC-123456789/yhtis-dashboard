@@ -1,7 +1,7 @@
 {
   "Code": "6214",
-  "Date": "2026-09-30",
-  "Close": 188.0,
+  "Date": "2026-10-01",
+  "Close": 189.0,
   "VP_VAH": 195.0,
   "VP_POC": 180.1458,
   "VP_VAL": 148.5,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.59,
+  "VAH_DISTANCE_PCT": -3.08,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

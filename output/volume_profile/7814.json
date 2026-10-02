@@ -1,7 +1,7 @@
 {
   "Code": "7814",
-  "Date": "2026-09-30",
-  "Close": 28.25,
+  "Date": "2026-10-01",
+  "Close": 28.4,
   "VP_VAH": 37.325,
   "VP_POC": 30.0219,
   "VP_VAL": 29.125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -24.31,
+  "VAH_DISTANCE_PCT": -23.91,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "6269",
-  "Date": "2026-09-30",
-  "Close": 66.0,
+  "Date": "2026-10-01",
+  "Close": 65.0,
   "VP_VAH": 77.0063,
   "VP_POC": 65.2844,
   "VP_VAL": 61.8813,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -14.29,
+  "VAH_DISTANCE_PCT": -15.59,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

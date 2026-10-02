@@ -1,7 +1,7 @@
 {
   "Code": "2636",
-  "Date": "2026-09-30",
-  "Close": 71.7,
+  "Date": "2026-10-01",
+  "Close": 70.7,
   "VP_VAH": 75.4208,
   "VP_POC": 70.724,
   "VP_VAL": 67.7667,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.93,
+  "VAH_DISTANCE_PCT": -6.26,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

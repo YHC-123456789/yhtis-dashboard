@@ -1,7 +1,7 @@
 {
   "Code": "3631",
-  "Date": "2026-09-30",
-  "Close": 40.5,
+  "Date": "2026-10-01",
+  "Close": 40.45,
   "VP_VAH": 42.6562,
   "VP_POC": 40.3594,
   "VP_VAL": 37.45,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.05,
+  "VAH_DISTANCE_PCT": -5.17,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

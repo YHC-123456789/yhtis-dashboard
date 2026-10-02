@@ -1,7 +1,7 @@
 {
   "Code": "8932",
-  "Date": "2026-09-30",
-  "Close": 92.6,
+  "Date": "2026-10-01",
+  "Close": 91.8,
   "VP_VAH": 115.4063,
   "VP_POC": 92.5427,
   "VP_VAL": 85.2458,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -19.76,
+  "VAH_DISTANCE_PCT": -20.45,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

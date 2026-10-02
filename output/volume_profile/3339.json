@@ -1,7 +1,7 @@
 {
   "Code": "3339",
-  "Date": "2026-09-30",
-  "Close": 45.65,
+  "Date": "2026-10-01",
+  "Close": 45.05,
   "VP_VAH": 49.0021,
   "VP_POC": 46.4089,
   "VP_VAL": 39.4271,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.84,
+  "VAH_DISTANCE_PCT": -8.07,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

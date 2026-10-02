@@ -1,7 +1,7 @@
 {
   "Code": "6461",
-  "Date": "2026-09-30",
-  "Close": 24.45,
+  "Date": "2026-10-01",
+  "Close": 24.05,
   "VP_VAH": 17.1,
   "VP_POC": 15.75,
   "VP_VAL": 15.0,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 42.98,
+  "VAH_DISTANCE_PCT": 40.64,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

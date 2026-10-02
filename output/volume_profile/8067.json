@@ -1,7 +1,7 @@
 {
   "Code": "8067",
-  "Date": "2026-09-30",
-  "Close": 12.35,
+  "Date": "2026-10-01",
+  "Close": 12.0,
   "VP_VAH": 13.7594,
   "VP_POC": 13.113,
   "VP_VAL": 11.8583,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.24,
+  "VAH_DISTANCE_PCT": -12.79,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

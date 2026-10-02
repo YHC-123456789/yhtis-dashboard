@@ -1,7 +1,7 @@
 {
   "Code": "4995",
-  "Date": "2026-09-30",
-  "Close": 50.5,
+  "Date": "2026-10-01",
+  "Close": 50.0,
   "VP_VAH": 52.6,
   "VP_POC": 50.2234,
   "VP_VAL": 46.7906,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.99,
+  "VAH_DISTANCE_PCT": -4.94,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

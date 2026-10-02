@@ -1,7 +1,7 @@
 {
   "Code": "3324",
-  "Date": "2026-09-30",
-  "Close": 1530.0,
+  "Date": "2026-10-01",
+  "Close": 1525.0,
   "VP_VAH": 1377.9167,
   "VP_POC": 996.0417,
   "VP_VAL": 810.0,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 11.04,
+  "VAH_DISTANCE_PCT": 10.67,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

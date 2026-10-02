@@ -1,7 +1,7 @@
 {
   "Code": "5291",
-  "Date": "2026-09-30",
-  "Close": 61.6,
+  "Date": "2026-10-01",
+  "Close": 61.1,
   "VP_VAH": 69.2375,
   "VP_POC": 56.3594,
   "VP_VAL": 52.7271,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -11.03,
+  "VAH_DISTANCE_PCT": -11.75,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

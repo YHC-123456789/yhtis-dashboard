@@ -1,7 +1,7 @@
 {
   "Code": "6933",
-  "Date": "2026-09-30",
-  "Close": 371.0,
+  "Date": "2026-10-01",
+  "Close": 394.5,
   "VP_VAH": 395.0,
   "VP_POC": 316.4583,
   "VP_VAL": 194.5833,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.08,
+  "VAH_DISTANCE_PCT": -0.13,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

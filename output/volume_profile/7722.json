@@ -1,7 +1,7 @@
 {
   "Code": "7722",
-  "Date": "2026-09-30",
-  "Close": 259.0,
+  "Date": "2026-10-01",
+  "Close": 260.0,
   "VP_VAH": 302.1538,
   "VP_POC": 292.0831,
   "VP_VAL": 269.9276,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -14.28,
+  "VAH_DISTANCE_PCT": -13.95,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

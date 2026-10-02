@@ -1,7 +1,7 @@
 {
   "Code": "3176",
-  "Date": "2026-09-30",
-  "Close": 37.7,
+  "Date": "2026-10-01",
+  "Close": 37.5,
   "VP_VAH": 39.3562,
   "VP_POC": 38.063,
   "VP_VAL": 34.7802,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.21,
+  "VAH_DISTANCE_PCT": -4.72,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

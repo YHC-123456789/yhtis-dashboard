@@ -1,7 +1,7 @@
 {
   "Code": "1477",
-  "Date": "2026-09-30",
-  "Close": 192.0,
+  "Date": "2026-10-01",
+  "Close": 190.5,
   "VP_VAH": 220.7292,
   "VP_POC": 194.6615,
   "VP_VAL": 188.5,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -13.02,
+  "VAH_DISTANCE_PCT": -13.7,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

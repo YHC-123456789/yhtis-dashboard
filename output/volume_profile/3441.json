@@ -1,7 +1,7 @@
 {
   "Code": "3441",
-  "Date": "2026-09-30",
-  "Close": 184.5,
+  "Date": "2026-10-01",
+  "Close": 202.5,
   "VP_VAH": 134.4917,
   "VP_POC": 83.8875,
   "VP_VAL": 62.2,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 37.18,
+  "VAH_DISTANCE_PCT": 50.57,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

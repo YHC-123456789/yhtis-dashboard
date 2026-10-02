@@ -1,7 +1,7 @@
 {
   "Code": "2465",
-  "Date": "2026-09-30",
-  "Close": 91.2,
+  "Date": "2026-10-01",
+  "Close": 93.2,
   "VP_VAH": 100.8167,
   "VP_POC": 89.5385,
   "VP_VAL": 84.1083,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.54,
+  "VAH_DISTANCE_PCT": -7.55,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

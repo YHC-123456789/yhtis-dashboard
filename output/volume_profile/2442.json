@@ -1,7 +1,7 @@
 {
   "Code": "2442",
-  "Date": "2026-09-30",
-  "Close": 14.4,
+  "Date": "2026-10-01",
+  "Close": 14.3,
   "VP_VAH": 20.05,
   "VP_POC": 19.2375,
   "VP_VAL": 17.925,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -28.18,
+  "VAH_DISTANCE_PCT": -28.68,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

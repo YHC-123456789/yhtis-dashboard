@@ -1,7 +1,7 @@
 {
   "Code": "9917",
-  "Date": "2026-09-30",
-  "Close": 105.5,
+  "Date": "2026-10-01",
+  "Close": 106.5,
   "VP_VAH": 109.1146,
   "VP_POC": 105.971,
   "VP_VAL": 104.9231,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.31,
+  "VAH_DISTANCE_PCT": -2.4,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

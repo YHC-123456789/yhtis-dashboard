@@ -1,7 +1,7 @@
 {
   "Code": "7736",
-  "Date": "2026-09-30",
-  "Close": 68.5,
+  "Date": "2026-10-01",
+  "Close": 68.7,
   "VP_VAH": 71.075,
   "VP_POC": 70.2635,
   "VP_VAL": 69.025,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.62,
+  "VAH_DISTANCE_PCT": -3.34,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "3489",
-  "Date": "2026-09-30",
-  "Close": 23.35,
+  "Date": "2026-10-01",
+  "Close": 23.8,
   "VP_VAH": 26.4,
   "VP_POC": 26.0146,
   "VP_VAL": 22.5458,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -11.55,
+  "VAH_DISTANCE_PCT": -9.85,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

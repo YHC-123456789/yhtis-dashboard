@@ -1,7 +1,7 @@
 {
   "Code": "8938",
-  "Date": "2026-09-30",
-  "Close": 52.6,
+  "Date": "2026-10-01",
+  "Close": 52.2,
   "VP_VAH": 54.7333,
   "VP_POC": 52.4375,
   "VP_VAL": 50.3,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.9,
+  "VAH_DISTANCE_PCT": -4.63,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

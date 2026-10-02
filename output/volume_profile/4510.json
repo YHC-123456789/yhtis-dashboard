@@ -1,7 +1,7 @@
 {
   "Code": "4510",
-  "Date": "2026-09-30",
-  "Close": 44.0,
+  "Date": "2026-10-01",
+  "Close": 43.45,
   "VP_VAH": 48.1281,
   "VP_POC": 46.0359,
   "VP_VAL": 43.3,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -8.58,
+  "VAH_DISTANCE_PCT": -9.72,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

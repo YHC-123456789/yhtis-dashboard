@@ -1,7 +1,7 @@
 {
   "Code": "6949",
-  "Date": "2026-09-30",
-  "Close": 50.6,
+  "Date": "2026-10-01",
+  "Close": 49.4,
   "VP_VAH": 78.2865,
   "VP_POC": 63.2682,
   "VP_VAL": 48.25,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -35.37,
+  "VAH_DISTANCE_PCT": -36.9,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

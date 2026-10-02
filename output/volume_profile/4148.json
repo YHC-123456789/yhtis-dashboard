@@ -1,7 +1,7 @@
 {
   "Code": "4148",
-  "Date": "2026-09-30",
-  "Close": 32.0,
+  "Date": "2026-10-01",
+  "Close": 31.8,
   "VP_VAH": 33.8542,
   "VP_POC": 32.5677,
   "VP_VAL": 30.4688,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.48,
+  "VAH_DISTANCE_PCT": -6.07,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

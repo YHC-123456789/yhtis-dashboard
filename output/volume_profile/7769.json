@@ -1,7 +1,7 @@
 {
   "Code": "7769",
-  "Date": "2026-09-30",
-  "Close": 5505.0,
+  "Date": "2026-10-01",
+  "Close": 5490.0,
   "VP_VAH": 6722.5,
   "VP_POC": 6394.375,
   "VP_VAL": 5935.0,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -18.11,
+  "VAH_DISTANCE_PCT": -18.33,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "2832",
-  "Date": "2026-09-30",
-  "Close": 56.9,
+  "Date": "2026-10-01",
+  "Close": 56.8,
   "VP_VAH": 59.0125,
   "VP_POC": 56.7437,
   "VP_VAL": 56.125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.58,
+  "VAH_DISTANCE_PCT": -3.75,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

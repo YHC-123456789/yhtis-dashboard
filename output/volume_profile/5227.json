@@ -1,7 +1,7 @@
 {
   "Code": "5227",
-  "Date": "2026-09-30",
-  "Close": 31.5,
+  "Date": "2026-10-01",
+  "Close": 30.95,
   "VP_VAH": 38.0667,
   "VP_POC": 30.8417,
   "VP_VAL": 29.2833,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -17.25,
+  "VAH_DISTANCE_PCT": -18.7,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

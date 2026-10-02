@@ -1,7 +1,7 @@
 {
   "Code": "1615",
-  "Date": "2026-09-30",
-  "Close": 42.95,
+  "Date": "2026-10-01",
+  "Close": 42.7,
   "VP_VAH": 45.7525,
   "VP_POC": 43.8901,
   "VP_VAL": 41.8898,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.13,
+  "VAH_DISTANCE_PCT": -6.67,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

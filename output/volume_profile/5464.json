@@ -1,7 +1,7 @@
 {
   "Code": "5464",
-  "Date": "2026-09-30",
-  "Close": 88.2,
+  "Date": "2026-10-01",
+  "Close": 92.5,
   "VP_VAH": 94.2562,
   "VP_POC": 89.6719,
   "VP_VAL": 69.8062,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.43,
+  "VAH_DISTANCE_PCT": -1.86,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

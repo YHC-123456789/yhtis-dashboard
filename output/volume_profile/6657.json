@@ -1,7 +1,7 @@
 {
   "Code": "6657",
-  "Date": "2026-09-30",
-  "Close": 32.7,
+  "Date": "2026-10-01",
+  "Close": 32.6,
   "VP_VAH": 35.45,
   "VP_POC": 30.4578,
   "VP_VAL": 29.6813,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.76,
+  "VAH_DISTANCE_PCT": -8.04,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

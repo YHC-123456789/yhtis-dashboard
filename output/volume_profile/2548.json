@@ -1,7 +1,7 @@
 {
   "Code": "2548",
-  "Date": "2026-09-30",
-  "Close": 91.6,
+  "Date": "2026-10-01",
+  "Close": 91.8,
   "VP_VAH": 97.6979,
   "VP_POC": 93.7135,
   "VP_VAL": 93.0938,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.24,
+  "VAH_DISTANCE_PCT": -6.04,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

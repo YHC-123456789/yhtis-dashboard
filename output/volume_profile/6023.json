@@ -1,7 +1,7 @@
 {
   "Code": "6023",
-  "Date": "2026-09-30",
-  "Close": 85.0,
+  "Date": "2026-10-01",
+  "Close": 84.8,
   "VP_VAH": 87.9913,
   "VP_POC": 83.3223,
   "VP_VAL": 82.8978,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.4,
+  "VAH_DISTANCE_PCT": -3.63,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "4417",
-  "Date": "2026-09-30",
-  "Close": 49.55,
+  "Date": "2026-10-01",
+  "Close": 49.6,
   "VP_VAH": 48.8125,
   "VP_POC": 47.0406,
   "VP_VAL": 43.075,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 1.51,
+  "VAH_DISTANCE_PCT": 1.61,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

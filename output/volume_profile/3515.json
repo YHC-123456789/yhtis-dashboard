@@ -1,7 +1,7 @@
 {
   "Code": "3515",
-  "Date": "2026-09-30",
-  "Close": 212.0,
+  "Date": "2026-10-01",
+  "Close": 215.0,
   "VP_VAH": 228.125,
   "VP_POC": 210.9375,
   "VP_VAL": 205.2083,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.07,
+  "VAH_DISTANCE_PCT": -5.75,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "4555",
-  "Date": "2026-09-30",
-  "Close": 42.15,
+  "Date": "2026-10-01",
+  "Close": 42.3,
   "VP_VAH": 51.8375,
   "VP_POC": 48.6313,
   "VP_VAL": 44.4125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -18.69,
+  "VAH_DISTANCE_PCT": -18.4,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

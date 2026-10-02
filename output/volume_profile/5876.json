@@ -1,7 +1,7 @@
 {
   "Code": "5876",
-  "Date": "2026-09-30",
-  "Close": 49.15,
+  "Date": "2026-10-01",
+  "Close": 48.4,
   "VP_VAH": 46.0066,
   "VP_POC": 43.9191,
   "VP_VAL": 42.3762,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 6.83,
+  "VAH_DISTANCE_PCT": 5.2,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

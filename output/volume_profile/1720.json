@@ -1,7 +1,7 @@
 {
   "Code": "1720",
-  "Date": "2026-09-30",
-  "Close": 56.3,
+  "Date": "2026-10-01",
+  "Close": 56.1,
   "VP_VAH": 57.5563,
   "VP_POC": 56.2156,
   "VP_VAL": 55.7688,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -2.18,
+  "VAH_DISTANCE_PCT": -2.53,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

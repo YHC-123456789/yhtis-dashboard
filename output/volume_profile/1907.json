@@ -1,7 +1,7 @@
 {
   "Code": "1907",
-  "Date": "2026-09-30",
-  "Close": 28.4,
+  "Date": "2026-10-01",
+  "Close": 28.0,
   "VP_VAH": 30.1,
   "VP_POC": 28.85,
   "VP_VAL": 27.8,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.65,
+  "VAH_DISTANCE_PCT": -6.98,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

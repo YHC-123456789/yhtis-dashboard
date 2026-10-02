@@ -1,7 +1,7 @@
 {
   "Code": "6751",
-  "Date": "2026-09-30",
-  "Close": 44.5,
+  "Date": "2026-10-01",
+  "Close": 44.0,
   "VP_VAH": 42.8354,
   "VP_POC": 40.3573,
   "VP_VAL": 39.7854,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 3.89,
+  "VAH_DISTANCE_PCT": 2.72,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

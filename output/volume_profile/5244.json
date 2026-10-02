@@ -1,7 +1,7 @@
 {
   "Code": "5244",
-  "Date": "2026-09-30",
-  "Close": 35.6,
+  "Date": "2026-10-01",
+  "Close": 35.75,
   "VP_VAH": 36.0313,
   "VP_POC": 33.2068,
   "VP_VAL": 31.9406,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.2,
+  "VAH_DISTANCE_PCT": -0.78,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

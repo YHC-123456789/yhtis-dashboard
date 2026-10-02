@@ -1,7 +1,7 @@
 {
   "Code": "5213",
-  "Date": "2026-09-30",
-  "Close": 20.9,
+  "Date": "2026-10-01",
+  "Close": 20.65,
   "VP_VAH": 22.0,
   "VP_POC": 20.9594,
   "VP_VAL": 20.2563,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.0,
+  "VAH_DISTANCE_PCT": -6.14,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

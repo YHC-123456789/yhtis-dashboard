@@ -1,7 +1,7 @@
 {
   "Code": "5906",
-  "Date": "2026-09-30",
-  "Close": 41.0,
+  "Date": "2026-10-01",
+  "Close": 41.3,
   "VP_VAH": 42.2062,
   "VP_POC": 37.951,
   "VP_VAL": 36.6646,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -2.86,
+  "VAH_DISTANCE_PCT": -2.15,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

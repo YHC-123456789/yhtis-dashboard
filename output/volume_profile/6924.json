@@ -1,7 +1,7 @@
 {
   "Code": "6924",
-  "Date": "2026-09-30",
-  "Close": 135.0,
+  "Date": "2026-10-01",
+  "Close": 134.0,
   "VP_VAH": 131.8083,
   "VP_POC": 113.5208,
   "VP_VAL": 105.2083,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": true,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 2.42,
+  "VAH_DISTANCE_PCT": 1.66,
   "VP_STATUS": "RETEST_HOLD",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "4406",
-  "Date": "2026-09-30",
-  "Close": 10.3,
+  "Date": "2026-10-01",
+  "Close": 10.2,
   "VP_VAH": 10.305,
   "VP_POC": 9.8851,
   "VP_VAL": 9.8417,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.05,
+  "VAH_DISTANCE_PCT": -1.02,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "4441",
-  "Date": "2026-09-30",
-  "Close": 171.5,
+  "Date": "2026-10-01",
+  "Close": 170.0,
   "VP_VAH": 191.1562,
   "VP_POC": 171.6719,
   "VP_VAL": 169.4062,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.28,
+  "VAH_DISTANCE_PCT": -11.07,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

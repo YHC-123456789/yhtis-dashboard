@@ -1,7 +1,7 @@
 {
   "Code": "2059",
-  "Date": "2026-09-30",
-  "Close": 12055.0,
+  "Date": "2026-10-01",
+  "Close": 11835.0,
   "VP_VAH": 13195.5208,
   "VP_POC": 8128.2812,
   "VP_VAL": 6840.0,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -8.64,
+  "VAH_DISTANCE_PCT": -10.31,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

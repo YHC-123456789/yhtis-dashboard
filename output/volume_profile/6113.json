@@ -1,7 +1,7 @@
 {
   "Code": "6113",
-  "Date": "2026-09-30",
-  "Close": 22.65,
+  "Date": "2026-10-01",
+  "Close": 24.9,
   "VP_VAH": 26.4948,
   "VP_POC": 22.9401,
   "VP_VAL": 22.1198,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -14.51,
+  "VAH_DISTANCE_PCT": -6.02,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

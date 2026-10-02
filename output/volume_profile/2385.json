@@ -1,7 +1,7 @@
 {
   "Code": "2385",
-  "Date": "2026-09-30",
-  "Close": 104.5,
+  "Date": "2026-10-01",
+  "Close": 105.5,
   "VP_VAH": 108.1687,
   "VP_POC": 105.4781,
   "VP_VAL": 103.8125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.39,
+  "VAH_DISTANCE_PCT": -2.47,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

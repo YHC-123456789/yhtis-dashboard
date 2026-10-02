@@ -1,7 +1,7 @@
 {
   "Code": "3577",
-  "Date": "2026-09-30",
-  "Close": 117.5,
+  "Date": "2026-10-01",
+  "Close": 115.5,
   "VP_VAH": 151.6667,
   "VP_POC": 132.6562,
   "VP_VAL": 110.6042,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -22.53,
+  "VAH_DISTANCE_PCT": -23.85,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

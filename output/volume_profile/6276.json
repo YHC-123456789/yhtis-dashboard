@@ -1,7 +1,7 @@
 {
   "Code": "6276",
-  "Date": "2026-09-30",
-  "Close": 19.3,
+  "Date": "2026-10-01",
+  "Close": 19.65,
   "VP_VAH": 20.9219,
   "VP_POC": 20.4859,
   "VP_VAL": 18.9844,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.75,
+  "VAH_DISTANCE_PCT": -6.08,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

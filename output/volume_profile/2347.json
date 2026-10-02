@@ -1,7 +1,7 @@
 {
   "Code": "2347",
-  "Date": "2026-09-30",
-  "Close": 94.9,
+  "Date": "2026-10-01",
+  "Close": 95.4,
   "VP_VAH": 93.8438,
   "VP_POC": 87.4823,
   "VP_VAL": 85.225,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": true,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 1.13,
+  "VAH_DISTANCE_PCT": 1.66,
   "VP_STATUS": "RETEST_HOLD",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "8482",
-  "Date": "2026-09-30",
-  "Close": 49.2,
+  "Date": "2026-10-01",
+  "Close": 48.85,
   "VP_VAH": 49.9438,
   "VP_POC": 48.7094,
   "VP_VAL": 47.6396,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.49,
+  "VAH_DISTANCE_PCT": -2.19,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "2419",
-  "Date": "2026-09-30",
-  "Close": 29.7,
+  "Date": "2026-10-01",
+  "Close": 29.05,
   "VP_VAH": 30.1094,
   "VP_POC": 27.3161,
   "VP_VAL": 26.6854,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.36,
+  "VAH_DISTANCE_PCT": -3.52,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "6811",
-  "Date": "2026-09-30",
-  "Close": 240.5,
+  "Date": "2026-10-01",
+  "Close": 243.5,
   "VP_VAH": 254.2708,
   "VP_POC": 244.5052,
   "VP_VAL": 224.3229,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.42,
+  "VAH_DISTANCE_PCT": -4.24,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

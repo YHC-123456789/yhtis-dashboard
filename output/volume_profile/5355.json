@@ -1,7 +1,7 @@
 {
   "Code": "5355",
-  "Date": "2026-09-30",
-  "Close": 7.05,
+  "Date": "2026-10-01",
+  "Close": 7.1,
   "VP_VAH": 6.5408,
   "VP_POC": 5.8037,
   "VP_VAL": 5.2192,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 7.78,
+  "VAH_DISTANCE_PCT": 8.55,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

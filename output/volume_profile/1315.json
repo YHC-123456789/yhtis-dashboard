@@ -1,7 +1,7 @@
 {
   "Code": "1315",
-  "Date": "2026-09-30",
-  "Close": 68.8,
+  "Date": "2026-10-01",
+  "Close": 68.7,
   "VP_VAH": 66.7,
   "VP_POC": 66.1094,
   "VP_VAL": 63.9438,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 3.15,
+  "VAH_DISTANCE_PCT": 3.0,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

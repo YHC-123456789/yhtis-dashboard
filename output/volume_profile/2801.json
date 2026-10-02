@@ -1,7 +1,7 @@
 {
   "Code": "2801",
-  "Date": "2026-09-30",
-  "Close": 27.6,
+  "Date": "2026-10-01",
+  "Close": 27.55,
   "VP_VAH": 26.5556,
   "VP_POC": 23.7243,
   "VP_VAL": 22.7805,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 3.93,
+  "VAH_DISTANCE_PCT": 3.74,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

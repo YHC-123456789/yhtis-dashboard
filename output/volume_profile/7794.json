@@ -1,7 +1,7 @@
 {
   "Code": "7794",
-  "Date": "2026-09-30",
-  "Close": 30.6,
+  "Date": "2026-10-01",
+  "Close": 30.3,
   "VP_VAH": 33.1542,
   "VP_POC": 31.5906,
   "VP_VAL": 28.7104,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.7,
+  "VAH_DISTANCE_PCT": -8.61,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "6442",
-  "Date": "2026-09-30",
-  "Close": 1490.0,
+  "Date": "2026-10-01",
+  "Close": 1480.0,
   "VP_VAH": 1709.1667,
   "VP_POC": 1584.5833,
   "VP_VAL": 1325.8333,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -12.82,
+  "VAH_DISTANCE_PCT": -13.41,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

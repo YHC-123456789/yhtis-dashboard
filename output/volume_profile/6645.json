@@ -1,7 +1,7 @@
 {
   "Code": "6645",
-  "Date": "2026-09-30",
-  "Close": 12.85,
+  "Date": "2026-10-01",
+  "Close": 12.75,
   "VP_VAH": 13.9042,
   "VP_POC": 12.5823,
   "VP_VAL": 12.2396,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.58,
+  "VAH_DISTANCE_PCT": -8.3,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

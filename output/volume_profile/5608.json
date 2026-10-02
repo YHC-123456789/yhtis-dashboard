@@ -1,7 +1,7 @@
 {
   "Code": "5608",
-  "Date": "2026-09-30",
-  "Close": 16.95,
+  "Date": "2026-10-01",
+  "Close": 17.0,
   "VP_VAH": 18.8021,
   "VP_POC": 17.0573,
   "VP_VAL": 16.4292,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.85,
+  "VAH_DISTANCE_PCT": -9.58,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

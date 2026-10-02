@@ -1,7 +1,7 @@
 {
   "Code": "5530",
-  "Date": "2026-09-30",
-  "Close": 48.85,
+  "Date": "2026-10-01",
+  "Close": 48.75,
   "VP_VAH": 50.5406,
   "VP_POC": 49.3047,
   "VP_VAL": 48.1865,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.35,
+  "VAH_DISTANCE_PCT": -3.54,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

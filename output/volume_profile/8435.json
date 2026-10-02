@@ -1,7 +1,7 @@
 {
   "Code": "8435",
-  "Date": "2026-09-30",
-  "Close": 53.4,
+  "Date": "2026-10-01",
+  "Close": 53.3,
   "VP_VAH": 53.8333,
   "VP_POC": 53.0,
   "VP_VAL": 52.7,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.8,
+  "VAH_DISTANCE_PCT": -0.99,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

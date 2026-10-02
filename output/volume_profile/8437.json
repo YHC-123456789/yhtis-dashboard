@@ -1,7 +1,7 @@
 {
   "Code": "8437",
-  "Date": "2026-09-30",
-  "Close": 10.2,
+  "Date": "2026-10-01",
+  "Close": 10.6,
   "VP_VAH": 10.0108,
   "VP_POC": 9.1054,
   "VP_VAL": 8.73,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": true,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 1.89,
+  "VAH_DISTANCE_PCT": 5.89,
   "VP_STATUS": "RETEST_HOLD",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "6108",
-  "Date": "2026-09-30",
-  "Close": 25.05,
+  "Date": "2026-10-01",
+  "Close": 25.0,
   "VP_VAH": 25.9438,
   "VP_POC": 24.0844,
   "VP_VAL": 22.0063,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.45,
+  "VAH_DISTANCE_PCT": -3.64,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

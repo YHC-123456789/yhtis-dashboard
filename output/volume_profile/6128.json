@@ -1,7 +1,7 @@
 {
   "Code": "6128",
-  "Date": "2026-09-30",
-  "Close": 19.2,
+  "Date": "2026-10-01",
+  "Close": 19.25,
   "VP_VAH": 20.7375,
   "VP_POC": 20.2682,
   "VP_VAL": 19.5781,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.41,
+  "VAH_DISTANCE_PCT": -7.17,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

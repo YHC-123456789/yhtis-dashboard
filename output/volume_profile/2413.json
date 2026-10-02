@@ -1,7 +1,7 @@
 {
   "Code": "2413",
-  "Date": "2026-09-30",
-  "Close": 51.4,
+  "Date": "2026-10-01",
+  "Close": 51.6,
   "VP_VAH": 55.4125,
   "VP_POC": 52.674,
   "VP_VAL": 45.9521,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.24,
+  "VAH_DISTANCE_PCT": -6.88,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

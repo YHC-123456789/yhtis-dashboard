@@ -1,7 +1,7 @@
 {
   "Code": "1737",
-  "Date": "2026-09-30",
-  "Close": 30.05,
+  "Date": "2026-10-01",
+  "Close": 30.0,
   "VP_VAH": 32.5,
   "VP_POC": 32.0,
   "VP_VAL": 30.2333,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.54,
+  "VAH_DISTANCE_PCT": -7.69,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

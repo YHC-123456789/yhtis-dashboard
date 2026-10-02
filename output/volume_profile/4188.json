@@ -1,7 +1,7 @@
 {
   "Code": "4188",
-  "Date": "2026-09-30",
-  "Close": 14.25,
+  "Date": "2026-10-01",
+  "Close": 14.3,
   "VP_VAH": 16.2183,
   "VP_POC": 14.5182,
   "VP_VAL": 12.6392,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -12.14,
+  "VAH_DISTANCE_PCT": -11.83,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,
