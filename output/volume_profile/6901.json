@@ -1,7 +1,7 @@
 {
   "Code": "6901",
-  "Date": "2026-10-01",
-  "Close": 16.65,
+  "Date": "2026-10-02",
+  "Close": 17.0,
   "VP_VAH": 19.4375,
   "VP_POC": 16.7219,
   "VP_VAL": 14.9937,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -14.34,
+  "VAH_DISTANCE_PCT": -12.54,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

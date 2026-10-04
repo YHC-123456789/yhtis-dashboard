@@ -1,7 +1,7 @@
 {
   "Code": "6183",
-  "Date": "2026-10-01",
-  "Close": 92.3,
+  "Date": "2026-10-02",
+  "Close": 91.7,
   "VP_VAH": 92.8667,
   "VP_POC": 91.3333,
   "VP_VAL": 89.9333,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.61,
+  "VAH_DISTANCE_PCT": -1.26,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

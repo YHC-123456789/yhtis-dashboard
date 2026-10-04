@@ -1,7 +1,7 @@
 {
   "Code": "4771",
-  "Date": "2026-10-01",
-  "Close": 213.5,
+  "Date": "2026-10-02",
+  "Close": 214.0,
   "VP_VAH": 215.8125,
   "VP_POC": 214.3906,
   "VP_VAL": 196.8542,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.07,
+  "VAH_DISTANCE_PCT": -0.84,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

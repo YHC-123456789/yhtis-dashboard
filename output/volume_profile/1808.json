@@ -1,7 +1,7 @@
 {
   "Code": "1808",
-  "Date": "2026-10-01",
-  "Close": 31.7,
+  "Date": "2026-10-02",
+  "Close": 31.6,
   "VP_VAH": 35.3469,
   "VP_POC": 31.8307,
   "VP_VAL": 31.5854,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.32,
+  "VAH_DISTANCE_PCT": -10.6,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

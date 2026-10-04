@@ -1,7 +1,7 @@
 {
   "Code": "3260",
-  "Date": "2026-10-01",
-  "Close": 380.0,
+  "Date": "2026-10-02",
+  "Close": 382.0,
   "VP_VAH": 422.8958,
   "VP_POC": 413.7448,
   "VP_VAL": 386.2917,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.14,
+  "VAH_DISTANCE_PCT": -9.67,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

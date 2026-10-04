@@ -1,7 +1,7 @@
 {
   "Code": "2359",
-  "Date": "2026-10-01",
-  "Close": 128.0,
+  "Date": "2026-10-02",
+  "Close": 128.5,
   "VP_VAH": 158.25,
   "VP_POC": 142.4375,
   "VP_VAL": 126.625,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -19.12,
+  "VAH_DISTANCE_PCT": -18.8,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

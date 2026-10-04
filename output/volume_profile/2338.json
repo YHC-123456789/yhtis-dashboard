@@ -1,7 +1,7 @@
 {
   "Code": "2338",
-  "Date": "2026-10-01",
-  "Close": 47.2,
+  "Date": "2026-10-02",
+  "Close": 49.65,
   "VP_VAH": 51.3719,
   "VP_POC": 48.4672,
   "VP_VAL": 44.6687,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -8.12,
+  "VAH_DISTANCE_PCT": -3.35,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

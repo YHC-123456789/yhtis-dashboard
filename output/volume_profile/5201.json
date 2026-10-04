@@ -1,7 +1,7 @@
 {
   "Code": "5201",
-  "Date": "2026-10-01",
-  "Close": 29.2,
+  "Date": "2026-10-02",
+  "Close": 28.0,
   "VP_VAH": 30.1917,
   "VP_POC": 29.4984,
   "VP_VAL": 26.7885,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.28,
+  "VAH_DISTANCE_PCT": -7.26,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

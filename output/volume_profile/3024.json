@@ -1,7 +1,7 @@
 {
   "Code": "3024",
-  "Date": "2026-10-01",
-  "Close": 14.1,
+  "Date": "2026-10-02",
+  "Close": 14.0,
   "VP_VAH": 15.0458,
   "VP_POC": 14.5313,
   "VP_VAL": 13.0667,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.29,
+  "VAH_DISTANCE_PCT": -6.95,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

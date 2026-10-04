@@ -1,7 +1,7 @@
 {
   "Code": "6195",
-  "Date": "2026-10-01",
-  "Close": 28.2,
+  "Date": "2026-10-02",
+  "Close": 28.1,
   "VP_VAH": 28.3906,
   "VP_POC": 27.7266,
   "VP_VAL": 26.75,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.67,
+  "VAH_DISTANCE_PCT": -1.02,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "4994",
-  "Date": "2026-10-01",
-  "Close": 81.6,
+  "Date": "2026-10-02",
+  "Close": 81.0,
   "VP_VAH": 90.6937,
   "VP_POC": 82.5781,
   "VP_VAL": 80.7562,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.03,
+  "VAH_DISTANCE_PCT": -10.69,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

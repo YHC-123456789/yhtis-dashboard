@@ -1,7 +1,7 @@
 {
   "Code": "1597",
-  "Date": "2026-10-01",
-  "Close": 154.5,
+  "Date": "2026-10-02",
+  "Close": 148.0,
   "VP_VAH": 154.9583,
   "VP_POC": 146.5625,
   "VP_VAL": 136.875,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.3,
+  "VAH_DISTANCE_PCT": -4.49,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

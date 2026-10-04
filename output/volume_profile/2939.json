@@ -1,7 +1,7 @@
 {
   "Code": "2939",
-  "Date": "2026-10-01",
-  "Close": 21.95,
+  "Date": "2026-10-02",
+  "Close": 22.55,
   "VP_VAH": 20.05,
   "VP_POC": 19.6844,
   "VP_VAL": 19.075,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 9.48,
+  "VAH_DISTANCE_PCT": 12.47,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

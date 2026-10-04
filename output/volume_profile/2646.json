@@ -1,7 +1,7 @@
 {
   "Code": "2646",
-  "Date": "2026-10-01",
-  "Close": 20.15,
+  "Date": "2026-10-02",
+  "Close": 20.1,
   "VP_VAH": 21.65,
   "VP_POC": 21.3063,
   "VP_VAL": 20.4125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.93,
+  "VAH_DISTANCE_PCT": -7.16,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "5487",
-  "Date": "2026-10-01",
-  "Close": 28.7,
+  "Date": "2026-10-02",
+  "Close": 29.3,
   "VP_VAH": 29.625,
   "VP_POC": 28.9688,
   "VP_VAL": 28.225,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.12,
+  "VAH_DISTANCE_PCT": -1.1,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

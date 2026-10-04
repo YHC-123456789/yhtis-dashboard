@@ -1,7 +1,7 @@
 {
   "Code": "2704",
-  "Date": "2026-10-01",
-  "Close": 45.15,
+  "Date": "2026-10-02",
+  "Close": 44.95,
   "VP_VAH": 46.1063,
   "VP_POC": 45.5672,
   "VP_VAL": 44.549,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -2.07,
+  "VAH_DISTANCE_PCT": -2.51,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

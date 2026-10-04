@@ -1,7 +1,7 @@
 {
   "Code": "4714",
-  "Date": "2026-10-01",
-  "Close": 11.85,
+  "Date": "2026-10-02",
+  "Close": 12.35,
   "VP_VAH": 12.4083,
   "VP_POC": 11.0203,
   "VP_VAL": 10.851,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.5,
+  "VAH_DISTANCE_PCT": -0.47,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

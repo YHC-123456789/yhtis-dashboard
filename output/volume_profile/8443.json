@@ -1,7 +1,7 @@
 {
   "Code": "8443",
-  "Date": "2026-10-01",
-  "Close": 11.1,
+  "Date": "2026-10-02",
+  "Close": 11.0,
   "VP_VAH": 11.5,
   "VP_POC": 11.3938,
   "VP_VAL": 11.175,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.48,
+  "VAH_DISTANCE_PCT": -4.35,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

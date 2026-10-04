@@ -1,7 +1,7 @@
 {
   "Code": "6142",
-  "Date": "2026-10-01",
-  "Close": 9.17,
+  "Date": "2026-10-02",
+  "Close": 9.14,
   "VP_VAH": 10.6408,
   "VP_POC": 9.4171,
   "VP_VAL": 8.7125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -13.82,
+  "VAH_DISTANCE_PCT": -14.1,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

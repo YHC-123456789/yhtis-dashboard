@@ -1,7 +1,7 @@
 {
   "Code": "6805",
-  "Date": "2026-10-01",
-  "Close": 2390.0,
+  "Date": "2026-10-02",
+  "Close": 2310.0,
   "VP_VAH": 2524.6875,
   "VP_POC": 1832.6562,
   "VP_VAL": 1559.0625,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.33,
+  "VAH_DISTANCE_PCT": -8.5,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

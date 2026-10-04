@@ -1,10 +1,10 @@
 {
   "Code": "4102",
-  "Date": "2026-10-01",
+  "Date": "2026-10-02",
   "Close": 18.45,
   "VP_VAH": 20.55,
   "VP_POC": 20.275,
-  "VP_VAL": 19.05,
+  "VP_VAL": 19.0,
   "ABOVE_VAH": false,
   "VAH_BREAKOUT": false,
   "VAH_RETEST_HOLD": false,

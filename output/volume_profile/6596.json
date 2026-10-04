@@ -1,7 +1,7 @@
 {
   "Code": "6596",
-  "Date": "2026-10-01",
-  "Close": 97.2,
+  "Date": "2026-10-02",
+  "Close": 96.6,
   "VP_VAH": 97.925,
   "VP_POC": 94.7625,
   "VP_VAL": 89.125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.74,
+  "VAH_DISTANCE_PCT": -1.35,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

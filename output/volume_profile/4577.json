@@ -1,7 +1,7 @@
 {
   "Code": "4577",
-  "Date": "2026-10-01",
-  "Close": 90.4,
+  "Date": "2026-10-02",
+  "Close": 92.0,
   "VP_VAH": 93.5,
   "VP_POC": 85.8,
   "VP_VAL": 75.9,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.32,
+  "VAH_DISTANCE_PCT": -1.6,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

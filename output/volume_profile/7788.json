@@ -1,7 +1,7 @@
 {
   "Code": "7788",
-  "Date": "2026-10-01",
-  "Close": 290.5,
+  "Date": "2026-10-02",
+  "Close": 307.0,
   "VP_VAH": 328.7188,
   "VP_POC": 268.3906,
   "VP_VAL": 248.2812,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -11.63,
+  "VAH_DISTANCE_PCT": -6.61,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

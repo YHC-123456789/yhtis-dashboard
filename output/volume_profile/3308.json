@@ -1,7 +1,7 @@
 {
   "Code": "3308",
-  "Date": "2026-10-01",
-  "Close": 22.75,
+  "Date": "2026-10-02",
+  "Close": 22.9,
   "VP_VAH": 23.5,
   "VP_POC": 22.2422,
   "VP_VAL": 20.7656,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.19,
+  "VAH_DISTANCE_PCT": -2.55,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

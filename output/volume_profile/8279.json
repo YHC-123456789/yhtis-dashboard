@@ -1,7 +1,7 @@
 {
   "Code": "8279",
-  "Date": "2026-10-01",
-  "Close": 80.8,
+  "Date": "2026-10-02",
+  "Close": 79.5,
   "VP_VAH": 85.5917,
   "VP_POC": 84.8781,
   "VP_VAL": 78.4562,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.6,
+  "VAH_DISTANCE_PCT": -7.12,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

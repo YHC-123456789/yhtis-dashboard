@@ -1,7 +1,7 @@
 {
   "Code": "3413",
-  "Date": "2026-10-01",
-  "Close": 293.0,
+  "Date": "2026-10-02",
+  "Close": 292.0,
   "VP_VAH": 348.5,
   "VP_POC": 286.6667,
   "VP_VAL": 276.1667,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -15.93,
+  "VAH_DISTANCE_PCT": -16.21,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

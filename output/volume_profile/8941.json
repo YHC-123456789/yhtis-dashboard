@@ -1,7 +1,7 @@
 {
   "Code": "8941",
-  "Date": "2026-10-01",
-  "Close": 43.95,
+  "Date": "2026-10-02",
+  "Close": 44.0,
   "VP_VAH": 44.074,
   "VP_POC": 43.3411,
   "VP_VAL": 42.5385,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.28,
+  "VAH_DISTANCE_PCT": -0.17,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

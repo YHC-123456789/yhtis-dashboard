@@ -1,7 +1,7 @@
 {
   "Code": "5609",
-  "Date": "2026-10-01",
-  "Close": 77.9,
+  "Date": "2026-10-02",
+  "Close": 78.0,
   "VP_VAH": 79.3187,
   "VP_POC": 78.4656,
   "VP_VAL": 77.8563,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.79,
+  "VAH_DISTANCE_PCT": -1.66,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

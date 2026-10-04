@@ -1,7 +1,7 @@
 {
   "Code": "3019",
-  "Date": "2026-10-01",
-  "Close": 137.0,
+  "Date": "2026-10-02",
+  "Close": 139.0,
   "VP_VAH": 148.0,
   "VP_POC": 137.2188,
   "VP_VAL": 130.1875,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.43,
+  "VAH_DISTANCE_PCT": -6.08,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

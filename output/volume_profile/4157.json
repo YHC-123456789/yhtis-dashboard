@@ -1,7 +1,7 @@
 {
   "Code": "4157",
-  "Date": "2026-10-01",
-  "Close": 8.73,
+  "Date": "2026-10-02",
+  "Close": 8.65,
   "VP_VAH": 9.2058,
   "VP_POC": 9.0549,
   "VP_VAL": 8.6356,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.17,
+  "VAH_DISTANCE_PCT": -6.04,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "4167",
-  "Date": "2026-10-01",
-  "Close": 19.6,
+  "Date": "2026-10-02",
+  "Close": 19.55,
   "VP_VAH": 20.5146,
   "VP_POC": 19.4865,
   "VP_VAL": 18.85,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.46,
+  "VAH_DISTANCE_PCT": -4.7,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

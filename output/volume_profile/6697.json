@@ -1,7 +1,7 @@
 {
   "Code": "6697",
-  "Date": "2026-10-01",
-  "Close": 41.1,
+  "Date": "2026-10-02",
+  "Close": 41.15,
   "VP_VAH": 41.6458,
   "VP_POC": 40.9688,
   "VP_VAL": 40.2917,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.31,
+  "VAH_DISTANCE_PCT": -1.19,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

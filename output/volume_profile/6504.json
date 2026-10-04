@@ -1,7 +1,7 @@
 {
   "Code": "6504",
-  "Date": "2026-10-01",
-  "Close": 37.2,
+  "Date": "2026-10-02",
+  "Close": 37.55,
   "VP_VAH": 39.0177,
   "VP_POC": 37.0089,
   "VP_VAL": 35.8313,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.66,
+  "VAH_DISTANCE_PCT": -3.76,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

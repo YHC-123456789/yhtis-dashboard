@@ -1,7 +1,7 @@
 {
   "Code": "2321",
-  "Date": "2026-10-01",
-  "Close": 23.5,
+  "Date": "2026-10-02",
+  "Close": 25.85,
   "VP_VAH": 16.8141,
   "VP_POC": 15.0312,
   "VP_VAL": 13.5725,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 39.76,
+  "VAH_DISTANCE_PCT": 53.74,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

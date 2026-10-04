@@ -1,7 +1,7 @@
 {
   "Code": "3434",
-  "Date": "2026-10-01",
-  "Close": 31.4,
+  "Date": "2026-10-02",
+  "Close": 31.2,
   "VP_VAH": 31.7552,
   "VP_POC": 29.6755,
   "VP_VAL": 28.9823,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.12,
+  "VAH_DISTANCE_PCT": -1.75,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

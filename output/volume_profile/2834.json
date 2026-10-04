@@ -1,7 +1,7 @@
 {
   "Code": "2834",
-  "Date": "2026-10-01",
-  "Close": 17.5,
+  "Date": "2026-10-02",
+  "Close": 17.45,
   "VP_VAH": 17.1551,
   "VP_POC": 16.9084,
   "VP_VAL": 16.3875,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 2.01,
+  "VAH_DISTANCE_PCT": 1.72,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

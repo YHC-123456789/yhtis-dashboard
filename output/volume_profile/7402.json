@@ -1,7 +1,7 @@
 {
   "Code": "7402",
-  "Date": "2026-10-01",
-  "Close": 100.5,
+  "Date": "2026-10-02",
+  "Close": 101.0,
   "VP_VAH": 132.5833,
   "VP_POC": 113.8542,
   "VP_VAL": 99.9583,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -24.2,
+  "VAH_DISTANCE_PCT": -23.82,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

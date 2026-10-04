@@ -1,7 +1,7 @@
 {
   "Code": "6240",
-  "Date": "2026-10-01",
-  "Close": 25.3,
+  "Date": "2026-10-02",
+  "Close": 26.4,
   "VP_VAH": 28.0187,
   "VP_POC": 25.3594,
   "VP_VAL": 22.4687,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.7,
+  "VAH_DISTANCE_PCT": -5.78,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

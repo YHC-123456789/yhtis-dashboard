@@ -1,7 +1,7 @@
 {
   "Code": "2489",
-  "Date": "2026-10-01",
-  "Close": 40.65,
+  "Date": "2026-10-02",
+  "Close": 41.15,
   "VP_VAH": 45.0531,
   "VP_POC": 42.1484,
   "VP_VAL": 37.9031,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.77,
+  "VAH_DISTANCE_PCT": -8.66,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

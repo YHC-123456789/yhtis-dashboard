@@ -1,7 +1,7 @@
 {
   "Code": "2707",
-  "Date": "2026-10-01",
-  "Close": 176.0,
+  "Date": "2026-10-02",
+  "Close": 175.0,
   "VP_VAH": 180.8438,
   "VP_POC": 177.5677,
   "VP_VAL": 177.4792,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -2.68,
+  "VAH_DISTANCE_PCT": -3.23,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

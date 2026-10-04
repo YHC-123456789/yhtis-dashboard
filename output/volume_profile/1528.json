@@ -1,7 +1,7 @@
 {
   "Code": "1528",
-  "Date": "2026-10-01",
-  "Close": 25.0,
+  "Date": "2026-10-02",
+  "Close": 24.75,
   "VP_VAH": 27.9,
   "VP_POC": 25.3406,
   "VP_VAL": 23.025,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.39,
+  "VAH_DISTANCE_PCT": -11.29,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

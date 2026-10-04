@@ -1,7 +1,7 @@
 {
   "Code": "2477",
-  "Date": "2026-10-01",
-  "Close": 23.1,
+  "Date": "2026-10-02",
+  "Close": 22.75,
   "VP_VAH": 22.2313,
   "VP_POC": 21.5203,
   "VP_VAL": 20.7417,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 3.91,
+  "VAH_DISTANCE_PCT": 2.33,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

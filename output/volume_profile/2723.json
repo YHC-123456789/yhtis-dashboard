@@ -1,7 +1,7 @@
 {
   "Code": "2723",
-  "Date": "2026-10-01",
-  "Close": 77.5,
+  "Date": "2026-10-02",
+  "Close": 77.3,
   "VP_VAH": 78.6375,
   "VP_POC": 61.8187,
   "VP_VAL": 60.6,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.45,
+  "VAH_DISTANCE_PCT": -1.7,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

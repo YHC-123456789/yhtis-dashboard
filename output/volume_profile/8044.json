@@ -1,7 +1,7 @@
 {
   "Code": "8044",
-  "Date": "2026-10-01",
-  "Close": 24.2,
+  "Date": "2026-10-02",
+  "Close": 24.35,
   "VP_VAH": 26.7427,
   "VP_POC": 24.0776,
   "VP_VAL": 23.3958,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.51,
+  "VAH_DISTANCE_PCT": -8.95,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

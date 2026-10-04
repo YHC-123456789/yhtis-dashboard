@@ -1,7 +1,7 @@
 {
   "Code": "3716",
-  "Date": "2026-10-01",
-  "Close": 34.0,
+  "Date": "2026-10-02",
+  "Close": 33.9,
   "VP_VAH": 35.5958,
   "VP_POC": 33.8438,
   "VP_VAL": 33.4208,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.48,
+  "VAH_DISTANCE_PCT": -4.76,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "1201",
-  "Date": "2026-10-01",
-  "Close": 11.6,
+  "Date": "2026-10-02",
+  "Close": 11.55,
   "VP_VAH": 12.2292,
   "VP_POC": 11.6604,
   "VP_VAL": 11.5292,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.15,
+  "VAH_DISTANCE_PCT": -5.55,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

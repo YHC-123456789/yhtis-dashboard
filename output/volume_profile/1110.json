@@ -1,7 +1,7 @@
 {
   "Code": "1110",
-  "Date": "2026-10-01",
-  "Close": 14.65,
+  "Date": "2026-10-02",
+  "Close": 14.35,
   "VP_VAH": 16.2719,
   "VP_POC": 15.9672,
   "VP_VAL": 15.5219,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.97,
+  "VAH_DISTANCE_PCT": -11.81,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

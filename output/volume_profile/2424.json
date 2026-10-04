@@ -1,7 +1,7 @@
 {
   "Code": "2424",
-  "Date": "2026-10-01",
-  "Close": 8.16,
+  "Date": "2026-10-02",
+  "Close": 8.42,
   "VP_VAH": 9.7667,
   "VP_POC": 8.1333,
   "VP_VAL": 7.6333,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -16.45,
+  "VAH_DISTANCE_PCT": -13.79,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

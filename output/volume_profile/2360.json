@@ -1,7 +1,7 @@
 {
   "Code": "2360",
-  "Date": "2026-10-01",
-  "Close": 2080.0,
+  "Date": "2026-10-02",
+  "Close": 2190.0,
   "VP_VAH": 2202.5,
   "VP_POC": 1991.5625,
   "VP_VAL": 1814.375,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.56,
+  "VAH_DISTANCE_PCT": -0.57,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

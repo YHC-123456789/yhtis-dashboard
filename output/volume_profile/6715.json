@@ -1,7 +1,7 @@
 {
   "Code": "6715",
-  "Date": "2026-10-01",
-  "Close": 453.0,
+  "Date": "2026-10-02",
+  "Close": 449.0,
   "VP_VAH": 434.375,
   "VP_POC": 392.8125,
   "VP_VAL": 320.625,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": true,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 4.29,
+  "VAH_DISTANCE_PCT": 3.37,
   "VP_STATUS": "RETEST_HOLD",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

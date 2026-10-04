@@ -1,7 +1,7 @@
 {
   "Code": "4747",
-  "Date": "2026-10-01",
-  "Close": 23.1,
+  "Date": "2026-10-02",
+  "Close": 22.95,
   "VP_VAH": 28.6208,
   "VP_POC": 24.7073,
   "VP_VAL": 23.2021,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -19.29,
+  "VAH_DISTANCE_PCT": -19.81,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

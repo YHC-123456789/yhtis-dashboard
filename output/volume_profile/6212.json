@@ -1,7 +1,7 @@
 {
   "Code": "6212",
-  "Date": "2026-10-01",
-  "Close": 32.25,
+  "Date": "2026-10-02",
+  "Close": 32.1,
   "VP_VAH": 31.6677,
   "VP_POC": 28.5995,
   "VP_VAL": 28.1,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 1.84,
+  "VAH_DISTANCE_PCT": 1.37,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

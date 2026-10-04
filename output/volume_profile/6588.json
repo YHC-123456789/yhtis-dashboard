@@ -1,7 +1,7 @@
 {
   "Code": "6588",
-  "Date": "2026-10-01",
-  "Close": 110.0,
+  "Date": "2026-10-02",
+  "Close": 114.0,
   "VP_VAH": 121.9667,
   "VP_POC": 112.5292,
   "VP_VAL": 93.025,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.81,
+  "VAH_DISTANCE_PCT": -6.53,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

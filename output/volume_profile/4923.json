@@ -1,7 +1,7 @@
 {
   "Code": "4923",
-  "Date": "2026-10-01",
-  "Close": 65.2,
+  "Date": "2026-10-02",
+  "Close": 66.6,
   "VP_VAH": 67.6542,
   "VP_POC": 63.0297,
   "VP_VAL": 52.7135,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.63,
+  "VAH_DISTANCE_PCT": -1.56,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

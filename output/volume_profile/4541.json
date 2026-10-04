@@ -1,7 +1,7 @@
 {
   "Code": "4541",
-  "Date": "2026-10-01",
-  "Close": 60.1,
+  "Date": "2026-10-02",
+  "Close": 61.1,
   "VP_VAH": 75.7104,
   "VP_POC": 71.1594,
   "VP_VAL": 65.0021,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -20.62,
+  "VAH_DISTANCE_PCT": -19.3,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

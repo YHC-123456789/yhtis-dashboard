@@ -1,7 +1,7 @@
 {
   "Code": "5543",
-  "Date": "2026-10-01",
-  "Close": 27.0,
+  "Date": "2026-10-02",
+  "Close": 27.5,
   "VP_VAH": 28.2458,
   "VP_POC": 24.9656,
   "VP_VAL": 24.4771,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.41,
+  "VAH_DISTANCE_PCT": -2.64,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

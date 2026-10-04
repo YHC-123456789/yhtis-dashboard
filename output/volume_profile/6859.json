@@ -1,7 +1,7 @@
 {
   "Code": "6859",
-  "Date": "2026-10-01",
-  "Close": 120.5,
+  "Date": "2026-10-02",
+  "Close": 122.5,
   "VP_VAH": 115.6875,
   "VP_POC": 99.0469,
   "VP_VAL": 94.9792,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 4.16,
+  "VAH_DISTANCE_PCT": 5.89,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

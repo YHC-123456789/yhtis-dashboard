@@ -1,7 +1,7 @@
 {
   "Code": "2855",
-  "Date": "2026-10-01",
-  "Close": 56.4,
+  "Date": "2026-10-02",
+  "Close": 57.6,
   "VP_VAH": 52.2,
   "VP_POC": 44.075,
   "VP_VAL": 41.7833,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 8.05,
+  "VAH_DISTANCE_PCT": 10.34,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

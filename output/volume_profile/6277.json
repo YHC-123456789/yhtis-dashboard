@@ -1,7 +1,7 @@
 {
   "Code": "6277",
-  "Date": "2026-10-01",
-  "Close": 77.7,
+  "Date": "2026-10-02",
+  "Close": 77.1,
   "VP_VAH": 82.9417,
   "VP_POC": 78.6979,
   "VP_VAL": 75.6667,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.32,
+  "VAH_DISTANCE_PCT": -7.04,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "6872",
-  "Date": "2026-10-01",
-  "Close": 23.0,
+  "Date": "2026-10-02",
+  "Close": 23.1,
   "VP_VAH": 27.05,
   "VP_POC": 24.7036,
   "VP_VAL": 21.8052,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -14.97,
+  "VAH_DISTANCE_PCT": -14.6,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

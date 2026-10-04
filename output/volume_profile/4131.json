@@ -1,7 +1,7 @@
 {
   "Code": "4131",
-  "Date": "2026-10-01",
-  "Close": 30.85,
+  "Date": "2026-10-02",
+  "Close": 30.8,
   "VP_VAH": 32.3771,
   "VP_POC": 31.424,
   "VP_VAL": 30.0896,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -4.72,
+  "VAH_DISTANCE_PCT": -4.87,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

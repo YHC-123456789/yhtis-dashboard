@@ -1,7 +1,7 @@
 {
   "Code": "3504",
-  "Date": "2026-10-01",
-  "Close": 80.2,
+  "Date": "2026-10-02",
+  "Close": 80.1,
   "VP_VAH": 92.6333,
   "VP_POC": 78.9125,
   "VP_VAL": 73.35,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -13.42,
+  "VAH_DISTANCE_PCT": -13.53,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

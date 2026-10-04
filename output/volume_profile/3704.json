@@ -1,7 +1,7 @@
 {
   "Code": "3704",
-  "Date": "2026-10-01",
-  "Close": 40.05,
+  "Date": "2026-10-02",
+  "Close": 40.55,
   "VP_VAH": 47.6365,
   "VP_POC": 40.7328,
   "VP_VAL": 39.6031,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -15.93,
+  "VAH_DISTANCE_PCT": -14.88,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

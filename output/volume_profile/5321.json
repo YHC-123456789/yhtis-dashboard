@@ -1,7 +1,7 @@
 {
   "Code": "5321",
-  "Date": "2026-10-01",
-  "Close": 70.3,
+  "Date": "2026-10-02",
+  "Close": 68.6,
   "VP_VAH": 86.5583,
   "VP_POC": 78.4646,
   "VP_VAL": 61.8917,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -18.78,
+  "VAH_DISTANCE_PCT": -20.75,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

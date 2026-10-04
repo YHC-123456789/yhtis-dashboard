@@ -1,7 +1,7 @@
 {
   "Code": "3628",
-  "Date": "2026-10-01",
-  "Close": 72.8,
+  "Date": "2026-10-02",
+  "Close": 71.8,
   "VP_VAH": 78.2,
   "VP_POC": 73.7208,
   "VP_VAL": 68.525,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.91,
+  "VAH_DISTANCE_PCT": -8.18,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

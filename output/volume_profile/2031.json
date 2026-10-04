@@ -1,7 +1,7 @@
 {
   "Code": "2031",
-  "Date": "2026-10-01",
-  "Close": 46.2,
+  "Date": "2026-10-02",
+  "Close": 46.65,
   "VP_VAH": 47.0854,
   "VP_POC": 45.738,
   "VP_VAL": 42.7323,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.88,
+  "VAH_DISTANCE_PCT": -0.92,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

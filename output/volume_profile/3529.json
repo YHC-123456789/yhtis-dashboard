@@ -1,7 +1,7 @@
 {
   "Code": "3529",
-  "Date": "2026-10-01",
-  "Close": 3245.0,
+  "Date": "2026-10-02",
+  "Close": 3170.0,
   "VP_VAH": 2849.1667,
   "VP_POC": 2490.4167,
   "VP_VAL": 2302.5,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 13.89,
+  "VAH_DISTANCE_PCT": 11.26,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

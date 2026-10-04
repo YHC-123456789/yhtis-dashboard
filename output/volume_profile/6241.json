@@ -1,7 +1,7 @@
 {
   "Code": "6241",
-  "Date": "2026-10-01",
-  "Close": 16.15,
+  "Date": "2026-10-02",
+  "Close": 16.25,
   "VP_VAH": 18.2127,
   "VP_POC": 15.9879,
   "VP_VAL": 15.1173,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -11.33,
+  "VAH_DISTANCE_PCT": -10.78,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

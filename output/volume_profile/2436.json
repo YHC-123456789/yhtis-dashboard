@@ -1,7 +1,7 @@
 {
   "Code": "2436",
-  "Date": "2026-10-01",
-  "Close": 74.0,
+  "Date": "2026-10-02",
+  "Close": 76.0,
   "VP_VAH": 71.7083,
   "VP_POC": 67.3646,
   "VP_VAL": 62.4417,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 3.2,
+  "VAH_DISTANCE_PCT": 5.98,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

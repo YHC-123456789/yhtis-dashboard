@@ -1,7 +1,7 @@
 {
   "Code": "3073",
-  "Date": "2026-10-01",
-  "Close": 20.5,
+  "Date": "2026-10-02",
+  "Close": 20.6,
   "VP_VAH": 23.0938,
   "VP_POC": 22.0156,
   "VP_VAL": 21.2188,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -11.23,
+  "VAH_DISTANCE_PCT": -10.8,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

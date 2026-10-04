@@ -1,7 +1,7 @@
 {
   "Code": "1799",
-  "Date": "2026-10-01",
-  "Close": 28.95,
+  "Date": "2026-10-02",
+  "Close": 29.0,
   "VP_VAH": 33.825,
   "VP_POC": 30.0609,
   "VP_VAL": 28.35,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -14.41,
+  "VAH_DISTANCE_PCT": -14.26,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

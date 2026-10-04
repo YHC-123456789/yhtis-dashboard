@@ -1,7 +1,7 @@
 {
   "Code": "2348",
-  "Date": "2026-10-01",
-  "Close": 38.45,
+  "Date": "2026-10-02",
+  "Close": 38.35,
   "VP_VAH": 74.6792,
   "VP_POC": 70.7396,
   "VP_VAL": 69.85,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -48.51,
+  "VAH_DISTANCE_PCT": -48.65,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

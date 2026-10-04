@@ -1,7 +1,7 @@
 {
   "Code": "1569",
-  "Date": "2026-10-01",
-  "Close": 63.8,
+  "Date": "2026-10-02",
+  "Close": 66.5,
   "VP_VAH": 68.0,
   "VP_POC": 63.0547,
   "VP_VAL": 49.5375,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.18,
+  "VAH_DISTANCE_PCT": -2.21,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "9904",
-  "Date": "2026-10-01",
-  "Close": 24.85,
+  "Date": "2026-10-02",
+  "Close": 24.7,
   "VP_VAH": 24.9292,
   "VP_POC": 24.474,
   "VP_VAL": 23.9708,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 1,
-  "VAH_DISTANCE_PCT": -0.32,
+  "VAH_DISTANCE_PCT": -0.92,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

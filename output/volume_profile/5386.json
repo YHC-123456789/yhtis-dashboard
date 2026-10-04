@@ -1,7 +1,7 @@
 {
   "Code": "5386",
-  "Date": "2026-10-01",
-  "Close": 288.5,
+  "Date": "2026-10-02",
+  "Close": 292.5,
   "VP_VAH": 293.1667,
   "VP_POC": 283.1406,
   "VP_VAL": 230.1458,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.59,
+  "VAH_DISTANCE_PCT": -0.23,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

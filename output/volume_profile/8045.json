@@ -1,7 +1,7 @@
 {
   "Code": "8045",
-  "Date": "2026-10-01",
-  "Close": 54.7,
+  "Date": "2026-10-02",
+  "Close": 56.3,
   "VP_VAH": 61.1521,
   "VP_POC": 52.4995,
   "VP_VAL": 49.9271,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.55,
+  "VAH_DISTANCE_PCT": -7.93,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

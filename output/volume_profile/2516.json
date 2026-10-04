@@ -1,7 +1,7 @@
 {
   "Code": "2516",
-  "Date": "2026-10-01",
-  "Close": 15.15,
+  "Date": "2026-10-02",
+  "Close": 15.05,
   "VP_VAH": 14.6677,
   "VP_POC": 13.963,
   "VP_VAL": 13.7281,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 3.29,
+  "VAH_DISTANCE_PCT": 2.61,
   "VP_STATUS": "ACCEPTANCE",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

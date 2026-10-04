@@ -1,7 +1,7 @@
 {
   "Code": "4142",
-  "Date": "2026-10-01",
-  "Close": 18.1,
+  "Date": "2026-10-02",
+  "Close": 18.0,
   "VP_VAH": 17.9677,
   "VP_POC": 17.8109,
   "VP_VAL": 16.9375,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": true,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 0.74,
+  "VAH_DISTANCE_PCT": 0.18,
   "VP_STATUS": "RETEST_HOLD",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

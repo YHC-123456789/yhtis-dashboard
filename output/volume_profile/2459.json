@@ -1,7 +1,7 @@
 {
   "Code": "2459",
-  "Date": "2026-10-01",
-  "Close": 64.9,
+  "Date": "2026-10-02",
+  "Close": 64.8,
   "VP_VAH": 67.4,
   "VP_POC": 65.45,
   "VP_VAL": 64.8,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.71,
+  "VAH_DISTANCE_PCT": -3.86,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

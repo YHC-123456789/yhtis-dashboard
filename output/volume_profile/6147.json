@@ -1,7 +1,7 @@
 {
   "Code": "6147",
-  "Date": "2026-10-01",
-  "Close": 225.5,
+  "Date": "2026-10-02",
+  "Close": 223.0,
   "VP_VAH": 228.0208,
   "VP_POC": 196.901,
   "VP_VAL": 165.7812,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.11,
+  "VAH_DISTANCE_PCT": -2.2,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

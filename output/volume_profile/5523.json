@@ -1,7 +1,7 @@
 {
   "Code": "5523",
-  "Date": "2026-10-01",
-  "Close": 30.35,
+  "Date": "2026-10-02",
+  "Close": 30.3,
   "VP_VAH": 30.3708,
   "VP_POC": 30.3562,
   "VP_VAL": 30.1958,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.07,
+  "VAH_DISTANCE_PCT": -0.23,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

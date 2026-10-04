@@ -1,7 +1,7 @@
 {
   "Code": "1532",
-  "Date": "2026-10-01",
-  "Close": 22.2,
+  "Date": "2026-10-02",
+  "Close": 22.1,
   "VP_VAH": 23.4125,
   "VP_POC": 22.8781,
   "VP_VAL": 22.2875,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.18,
+  "VAH_DISTANCE_PCT": -5.61,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

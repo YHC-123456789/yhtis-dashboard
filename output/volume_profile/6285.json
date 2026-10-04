@@ -1,7 +1,7 @@
 {
   "Code": "6285",
-  "Date": "2026-10-01",
-  "Close": 235.5,
+  "Date": "2026-10-02",
+  "Close": 238.0,
   "VP_VAH": 262.0625,
   "VP_POC": 253.2396,
   "VP_VAL": 231.5833,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -10.14,
+  "VAH_DISTANCE_PCT": -9.18,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

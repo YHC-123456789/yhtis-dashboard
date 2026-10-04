@@ -1,7 +1,7 @@
 {
   "Code": "4763",
-  "Date": "2026-10-01",
-  "Close": 46.85,
+  "Date": "2026-10-02",
+  "Close": 47.15,
   "VP_VAH": 51.2104,
   "VP_POC": 49.5385,
   "VP_VAL": 46.5292,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -8.51,
+  "VAH_DISTANCE_PCT": -7.93,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

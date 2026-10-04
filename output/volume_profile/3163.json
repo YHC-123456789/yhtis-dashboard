@@ -1,7 +1,7 @@
 {
   "Code": "3163",
-  "Date": "2026-10-01",
-  "Close": 651.0,
+  "Date": "2026-10-02",
+  "Close": 713.0,
   "VP_VAH": 786.6667,
   "VP_POC": 721.75,
   "VP_VAL": 629.5,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -17.25,
+  "VAH_DISTANCE_PCT": -9.36,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "9934",
-  "Date": "2026-10-01",
-  "Close": 9.86,
+  "Date": "2026-10-02",
+  "Close": 9.83,
   "VP_VAH": 11.8083,
   "VP_POC": 10.8658,
   "VP_VAL": 10.5033,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -16.5,
+  "VAH_DISTANCE_PCT": -16.75,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

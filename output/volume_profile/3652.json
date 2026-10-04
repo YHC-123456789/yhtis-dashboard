@@ -1,7 +1,7 @@
 {
   "Code": "3652",
-  "Date": "2026-10-01",
-  "Close": 34.5,
+  "Date": "2026-10-02",
+  "Close": 34.9,
   "VP_VAH": 38.2771,
   "VP_POC": 36.6052,
   "VP_VAL": 33.3729,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -9.87,
+  "VAH_DISTANCE_PCT": -8.82,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "6829",
-  "Date": "2026-10-01",
-  "Close": 205.0,
+  "Date": "2026-10-02",
+  "Close": 208.0,
   "VP_VAH": 256.9167,
   "VP_POC": 244.4271,
   "VP_VAL": 209.2292,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -20.21,
+  "VAH_DISTANCE_PCT": -19.04,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

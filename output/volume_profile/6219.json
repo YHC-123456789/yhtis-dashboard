@@ -1,7 +1,7 @@
 {
   "Code": "6219",
-  "Date": "2026-10-01",
-  "Close": 12.35,
+  "Date": "2026-10-02",
+  "Close": 12.15,
   "VP_VAH": 13.0375,
   "VP_POC": 12.1313,
   "VP_VAL": 11.975,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.27,
+  "VAH_DISTANCE_PCT": -6.81,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

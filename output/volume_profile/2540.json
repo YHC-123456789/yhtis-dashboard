@@ -1,7 +1,7 @@
 {
   "Code": "2540",
-  "Date": "2026-10-01",
-  "Close": 48.85,
+  "Date": "2026-10-02",
+  "Close": 48.15,
   "VP_VAH": 56.5594,
   "VP_POC": 48.2953,
   "VP_VAL": 42.45,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -13.63,
+  "VAH_DISTANCE_PCT": -14.87,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

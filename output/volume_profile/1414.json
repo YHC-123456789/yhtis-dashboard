@@ -1,7 +1,7 @@
 {
   "Code": "1414",
-  "Date": "2026-10-01",
-  "Close": 17.35,
+  "Date": "2026-10-02",
+  "Close": 17.25,
   "VP_VAH": 19.7625,
   "VP_POC": 19.3156,
   "VP_VAL": 17.5687,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -12.21,
+  "VAH_DISTANCE_PCT": -12.71,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

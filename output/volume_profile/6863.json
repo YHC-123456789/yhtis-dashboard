@@ -1,7 +1,7 @@
 {
   "Code": "6863",
-  "Date": "2026-10-01",
-  "Close": 95.5,
+  "Date": "2026-10-02",
+  "Close": 96.0,
   "VP_VAH": 130.6292,
   "VP_POC": 108.5062,
   "VP_VAL": 100.4125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -26.89,
+  "VAH_DISTANCE_PCT": -26.51,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

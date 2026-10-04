@@ -1,7 +1,7 @@
 {
   "Code": "1786",
-  "Date": "2026-10-01",
-  "Close": 43.25,
+  "Date": "2026-10-02",
+  "Close": 42.7,
   "VP_VAH": 52.2729,
   "VP_POC": 49.7672,
   "VP_VAL": 44.0188,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -17.26,
+  "VAH_DISTANCE_PCT": -18.31,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

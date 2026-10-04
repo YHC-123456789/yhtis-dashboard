@@ -1,7 +1,7 @@
 {
   "Code": "2845",
-  "Date": "2026-10-01",
-  "Close": 13.1,
+  "Date": "2026-10-02",
+  "Close": 12.9,
   "VP_VAH": 13.5927,
   "VP_POC": 13.3453,
   "VP_VAL": 13.1771,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.62,
+  "VAH_DISTANCE_PCT": -5.1,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

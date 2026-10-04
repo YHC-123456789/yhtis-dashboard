@@ -1,7 +1,7 @@
 {
   "Code": "3597",
-  "Date": "2026-10-01",
-  "Close": 28.1,
+  "Date": "2026-10-02",
+  "Close": 27.7,
   "VP_VAH": 27.575,
   "VP_POC": 26.6844,
   "VP_VAL": 25.9813,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": true,
   "VP_ACCEPTANCE": true,
   "ABOVE_VAH_COUNT_3": 3,
-  "VAH_DISTANCE_PCT": 1.9,
+  "VAH_DISTANCE_PCT": 0.45,
   "VP_STATUS": "RETEST_HOLD",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

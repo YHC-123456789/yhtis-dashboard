@@ -1,7 +1,7 @@
 {
   "Code": "3617",
-  "Date": "2026-10-01",
-  "Close": 243.0,
+  "Date": "2026-10-02",
+  "Close": 243.5,
   "VP_VAH": 261.7083,
   "VP_POC": 247.9531,
   "VP_VAL": 229.8542,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.15,
+  "VAH_DISTANCE_PCT": -6.96,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

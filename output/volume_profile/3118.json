@@ -1,7 +1,7 @@
 {
   "Code": "3118",
-  "Date": "2026-10-01",
-  "Close": 31.55,
+  "Date": "2026-10-02",
+  "Close": 31.5,
   "VP_VAH": 31.8583,
   "VP_POC": 31.6802,
   "VP_VAL": 31.3833,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -0.97,
+  "VAH_DISTANCE_PCT": -1.12,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

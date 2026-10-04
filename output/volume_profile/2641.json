@@ -1,7 +1,7 @@
 {
   "Code": "2641",
-  "Date": "2026-10-01",
-  "Close": 17.35,
+  "Date": "2026-10-02",
+  "Close": 17.45,
   "VP_VAH": 18.9813,
   "VP_POC": 18.0531,
   "VP_VAL": 17.125,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -8.59,
+  "VAH_DISTANCE_PCT": -8.07,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

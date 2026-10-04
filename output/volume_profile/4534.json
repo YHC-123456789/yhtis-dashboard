@@ -1,7 +1,7 @@
 {
   "Code": "4534",
-  "Date": "2026-10-01",
-  "Close": 30.7,
+  "Date": "2026-10-02",
+  "Close": 30.0,
   "VP_VAH": 38.7333,
   "VP_POC": 29.9031,
   "VP_VAL": 28.2813,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -20.74,
+  "VAH_DISTANCE_PCT": -22.55,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

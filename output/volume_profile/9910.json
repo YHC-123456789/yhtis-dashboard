@@ -1,7 +1,7 @@
 {
   "Code": "9910",
-  "Date": "2026-10-01",
-  "Close": 68.8,
+  "Date": "2026-10-02",
+  "Close": 67.8,
   "VP_VAH": 70.0938,
   "VP_POC": 68.1531,
   "VP_VAL": 67.3625,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.85,
+  "VAH_DISTANCE_PCT": -3.27,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

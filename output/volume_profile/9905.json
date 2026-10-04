@@ -1,7 +1,7 @@
 {
   "Code": "9905",
-  "Date": "2026-10-01",
-  "Close": 21.4,
+  "Date": "2026-10-02",
+  "Close": 21.3,
   "VP_VAH": 21.65,
   "VP_POC": 21.4078,
   "VP_VAL": 20.7781,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -1.15,
+  "VAH_DISTANCE_PCT": -1.62,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

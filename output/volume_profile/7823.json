@@ -1,7 +1,7 @@
 {
   "Code": "7823",
-  "Date": "2026-10-01",
-  "Close": 79.9,
+  "Date": "2026-10-02",
+  "Close": 79.5,
   "VP_VAH": 85.1021,
   "VP_POC": 83.7052,
   "VP_VAL": 80.1354,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -6.11,
+  "VAH_DISTANCE_PCT": -6.58,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

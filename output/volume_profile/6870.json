@@ -1,7 +1,7 @@
 {
   "Code": "6870",
-  "Date": "2026-10-01",
-  "Close": 314.5,
+  "Date": "2026-10-02",
+  "Close": 312.0,
   "VP_VAH": 332.4375,
   "VP_POC": 305.9688,
   "VP_VAL": 269.4167,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -5.4,
+  "VAH_DISTANCE_PCT": -6.15,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

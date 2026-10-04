@@ -1,7 +1,7 @@
 {
   "Code": "8112",
-  "Date": "2026-10-01",
-  "Close": 45.8,
+  "Date": "2026-10-02",
+  "Close": 45.7,
   "VP_VAH": 95.6667,
   "VP_POC": 90.7083,
   "VP_VAL": 81.6667,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -52.13,
+  "VAH_DISTANCE_PCT": -52.23,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

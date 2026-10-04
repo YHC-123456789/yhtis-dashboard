@@ -1,7 +1,7 @@
 {
   "Code": "8271",
-  "Date": "2026-10-01",
-  "Close": 201.0,
+  "Date": "2026-10-02",
+  "Close": 202.5,
   "VP_VAH": 239.0625,
   "VP_POC": 231.2344,
   "VP_VAL": 206.0104,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -15.92,
+  "VAH_DISTANCE_PCT": -15.29,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

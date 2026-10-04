@@ -1,7 +1,7 @@
 {
   "Code": "8101",
-  "Date": "2026-10-01",
-  "Close": 11.05,
+  "Date": "2026-10-02",
+  "Close": 10.7,
   "VP_VAH": 13.4683,
   "VP_POC": 13.4226,
   "VP_VAL": 12.005,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -17.96,
+  "VAH_DISTANCE_PCT": -20.55,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

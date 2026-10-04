@@ -1,7 +1,7 @@
 {
   "Code": "6928",
-  "Date": "2026-10-01",
-  "Close": 46.5,
+  "Date": "2026-10-02",
+  "Close": 45.85,
   "VP_VAH": 58.8031,
   "VP_POC": 54.3172,
   "VP_VAL": 49.499,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -20.92,
+  "VAH_DISTANCE_PCT": -22.03,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

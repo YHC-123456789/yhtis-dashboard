@@ -1,7 +1,7 @@
 {
   "Code": "6146",
-  "Date": "2026-10-01",
-  "Close": 181.5,
+  "Date": "2026-10-02",
+  "Close": 183.5,
   "VP_VAH": 196.9792,
   "VP_POC": 192.224,
   "VP_VAL": 179.6875,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -7.86,
+  "VAH_DISTANCE_PCT": -6.84,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

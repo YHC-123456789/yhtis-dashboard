@@ -1,7 +1,7 @@
 {
   "Code": "6547",
-  "Date": "2026-10-01",
-  "Close": 62.6,
+  "Date": "2026-10-02",
+  "Close": 60.8,
   "VP_VAH": 68.1021,
   "VP_POC": 61.3698,
   "VP_VAL": 51.7104,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -8.08,
+  "VAH_DISTANCE_PCT": -10.72,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

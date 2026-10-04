@@ -1,7 +1,7 @@
 {
   "Code": "6637",
-  "Date": "2026-10-01",
-  "Close": 53.9,
+  "Date": "2026-10-02",
+  "Close": 53.4,
   "VP_VAH": 68.5188,
   "VP_POC": 61.9281,
   "VP_VAL": 60.325,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -21.34,
+  "VAH_DISTANCE_PCT": -22.07,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

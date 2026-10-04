@@ -1,7 +1,7 @@
 {
   "Code": "6103",
-  "Date": "2026-10-01",
-  "Close": 36.9,
+  "Date": "2026-10-02",
+  "Close": 36.95,
   "VP_VAH": 43.4417,
   "VP_POC": 38.7714,
   "VP_VAL": 25.65,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -15.06,
+  "VAH_DISTANCE_PCT": -14.94,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

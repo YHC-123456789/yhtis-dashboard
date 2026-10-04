@@ -1,7 +1,7 @@
 {
   "Code": "6918",
-  "Date": "2026-10-01",
-  "Close": 73.9,
+  "Date": "2026-10-02",
+  "Close": 73.6,
   "VP_VAH": 75.8521,
   "VP_POC": 73.899,
   "VP_VAL": 70.9042,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -2.57,
+  "VAH_DISTANCE_PCT": -2.97,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

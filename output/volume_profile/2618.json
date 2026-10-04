@@ -1,7 +1,7 @@
 {
   "Code": "2618",
-  "Date": "2026-10-01",
-  "Close": 42.2,
+  "Date": "2026-10-02",
+  "Close": 42.35,
   "VP_VAH": 43.2594,
   "VP_POC": 41.8578,
   "VP_VAL": 40.7,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -2.45,
+  "VAH_DISTANCE_PCT": -2.1,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

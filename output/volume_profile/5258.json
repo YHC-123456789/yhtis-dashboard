@@ -1,7 +1,7 @@
 {
   "Code": "5258",
-  "Date": "2026-10-01",
-  "Close": 42.25,
+  "Date": "2026-10-02",
+  "Close": 42.0,
   "VP_VAH": 55.4625,
   "VP_POC": 53.0719,
   "VP_VAL": 47.175,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -23.82,
+  "VAH_DISTANCE_PCT": -24.27,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

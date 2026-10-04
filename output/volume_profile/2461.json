@@ -1,7 +1,7 @@
 {
   "Code": "2461",
-  "Date": "2026-10-01",
-  "Close": 17.4,
+  "Date": "2026-10-02",
+  "Close": 17.35,
   "VP_VAH": 18.95,
   "VP_POC": 18.2859,
   "VP_VAL": 16.8406,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -8.18,
+  "VAH_DISTANCE_PCT": -8.44,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

@@ -1,7 +1,7 @@
 {
   "Code": "2537",
-  "Date": "2026-10-01",
-  "Close": 11.1,
+  "Date": "2026-10-02",
+  "Close": 11.05,
   "VP_VAH": 11.4583,
   "VP_POC": 11.0646,
   "VP_VAL": 10.8458,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -3.13,
+  "VAH_DISTANCE_PCT": -3.56,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

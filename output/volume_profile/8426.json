@@ -1,7 +1,7 @@
 {
   "Code": "8426",
-  "Date": "2026-10-01",
-  "Close": 20.65,
+  "Date": "2026-10-02",
+  "Close": 20.6,
   "VP_VAH": 21.1063,
   "VP_POC": 20.6281,
   "VP_VAL": 19.925,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -2.16,
+  "VAH_DISTANCE_PCT": -2.4,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

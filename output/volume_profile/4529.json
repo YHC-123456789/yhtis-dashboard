@@ -1,7 +1,7 @@
 {
   "Code": "4529",
-  "Date": "2026-10-01",
-  "Close": 3.33,
+  "Date": "2026-10-02",
+  "Close": 3.34,
   "VP_VAH": 4.1667,
   "VP_POC": 3.7554,
   "VP_VAL": 3.305,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -20.08,
+  "VAH_DISTANCE_PCT": -19.84,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

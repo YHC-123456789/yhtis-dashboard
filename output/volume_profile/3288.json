@@ -1,7 +1,7 @@
 {
   "Code": "3288",
-  "Date": "2026-10-01",
-  "Close": 21.25,
+  "Date": "2026-10-02",
+  "Close": 21.05,
   "VP_VAH": 31.3,
   "VP_POC": 26.763,
   "VP_VAL": 21.9333,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -32.11,
+  "VAH_DISTANCE_PCT": -32.75,
   "VP_STATUS": "BELOW_VAL",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,

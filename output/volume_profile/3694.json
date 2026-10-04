@@ -1,7 +1,7 @@
 {
   "Code": "3694",
-  "Date": "2026-10-01",
-  "Close": 51.2,
+  "Date": "2026-10-02",
+  "Close": 51.7,
   "VP_VAH": 64.5875,
   "VP_POC": 50.6938,
   "VP_VAL": 48.5,
@@ -10,7 +10,7 @@
   "VAH_RETEST_HOLD": false,
   "VP_ACCEPTANCE": false,
   "ABOVE_VAH_COUNT_3": 0,
-  "VAH_DISTANCE_PCT": -20.73,
+  "VAH_DISTANCE_PCT": -19.95,
   "VP_STATUS": "IN_VALUE_AREA",
   "VP_LOOKBACK": 60,
   "VP_BINS": 48,
