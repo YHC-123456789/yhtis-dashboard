@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YHTIS 上市上櫃官方行情</title><style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;color:#152536;background:#f4f7fa}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:1130px;margin:auto;padding:22px 16px 40px}
+h1{font-size:26px;margin:10px 0}.top{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.card{background:#fff;border:1px solid #dee7f1;border-radius:12px;padding:15px 18px;margin:14px 0;box-shadow:0 2px 7px #253d580a}
+.muted{color:#617184;font-size:13px}.notice{border-left:4px solid #bd8542;padding:12px;background:#fff9ee;border-radius:6px;font-size:14px}
+input,select{font:inherit;padding:11px;border:1px solid #c7d5e3;border-radius:8px;background:white;max-width:100%;}
+.search{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.search input{flex:1;min-width:175px}
+.table-wrap{overflow:auto;max-height:70vh;border:1px solid #d9e3ed;border-radius:10px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:14px}thead{position:sticky;top:0;background:#eaf0f6}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid #eff3f6;white-space:nowrap}td.num{text-align:right;font-variant-numeric:tabular-nums}
+th.num{text-align:right}.pill{background:#e8f1fc;color:#1f507c;padding:5px 9px;border-radius:50px;font-size:12px}
+</style></head><body><div class="wrap">
+<a href="./index.html">← 返回 YHTIS 首頁</a><h1>台股官方收盤行情</h1>
+<div class="top"><strong id="asof">官方交易日載入中</strong><span class="pill">上市 TWSE + 上櫃 TPEx</span><span class="muted" id="count"></span></div>
+<div class="card notice"><strong>行情已驗證，AI 尚未重算。</strong> 此頁僅顯示官方收盤資料，不代表 YHTIS 最新 Golden Entry、Stage1/Stage2、當沖買賣訊號或回測績效。上櫃成交量是正常交易時段口徑；上市股本／週轉率及調整後價格未在此提供。</div>
+<div class="card"><div class="search"><input id="q" aria-label="搜尋代號或名稱" placeholder="搜尋股票代號或名稱，例如 2330、台積電"><select id="m" aria-label="選擇市場"><option value="">所有市場</option><option value="TWSE">上市 TWSE</option><option value="TPEx">上櫃 TPEx</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>代號</th><th>名稱</th><th>市場</th><th class="num">收盤價（元）</th><th class="num">成交股數</th></tr></thead><tbody id="rows"><tr><td colspan="5">載入中...</td></tr></tbody></table></div><p class="muted" id="meta"></p></div>
+</div><script>
+const $=id=>document.getElementById(id);let data=[];
+function render(){let q=$('q').value.trim().toLowerCase(),m=$('m').value;
+let found=data.filter(r=>(!m||r.Market===m)&&(!q||r.Code.includes(q)||r.Name.toLowerCase().includes(q)));
+$('rows').replaceChildren();let frag=document.createDocumentFragment();for(const r of found.slice(0,2000)){
+let tr=document.createElement('tr');for(const [v,cls] of [[r.Code,''],[r.Name,''],[r.Market,''],[r.Close,'num'],[r.Volume.toLocaleString('en-US'),'num']]){
+let td=document.createElement('td');td.textContent=v;td.className=cls;tr.appendChild(td)}frag.appendChild(tr)}
+if(!found.length){let tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=5;td.textContent='沒有符合的股票';tr.appendChild(td);frag.appendChild(tr)}
+$('rows').appendChild(frag);$('count').textContent=`顯示 ${found.length.toLocaleString()} 檔`;}
+for(const id of ['q','m'])$(id).addEventListener(id==='q'?'input':'change',render);
+fetch('./output/official_market_eod_latest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(x=>{
+if(x.Status!=='OFFICIAL_DATED_SNAPSHOT_VALIDATED'||!Array.isArray(x.Stocks))throw Error('來源未驗證');
+data=x.Stocks;$('asof').textContent='官方交易日：'+x.Date;$('meta').textContent='上市 '+x.TWSE+' 檔｜上櫃 '+x.TPEx+' 檔｜資料來源：臺灣證券交易所／證券櫃檯買賣中心';render();
+}).catch(e=>{$('rows').textContent='資料讀取失敗：'+e.message;});
+</script></body></html>
