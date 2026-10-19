@@ -1,0 +1,52 @@
+<!doctype html><html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YHTIS｜官方行情每日觀察名單</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC",Arial,sans-serif;color:#202b3b;background:#f6f8fb}
+*{box-sizing:border-box}body{margin:0}header{background:#fff;border-bottom:1px solid #e5eaf1}main,.top{max-width:1180px;margin:0 auto;padding:18px 16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}h1{font-size:22px;letter-spacing:.2px;margin:6px 0}h2{font-size:16px;margin:0 0 8px}
+sub,.muted{font-size:12px;color:#64748b}.intro{margin:8px 0;color:#475569;font-size:14px;line-height:1.65}
+span.mark{border-radius:7px;background:#e7effe;color:#23447d;padding:5px 9px;font-size:12px} .warning{border-left:3px solid #a45c1b;background:#fff6e8;padding:12px 16px;margin:12px 0;border-radius:6px;color:#75430d;font-size:13px;line-height:1.65}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.stat,.panel{background:#fff;border:1px solid #e5eaf1;border-radius:12px;padding:16px}.stat strong{display:block;font-size:23px;margin-top:5px}.stat span{font-size:12px;color:#64748b}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0}button,input{font:inherit;padding:10px 12px;border-radius:8px;border:1px solid #d7dfed;background:white;color:#263649}button{cursor:pointer}button.active{background:#1e4d85;color:white;border-color:#1e4d85}input{min-width:200px;flex:1}
+.tablewrap{overflow:auto;border:1px solid #e5eaf1;border-radius:10px;background:white}table{width:100%;border-collapse:collapse;min-width:900px;font-size:13px}th,td{padding:11px 9px;border-bottom:1px solid #edf1f5;text-align:right;white-space:nowrap}th{background:#f1f5fa;color:#53647a;position:sticky;top:0;font-weight:600}td:nth-child(-n+3),th:nth-child(-n+3){text-align:left}tr:last-child td{border-bottom:none} .good{color:#b91c1c;font-weight:600} .tag{font-size:11px;border-radius:5px;padding:4px 7px;background:#e9f2fc;color:#194f82} .note{font-size:12px;color:#64748b;line-height:1.75;margin-top:16px}
+a{color:#205db2}a.link{font-size:13px;text-decoration:none}.pill{font-size:12px;padding:5px 9px;background:#e7f1e9;border-radius:8px;color:#286b43}#status{font-size:13px;color:#54667e}#empty{display:none;padding:32px;text-align:center;color:#62748a}
+@media(max-width:620px){h1{font-size:19px}.top{align-items:start}.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.stat{padding:10px}.stat strong{font-size:18px}.stat span{font-size:11px}main,.top{padding:12px}.intro{font-size:13px}}
+</style></head><body>
+<header><div class="top"><div><sub>YHTIS / DAILY SCREEN · 獨立資料模組</sub><h1>每日行情 · 短週期觀察名單</h1><div class="intro">依雙市場官方日線產生，不使用未驗證 AI／Golden Entry 分數。</div></div><div><div id="asof" class="mark">載入資料中</div><p id="status">資料日期會逐次核對</p></div></div></header>
+<main>
+<div class="warning"><strong>這不是買進指令。</strong> 僅依最近五個交易日的價格、量能與 K 棒位置篩選，沒有可宣稱的勝率；「防守參考」僅為當日低點，並不保證可用該價格停損。切勿因急於回本而加大槓桿。<span id="stale"></span></div>
+<div class="stats"><div class="stat"><span>連續五日資料完整</span><strong id="coverage">—</strong></div><div class="stat"><span>突破觀察</span><strong id="breakout">—</strong></div><div class="stat"><span>趨勢觀察</span><strong id="trend">—</strong></div></div>
+<div class="panel"><h2>篩選方式</h2><p class="intro">股價 15～300 元、最新成交量至少 1,000 張、近五日價格無逾 35% 異常跳變，且收盤靠近當日高位。突破觀察需收盤突破前四日最高價、量比 ≥1.5；趨勢觀察檢查短期向上與量比 ≥1.15。最高顯示 60 檔。</p><div class="controls"><button class="active" id="all">全部</button><button id="b">突破觀察</button><button id="t">趨勢觀察</button><input id="find" placeholder="搜尋代號或名稱" aria-label="搜尋股票代號或名稱"><a class="link" id="csv" href="./screen.csv" download>下載名單 CSV</a></div>
+<div class="tablewrap"><table><thead><tr><th>代號</th><th>股票</th><th>狀態</th><th>收盤</th><th>當日%</th><th>近五日%</th><th>成交量(張)</th><th>量比</th><th>收盤位置%</th><th>當日低點</th><th>至低點幅度%</th></tr></thead><tbody id="rows"></tbody></table><div id="empty">此類別沒有符合條件的股票；不補造名單。</div></div>
+<p class="note">量比：最新成交量 ÷ 前四交易日平均量。收盤位置：(收盤－最低) ÷ (最高－最低)。至低點幅度不是建議停損價。所有日期以台灣市場為準。<span id="source"></span></p></div>
+<p class="note">若官方雙市場資料未通過當日日期、完整性及來源檢查，程式停止發布，上一份名單會保留原日期，絕不自動改成今天。原版網站、Golden Entry 及 Stage1／Stage2 不受本模組影響。</p>
+</main>
+<script>
+'use strict';
+let data=null, mode='全部';
+const $=id=>document.getElementById(id);
+function td(row,v,cls){const el=document.createElement('td');el.textContent=String(v);if(cls)el.className=cls;row.appendChild(el)}
+function render(){if(!data)return;const query=$('find').value.trim().toLowerCase();const list=data.Candidates.filter(x=>(mode==='全部'||x.Category===mode)&& (x.Code.includes(query)||x.Name.toLowerCase().includes(query)));const body=$('rows');body.replaceChildren();for(const x of list){const r=document.createElement('tr');td(r,x.Code);td(r,x.Name);td(r,x.Category,'tag');td(r,x.Close);td(r,x.DayPct+'%',x.DayPct>0?'good':'');td(r,x.FiveDayPct+'%');td(r,x.VolumeLots);td(r,x.VolumeRatio);td(r,x.ClosePositionPct+'%');td(r,x.ReferenceLow);td(r,x.RiskToDayLowPct+'%');body.appendChild(r)}$('empty').style.display=list.length?'none':'block'}
+for(const [id,v] of [['all','全部'],['b','突破觀察'],['t','趨勢觀察']])$(''+id).addEventListener('click',()=>{mode=v;for(const k of ['all','b','t'])$(k).classList.toggle('active',k===id);render()});$('find').addEventListener('input',render);
+async function load(){
+ let urls=[];
+ // GitHub raw changes instantly when the scheduled workflow commits, even when Pages rebuild is delayed.
+ const h=location.hostname.toLowerCase(),parts=location.pathname.split('/').filter(Boolean);
+ if(h.endsWith('.github.io') && parts.length){const owner=h.split('.')[0],repo=parts[0];
+   if(/^[\w-]+$/.test(owner)&&/^[\w-]+$/.test(repo))urls.push('https://raw.githubusercontent.com/'+owner+'/'+repo+'/main/daily_screen/latest.json');}
+ urls.push('./latest.json');
+ let last;
+ for(const url of urls){try{const resp=await fetch(url+'?v='+Date.now(),{cache:'no-store'});if(!resp.ok)throw Error('HTTP '+resp.status);const obj=await resp.json();if(!/^\d{4}-\d\d-\d\d$/.test(obj.AsOfDate)||!Array.isArray(obj.Candidates))throw Error('資料格式不符');data=obj;break}catch(e){last=e}}
+ if(!data){$('asof').textContent='資料無法讀取';$('status').textContent=String(last||'未知原因');return}
+ $('asof').textContent='行情截至 '+data.AsOfDate; $('coverage').textContent=data.Counts.CompleteFiveSessionStocks.toLocaleString();$('breakout').textContent=data.Counts.BreakoutCount;$('trend').textContent=data.Counts.TrendCount;
+ $('source').textContent='本批來源：'+data.Source;
+ const now=new Date();const fmt=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'});const taipeiParts=Object.fromEntries(fmt.formatToParts(now).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));const twToday=taipeiParts.year+'-'+taipeiParts.month+'-'+taipeiParts.day;
+ let expected=new Date(twToday+'T00:00:00Z');if(Number(taipeiParts.hour)<18)expected.setUTCDate(expected.getUTCDate()-1);while(expected.getUTCDay()===0||expected.getUTCDay()===6)expected.setUTCDate(expected.getUTCDate()-1);
+ $('status').textContent='最近五個交易日：'+data.LastFiveSessions.join('、');
+ if(data.AsOfDate<expected.toISOString().slice(0,10)){$('stale').textContent=' 注意：距離最近應檢查的市場日期仍有缺口，這份名單可能已過期，請勿作為當日交易依據。';}
+ // The CSV relative link may lag on GitHub Pages; JSON always fetched from up-to-date raw branch where possible.
+ render();
+}
+load();
+</script></body></html>

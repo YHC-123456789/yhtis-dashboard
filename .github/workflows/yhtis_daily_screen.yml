@@ -1,0 +1,38 @@
+name: YHTIS Daily Official Screen
+on:
+  schedule:
+    # 11:30 UTC = 19:30 Taipei (04:30 Phoenix), Mon-Fri.
+    - cron: '30 11 * * 1-5'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: yhtis-official-screen
+  cancel-in-progress: false
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch dated official TWSE and TPEx quotes; screen or fail closed
+        run: python daily_screen/screen.py --mode live --base daily_screen
+      - name: Verify screen output before any commit
+        run: python daily_screen/test_screen.py --verify-only
+      - name: Commit ONLY isolated daily_screen outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- daily_screen/history.csv daily_screen/latest.json daily_screen/screen.csv; then
+            echo "NO_NEW_SESSION: no publication needed"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- daily_screen/history.csv daily_screen/latest.json daily_screen/screen.csv
+          git diff --cached --quiet && exit 0
+          git commit -m 'YHTIS official EOD observation screen update'
+          git push origin HEAD:main
