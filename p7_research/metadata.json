@@ -1,0 +1,11 @@
+{
+  "mode": "RESEARCH_ONLY",
+  "formal_buy": "BLOCKED",
+  "model": "P7_SIMPLE_HEURISTIC_NOT_GOLDEN_ENTRY",
+  "source": "P7_ISOLATED_UNCERTIFIED",
+  "stock_count": 462,
+  "excluded_count": 0,
+  "as_of": "2026-10-19",
+  "built_at": "2026-10-25",
+  "no_auto_refresh": true
+}
