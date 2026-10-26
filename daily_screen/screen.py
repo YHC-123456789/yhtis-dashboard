@@ -80,10 +80,16 @@ def parse_payload(raw,market,day):
     try:doc=json.loads(raw)
     except Exception as e:raise SourceError('JSON_INVALID') from e
     if not isinstance(doc,dict):raise SourceError('JSON_NOT_OBJECT')
+    status=str(doc.get('stat','')).strip()
+    if ('沒有符合條件的資料' in status
+            and 'date' not in doc
+            and 'tables' not in doc
+            and 'data' not in doc):
+        raise NoSession('OFFICIAL_NO_SESSION '+status[:80])
     if str(doc.get('date',''))!=day.replace('-',''):
         raise SourceError('SOURCE_DATE_MISMATCH '+str(doc.get('date')))
-    status=str(doc.get('stat','')).lower()
-    if status!='ok':raise NoSession('OFFICIAL_NO_SESSION '+status[:80])
+    if status.lower()!='ok':
+        raise NoSession('OFFICIAL_NO_SESSION '+status[:80])
     expected={'TWSE':['證券代號','證券名稱','開盤價','最高價','最低價','收盤價','成交股數'],
               'TPEx':['代號','名稱','開盤','最高','最低','收盤','成交股數']}[market]
     eligible=[]
