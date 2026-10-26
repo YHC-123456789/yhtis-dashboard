@@ -18,11 +18,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Check known Taiwan market closures (never bypass strict quote validation)
+        id: market_calendar
+        run: python daily_screen/market_calendar_guard.py
       - name: Fetch dated official TWSE and TPEx quotes; screen or fail closed
+        if: steps.market_calendar.outputs.skip != 'true'
         run: python daily_screen/screen.py --mode live --base daily_screen
       - name: Verify screen output before any commit
+        if: steps.market_calendar.outputs.skip != 'true'
         run: python daily_screen/test_screen.py --verify-only
       - name: Commit ONLY isolated daily_screen outputs
+        if: steps.market_calendar.outputs.skip != 'true'
         shell: bash
         run: |
           set -euo pipefail
