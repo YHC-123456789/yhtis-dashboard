@@ -107,4 +107,40 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
  if(!rows.length)throw Error('排名資料為空或格式不相容');badge.textContent='研究資料｜'+String(rows[0].date??rows[0].Date??rows[0].snapshot_date??'日期未確認');render();
  }).catch(e=>{target.innerHTML='<tr><td colspan="6">P7 研究資料暫不可用；不顯示舊排名作為最新訊號。</td></tr>';badge.textContent='研究資料不可用';info.textContent='P7 研究榜讀取失敗：'+e.message;});
 })();</script>
+<script id="YHTIS_BREAKOUT_VISIBLE_TOP_V1">
+(function(){'use strict';
+  function init(){
+    var section=document.getElementById('dashboard');
+    var panel=document.getElementById('p7-root-panel');
+    if(!section || !panel){console.warn('YHTIS breakout research panel not found');return;}
+    section.insertBefore(panel,section.firstChild);
+    panel.style.display='block';panel.style.visibility='visible';
+    panel.style.margin='0 0 20px';panel.style.scrollMarginTop='100px';
+    panel.setAttribute('aria-label','起漲研究候選榜（非買進訊號）');
+    var title=panel.querySelector('h2');
+    if(title) title.textContent='起漲研究候選｜P7 排名（非買進訊號）';
+    var notice=document.createElement('p');
+    notice.id='yhtis-breakout-freshness';
+    notice.style.cssText='margin:8px 0 14px;padding:10px 12px;border-radius:9px;background:#fff4e5;color:#84530b;font-weight:650';
+    notice.textContent='正在核對研究日期；研究榜不等於鑽石、點火或星星正式訊號。';
+    var existing=document.getElementById('yhtis-breakout-freshness');if(!existing)panel.insertBefore(notice,panel.firstChild.nextSibling);
+    else notice=existing;
+    var badge=document.getElementById('p7-root-date');
+    function refresh(){
+      var text=(badge&&badge.textContent)||'';
+      var match=text.match(/20\d{2}-\d{2}-\d{2}/);
+      if(!match){notice.textContent='研究資料日期尚未確認／無法載入；不得當作最新交易訊號。';return;}
+      var date=match[0];
+      var taiwanToday=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+      var age=Math.round((Date.parse(taiwanToday+'T00:00:00Z')-Date.parse(date+'T00:00:00Z'))/86400000);
+      if(!Number.isFinite(age) || age<0){notice.textContent='研究資料日期異常：'+date+'；停止視為有效訊號。';return;}
+      if(age>=3){notice.textContent='⚠ 研究資料過期：'+date+'（台灣日期 '+taiwanToday+'，相隔 '+age+' 天）。候選僅供歷史研究，不能當作今天的起漲／買進名單。';return;}
+      notice.textContent='研究資料日期：'+date+'。僅供研究觀察，尚未驗證為最新完整市場資料；正式鑽石／點火／星星訊號維持封鎖。';
+    }
+    if(badge && typeof MutationObserver!=='undefined')new MutationObserver(refresh).observe(badge,{childList:true,subtree:true,characterData:true});
+    refresh();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>
