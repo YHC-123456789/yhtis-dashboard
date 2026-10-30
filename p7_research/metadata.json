@@ -3,9 +3,9 @@
   "formal_buy": "BLOCKED",
   "model": "P7_SIMPLE_HEURISTIC_NOT_GOLDEN_ENTRY",
   "source": "P7_ISOLATED_UNCERTIFIED",
-  "stock_count": 419,
+  "stock_count": 414,
   "excluded_count": 0,
   "as_of": "2026-10-29",
-  "built_at": "2026-10-29",
+  "built_at": "2026-10-30",
   "no_auto_refresh": true
 }
