@@ -1,84 +1,23 @@
 {
-  "AsOfDate": "2026-11-02",
+  "AsOfDate": "2026-11-03",
   "LastFiveSessions": [
-    "2026-10-27",
     "2026-10-28",
     "2026-10-29",
     "2026-10-30",
-    "2026-11-02"
+    "2026-11-02",
+    "2026-11-03"
   ],
   "UniverseScope": "TWSE+TPEx 4-digit ordinary stocks",
   "Source": "TWSE/TPEx dated official daily OHLCV (unadjusted)",
   "Strategy": "5-session technical OBSERVATION ONLY — not Golden Entry, Stage1, Stage2, or investment advice",
   "Disclaimer": "非必漲預測。未提供勝率驗證。價格可能涉及除權、分割；個別異常股已先排除。",
-  "GeneratedTaipei": "2026-11-03T04:51:38+08:00",
+  "GeneratedTaipei": "2026-11-04T02:34:27+08:00",
   "Counts": {
-    "CompleteFiveSessionStocks": 1897,
+    "CompleteFiveSessionStocks": 1896,
     "ExcludedExtremePriceJump": 0,
-    "BreakoutCount": 3,
-    "TrendCount": 1,
-    "TotalCandidates": 4
+    "BreakoutCount": 0,
+    "TrendCount": 0,
+    "TotalCandidates": 0
   },
-  "Candidates": [
-    {
-      "Code": "3004",
-      "Name": "豐達科",
-      "Market": "TWSE",
-      "Category": "突破觀察",
-      "Close": 127.5,
-      "DayPct": 7.59,
-      "FiveDayPct": 4.94,
-      "VolumeLots": 1432,
-      "VolumeRatio": 6.63,
-      "ClosePositionPct": 84.6,
-      "ReferenceLow": 122.0,
-      "RiskToDayLowPct": 4.31,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    },
-    {
-      "Code": "1907",
-      "Name": "永豐餘",
-      "Market": "TWSE",
-      "Category": "突破觀察",
-      "Close": 29.6,
-      "DayPct": 5.34,
-      "FiveDayPct": 2.07,
-      "VolumeLots": 8517,
-      "VolumeRatio": 2.98,
-      "ClosePositionPct": 88.9,
-      "ReferenceLow": 28.4,
-      "RiskToDayLowPct": 4.05,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    },
-    {
-      "Code": "6757",
-      "Name": "台灣虎航",
-      "Market": "TWSE",
-      "Category": "突破觀察",
-      "Close": 54.2,
-      "DayPct": 5.04,
-      "FiveDayPct": 4.63,
-      "VolumeLots": 1773,
-      "VolumeRatio": 2.34,
-      "ClosePositionPct": 84.0,
-      "ReferenceLow": 52.1,
-      "RiskToDayLowPct": 3.87,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    },
-    {
-      "Code": "2254",
-      "Name": "巨鎧精密-創",
-      "Market": "TWSE",
-      "Category": "趨勢觀察",
-      "Close": 106.5,
-      "DayPct": 2.9,
-      "FiveDayPct": 7.68,
-      "VolumeLots": 3250,
-      "VolumeRatio": 1.19,
-      "ClosePositionPct": 100.0,
-      "ReferenceLow": 103.5,
-      "RiskToDayLowPct": 2.82,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    }
-  ]
+  "Candidates": []
 }
