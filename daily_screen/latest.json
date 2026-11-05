@@ -1,68 +1,38 @@
 {
-  "AsOfDate": "2026-11-04",
+  "AsOfDate": "2026-11-05",
   "LastFiveSessions": [
-    "2026-10-29",
     "2026-10-30",
     "2026-11-02",
     "2026-11-03",
-    "2026-11-04"
+    "2026-11-04",
+    "2026-11-05"
   ],
   "UniverseScope": "TWSE+TPEx 4-digit ordinary stocks",
   "Source": "TWSE/TPEx dated official daily OHLCV (unadjusted)",
   "Strategy": "5-session technical OBSERVATION ONLY — not Golden Entry, Stage1, Stage2, or investment advice",
   "Disclaimer": "非必漲預測。未提供勝率驗證。價格可能涉及除權、分割；個別異常股已先排除。",
-  "GeneratedTaipei": "2026-11-05T02:45:38+08:00",
+  "GeneratedTaipei": "2026-11-06T02:53:53+08:00",
   "Counts": {
-    "CompleteFiveSessionStocks": 1902,
+    "CompleteFiveSessionStocks": 1911,
     "ExcludedExtremePriceJump": 0,
     "BreakoutCount": 1,
-    "TrendCount": 2,
-    "TotalCandidates": 3
+    "TrendCount": 0,
+    "TotalCandidates": 1
   },
   "Candidates": [
     {
-      "Code": "2023",
-      "Name": "燁輝",
+      "Code": "1477",
+      "Name": "聚陽",
       "Market": "TWSE",
       "Category": "突破觀察",
-      "Close": 15.05,
-      "DayPct": 1.35,
-      "FiveDayPct": 4.88,
-      "VolumeLots": 2081,
-      "VolumeRatio": 1.68,
-      "ClosePositionPct": 75.0,
-      "ReferenceLow": 14.9,
-      "RiskToDayLowPct": 1.0,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    },
-    {
-      "Code": "2412",
-      "Name": "中華電",
-      "Market": "TWSE",
-      "Category": "趨勢觀察",
-      "Close": 161.5,
-      "DayPct": 1.57,
-      "FiveDayPct": 2.22,
-      "VolumeLots": 16363,
-      "VolumeRatio": 1.48,
-      "ClosePositionPct": 100.0,
-      "ReferenceLow": 159.0,
-      "RiskToDayLowPct": 1.55,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    },
-    {
-      "Code": "9921",
-      "Name": "巨大",
-      "Market": "TWSE",
-      "Category": "趨勢觀察",
-      "Close": 87.5,
-      "DayPct": 1.16,
-      "FiveDayPct": 1.74,
-      "VolumeLots": 1368,
-      "VolumeRatio": 1.4,
-      "ClosePositionPct": 83.3,
-      "ReferenceLow": 86.0,
-      "RiskToDayLowPct": 1.71,
+      "Close": 214.5,
+      "DayPct": 5.41,
+      "FiveDayPct": 3.87,
+      "VolumeLots": 4578,
+      "VolumeRatio": 4.63,
+      "ClosePositionPct": 81.8,
+      "ReferenceLow": 205.5,
+      "RiskToDayLowPct": 4.2,
       "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
     }
   ]
