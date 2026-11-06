@@ -1,38 +1,53 @@
 {
-  "AsOfDate": "2026-11-05",
+  "AsOfDate": "2026-11-06",
   "LastFiveSessions": [
-    "2026-10-30",
     "2026-11-02",
     "2026-11-03",
     "2026-11-04",
-    "2026-11-05"
+    "2026-11-05",
+    "2026-11-06"
   ],
   "UniverseScope": "TWSE+TPEx 4-digit ordinary stocks",
   "Source": "TWSE/TPEx dated official daily OHLCV (unadjusted)",
   "Strategy": "5-session technical OBSERVATION ONLY — not Golden Entry, Stage1, Stage2, or investment advice",
   "Disclaimer": "非必漲預測。未提供勝率驗證。價格可能涉及除權、分割；個別異常股已先排除。",
-  "GeneratedTaipei": "2026-11-06T02:53:53+08:00",
+  "GeneratedTaipei": "2026-11-07T02:12:15+08:00",
   "Counts": {
-    "CompleteFiveSessionStocks": 1911,
+    "CompleteFiveSessionStocks": 1913,
     "ExcludedExtremePriceJump": 0,
-    "BreakoutCount": 1,
-    "TrendCount": 0,
-    "TotalCandidates": 1
+    "BreakoutCount": 0,
+    "TrendCount": 2,
+    "TotalCandidates": 2
   },
   "Candidates": [
     {
-      "Code": "1477",
-      "Name": "聚陽",
+      "Code": "2412",
+      "Name": "中華電",
       "Market": "TWSE",
-      "Category": "突破觀察",
-      "Close": 214.5,
-      "DayPct": 5.41,
-      "FiveDayPct": 3.87,
-      "VolumeLots": 4578,
-      "VolumeRatio": 4.63,
-      "ClosePositionPct": 81.8,
-      "ReferenceLow": 205.5,
-      "RiskToDayLowPct": 4.2,
+      "Category": "趨勢觀察",
+      "Close": 163.5,
+      "DayPct": 1.24,
+      "FiveDayPct": 2.51,
+      "VolumeLots": 28469,
+      "VolumeRatio": 1.83,
+      "ClosePositionPct": 93.3,
+      "ReferenceLow": 156.5,
+      "RiskToDayLowPct": 4.28,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    },
+    {
+      "Code": "2254",
+      "Name": "巨鎧精密-創",
+      "Market": "TWSE",
+      "Category": "趨勢觀察",
+      "Close": 110.0,
+      "DayPct": 0.92,
+      "FiveDayPct": 3.29,
+      "VolumeLots": 3760,
+      "VolumeRatio": 1.15,
+      "ClosePositionPct": 100.0,
+      "ReferenceLow": 107.5,
+      "RiskToDayLowPct": 2.27,
       "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
     }
   ]
