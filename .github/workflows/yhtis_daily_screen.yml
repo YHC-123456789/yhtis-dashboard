@@ -12,7 +12,7 @@ concurrency:
 jobs:
   screen:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -65,6 +65,33 @@ jobs:
           git commit -m 'YHTIS V5 research list update'
           git pull --rebase origin main
           git push origin HEAD:main
+      - name: Chip radar - official institutional, margin, TDCC (each source fails closed)
+        id: chip
+        if: steps.market_calendar.outputs.skip != 'true'
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          python v5/chip_live.py
+          python v5/test_chip_live.py --verify-only
+      - name: Commit ONLY chip outputs (skipped when chip checks failed)
+        if: steps.market_calendar.outputs.skip != 'true' && steps.chip.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- v5/chip_latest.json v5_history/chip)" ]; then
+            echo "CHIP_NO_CHANGE"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- v5/chip_latest.json v5_history/chip
+          git commit -m 'YHTIS chip radar update'
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Report chip failure (other pages unaffected)
+        if: steps.chip.outcome == 'failure'
+        run: |
+          echo "::warning::Chip radar failed; chip page left unchanged. See the chip step log."
       - name: Report V5 failure (daily_screen already published; V5 page unchanged)
         if: steps.v5.outcome == 'failure'
         run: |
