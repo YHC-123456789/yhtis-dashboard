@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""依 V5 研究分（還原價，規則 C）統計歷史上漲機率。每天、每檔合格股票為一筆；隔日開盤買、H 日後開盤賣、扣成本 0.785%。
+"""依 V5 研究分（還原價，規則 C）統計歷史上漲機率。每天、每檔合格股票為一筆；隔日開盤買、H（5/10/20/60）日後開盤賣、扣成本 0.785%。
 上漲機率 = 淨報酬 > 0 的比例；跑贏大盤機率 = 淨報酬 > 同日全部合格股平均的比例。
 用法：python3 v5/backtest/prob_by_score.py → v5/backtest/prob_by_score.json"""
 import importlib.util, json, os, sys
@@ -16,6 +16,10 @@ a['nbar'] = g.cumcount() + 1
 o1 = ao.groupby(a['code'], observed=True).shift(-1)
 for h in b.HS:
     a[f'r{h}'] = ao.groupby(a['code'], observed=True).shift(-(1 + h)) / o1 - 1 - b.COST
+HS = (5, 10, 20, 60)
+for h in HS:
+    if f'r{h}' not in a:
+        a[f'r{h}'] = ao.groupby(a['code'], observed=True).shift(-(1 + h)) / o1 - 1 - b.COST
 a['entry_ok'] = (g['open'].shift(-1) / a['close'] - 1) < 0.095
 adj = b.indicators(a, a.open / cumf, a.high / cumf, a.low / cumf, a.close / cumf)
 valid = (a['nbar'] >= 60) & a[['open', 'high', 'low', 'close']].notna().all(axis=1) & (a['volume'] > 0) & adj['bbw_med'].notna() & (a['date'] >= '2019-01-01')
@@ -25,7 +29,7 @@ v['score'] = s.values; v['elig'] = (v.score >= 7) & (v.vr >= 1); v['liq'] = v.va
 out = {'note': '歷史頻率（2019-01 ~ 2026-11），不是保證；每筆持有期間重疊。', 'groups': {}}
 def stats(x, per):
     r = {}
-    for h in b.HS:
+    for h in HS:
         y = x[x[f'r{h}'].notna()]
         mk = y.date.map(v[v[f'r{h}'].notna()].groupby('date')[f'r{h}'].mean())
         r[f'H{h}'] = dict(n=int(len(y)), up=round(float((y[f'r{h}'] > 0).mean()), 3), beat=round(float((y[f'r{h}'] > mk).mean()), 3),
@@ -47,4 +51,4 @@ json.dump(out, open(os.path.join(HERE, 'prob_by_score.json'), 'w'), ensure_ascii
 for per in out['groups']:
     print('==', per)
     for k, x in out['groups'][per].items():
-        print(f"{k:24s}", ' '.join(f"H{h}: n={x[f'H{h}']['n']:>7} 上漲{x[f'H{h}']['up']:.1%} 贏大盤{x[f'H{h}']['beat']:.1%} 平均{x[f'H{h}']['mean']:+.2%}" for h in (5, 20, 60)))
+        print(f"{k:24s}", ' '.join(f"H{h}: n={x[f'H{h}']['n']:>7} 上漲{x[f'H{h}']['up']:.1%} 贏大盤{x[f'H{h}']['beat']:.1%} 平均{x[f'H{h}']['mean']:+.2%}" for h in (5, 10, 20, 60)))
