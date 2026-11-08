@@ -50,6 +50,15 @@ def verify(root=ROOT):
     else:
         if rep['Candidates']:
             fail('未通過檢查卻輸出候選')
+    dt = json.loads((root / 'v5/daytrade_watch.json').read_text(encoding='utf-8'))
+    if dt['AsOfDate'] != rep['AsOfDate'] or dt['Count'] != len(dt['Stocks']):
+        fail('當沖觀察名單日期或筆數不一致')
+    idx = json.loads((root / 'v5_history/rolling/index.json').read_text(encoding='utf-8'))
+    if idx['Days'] != days or idx['Last'] != rep['AsOfDate']:
+        fail('行情庫索引與實際檔案不一致')
+    eod = json.loads((root / 'output/official_market_eod_latest.json').read_text(encoding='utf-8'))
+    if eod['Date'] > rep['AsOfDate'] or eod['Status'] != 'OFFICIAL_DATED_SNAPSHOT_VALIDATED' or len(eod['Stocks']) < 1700:
+        fail('官方收盤行情檔異常')
     html = (root / 'v5/index.html').read_text(encoding='utf-8')
     if rep['AsOfDate'] not in html:
         fail('網頁日期與資料不一致')
@@ -166,6 +175,8 @@ def fresh(td, name):
     tmp = Path(td) / name
     for d in ('v5', 'v5_history', 'daily_screen'):
         shutil.copytree(ROOT / d, tmp / d, ignore=shutil.ignore_patterns('__pycache__'))
+    (tmp / 'output').mkdir()
+    shutil.copy2(ROOT / 'output/official_market_eod_latest.json', tmp / 'output/official_market_eod_latest.json')
     return tmp
 
 
@@ -194,6 +205,9 @@ def selftest():
         if top != before_top:
             fail(f'TOP 10 改變 {top} vs {before_top}')
         verify(tmp)
+        eod = json.loads((tmp / 'output/official_market_eod_latest.json').read_text(encoding='utf-8'))
+        if eod['Date'] != day or eod['Count'] != len(read_gz(pristine / f'{day}.csv.gz')):
+            fail('同步後官方收盤行情檔未更新')
         print('  同步新交易日＋補參考價：OHLCV 逐筆相同、參考價全部補齊、TOP 10 不變')
 
         # 1b) 參考價、成交金額解析

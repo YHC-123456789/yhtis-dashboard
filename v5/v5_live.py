@@ -406,6 +406,64 @@ th{{background:#f2f6fb}}.scroll{{overflow:auto}}.tag{{display:inline-block;borde
 """
 
 
+# ---------- 5. 網站其他分頁需要的資料 ----------
+
+EOD_OUT = ROOT / 'output/official_market_eod_latest.json'
+DAYTRADE_OUT = ROOT / 'v5/daytrade_watch.json'
+ROLL_INDEX = ROLL / 'index.json'
+DT_PRICE = (50, 150)       # 與 tw_screener/daytrade_scan.py 相同
+DT_RANGE = (0.02, 0.04)
+DT_MIN_VALUE20 = 3e8
+
+
+def eod_payload(day, rows):
+    """首頁「官方收盤行情」用的檔案（格式同既有 output/official_market_eod_latest.json；只含 4 碼普通股）。"""
+    stocks = [{'Code': r['code'], 'Name': r['name'], 'Close': f"{float(r['close']):.2f}", 'Volume': int(float(r['volume'])),
+               'Market': r['market']} for r in sorted(rows, key=lambda r: (r['market'] != 'TWSE', r['code']))]
+    c = Counter(r['market'] for r in rows)
+    return {'Date': day, 'Status': 'OFFICIAL_DATED_SNAPSHOT_VALIDATED', 'TWSE': c['TWSE'], 'TPEx': c['TPEx'], 'Count': len(stocks),
+            'Sources': {'TWSE': 'TWSE MI_INDEX ' + day, 'TPEx': 'TPEx dailyQuotes ' + day},
+            'TPExVolumeScope': 'TPEx dailyQuotes incl. odd lots（與 daily_screen 2026-10-19 起相同）',
+            'Scope': '4-digit ordinary stocks only（不含 ETF）', 'Generator': 'v5/v5_live.py（與 daily_screen/history.csv 逐筆比對）',
+            'AIRecomputed': False, 'AdjCloseVerified': False, 'Stocks': stocks}
+
+
+def daytrade_watch(days, day_rows, universe, eod):
+    """盤後產生的隔日當沖觀察名單（規則同 daytrade_scan.py；不是盤中訊號、未回測當沖績效）。"""
+    look = days[-26:]
+    ser = defaultdict(list)
+    for d in look:
+        for r in day_rows[d]:
+            if r['code'] in universe:
+                ser[r['code']].append(r)
+    out = []
+    for c, b in ser.items():
+        if len(b) < 21 or b[-1]['date'] != days[-1]:
+            continue
+        try:
+            rng, rets = [], []
+            for i in range(1, len(b)):
+                pc = float(b[i - 1]['close'])
+                ref = f(b[i]['ref_price']) or pc
+                rng.append((float(b[i]['high']) - float(b[i]['low'])) / ref)
+                rets.append(float(b[i]['close']) / ref - 1)
+            r20 = statistics.mean(rng[-20:])
+            v20 = statistics.mean(float(x['close']) * float(x['volume']) for x in b[-20:])
+            close = float(b[-1]['close'])
+        except (TypeError, ValueError, ZeroDivisionError):
+            continue
+        if not (DT_PRICE[0] <= close <= DT_PRICE[1] and DT_RANGE[0] <= r20 <= DT_RANGE[1] and v20 >= DT_MIN_VALUE20):
+            continue
+        if any(abs(x) >= 0.095 for x in rets[-5:]):
+            continue
+        out.append({'Code': c, 'Name': eod[c]['Name'], 'Market': eod[c]['Market'], 'Close': close,
+                    'DayPct': round(rets[-1] * 100, 2), 'DayRangePct': round(rng[-1] * 100, 2), 'AvgRange20Pct': round(r20 * 100, 2),
+                    'MaxRange20Pct': round(max(rng[-20:]) * 100, 1), 'AvgValue20': round(v20), 'LotCost': round(close * 1000)})
+    out.sort(key=lambda x: -x['AvgValue20'])
+    return {'AsOfDate': days[-1], 'Rule': '收盤 50～150 元、20 日平均振幅 2%～4%、20 日平均成交值 ≥ 3 億；排除近 5 日有接近漲跌停（±9.5%）者',
+            'Note': '盤後觀察名單，不是盤中訊號；當沖績效未回測。下單前請確認處置股、注意股與最新新聞。', 'Count': len(out), 'Stocks': out}
+
+
 # ---------- 主程式 ----------
 
 def main(argv=None):
@@ -507,6 +565,10 @@ def main(argv=None):
               FIRST_SEEN: (json.dumps(dict(sorted(first_seen.items())), indent=0) + '\n').encode('utf-8')}
     for d, rows in fetched.items():
         writes[ROLL / f'{d}.csv.gz'] = day_bytes(rows)
+    writes[ROLL_INDEX] = (json.dumps({'Days': days, 'Last': days[-1]}) + '\n').encode('utf-8')
+    writes[DAYTRADE_OUT] = (json.dumps(daytrade_watch(days, day_rows, universe, eod), ensure_ascii=False, indent=1) + '\n').encode('utf-8')
+    if target in fetched:  # 只在取得新的官方交易日時更新首頁行情檔
+        writes[EOD_OUT] = (json.dumps(eod_payload(target, list(fetched[target].values())), ensure_ascii=False, indent=1) + '\n').encode('utf-8')
     for p, content in writes.items():
         tmp = p.with_name(p.name + '.new')
         tmp.write_bytes(content)
