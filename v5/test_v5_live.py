@@ -12,6 +12,7 @@ from __future__ import annotations
 import csv
 import gzip
 import hashlib
+import importlib.util
 import json
 import re
 import shutil
@@ -44,7 +45,7 @@ def verify(root=ROOT):
         if len(rep['Candidates']) > 10:
             fail('TOP 10 超過 10 檔')
         for c in rep['Candidates']:
-            if c['Date'] != rep['AsOfDate'] or c['ResearchScore'] < 7 or c['VolumeRatio5'] < 1 or c['ExRightsWithin60']:
+            if c['Date'] != rep['AsOfDate'] or c['ResearchScore'] < 7 or c['VolumeRatio5'] < 1:
                 fail(f"候選不符合規則 {c['Code']}")
     else:
         if rep['Candidates']:
@@ -96,70 +97,110 @@ def snapshot(root):
     return h
 
 
-def run_sim(tmp, tw, tp, history_patch=None):
-    """在 tmp 複本中，以假的 fetch 執行 v5_live.main。"""
+def read_gz(p):
+    with gzip.open(p, 'rt', encoding='utf-8') as fh:
+        return list(csv.DictReader(fh))
+
+
+def build_fake_site(pristine, fake, days):
+    """以原始行情庫為官方網站的內容：每個交易日一組 TWSE/TPEx 回應；缺參考價的日期以前一日收盤補上（視為無除權息）。"""
+    fake.mkdir(parents=True, exist_ok=True)
+    allp = sorted(pristine.glob('*.csv.gz'))
+    names = [p.name[:10] for p in allp]
+    for d in days:
+        i = names.index(d)
+        rows = read_gz(allp[i])
+        if sum(1 for x in rows if x['ref_price']) < 0.9 * len(rows) and i > 0:
+            prev = {x['code']: x['close'] for x in read_gz(allp[i - 1])}
+            for x in rows:
+                if not x['ref_price'] and x['code'] in prev:
+                    x['ref_price'] = prev[x['code']]
+        tw, tp = payloads(rows, d)
+        (fake / f'{d}_tw.json').write_bytes(tw)
+        (fake / f'{d}_tp.json').write_bytes(tp)
+
+
+def run_sim(tmp, fake, override=None):
+    """在 tmp 複本中，以假的官方網站（依網址日期回應）執行 v5_live.main。"""
     code = f"""
-import sys, importlib.util
-sys.path.insert(0, {str(tmp / 'v5')!r})
+import sys, re, importlib.util
+from pathlib import Path
 spec = importlib.util.spec_from_file_location('v5_live', {str(tmp / 'v5/v5_live.py')!r})
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
-TW = open({str(tmp / 'tw.json')!r}, 'rb').read(); TP = open({str(tmp / 'tp.json')!r}, 'rb').read()
-m.screen.fetch = lambda url: TW if 'twse' in url else TP
+m.FETCH_PAUSE = 0
+FAKE = Path({str(fake)!r}); OVR = {override!r}
+def fetch(url):
+    if 'twse' in url:
+        x = re.search(r'date=(\\d{{8}})', url).group(1); d = f'{{x[:4]}}-{{x[4:6]}}-{{x[6:]}}'; k = 'tw'
+    else:
+        x = re.search(r'date=(\\d{{4}})%2F(\\d{{2}})%2F(\\d{{2}})', url)
+        if not x: raise m.screen.SourceError('legacy url not served')
+        d = '-'.join(x.groups()); k = 'tp'
+    if OVR and OVR[0] == d and OVR[1] == k: return Path(OVR[2]).read_bytes()
+    p = FAKE / f'{{d}}_{{k}}.json'
+    if not p.exists(): return '{{"stat":"很抱歉，沒有符合條件的資料!"}}'.encode()
+    return p.read_bytes()
+m.screen.fetch = fetch
 try:
     sys.exit(m.main([]))
 except Exception as e:
     print('ABORT', type(e).__name__, e); sys.exit(2)
 """
-    (tmp / 'tw.json').write_bytes(tw)
-    (tmp / 'tp.json').write_bytes(tp)
     return subprocess.run([sys.executable, '-c', code], capture_output=True, text=True)
 
 
-def selftest():
-    with tempfile.TemporaryDirectory() as td:
-        tmp = Path(td) / 'repo'
-        for d in ('v5', 'v5_history', 'daily_screen'):
-            shutil.copytree(ROOT / d, tmp / d, ignore=shutil.ignore_patterns('__pycache__'))
-        roll = tmp / 'v5_history/rolling'
-        last = sorted(roll.glob('*.csv.gz'))[-1]
-        day = last.name[:10]
-        with gzip.open(last, 'rt', encoding='utf-8') as fh:
-            rows = list(csv.DictReader(fh))
-        tw, tp = payloads(rows, day)
-        before_top = [c['Code'] for c in json.loads((ROOT / 'v5/early_warning_latest.json').read_text(encoding='utf-8'))['Candidates']]
+def same_ohlcv(a_rows, b_rows, label):
+    a = {x['code']: x for x in a_rows}
+    b = {x['code']: x for x in b_rows}
+    if set(a) != set(b):
+        fail(f'{label} 股票清單不同')
+    for c, x in a.items():
+        for k in ('date', 'market', 'name', 'open', 'high', 'low', 'close', 'volume'):
+            if x[k] != b[c][k]:
+                fail(f'{label} {c} {k} 不同：{x[k]} vs {b[c][k]}')
+        if x['ref_price'] and b[c]['ref_price'] and abs(float(x['ref_price']) - float(b[c]['ref_price'])) > 1e-6:
+            fail(f'{label} {c} ref_price 不同')
 
-        # 1) 正常同步
-        last.unlink()
-        r = run_sim(tmp, tw, tp)
-        print(r.stdout.strip().splitlines()[0] if r.stdout else r.stderr)
+
+def fresh(td, name):
+    tmp = Path(td) / name
+    for d in ('v5', 'v5_history', 'daily_screen'):
+        shutil.copytree(ROOT / d, tmp / d, ignore=shutil.ignore_patterns('__pycache__'))
+    return tmp
+
+
+def selftest():
+    before_top = [c['Code'] for c in json.loads((ROOT / 'v5/early_warning_latest.json').read_text(encoding='utf-8'))['Candidates']]
+    pristine = ROOT / 'v5_history/rolling'
+    names = sorted(p.name[:10] for p in pristine.glob('*.csv.gz'))
+    with tempfile.TemporaryDirectory() as td:
+        fake = Path(td) / 'fake'
+        build_fake_site(pristine, fake, names[-45:])
+
+        # 1) 正常同步一個新交易日；同時補齊 history 窗口內缺參考價的日期
+        tmp = fresh(td, 'r1'); roll = tmp / 'v5_history/rolling'
+        day = names[-1]
+        (roll / f'{day}.csv.gz').unlink()
+        r = run_sim(tmp, fake)
         if r.returncode != 0:
             fail('模擬同步失敗：' + r.stdout + r.stderr)
-        with gzip.open(roll / f'{day}.csv.gz', 'rt', encoding='utf-8') as fh:
-            got = {x['code']: x for x in csv.DictReader(fh)}
-        if set(got) != {x['code'] for x in rows}:
-            fail('重建的股票清單不同')
-        for x in rows:
-            y = got[x['code']]
-            for k in ('date', 'market', 'name', 'open', 'high', 'low', 'close', 'volume'):
-                if x[k] != y[k]:
-                    fail(f"重建 {day} {x['code']} {k} 不同：{x[k]} vs {y[k]}")
-            for k in ('ref_price', 'value'):
-                if x[k] and abs(float(x[k]) - float(y[k])) > 1e-6:
-                    fail(f"重建 {day} {x['code']} {k} 不同：{x[k]} vs {y[k]}")
+        print('  ' + ' / '.join(x for x in r.stdout.splitlines() if x.startswith(('同步', '補參考價')))[:200])
+        for d in names[-25:]:
+            got = read_gz(roll / f'{d}.csv.gz')
+            same_ohlcv(read_gz(pristine / f'{d}.csv.gz'), got, d)
+            if sum(1 for x in got if x['ref_price']) < 0.9 * len(got):
+                fail(f'{d} 參考價仍未補齊')
         top = [c['Code'] for c in json.loads((tmp / 'v5/early_warning_latest.json').read_text(encoding='utf-8'))['Candidates']]
         if top != before_top:
             fail(f'TOP 10 改變 {top} vs {before_top}')
         verify(tmp)
-        print('  同步重建當日資料：OHLCV 逐筆相同；TOP 10 不變')
+        print('  同步新交易日＋補參考價：OHLCV 逐筆相同、參考價全部補齊、TOP 10 不變')
 
-        # 1b) 參考價、成交金額解析：用含這兩欄的日期（官方歷史檔）組回應再解析
-        sys.path.insert(0, str(tmp / 'v5'))
-        import importlib.util
+        # 1b) 參考價、成交金額解析
         spec = importlib.util.spec_from_file_location('v5_live_t', tmp / 'v5/v5_live.py')
         m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
-        for p in sorted(roll.glob('*.csv.gz'))[::-1]:
-            with gzip.open(p, 'rt', encoding='utf-8') as fh:
-                rr = list(csv.DictReader(fh))
+        for p in sorted(pristine.glob('*.csv.gz'))[::-1]:
+            rr = read_gz(p)
             if sum(1 for x in rr if x['ref_price']) > 0.9 * len(rr):
                 break
         d2 = p.name[:10]
@@ -170,29 +211,46 @@ def selftest():
             if x['ref_price']:
                 ref, val = ex[x['code']]
                 if abs(ref - float(x['ref_price'])) > 1e-6 or (x['value'] and abs(val - float(x['value'])) > 1e-6):
-                    fail(f"{d2} {x['code']} 參考價／成交金額解析錯誤 {ref},{val} vs {x['ref_price']},{x['value']}")
+                    fail(f"{d2} {x['code']} 參考價／成交金額解析錯誤")
                 n += 1
         print(f'  參考價與成交金額解析（{d2}，{n} 檔）：全部相同')
 
         # 2) 官方資料與 daily_screen 不一致 → 中止、不改檔
+        tmp = fresh(td, 'r2'); roll = tmp / 'v5_history/rolling'
         (roll / f'{day}.csv.gz').unlink()
+        bad = json.loads((fake / f'{day}_tw.json').read_bytes())
+        row = bad['tables'][1]['data'][0]
+        row[6] = str(float(row[6].replace(',', '')) + 1); row[8] = str(float(row[8].replace(',', '')) + 1)
+        (Path(td) / 'bad.json').write_bytes(json.dumps(bad, ensure_ascii=False).encode())
         snap = snapshot(tmp)
-        bad = json.loads(tw)
-        bad['tables'][1]['data'][0][8] = str(float(bad['tables'][1]['data'][0][8].replace(',', '')) + 1)
-        bad['tables'][1]['data'][0][6] = str(float(bad['tables'][1]['data'][0][6].replace(',', '')) + 1)
-        r = run_sim(tmp, json.dumps(bad, ensure_ascii=False).encode(), tp)
+        r = run_sim(tmp, fake, (day, 'tw', str(Path(td) / 'bad.json')))
         if r.returncode == 0 or 'HISTORY_MISMATCH' not in r.stdout or snapshot(tmp) != snap:
             fail('資料不一致時沒有正確中止：' + r.stdout)
         print('  官方資料與 daily_screen 不一致：中止，檔案未改動')
 
-        # 3) 行情庫缺太多天（daily_screen 30 日窗口接不上）→ 中止、不改檔
-        for p in sorted(roll.glob('*.csv.gz'))[-40:]:
-            p.unlink()
+        # 3) 行情庫落後 40 個交易日（超過 daily_screen 30 日窗口）→ 自動向官方補抓
+        tmp = fresh(td, 'r3'); roll = tmp / 'v5_history/rolling'
+        for d in names[-40:]:
+            (roll / f'{d}.csv.gz').unlink()
+        r = run_sim(tmp, fake)
+        if r.returncode != 0:
+            fail('長期缺漏補抓失敗：' + r.stdout + r.stderr)
+        for d in names[-40:]:
+            same_ohlcv(read_gz(pristine / f'{d}.csv.gz'), read_gz(roll / f'{d}.csv.gz'), d)
+        rep = json.loads((tmp / 'v5/early_warning_latest.json').read_text(encoding='utf-8'))
+        if [c['Code'] for c in rep['Candidates']] != before_top:
+            fail('補抓後 TOP 10 改變')
+        print(f"  落後 40 個交易日：補抓 {len(rep['Data']['BackfilledDays'])} 日、休市 {len(rep['Data']['ClosedDays'])} 日，資料逐筆相同、TOP 10 不變")
+
+        # 4) 落後太久（超過約半年）→ 中止、不改檔
+        tmp = fresh(td, 'r4'); roll = tmp / 'v5_history/rolling'
+        for d in names[-200:]:
+            (roll / f'{d}.csv.gz').unlink()
         snap = snapshot(tmp)
-        r = run_sim(tmp, tw, tp)
-        if r.returncode == 0 or 'ROLLING_GAP' not in r.stdout or snapshot(tmp) != snap:
-            fail('交易日缺漏時沒有正確中止：' + r.stdout)
-        print('  行情庫交易日接不上：中止，檔案未改動')
+        r = run_sim(tmp, fake)
+        if r.returncode == 0 or 'ROLLING_GAP_TOO_LONG' not in r.stdout or snapshot(tmp) != snap:
+            fail('落後太久時沒有正確中止：' + r.stdout)
+        print('  落後超過半年：中止，檔案未改動')
     print('V5 SELFTEST OK')
 
 

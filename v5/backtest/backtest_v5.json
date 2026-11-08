@@ -1,0 +1,129 @@
+{
+ "rows": 3633808,
+ "validated_rows_2019+": 3367330,
+ "top10_rows": 19040,
+ "top10_skipped_limit_up_open": 176,
+ "results": {
+  "H5": {
+   "train_2019_2022": {
+    "days": 977,
+    "top10_net": -0.00379,
+    "excess": 0.00053,
+    "excess_t": 0.65,
+    "hit_vs_market": 0.46,
+    "top10_win": 0.382
+   },
+   "valid_2023_2024": {
+    "days": 481,
+    "top10_net": -0.00468,
+    "excess": -0.00111,
+    "excess_t": -1.11,
+    "hit_vs_market": 0.472,
+    "top10_win": 0.384
+   },
+   "holdout_2025_2026": {
+    "days": 440,
+    "top10_net": -0.00464,
+    "excess": 0.00142,
+    "excess_t": 0.98,
+    "hit_vs_market": 0.47,
+    "top10_win": 0.376
+   }
+  },
+  "H20": {
+   "train_2019_2022": {
+    "days": 977,
+    "top10_net": 0.01213,
+    "excess": 0.00562,
+    "excess_t": 2.51,
+    "hit_vs_market": 0.513,
+    "top10_win": 0.446
+   },
+   "valid_2023_2024": {
+    "days": 481,
+    "top10_net": 0.01218,
+    "excess": 0.00425,
+    "excess_t": 2.9,
+    "hit_vs_market": 0.497,
+    "top10_win": 0.467
+   },
+   "holdout_2025_2026": {
+    "days": 425,
+    "top10_net": 0.01159,
+    "excess": 0.00874,
+    "excess_t": 1.27,
+    "hit_vs_market": 0.489,
+    "top10_win": 0.391
+   }
+  },
+  "H60": {
+   "train_2019_2022": {
+    "days": 977,
+    "top10_net": 0.05053,
+    "excess": 0.01577,
+    "excess_t": 2.6,
+    "hit_vs_market": 0.505,
+    "top10_win": 0.487
+   },
+   "valid_2023_2024": {
+    "days": 481,
+    "top10_net": 0.04958,
+    "excess": 0.01351,
+    "excess_t": 3.33,
+    "hit_vs_market": 0.516,
+    "top10_win": 0.489
+   },
+   "holdout_2025_2026": {
+    "days": 385,
+    "top10_net": 0.05949,
+    "excess": 0.03308,
+    "excess_t": 1.97,
+    "hit_vs_market": 0.545,
+    "top10_win": 0.374
+   }
+  }
+ },
+ "last_date": "2026-11-06",
+ "last_top10": [
+  [
+   "1789",
+   11
+  ],
+  [
+   "2901",
+   11
+  ],
+  [
+   "6199",
+   10
+  ],
+  [
+   "1476",
+   10
+  ],
+  [
+   "8467",
+   10
+  ],
+  [
+   "6210",
+   10
+  ],
+  [
+   "4173",
+   10
+  ],
+  [
+   "6136",
+   10
+  ],
+  [
+   "6616",
+   10
+  ],
+  [
+   "2010",
+   10
+  ]
+ ]
+}
