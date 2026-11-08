@@ -12,7 +12,7 @@ concurrency:
 jobs:
   screen:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -42,3 +42,30 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m 'YHTIS official EOD observation screen update'
           git push origin HEAD:main
+      - name: V5 sync official quotes, audit, compute (TOP 10 only if every check passes)
+        id: v5
+        if: steps.market_calendar.outputs.skip != 'true'
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          python v5/v5_live.py
+          python v5/test_v5_live.py --verify-only
+      - name: Commit ONLY V5 outputs (skipped when any V5 check failed)
+        if: steps.market_calendar.outputs.skip != 'true' && steps.v5.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- v5/index.html v5/early_warning_latest.json v5_history/rolling v5_history/first_seen.json)" ]; then
+            echo "V5_NO_CHANGE"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- v5/index.html v5/early_warning_latest.json v5_history/rolling v5_history/first_seen.json
+          git commit -m 'YHTIS V5 research list update'
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Report V5 failure (daily_screen already published; V5 page unchanged)
+        if: steps.v5.outcome == 'failure'
+        run: |
+          echo "::warning::V5 failed checks; V5 page left unchanged. See the V5 step log."

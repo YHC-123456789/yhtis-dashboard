@@ -1,0 +1,459 @@
+{
+  "AsOfDate": "2026-11-06",
+  "Status": "PUBLISHED",
+  "Mode": "RESEARCH_OBSERVATION_ONLY",
+  "GeneratedTaipei": "2026-11-08T09:10:50+08:00",
+  "UniverseTotal": 1964,
+  "ValidatedStocks": 1932,
+  "CoveragePct": 98.37,
+  "MinimumCoveragePct": 80.0,
+  "Exclusions": {
+    "audit_insufficient_bars": 31,
+    "short_history": 1
+  },
+  "ExRightsExcludedFromCandidates": 370,
+  "Audit": {
+    "insufficient_bars": 31,
+    "ok": 1933
+  },
+  "AuditNotOk": [
+    {
+      "Code": "1780",
+      "Reason": "insufficient_bars",
+      "Bars": 96
+    },
+    {
+      "Code": "2237",
+      "Reason": "insufficient_bars",
+      "Bars": 60
+    },
+    {
+      "Code": "2249",
+      "Reason": "insufficient_bars",
+      "Bars": 10
+    },
+    {
+      "Code": "2938",
+      "Reason": "insufficient_bars",
+      "Bars": 33
+    },
+    {
+      "Code": "3718",
+      "Reason": "insufficient_bars",
+      "Bars": 42
+    },
+    {
+      "Code": "4582",
+      "Reason": "insufficient_bars",
+      "Bars": 114
+    },
+    {
+      "Code": "6467",
+      "Reason": "insufficient_bars",
+      "Bars": 12
+    },
+    {
+      "Code": "6604",
+      "Reason": "insufficient_bars",
+      "Bars": 21
+    },
+    {
+      "Code": "6825",
+      "Reason": "insufficient_bars",
+      "Bars": 6
+    },
+    {
+      "Code": "6898",
+      "Reason": "insufficient_bars",
+      "Bars": 9
+    },
+    {
+      "Code": "6938",
+      "Reason": "insufficient_bars",
+      "Bars": 9
+    },
+    {
+      "Code": "6945",
+      "Reason": "insufficient_bars",
+      "Bars": 104
+    },
+    {
+      "Code": "6947",
+      "Reason": "insufficient_bars",
+      "Bars": 72
+    },
+    {
+      "Code": "6983",
+      "Reason": "insufficient_bars",
+      "Bars": 113
+    },
+    {
+      "Code": "6986",
+      "Reason": "insufficient_bars",
+      "Bars": 90
+    },
+    {
+      "Code": "7689",
+      "Reason": "insufficient_bars",
+      "Bars": 69
+    },
+    {
+      "Code": "7710",
+      "Reason": "insufficient_bars",
+      "Bars": 9
+    },
+    {
+      "Code": "7803",
+      "Reason": "insufficient_bars",
+      "Bars": 116
+    },
+    {
+      "Code": "7806",
+      "Reason": "insufficient_bars",
+      "Bars": 15
+    },
+    {
+      "Code": "7812",
+      "Reason": "insufficient_bars",
+      "Bars": 29
+    },
+    {
+      "Code": "7814",
+      "Reason": "insufficient_bars",
+      "Bars": 77
+    },
+    {
+      "Code": "7818",
+      "Reason": "insufficient_bars",
+      "Bars": 118
+    },
+    {
+      "Code": "7819",
+      "Reason": "insufficient_bars",
+      "Bars": 111
+    },
+    {
+      "Code": "7825",
+      "Reason": "insufficient_bars",
+      "Bars": 37
+    },
+    {
+      "Code": "7827",
+      "Reason": "insufficient_bars",
+      "Bars": 109
+    },
+    {
+      "Code": "7835",
+      "Reason": "insufficient_bars",
+      "Bars": 71
+    },
+    {
+      "Code": "7839",
+      "Reason": "insufficient_bars",
+      "Bars": 98
+    },
+    {
+      "Code": "7842",
+      "Reason": "insufficient_bars",
+      "Bars": 119
+    },
+    {
+      "Code": "7855",
+      "Reason": "insufficient_bars",
+      "Bars": 59
+    },
+    {
+      "Code": "7856",
+      "Reason": "insufficient_bars",
+      "Bars": 29
+    },
+    {
+      "Code": "7867",
+      "Reason": "insufficient_bars",
+      "Bars": 6
+    }
+  ],
+  "Data": {
+    "RollingDays": 260,
+    "RollingRange": [
+      "2025-10-09",
+      "2026-11-06"
+    ],
+    "SyncedDays": [],
+    "Source": "TWSE MI_INDEX / TPEx dailyQuotes official daily OHLCV (unadjusted; TPEx volume incl. odd lots)"
+  },
+  "Candidates": [
+    {
+      "Code": "1789",
+      "Name": "神隆",
+      "Market": "TWSE",
+      "Date": "2026-11-06",
+      "Close": 20.15,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": 0.75,
+      "Return20Pct": 8.043,
+      "OBV10Change": 2564737.0,
+      "OBV10Rising": true,
+      "BBW20": 0.07052,
+      "BBWvsRecentMedian": 0.752,
+      "BBWContracting": true,
+      "K": 59.63,
+      "D": 59.39,
+      "J": 60.12,
+      "JTurningUp": true,
+      "VolumeRatio5": 2.395,
+      "NearPrior20High": true,
+      "EMA9Above20": true,
+      "RS5vsMedian": 8.133,
+      "RS20vsMedian": 18.785,
+      "ResearchScore": 11,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "6199",
+      "Name": "天品",
+      "Market": "TPEx",
+      "Date": "2026-11-06",
+      "Close": 163.5,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": 1.869,
+      "Return20Pct": 20.664,
+      "OBV10Change": 50522637.0,
+      "OBV10Rising": true,
+      "BBW20": 0.24382,
+      "BBWvsRecentMedian": 0.823,
+      "BBWContracting": true,
+      "K": 85.3,
+      "D": 91.3,
+      "J": 73.31,
+      "JTurningUp": false,
+      "VolumeRatio5": 2.671,
+      "NearPrior20High": true,
+      "EMA9Above20": true,
+      "RS5vsMedian": 9.252,
+      "RS20vsMedian": 31.406,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "1476",
+      "Name": "儒鴻",
+      "Market": "TWSE",
+      "Date": "2026-11-06",
+      "Close": 346.5,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": 8.112,
+      "Return20Pct": 19.483,
+      "OBV10Change": 6237380.0,
+      "OBV10Rising": true,
+      "BBW20": 0.13047,
+      "BBWvsRecentMedian": 0.597,
+      "BBWContracting": true,
+      "K": 58.33,
+      "D": 47.81,
+      "J": 79.37,
+      "JTurningUp": false,
+      "VolumeRatio5": 3.432,
+      "NearPrior20High": true,
+      "EMA9Above20": true,
+      "RS5vsMedian": 15.495,
+      "RS20vsMedian": 30.224,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "8467",
+      "Name": "波力-KY",
+      "Market": "TWSE",
+      "Date": "2026-11-06",
+      "Close": 97.3,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": 0.309,
+      "Return20Pct": 9.081,
+      "OBV10Change": 50296.0,
+      "OBV10Rising": true,
+      "BBW20": 0.20643,
+      "BBWvsRecentMedian": 0.775,
+      "BBWContracting": true,
+      "K": 35.48,
+      "D": 26.16,
+      "J": 54.13,
+      "JTurningUp": true,
+      "VolumeRatio5": 2.364,
+      "NearPrior20High": false,
+      "EMA9Above20": true,
+      "RS5vsMedian": 7.692,
+      "RS20vsMedian": 19.822,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "4173",
+      "Name": "久裕",
+      "Market": "TPEx",
+      "Date": "2026-11-06",
+      "Close": 17.85,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": 1.42,
+      "Return20Pct": 3.478,
+      "OBV10Change": 37419.0,
+      "OBV10Rising": true,
+      "BBW20": 0.03518,
+      "BBWvsRecentMedian": 0.692,
+      "BBWContracting": true,
+      "K": 80.44,
+      "D": 69.92,
+      "J": 101.46,
+      "JTurningUp": false,
+      "VolumeRatio5": 1.471,
+      "NearPrior20High": true,
+      "EMA9Above20": true,
+      "RS5vsMedian": 8.803,
+      "RS20vsMedian": 14.22,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "6136",
+      "Name": "富爾特",
+      "Market": "TWSE",
+      "Date": "2026-11-06",
+      "Close": 25.8,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": -2.087,
+      "Return20Pct": 2.994,
+      "OBV10Change": 1088027.0,
+      "OBV10Rising": true,
+      "BBW20": 0.09703,
+      "BBWvsRecentMedian": 0.671,
+      "BBWContracting": true,
+      "K": 29.96,
+      "D": 27.66,
+      "J": 34.55,
+      "JTurningUp": true,
+      "VolumeRatio5": 1.632,
+      "NearPrior20High": false,
+      "EMA9Above20": true,
+      "RS5vsMedian": 5.296,
+      "RS20vsMedian": 13.736,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "6616",
+      "Name": "特昇-KY",
+      "Market": "TPEx",
+      "Date": "2026-11-06",
+      "Close": 8.58,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": -2.941,
+      "Return20Pct": 2.754,
+      "OBV10Change": 33270.0,
+      "OBV10Rising": true,
+      "BBW20": 0.06401,
+      "BBWvsRecentMedian": 0.621,
+      "BBWContracting": true,
+      "K": 48.97,
+      "D": 58.81,
+      "J": 29.3,
+      "JTurningUp": true,
+      "VolumeRatio5": 1.343,
+      "NearPrior20High": false,
+      "EMA9Above20": true,
+      "RS5vsMedian": 4.442,
+      "RS20vsMedian": 13.495,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "2010",
+      "Name": "春源",
+      "Market": "TWSE",
+      "Date": "2026-11-06",
+      "Close": 22.7,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": -0.873,
+      "Return20Pct": 0.665,
+      "OBV10Change": 2220551.0,
+      "OBV10Rising": true,
+      "BBW20": 0.05446,
+      "BBWvsRecentMedian": 0.79,
+      "BBWContracting": true,
+      "K": 33.84,
+      "D": 35.06,
+      "J": 31.41,
+      "JTurningUp": true,
+      "VolumeRatio5": 2.833,
+      "NearPrior20High": false,
+      "EMA9Above20": true,
+      "RS5vsMedian": 6.51,
+      "RS20vsMedian": 11.407,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "1777",
+      "Name": "生泰",
+      "Market": "TPEx",
+      "Date": "2026-11-06",
+      "Close": 75.9,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": -1.172,
+      "Return20Pct": 0.53,
+      "OBV10Change": 97349.0,
+      "OBV10Rising": true,
+      "BBW20": 0.03436,
+      "BBWvsRecentMedian": 0.791,
+      "BBWContracting": true,
+      "K": 68.87,
+      "D": 72.21,
+      "J": 62.19,
+      "JTurningUp": false,
+      "VolumeRatio5": 2.533,
+      "NearPrior20High": true,
+      "EMA9Above20": true,
+      "RS5vsMedian": 6.212,
+      "RS20vsMedian": 11.271,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    },
+    {
+      "Code": "1626",
+      "Name": "艾美特-KY",
+      "Market": "TWSE",
+      "Date": "2026-11-06",
+      "Close": 9.84,
+      "ExRightsWithin60": false,
+      "ExRightsDates": [],
+      "Return5Pct": 1.758,
+      "Return20Pct": 0.408,
+      "OBV10Change": 261678.0,
+      "OBV10Rising": true,
+      "BBW20": 0.01959,
+      "BBWvsRecentMedian": 0.758,
+      "BBWContracting": true,
+      "K": 51.27,
+      "D": 63.5,
+      "J": 26.81,
+      "JTurningUp": false,
+      "VolumeRatio5": 6.514,
+      "NearPrior20High": true,
+      "EMA9Above20": true,
+      "RS5vsMedian": 9.142,
+      "RS20vsMedian": 11.149,
+      "ResearchScore": 10,
+      "EligibleResearch": true
+    }
+  ],
+  "Formula": "v5/v5_early_warning.py compute()（未修改）；研究分 >=7 且量比 >=1；近 60 日除權息不列入候選",
+  "Limitations": "研究觀察名單，非買進訊號；非 Golden Entry、Stage1、Stage2。價格未還原除權息。回測僅 20～60 日有小幅超額報酬。"
+}
