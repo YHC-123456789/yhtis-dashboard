@@ -410,6 +410,7 @@ th{{background:#f2f6fb}}.scroll{{overflow:auto}}.tag{{display:inline-block;borde
 
 EOD_OUT = ROOT / 'output/official_market_eod_latest.json'
 DAYTRADE_OUT = ROOT / 'v5/daytrade_watch.json'
+SCORES_OUT = ROOT / 'v5/scores_latest.json'
 ROLL_INDEX = ROLL / 'index.json'
 DT_PRICE = (50, 150)       # 與 tw_screener/daytrade_scan.py 相同
 DT_RANGE = (0.02, 0.04)
@@ -426,6 +427,23 @@ def eod_payload(day, rows):
             'TPExVolumeScope': 'TPEx dailyQuotes incl. odd lots（與 daily_screen 2026-10-19 起相同）',
             'Scope': '4-digit ordinary stocks only（不含 ETF）', 'Generator': 'v5/v5_live.py（與 daily_screen/history.csv 逐筆比對）',
             'AIRecomputed': False, 'AdjCloseVerified': False, 'Stocks': stocks}
+
+
+SCORE_FIELDS = ['Code', 'Name', 'Market', 'Close', 'Score', 'Rank', 'Eligible', 'RS5', 'RS20', 'OBV10Rising', 'BBWContracting', 'BBWRatio',
+                'JTurningUp', 'J', 'NearPrior20High', 'EMA9Above20', 'VolumeRatio5', 'AvgValue20', 'LowLiquidity', 'Return5Pct', 'Return20Pct']
+
+
+def scores_payload(rep, vetted, ok):
+    """全部合格股票的 V5 研究分（供網站個股條件與綜合排行；與 TOP 10 同一套計算、同一排序）。"""
+    if not ok:
+        return {'AsOfDate': rep['AsOfDate'], 'Status': rep['Status'], 'Fields': SCORE_FIELDS, 'Rows': []}
+    order = sorted(vetted, key=lambda v: (-v['ResearchScore'], -v['RS20vsMedian'], -v['RS5vsMedian'], v['Code']))
+    rows = [[v['Code'], v['Name'], v['Market'], v['Close'], v['ResearchScore'], i, v['EligibleResearch'], v['RS5vsMedian'], v['RS20vsMedian'],
+             v['OBV10Rising'], v['BBWContracting'], v['BBWvsRecentMedian'], v['JTurningUp'], v['J'], v['NearPrior20High'], v['EMA9Above20'],
+             v['VolumeRatio5'], v['AvgValue20'], v['LowLiquidity'], v['Return5Pct'], v['Return20Pct']] for i, v in enumerate(order, 1)]
+    return {'AsOfDate': rep['AsOfDate'], 'Status': rep['Status'], 'Fields': SCORE_FIELDS, 'Universe': len(rows),
+            'Rule': '研究分 = RS5>中位數 2 + RS20>中位數 2 + OBV10 上升 2 + 布林帶寬<0.85×近 20 日中位數 2 + J 低檔轉上 1 + 接近前 20 日高 1 + EMA9>EMA20 1；Eligible = 研究分>=7 且量比>=1',
+            'Rows': rows}
 
 
 def daytrade_watch(days, day_rows, universe, eod):
@@ -565,6 +583,7 @@ def main(argv=None):
               FIRST_SEEN: (json.dumps(dict(sorted(first_seen.items())), indent=0) + '\n').encode('utf-8')}
     for d, rows in fetched.items():
         writes[ROLL / f'{d}.csv.gz'] = day_bytes(rows)
+    writes[SCORES_OUT] = (json.dumps(scores_payload(rep, vetted, ok), ensure_ascii=False, separators=(',', ':')) + '\n').encode('utf-8')
     writes[ROLL_INDEX] = (json.dumps({'Days': days, 'Last': days[-1]}) + '\n').encode('utf-8')
     writes[DAYTRADE_OUT] = (json.dumps(daytrade_watch(days, day_rows, universe, eod), ensure_ascii=False, indent=1) + '\n').encode('utf-8')
     if target in fetched:  # 只在取得新的官方交易日時更新首頁行情檔

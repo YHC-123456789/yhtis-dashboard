@@ -53,6 +53,13 @@ def verify(root=ROOT):
     dt = json.loads((root / 'v5/daytrade_watch.json').read_text(encoding='utf-8'))
     if dt['AsOfDate'] != rep['AsOfDate'] or dt['Count'] != len(dt['Stocks']):
         fail('當沖觀察名單日期或筆數不一致')
+    sc = json.loads((root / 'v5/scores_latest.json').read_text(encoding='utf-8'))
+    if sc['AsOfDate'] != rep['AsOfDate'] or sc['Status'] != rep['Status']:
+        fail('全市場分數檔與 V5 不一致')
+    if rep['Status'] == 'PUBLISHED':
+        top = [r[0] for r in sc['Rows'] if r[6]][:10]
+        if top != [c['Code'] for c in rep['Candidates']] or len(sc['Rows']) != rep['ValidatedStocks']:
+            fail('全市場分數排序與 TOP 10 不一致')
     idx = json.loads((root / 'v5_history/rolling/index.json').read_text(encoding='utf-8'))
     if idx['Days'] != days or idx['Last'] != rep['AsOfDate']:
         fail('行情庫索引與實際檔案不一致')

@@ -55,13 +55,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ -z "$(git status --porcelain -- v5/index.html v5/early_warning_latest.json v5/daytrade_watch.json output/official_market_eod_latest.json v5_history/rolling v5_history/first_seen.json)" ]; then
+          if [ -z "$(git status --porcelain -- v5/index.html v5/early_warning_latest.json v5/daytrade_watch.json v5/scores_latest.json output/official_market_eod_latest.json v5_history/rolling v5_history/first_seen.json)" ]; then
             echo "V5_NO_CHANGE"
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A -- v5/index.html v5/early_warning_latest.json v5/daytrade_watch.json output/official_market_eod_latest.json v5_history/rolling v5_history/first_seen.json
+          git add -A -- v5/index.html v5/early_warning_latest.json v5/daytrade_watch.json v5/scores_latest.json output/official_market_eod_latest.json v5_history/rolling v5_history/first_seen.json
           git commit -m 'YHTIS V5 research list update'
           git pull --rebase origin main
           git push origin HEAD:main
