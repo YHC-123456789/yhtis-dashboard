@@ -27,10 +27,10 @@ main{max-width:1540px;margin:0 auto;padding:22px 22px 110px}.notice{display:flex
  <p class="source" id="p7-root-status">資料來源：V5 研究名單（v5/early_warning_latest.json）；僅供觀察。</p>
 </div>
 <div class="card" id="rank-panel" style="margin-top:18px"><div class="toolrow" style="flex-wrap:wrap;gap:10px"><div><h2 style="margin:0">綜合排行｜全市場 V5 研究分＋籌碼</h2><p class="minor" style="margin:5px 0">預設依 V5 研究分排序（與 TOP 10 同一套、經回測）；籌碼欄位為參考，不參與研究分。不是買進訊號。</p></div><span class="badge pending" id="rank-date">載入中</span></div>
-<div class="toolrow" style="gap:10px;flex-wrap:wrap"><select id="rank-sort" class="btn" aria-label="排序"><option value="Rank">V5 研究分（預設）</option><option value="RS20">RS20 相對強度</option><option value="VolumeRatio5">量比</option><option value="Inst3_5">法人 5 日合計買超</option><option value="Trust5">投信 5 日買超</option><option value="TrustStreak">投信連買天數</option><option value="Big1000Chg">千張大戶週增加</option></select>
+<div class="toolrow" style="gap:10px;flex-wrap:wrap"><select id="rank-sort" class="btn" aria-label="排序"><option value="P60">歷史 60 日上漲機率（預設）</option><option value="Rank">V5 研究分</option><option value="RS20">RS20 相對強度</option><option value="VolumeRatio5">量比</option><option value="Inst3_5">法人 5 日合計買超</option><option value="Trust5">投信 5 日買超</option><option value="TrustStreak">投信連買天數</option><option value="Big1000Chg">千張大戶週增加</option></select>
 <label class="minor"><input type="checkbox" id="rank-elig" checked> 只看符合條件（研究分≥7 且量比≥1）</label><label class="minor"><input type="checkbox" id="rank-liq"> 排除流動性低（20 日均成交值＜5,000 萬）</label><input id="rank-search" class="searchbar" placeholder="搜尋代號或名稱" style="max-width:220px"></div>
-<div class="table-wrap"><table><thead><tr><th>名次</th><th>代號／名稱</th><th class="numeric">收盤</th><th class="numeric">研究分</th><th>條件</th><th class="numeric">RS20</th><th class="numeric">量比</th><th class="numeric">20日均成交值(萬)</th><th class="numeric">法人5日</th><th class="numeric">投信連</th><th class="numeric">千張週變化</th></tr></thead><tbody id="rank-rows"><tr><td colspan="11">載入中…</td></tr></tbody></table></div>
-<p class="source" id="rank-note">條件代號：R5＝RS5 強、R20＝RS20 強、O＝OBV 上升、B＝布林收斂、J＝J 低檔轉上、H＝接近 20 日高、E＝EMA9>EMA20。點股票看個股分析。</p></div>
+<div class="table-wrap"><table><thead><tr><th>名次</th><th>代號／名稱</th><th class="numeric">收盤</th><th class="numeric">研究分</th><th class="numeric">60日上漲機率<br><small>近兩年／全期</small></th><th>條件</th><th class="numeric">RS20</th><th class="numeric">量比</th><th class="numeric">20日均成交值(萬)</th><th class="numeric">法人5日</th><th class="numeric">投信連</th><th class="numeric">千張週變化</th></tr></thead><tbody id="rank-rows"><tr><td colspan="12">載入中…</td></tr></tbody></table></div>
+<p class="source" id="rank-note">60 日上漲機率＝同類股票（同研究分、同流動性）歷史上持有 60 日後上漲的比例，隔日開盤買、扣成本；不是對個股的預測。條件代號：R5＝RS5 強、R20＝RS20 強、O＝OBV 上升、B＝布林收斂、J＝J 低檔轉上、H＝接近 20 日高、E＝EMA9>EMA20。點股票看個股分析。</p></div>
 </section>
 <section class="section" id="daytrade"><div class="pagebar"><div><h1>當沖</h1><p>1／5／15 分 K、VWAP、快速 KD、EMV — 資料可用性嚴格區分。</p></div><span class="badge pending">盤後觀察名單｜盤中即時資料未連接</span></div><div class="card" style="margin-bottom:16px"><div class="toolrow"><h2 style="margin:0">隔日當沖觀察名單（盤後產生）</h2><span class="badge pending" id="dt-date">載入中</span></div><p class="minor" id="dt-rule">—</p><div class="table-wrap"><table><thead><tr><th>代號／名稱</th><th class="numeric">收盤</th><th class="numeric">當日漲跌%</th><th class="numeric">當日振幅%</th><th class="numeric">20日均振幅%</th><th class="numeric">20日最大振幅%</th><th class="numeric">20日均成交值(億)</th><th class="numeric">一張(萬)</th></tr></thead><tbody id="dt-rows"><tr><td colspan="8">載入中…</td></tr></tbody></table></div><p class="source" id="dt-note">—</p></div><div class="split"><div class="card"><div class="toolrow"><h2>盤中交易檢視</h2><div class="switch"><button disabled>1 分</button><button disabled>5 分</button><button disabled>15 分</button></div></div><div class="empty big-empty">本站是靜態網站，只有盤後官方日資料，沒有授權的即時分 K。<br>盤中價格、VWAP、快 KD、EMV 請用券商 App 看；上方名單只用來決定「明天要盯哪幾檔」。</div><div class="source">不提供虛構即時價格，也不沿用過期當沖訊號。</div></div><div class="card"><h2>出手機制</h2><div class="statusrow"><span>日內量價結構</span><span class="badge pending">待來源</span></div><div class="statusrow"><span>VWAP 方向</span><span class="badge pending">待來源</span></div><div class="statusrow"><span>快速 KD＋EMV</span><span class="badge pending">待來源</span></div><div class="statusrow"><span>固定最大風險</span><span>自行設定</span></div><div class="warnbox">此頁沒有可靠的盤中行情，不提供買賣指令。</div></div></div></section>
 <section class="section" id="swing"><div class="pagebar"><div><h1>波段</h1><p>以日線為核心，EMA9／20、MACD、KDJ-J 與布林收斂。Golden Entry 不改。</p></div><span class="badge verified">官方日線｜每日自動更新</span></div><div class="card" style="margin-bottom:16px"><div class="toolrow"><h2 style="margin:0">波段觀察名單</h2><span class="badge pending" id="sw-list-date">載入中</span></div><p class="minor">V5：回測顯示適合 20～60 日波段觀察（5 日短線沒有優勢）。突破／趨勢：daily_screen 五日條件篩選，未回測。點股票看 K 線。都不是買進訊號。</p><div class="table-wrap"><table><thead><tr><th>來源</th><th>代號／名稱</th><th class="numeric">收盤</th><th>條件</th><th class="numeric">20日均成交值(萬)</th></tr></thead><tbody id="sw-list"><tr><td colspan="5">載入中…</td></tr></tbody></table></div></div><div class="split"><div class="card"><div class="toolrow"><h2>波段 K 線</h2><div class="switch"><button class="active" data-period="daily">日線</button><button data-period="weekly">週線</button><button data-period="monthly">月線</button></div></div><div id="swing-chart" class="chartshell"><div class="empty big-empty">點下方觀察名單的股票，或在「個股分析」選擇股票。</div></div><div class="source" id="swing-source">日線、週線、月線由同一份已驗證歷史資料聚合。</div></div><div class="card"><h2>波段確認</h2><div class="statusrow"><span>EMA9／20</span><span class="badge pending" id="sw-ema">選股後計算</span></div><div class="statusrow"><span>MACD 柱體加速度</span><span class="badge pending" id="sw-macd">選股後計算</span></div><div class="statusrow"><span>KDJ-J 低檔翻揚</span><span class="badge pending" id="sw-j">選股後計算</span></div><div class="statusrow"><span>BB 收斂</span><span class="badge pending" id="sw-bb">選股後計算</span></div><p class="minor">依最近 130 個交易日的官方日線計算（未還原除權息）；僅為技術狀態，不是買進訊號。</p></div></div></section>
@@ -209,16 +209,21 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
 </script>
 <script id="YHTIS_RANK_AND_CONDITIONS_V1">
 (()=>{'use strict';const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- let SC=null,BY=new Map(),CH={},DT=new Set(),DS=new Map(),V5TOP=new Set(),OFFICIAL='';
+ let SC=null,BY=new Map(),CH={},DT=new Set(),DS=new Map(),V5TOP=new Set(),OFFICIAL='',PB=null;
+ const bucket=r=>r.Eligible?(r.LowLiquidity?'eligible_illiquid':'elig_score_'+r.Score+'_liquid'):'score_'+r.Score;
+ const bucketName=r=>r.Eligible?(r.LowLiquidity?'符合條件但成交值小':'符合條件・'+r.Score+' 分・成交值夠大'):r.Score+' 分（未達條件）';
+ function prob(r){if(!PB)return null;const k=bucket(r),a=PB.groups.all[k],b=PB.groups.holdout_2025_2026[k];if(!a||!b)return null;return {a20:a.H20.up,a60:a.H60.up,b20:b.H20.up,b60:b.H60.up,m60:b.H60.mean,n:b.H60.n}}
+ const pct=v=>v==null?'—':Math.round(v*100)+'%';
+ window.YHTIS_PROB=prob;
  const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
  const sg=v=>v===undefined||v===null?'—':'<span style="color:'+(v>0?'#d92d20':v<0?'#039855':'inherit')+'">'+(v>0?'+':'')+Number(v).toLocaleString()+'</span>';
  function tags(r){return [['R5',r.RS5>0],['R20',r.RS20>0],['O',r.OBV10Rising],['B',r.BBWContracting],['J',r.JTurningUp],['H',r.NearPrior20High],['E',r.EMA9Above20]].filter(x=>x[1]).map(x=>x[0]).join(' ')}
  function renderRank(){if(!SC)return;const key=$('rank-sort').value,q=$('rank-search').value.trim().toLowerCase();
   let rows=SC.map(r=>({...r,...(CH[r.Code]||{})}));
   if(q)rows=rows.filter(r=>(r.Code+' '+r.Name).toLowerCase().includes(q));else{if($('rank-elig').checked)rows=rows.filter(r=>r.Eligible);if($('rank-liq').checked)rows=rows.filter(r=>!r.LowLiquidity);
-   if(key!=='Rank')rows=rows.filter(r=>r[key]!==undefined&&r[key]!==null).sort((a,b)=>b[key]-a[key]||a.Rank-b.Rank);}
+   if(key!=='Rank')rows=rows.filter(r=>r[key]!==undefined&&r[key]!==null).sort((a,b)=>b[key]-a[key]||(b.M60||0)-(a.M60||0)||a.Rank-b.Rank);}
   rows=rows.slice(0,60);
-  $('rank-rows').innerHTML=rows.map(r=>'<tr class="stockrow" data-code="'+esc(r.Code)+'" style="cursor:pointer"><td>'+r.Rank+'</td><td><strong>'+esc(r.Code)+' '+esc(r.Name)+'</strong>'+(V5TOP.has(r.Code)?' <span class="badge verified">TOP10</span>':'')+(DT.has(r.Code)?' <span class="badge">當沖觀察</span>':'')+(DS.has(r.Code)?' <span class="badge">'+esc(DS.get(r.Code))+'</span>':'')+'</td><td class="numeric">'+r.Close+'</td><td class="numeric"><b>'+r.Score+'</b>/11</td><td>'+tags(r)+'</td><td class="numeric">'+sg(Math.round(r.RS20*10)/10)+'</td><td class="numeric">'+Number(r.VolumeRatio5).toFixed(2)+'</td><td class="numeric">'+Math.round(r.AvgValue20/1e4).toLocaleString()+(r.LowLiquidity?' <span class="badge pending">低</span>':'')+'</td><td class="numeric">'+sg(r.Inst3_5)+'</td><td class="numeric">'+sg(r.TrustStreak)+'</td><td class="numeric">'+(r.Big1000Chg===undefined?'—':sg(r.Big1000Chg))+'</td></tr>').join('')||'<tr><td colspan="11">沒有符合的股票</td></tr>';
+  $('rank-rows').innerHTML=rows.map(r=>'<tr class="stockrow" data-code="'+esc(r.Code)+'" style="cursor:pointer"><td>'+r.Rank+'</td><td><strong>'+esc(r.Code)+' '+esc(r.Name)+'</strong>'+(V5TOP.has(r.Code)?' <span class="badge verified">TOP10</span>':'')+(DT.has(r.Code)?' <span class="badge">當沖觀察</span>':'')+(DS.has(r.Code)?' <span class="badge">'+esc(DS.get(r.Code))+'</span>':'')+'</td><td class="numeric">'+r.Close+'</td><td class="numeric"><b>'+r.Score+'</b>/11</td><td class="numeric"><b>'+pct(r.P60)+'</b>／'+pct(r.PA60)+'</td><td>'+tags(r)+'</td><td class="numeric">'+sg(Math.round(r.RS20*10)/10)+'</td><td class="numeric">'+Number(r.VolumeRatio5).toFixed(2)+'</td><td class="numeric">'+Math.round(r.AvgValue20/1e4).toLocaleString()+(r.LowLiquidity?' <span class="badge pending">低</span>':'')+'</td><td class="numeric">'+sg(r.Inst3_5)+'</td><td class="numeric">'+sg(r.TrustStreak)+'</td><td class="numeric">'+(r.Big1000Chg===undefined?'—':sg(r.Big1000Chg))+'</td></tr>').join('')||'<tr><td colspan="12">沒有符合的股票</td></tr>';
   $('rank-rows').querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));}
  window.YHTIS_V5_FOR=code=>{const head=$('stock-v5-head'),box=$('stock-v5-conds');if(!head)return;if(!SC){head.textContent='V5 研究分尚未載入或今日未發布。';box.innerHTML='';return;}
   const r=BY.get(code);if(!r){head.textContent='沒有 V5 研究分：V5 只涵蓋 4 碼普通股（不含 ETF），或此股今日未通過資料檢查、上市未滿 120 日。';box.innerHTML='';return;}
@@ -226,14 +231,25 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
   head.innerHTML='<b style="font-size:20px">'+r.Score+' / 11</b>　全市場第 <b>'+r.Rank+'</b> 名（共 '+SC.length+' 檔）　'+(r.Eligible?'<span class="badge verified">符合條件</span>':'<span class="badge pending">未達條件</span>')+(lists.length?'　列入：'+lists.map(x=>'<span class="badge">'+esc(x)+'</span>').join(' '):'');
   const row=(t,ok,v,pt)=>'<div class="statusrow"><span>'+t+'</span><span class="badge '+(ok?'verified':'pending')+'">'+(ok?'✓ ':'✗ ')+v+(pt?'（'+(ok?'+'+pt:'0')+'）':'')+'</span></div>';
   box.innerHTML=row('RS5 強於市場中位數',r.RS5>0,(r.RS5>0?'+':'')+r.RS5.toFixed(2)+'%',2)+row('RS20 強於市場中位數',r.RS20>0,(r.RS20>0?'+':'')+r.RS20.toFixed(2)+'%',2)+row('OBV 10 日上升',r.OBV10Rising,r.OBV10Rising?'上升':'未上升',2)+row('布林帶寬收斂',r.BBWContracting,'帶寬比 '+r.BBWRatio,2)+row('J 值低檔轉上',r.JTurningUp,'J '+r.J,1)+row('接近前 20 日高點',r.NearPrior20High,r.NearPrior20High?'是':'否',1)+row('EMA9 在 EMA20 之上',r.EMA9Above20,r.EMA9Above20?'是':'否',1)+row('量比 ≥ 1（門檻）',r.VolumeRatio5>=1,Number(r.VolumeRatio5).toFixed(2),0)+row('20 日均成交值 ≥ 5,000 萬（參考）',!r.LowLiquidity,Math.round(r.AvgValue20/1e4).toLocaleString()+' 萬',0);
+  const pp=prob(r);if(pp)box.innerHTML='<div class="statusrow" style="background:#f2f6fb;border-radius:8px;padding:8px"><span><b>同類股票歷史上漲機率</b><br><small>'+esc(bucketName(r))+'</small></span><span style="text-align:right">20 日 <b>'+pct(pp.b20)+'</b>｜60 日 <b>'+pct(pp.b60)+'</b><br><small>近兩年；全期 '+pct(pp.a20)+'／'+pct(pp.a60)+'；60 日平均 '+(pp.m60>0?'+':'')+(pp.m60*100).toFixed(1)+'%</small></span></div>'+box.innerHTML;
   $('stock-v5-src').textContent='資料日 '+SC.date+'。V5 研究分：回測 20～60 日有小幅超額報酬（5 日沒有優勢），不是買進訊號。';};
- Promise.all([get('./v5/scores_latest.json'),get('./v5/chip_latest.json'),get('./v5/daytrade_watch.json'),get('./daily_screen/latest.json'),get('./v5/early_warning_latest.json')]).then(([sc,ch,dt,ds,v5])=>{
+ Promise.all([get('./v5/scores_latest.json'),get('./v5/chip_latest.json'),get('./v5/daytrade_watch.json'),get('./daily_screen/latest.json'),get('./v5/early_warning_latest.json'),get('./v5/backtest/prob_by_score.json')]).then(([sc,ch,dt,ds,v5,pb])=>{PB=pb;
   OFFICIAL=ds&&ds.AsOfDate;
-  if(!sc||sc.Status!=='PUBLISHED'||!sc.Rows.length||(OFFICIAL&&sc.AsOfDate<OFFICIAL)){$('rank-rows').innerHTML='<tr><td colspan="11">'+(sc?'V5 研究分 '+esc(sc.AsOfDate)+' 未發布或未更新到最新交易日；不顯示舊排行。':'讀取失敗')+'</td></tr>';$('rank-date').textContent='未發布';const bx=$('confirm-v5');if(bx)bx.innerHTML='<p class="minor">今日 V5 篩選未發布或未更新到最新交易日。</p>';return;}
-  SC=sc.Rows.map(a=>Object.fromEntries(sc.Fields.map((f,i)=>[f,a[i]])));SC.date=sc.AsOfDate;BY=new Map(SC.map(r=>[r.Code,r]));
+  if(!sc||sc.Status!=='PUBLISHED'||!sc.Rows.length||(OFFICIAL&&sc.AsOfDate<OFFICIAL)){$('rank-rows').innerHTML='<tr><td colspan="11">'+(sc?'V5 研究分 '+esc(sc.AsOfDate)+' 未發布或未更新到最新交易日；不顯示舊排行。':'讀取失敗')+'</td></tr>';$('rank-date').textContent='未發布';const tc=$('today-card');if(tc)tc.innerHTML='<h2 style="margin:0">今日重點</h2><p class="minor">今日資料尚未更新或未通過檢查，不顯示名單。</p>';const bx=$('confirm-v5');if(bx)bx.innerHTML='<p class="minor">今日 V5 篩選未發布或未更新到最新交易日。</p>';return;}
+  SC=sc.Rows.map(a=>Object.fromEntries(sc.Fields.map((f,i)=>[f,a[i]])));SC.forEach(r=>{const p=prob(r);r.P60=p?p.b60:null;r.P20=p?p.b20:null;r.PA60=p?p.a60:null;r.M60=p?p.m60:null});SC.date=sc.AsOfDate;BY=new Map(SC.map(r=>[r.Code,r]));
   CH=(ch&&ch.Stocks)||{};if(dt&&dt.AsOfDate===sc.AsOfDate)dt.Stocks.forEach(x=>DT.add(x.Code));if(ds&&ds.AsOfDate===sc.AsOfDate)(ds.Candidates||[]).forEach(x=>DS.set(x.Code,x.Category));
   if(v5&&v5.AsOfDate===sc.AsOfDate)(v5.Candidates||[]).forEach(x=>V5TOP.add(x.Code));
   $('rank-date').textContent='資料日 '+sc.AsOfDate;$('rank-date').className='badge verified';renderRank();
+  (()=>{const box=$('today-card');if(!box)return;const el=SC.filter(r=>r.Eligible);
+   const best=el.filter(r=>!r.LowLiquidity&&r.P60!=null).sort((a,b)=>b.P60-a.P60||(b.M60||0)-(a.M60||0)||a.Rank-b.Rank).slice(0,5);
+   const chip=r=>'<a href="#stock" data-code="'+esc(r.Code)+'" class="today-pick"><b>'+esc(r.Code)+' '+esc(r.Name)+'</b><span>收盤 '+r.Close+'｜'+r.Score+' 分</span><span class="p">60 日上漲機率 <b>'+pct(r.P60)+'</b>｜平均 '+(r.M60>0?'+':'')+(r.M60*100).toFixed(1)+'%</span></a>';
+   const src=(window.YHTIS_CHIP_SRC||{});
+   box.innerHTML='<div class="toolrow"><h2 style="margin:0">今日重點｜'+esc(sc.AsOfDate)+'</h2><span class="badge verified">資料檢查通過</span></div>'
+    +'<p class="minor" style="margin:6px 0 10px">歷史上漲機率最高的一組（符合條件、成交值 ≥ 5,000 萬），依近兩年同類股票 60 日上漲比例排序：</p>'
+    +'<div class="today-picks">'+(best.map(chip).join('')||'<p class="minor">今天沒有符合條件且成交值夠大的股票。</p>')+'</div>'
+    +'<div class="today-stats"><span>符合條件 <b>'+el.length+'</b> / '+SC.length+'</span><span>V5 前 3：'+[...V5TOP].slice(0,3).map(c=>esc(c+' '+(BY.get(c)||{}).Name)).join('、')+'</span><span>當沖觀察 <b>'+DT.size+'</b></span><span>突破／趨勢 <b>'+DS.size+'</b></span></div>'
+    +'<p class="source" style="margin-top:8px">機率是「同類股票」的歷史頻率（2025～2026），不是對個股的預測；整體來看研究分高低的上漲機率差異不大，成交值大小的差異較明顯。點股票看條件與 K 線。</p>';
+   box.querySelectorAll('[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));})();
   (()=>{const box=$('confirm-v5');if(!box)return;const el=SC.filter(r=>r.Eligible),n=SC.length;const cnt=f=>SC.filter(f).length;
    const bar=(t,c)=>'<div class="statusrow"><span>'+t+'</span><span class="badge">'+c.toLocaleString()+' 檔（'+Math.round(c/n*100)+'%）</span></div>';
    const top=el.slice(0,5).map(r=>'<a href="#stock" data-code="'+esc(r.Code)+'" class="badge verified" style="margin:2px;cursor:pointer;text-decoration:none">'+esc(r.Code)+' '+esc(r.Name)+' '+r.Score+'</a>').join('');
@@ -246,6 +262,40 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
   if(typeof selected!=='undefined'&&selected)window.YHTIS_V5_FOR(selected);
  });
  ['rank-sort','rank-elig','rank-liq'].forEach(id=>$(id).addEventListener('change',renderRank));$('rank-search').addEventListener('input',renderRank);
+})();
+</script>
+<style id="YHTIS_FOLD_CSS">
+.fold{background:var(--bg-surface,#fff);border:1px solid var(--border-subtle,#dde6f0);border-radius:var(--radius,12px);margin:0 0 14px;overflow:hidden}
+.fold>button.fold-head{all:unset;box-sizing:border-box;display:flex;width:100%;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;font-weight:700;font-size:16px}
+.fold>button.fold-head:focus-visible{outline:2px solid #3b6fd8;outline-offset:-2px}
+.fold-head .hint{font-weight:400;font-size:13px;color:#6b7a90;margin-left:auto;text-align:right}
+.fold-head .arrow{transition:transform .15s;color:#6b7a90}.fold.open .arrow{transform:rotate(90deg)}
+.fold-body{padding:0 12px 12px}.fold:not(.open) .fold-body{display:none}
+.fold-body>.card,.fold-body #p7-root-panel,.fold-body #rank-panel{margin-top:0!important;border:none;box-shadow:none}
+#today-card{margin-bottom:14px}
+.today-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.today-pick{display:flex;flex-direction:column;gap:3px;padding:12px;border:1px solid #dfe8f3;border-radius:10px;text-decoration:none;color:inherit;background:#fbfdff}
+.today-pick:hover{border-color:#3b6fd8}.today-pick span{font-size:13px;color:#526175}.today-pick .p b{color:#d92d20;font-size:16px}
+.today-stats{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:14px;color:#334}
+</style>
+<script id="YHTIS_FOLD_V1">
+(function(){'use strict';
+ const KEY='yhtis.fold.v1';let st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){st={}}
+ function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+ function fold(id,title,hint,nodes,openDefault){const f=document.createElement('section');f.className='fold';f.id='fold-'+id;
+  const h=document.createElement('button');h.className='fold-head';h.type='button';h.innerHTML='<span class="arrow">▸</span><span>'+title+'</span><span class="hint">'+hint+'</span>';
+  const b=document.createElement('div');b.className='fold-body';nodes.forEach(n=>n&&b.appendChild(n));f.append(h,b);
+  const open=st[id]!==undefined?st[id]:openDefault;f.classList.toggle('open',open);h.setAttribute('aria-expanded',open);
+  h.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);h.setAttribute('aria-expanded',o);st[id]=o;save();});return f;}
+ function init(){const sec=document.getElementById('dashboard');if(!sec||document.getElementById('today-card'))return;
+  const today=document.createElement('div');today.className='card';today.id='today-card';today.innerHTML='<h2 style="margin:0">今日重點</h2><p class="minor">載入中…</p>';
+  const v5=document.getElementById('p7-root-panel'),rank=document.getElementById('rank-panel');
+  const market=[sec.querySelector(':scope > .pagebar'),sec.querySelector(':scope > .grid.metrics'),sec.querySelector(':scope > .dashboard-main')];
+  const f1=fold('v5','V5 每日名單 TOP 10','研究分前 10 名・含篩選理由',[v5],false);
+  const f2=fold('rank','綜合排行','全市場・可依上漲機率／研究分／籌碼排序',[rank],false);
+  const f3=fold('market','市場總覽・自選・起漲確認系統','官方收盤搜尋、各條件檔數、Golden Entry 狀態',market,false);
+  sec.prepend(today,f1,f2,f3);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </body></html>
