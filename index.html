@@ -22,13 +22,15 @@ main{max-width:1540px;margin:0 auto;padding:22px 22px 110px}.notice{display:flex
 <section class="section active" id="dashboard"><div class="pagebar"><div><h1>市場總覽 Dashboard</h1><p>先看市場，再看個股。訊號只採用已驗證的來源。</p></div><div class="meta" id="dashboard-date">官方行情日期 —</div></div><div class="grid metrics"><div class="metric"><small>上市 TWSE 有效行情</small><div class="val" id="twse-count">—</div><div class="sub">當日官方收盤資料</div></div><div class="metric"><small>上櫃 TPEx 有效行情</small><div class="val" id="tpex-count">—</div><div class="sub">正常交易時段口徑</div></div><div class="metric"><small>股票行情總數</small><div class="val" id="total-count">—</div><div class="sub">非全市場掛牌總數</div></div><div class="metric"><small>AI／Golden Entry 最新狀態</small><div class="val" style="font-size:20px;margin:12px 0 7px;color:#a86218">未驗證</div><div class="sub">不把舊訊號標成今日</div></div></div><div class="dashboard-main"><aside class="card sideleft"><h2>自選與重點追蹤</h2><div class="watchlist" id="watchlist"></div><div class="source">僅供追蹤；不代表買進建議。</div></aside><div class="card"><div class="markethead"><div><h2>上市／上櫃收盤搜尋</h2><p class="minor">可搜尋官方行情；不以成交量排名冒充起漲機率。</p></div><span class="badge verified" id="market-gate">資料驗證中</span></div><div class="toolrow"><input id="stock-search" class="searchbar" placeholder="搜尋代號或名稱，例如 2330" aria-label="搜尋股票" style="max-width:440px"><select id="market-filter" class="btn" aria-label="市場"><option value="">全部</option><option value="TWSE">上市</option><option value="TPEx">上櫃</option></select></div><div class="table-wrap"><table><thead><tr><th>代號</th><th>股票</th><th>市場</th><th class="numeric">收盤價</th><th class="numeric">成交股數</th></tr></thead><tbody id="stock-list"><tr><td colspan="5">讀取中…</td></tr></tbody></table></div><p class="source" id="listed-count">資料來源：臺灣證券交易所／證券櫃檯買賣中心</p></div><aside class="card sideconfirm"><h2>起漲確認系統</h2><div id="confirm-v5" style="margin-bottom:14px"><p class="minor">今日篩選結果載入中…</p></div><h3 style="font-size:14px;margin:6px 0">正式訊號（Golden Entry）</h3><div class="warnbox">鑽石／點火／星星由 Golden Entry 正式系統產生，最新輸出停在 2026-10-02，尚未驗證到最新交易日，因此不顯示；本站不另造替代訊號。上方是每日自動計算的 V5 篩選結果。</div><div class="statusrow"><span>💎 鑽石（主升確認）</span><span class="badge pending">待驗證</span></div><div class="statusrow"><span>🔥 點火（起漲第一波）</span><span class="badge pending">待驗證</span></div><div class="statusrow"><span>⭐ 星星（回測第二波）</span><span class="badge pending">待驗證</span></div><div class="statusrow"><span>快速 KD / EMV</span><span class="badge">僅輔助</span></div><div class="data-status">規則：Golden Entry 原核心、參數與分數保持不變；任何新確認層不得回寫。</div><div class="navgrid"><button class="navtile" data-go="daytrade"><strong>當沖</strong><span>需盤中資料</span></button><button class="navtile" data-go="swing"><strong>波段</strong><span>歷史日 K 與趨勢</span></button></div></aside></div><!-- YHTIS_P7_ROOT_RESEARCH_PANEL_V1 -->
 <div class="card" id="p7-root-panel" style="margin-top:18px">
  <div class="toolrow"><div><h2 style="margin:0">起漲研究候選｜V5 每日名單（非買進訊號）</h2><p class="minor" style="margin:5px 0">每個交易日由官方行情自動計算；研究分數不等於 Golden Entry 買進訊號。<a href="./v5/">完整頁面與回測 →</a></p></div><span class="badge pending" id="p7-root-date">研究資料待載入</span></div>
- <input class="searchbar" id="p7-root-search" placeholder="搜尋股票代碼／中文名稱，例如 儒鴻" aria-label="搜尋研究榜" style="max-width:380px;margin:0 0 12px">
+ <div class="toolrow" style="gap:8px;flex-wrap:wrap;margin:0 0 10px"><div class="seg" role="tablist" id="p7-seg"><button type="button" class="segbtn on" data-seg="liq">成交值夠大 TOP 10</button><button type="button" class="segbtn" data-seg="low">成交值小（研究參考）</button></div>
+ <input class="searchbar" id="p7-root-search" placeholder="搜尋股票代碼／中文名稱，例如 儒鴻" aria-label="搜尋研究榜" style="max-width:300px;margin:0"></div>
+ <p class="minor" id="p7-seg-note" style="margin:0 0 8px"></p>
  <div class="table-wrap"><table><thead><tr><th>排名</th><th>股票代碼／中文名稱</th><th class="numeric">研究分數</th><th>研究日</th><th>篩選理由</th><th class="numeric">20日均成交值(萬)</th></tr></thead><tbody id="p7-root-rows"><tr><td colspan="6">載入中…</td></tr></tbody></table></div>
- <p class="source" id="p7-root-status">資料來源：V5 研究名單（v5/early_warning_latest.json）；僅供觀察。</p>
+ <p class="source" id="p7-root-status">資料來源：V5 研究名單（v5/scores_latest.json）；僅供觀察。</p>
 </div>
 <div class="card" id="rank-panel" style="margin-top:18px"><div class="toolrow" style="flex-wrap:wrap;gap:10px"><div><h2 style="margin:0">綜合排行｜全市場 V5 研究分＋籌碼</h2><p class="minor" style="margin:5px 0">預設依 V5 研究分排序（與 TOP 10 同一套、經回測）；籌碼欄位為參考，不參與研究分。不是買進訊號。</p></div><span class="badge pending" id="rank-date">載入中</span></div>
 <div class="toolrow" style="gap:10px;flex-wrap:wrap"><select id="rank-sort" class="btn" aria-label="排序"><option value="P60">歷史 60 日上漲機率（預設）</option><option value="P20">歷史 20 日上漲機率</option><option value="P10">歷史 10 日上漲機率</option><option value="P5">歷史 5 日上漲機率</option><option value="Rank">V5 研究分</option><option value="RS20">RS20 相對強度</option><option value="VolumeRatio5">量比</option><option value="Inst3_5">法人 5 日合計買超</option><option value="Trust5">投信 5 日買超</option><option value="TrustStreak">投信連買天數</option><option value="Big1000Chg">千張大戶週增加</option></select>
-<label class="minor"><input type="checkbox" id="rank-elig" checked> 只看符合條件（研究分≥7 且量比≥1）</label><label class="minor"><input type="checkbox" id="rank-liq"> 排除流動性低（20 日均成交值＜5,000 萬）</label><input id="rank-search" class="searchbar" placeholder="搜尋代號或名稱" style="max-width:220px"></div>
+<label class="minor"><input type="checkbox" id="rank-elig" checked> 只看符合條件（研究分≥7 且量比≥1）</label><select id="rank-liqgrp" class="btn" aria-label="成交值分組"><option value="liq">成交值夠大（≥5,000 萬）</option><option value="low">成交值小（＜5,000 萬）</option><option value="all">全部</option></select><input id="rank-search" class="searchbar" placeholder="搜尋代號或名稱" style="max-width:220px"></div>
 <div class="table-wrap"><table><thead><tr><th>名次</th><th>代號／名稱</th><th class="numeric">收盤</th><th class="numeric">研究分</th><th class="numeric">上漲機率（近兩年）<br><small>5／10／20／60 日</small></th><th>條件</th><th class="numeric">RS20</th><th class="numeric">量比</th><th class="numeric">20日均成交值(萬)</th><th class="numeric">法人5日</th><th class="numeric">投信連</th><th class="numeric">千張週變化</th></tr></thead><tbody id="rank-rows"><tr><td colspan="12">載入中…</td></tr></tbody></table></div>
 <p class="source" id="rank-note">上漲機率＝同類股票（同研究分、同流動性）2025～2026 年持有 5／10／20／60 日後上漲的比例（紅 ≥50%、綠 <50%），隔日開盤買、扣成本；不是對個股的預測。條件代號：R5＝RS5 強、R20＝RS20 強、O＝OBV 上升、B＝布林收斂、J＝J 低檔轉上、H＝接近 20 日高、E＝EMA9>EMA20。點股票看個股分析。</p></div>
 </section>
@@ -116,22 +118,30 @@ function drawCharts(){if(!verifiedBars.length)return;svgChart($('stock-chart'),v
 document.querySelectorAll('[data-period]').forEach(b=>b.addEventListener('click',()=>{period=b.dataset.period;document.querySelectorAll('[data-period]').forEach(x=>x.classList.toggle('active',x===b));if(verifiedBars.length)drawCharts()}));
 const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','stock'].includes(initial))showTab(initial);loadOfficial();
 </script>
-<script>/* YHTIS_P7_ROOT_RESEARCH_PANEL_V1 → V5 每日名單（YHTIS_V5_ROOT_PANEL_V2） */
+<script>/* YHTIS_P7_ROOT_RESEARCH_PANEL_V1 → V5 每日名單（YHTIS_V5_ROOT_PANEL_V3：成交值分開） */
 (()=>{'use strict';
  const target=document.getElementById('p7-root-rows');if(!target)return;
- const info=document.getElementById('p7-root-status');const badge=document.getElementById('p7-root-date');
- const search=document.getElementById('p7-root-search');let rows=[],asof='';
+ const info=document.getElementById('p7-root-status');const badge=document.getElementById('p7-root-date');const note=document.getElementById('p7-seg-note');
+ const search=document.getElementById('p7-root-search');let L={liq:[],low:[]},seg='liq',asof='';
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- function reasons(r){const a=[];if(r.RS20vsMedian>0)a.push('RS20 強於中位數');if(r.RS5vsMedian>0)a.push('RS5 強於中位數');if(r.OBV10Rising)a.push('OBV 上升');if(r.BBWContracting)a.push('布林帶寬收斂');if(r.JTurningUp)a.push('J 值低檔轉上');if(r.NearPrior20High)a.push('接近20日高');if(r.EMA9Above20)a.push('EMA9>EMA20');a.push('量比 '+Number(r.VolumeRatio5).toFixed(2));return a.join(' / ');}
- function render(){const q=search.value.trim().toLowerCase();const found=rows.filter(r=>(r.Code+' '+r.Name).toLowerCase().includes(q));target.innerHTML=found.map((r,i)=>'<tr><td>'+(rows.indexOf(r)+1)+'</td><td><strong>'+esc(r.Code)+' '+esc(r.Name)+'</strong></td><td class="numeric">'+esc(r.ResearchScore)+' / 11</td><td>'+esc(r.Date)+'</td><td>'+esc(reasons(r))+'</td><td class="numeric">'+Math.round(r.AvgValue20/1e4).toLocaleString()+(r.LowLiquidity?' <span class="badge pending">低</span>':'')+'</td></tr>').join('')||'<tr><td colspan="6">沒有符合條件的股票</td></tr>';
-  info.textContent='V5 研究名單 '+rows.length+' 檔（'+asof+'）。「低」＝20 日平均成交值不到 5,000 萬，成交較少。不代表盤中即時資訊或交易建議。';}
+ function reasons(r){const a=[];if(r.RS20>0)a.push('RS20 強於中位數');if(r.RS5>0)a.push('RS5 強於中位數');if(r.OBV10Rising)a.push('OBV 上升');if(r.BBWContracting)a.push('布林帶寬收斂');if(r.JTurningUp)a.push('J 值低檔轉上');if(r.NearPrior20High)a.push('接近20日高');if(r.EMA9Above20)a.push('EMA9>EMA20');a.push('量比 '+Number(r.VolumeRatio5).toFixed(2));return a.join(' / ');}
+ const NOTE={liq:'20 日平均成交值 ≥ 5,000 萬、符合條件（研究分 ≥ 7 且量比 ≥ 1），依研究分排序前 10。近兩年同類股票 60 日上漲機率約 49%、平均 +8.6%。',
+             low:'成交值不到 5,000 萬的符合條件股票，只供研究參考：買賣價差大、不易成交；近兩年同類股票 60 日上漲機率約 37%、平均 +0.7%。'};
+ function render(){const q=search.value.trim().toLowerCase();const rows=L[seg];const found=rows.filter(r=>(r.Code+' '+r.Name).toLowerCase().includes(q));
+  note.textContent=NOTE[seg];
+  target.innerHTML=found.map(r=>'<tr class="stockrow" data-code="'+esc(r.Code)+'" style="cursor:pointer"><td>'+(rows.indexOf(r)+1)+'<br><small class="minor">全市場 '+r.Rank+'</small></td><td><strong>'+esc(r.Code)+' '+esc(r.Name)+'</strong><br><small class="minor">收盤 '+r.Close+'</small></td><td class="numeric">'+esc(r.Score)+' / 11</td><td>'+esc(asof)+'</td><td>'+esc(reasons(r))+'</td><td class="numeric">'+Math.round(r.AvgValue20/1e4).toLocaleString()+(r.LowLiquidity?' <span class="badge pending">低</span>':'')+'</td></tr>').join('')||'<tr><td colspan="6">沒有符合條件的股票</td></tr>';
+  target.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));
+  info.textContent='V5 研究名單（'+asof+'）：成交值夠大 '+L.liq.length+' 檔、成交值小 '+L.low.length+' 檔（各列前 10）。不代表盤中即時資訊或交易建議。';}
+ document.querySelectorAll('#p7-seg .segbtn').forEach(bt=>bt.addEventListener('click',()=>{seg=bt.dataset.seg;document.querySelectorAll('#p7-seg .segbtn').forEach(x=>x.classList.toggle('on',x===bt));render();}));
  search.addEventListener('input',render);
- Promise.all([fetch('./v5/early_warning_latest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('V5 HTTP '+r.status);return r.json()}),
-  fetch('./daily_screen/latest.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)]).then(([v5,ds])=>{
-  asof=v5.AsOfDate;const official=ds&&ds.AsOfDate;
-  if(v5.Status!=='PUBLISHED'){badge.textContent='研究資料｜'+asof;target.innerHTML='<tr><td colspan="6">'+esc(asof)+' 資料檢查未通過，今日不發布名單。</td></tr>';info.textContent=esc(v5.BlockReason||'');window.YHTIS_V5_STATE={asof,official,ok:false};return;}
-  if(official&&asof<official){badge.textContent='研究資料｜'+asof;target.innerHTML='<tr><td colspan="6">最新官方交易日 '+esc(official)+' 的 V5 名單尚未產生；不顯示 '+esc(asof)+' 的舊名單。</td></tr>';info.textContent='請查看 GitHub Actions 的 V5 步驟紀錄。';window.YHTIS_V5_STATE={asof,official,ok:false};return;}
-  rows=v5.Candidates||[];badge.textContent='研究資料｜'+asof;window.YHTIS_V5_STATE={asof,official,ok:true};render();
+ Promise.all([fetch('./v5/scores_latest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('V5 HTTP '+r.status);return r.json()}),
+  fetch('./daily_screen/latest.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)]).then(([sc,ds])=>{
+  asof=sc.AsOfDate;const official=ds&&ds.AsOfDate;badge.textContent='研究資料｜'+asof;
+  if(sc.Status!=='PUBLISHED'||!sc.Rows.length){target.innerHTML='<tr><td colspan="6">'+esc(asof)+' 資料檢查未通過，今日不發布名單。</td></tr>';window.YHTIS_V5_STATE={asof,official,ok:false};return;}
+  if(official&&asof<official){target.innerHTML='<tr><td colspan="6">最新官方交易日 '+esc(official)+' 的 V5 名單尚未產生；不顯示 '+esc(asof)+' 的舊名單。</td></tr>';info.textContent='請查看 GitHub Actions 的 V5 步驟紀錄。';window.YHTIS_V5_STATE={asof,official,ok:false};return;}
+  const rows=sc.Rows.map(a=>Object.fromEntries(sc.Fields.map((f,i)=>[f,a[i]]))).filter(r=>r.Eligible);
+  L.liq=rows.filter(r=>!r.LowLiquidity).slice(0,10);L.low=rows.filter(r=>r.LowLiquidity).slice(0,10);
+  window.YHTIS_V5_STATE={asof,official,ok:true};render();
  }).catch(e=>{target.innerHTML='<tr><td colspan="6">V5 研究資料暫不可用；不顯示舊排名作為最新訊號。</td></tr>';badge.textContent='研究資料不可用';info.textContent='V5 名單讀取失敗：'+e.message;});
 })();</script>
 <script id="YHTIS_BREAKOUT_VISIBLE_TOP_V1">
@@ -224,7 +234,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
  function tags(r){return [['R5',r.RS5>0],['R20',r.RS20>0],['O',r.OBV10Rising],['B',r.BBWContracting],['J',r.JTurningUp],['H',r.NearPrior20High],['E',r.EMA9Above20]].filter(x=>x[1]).map(x=>x[0]).join(' ')}
  function renderRank(){if(!SC)return;const key=$('rank-sort').value,q=$('rank-search').value.trim().toLowerCase();
   let rows=SC.map(r=>({...r,...(CH[r.Code]||{})}));
-  if(q)rows=rows.filter(r=>(r.Code+' '+r.Name).toLowerCase().includes(q));else{if($('rank-elig').checked)rows=rows.filter(r=>r.Eligible);if($('rank-liq').checked)rows=rows.filter(r=>!r.LowLiquidity);
+  if(q)rows=rows.filter(r=>(r.Code+' '+r.Name).toLowerCase().includes(q));else{if($('rank-elig').checked)rows=rows.filter(r=>r.Eligible);{const gq=$('rank-liqgrp').value;if(gq==='liq')rows=rows.filter(r=>!r.LowLiquidity);else if(gq==='low')rows=rows.filter(r=>r.LowLiquidity);}
    if(key!=='Rank')rows=rows.filter(r=>r[key]!==undefined&&r[key]!==null).sort((a,b)=>b[key]-a[key]||(b.M60||0)-(a.M60||0)||a.Rank-b.Rank);}
   rows=rows.slice(0,60);
   $('rank-rows').innerHTML=rows.map(r=>'<tr class="stockrow" data-code="'+esc(r.Code)+'" style="cursor:pointer"><td>'+r.Rank+'</td><td><strong>'+esc(r.Code)+' '+esc(r.Name)+'</strong>'+(V5TOP.has(r.Code)?' <span class="badge verified">TOP10</span>':'')+(DT.has(r.Code)?' <span class="badge">當沖觀察</span>':'')+(DS.has(r.Code)?' <span class="badge">'+esc(DS.get(r.Code))+'</span>':'')+'</td><td class="numeric">'+r.Close+'</td><td class="numeric"><b>'+r.Score+'</b>/11</td><td class="numeric" style="white-space:nowrap">'+(r.PP?[5,10,20,60].map(h=>cp(r.PP['b'+h])).join('／'):'—')+'</td><td>'+tags(r)+'</td><td class="numeric">'+sg(Math.round(r.RS20*10)/10)+'</td><td class="numeric">'+Number(r.VolumeRatio5).toFixed(2)+'</td><td class="numeric">'+Math.round(r.AvgValue20/1e4).toLocaleString()+(r.LowLiquidity?' <span class="badge pending">低</span>':'')+'</td><td class="numeric">'+sg(r.Inst3_5)+'</td><td class="numeric">'+sg(r.TrustStreak)+'</td><td class="numeric">'+(r.Big1000Chg===undefined?'—':sg(r.Big1000Chg))+'</td></tr>').join('')||'<tr><td colspan="12">沒有符合的股票</td></tr>';
@@ -265,7 +275,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
    box.querySelectorAll('[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));})();
   if(typeof selected!=='undefined'&&selected)window.YHTIS_V5_FOR(selected);
  });
- ['rank-sort','rank-elig','rank-liq'].forEach(id=>$(id).addEventListener('change',renderRank));$('rank-search').addEventListener('input',renderRank);
+ ['rank-sort','rank-elig','rank-liqgrp'].forEach(id=>$(id).addEventListener('change',renderRank));$('rank-search').addEventListener('input',renderRank);
 })();
 </script>
 <style id="YHTIS_FOLD_CSS">
@@ -281,6 +291,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
 .today-pick{display:flex;flex-direction:column;gap:3px;padding:12px;border:1px solid #dfe8f3;border-radius:10px;text-decoration:none;color:inherit;background:#fbfdff}
 .today-pick:hover{border-color:#3b6fd8}.today-pick>span{font-size:13px;color:#526175}
 .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px;text-align:center}.pgrid div{background:#f5f8fc;border-radius:6px;padding:4px 2px;display:flex;flex-direction:column;line-height:1.3}.pgrid small{font-size:11px;color:#6b7a90}.pgrid b{font-size:15px}
+.seg{display:inline-flex;background:#eef3f9;border-radius:10px;padding:3px;gap:3px}.segbtn{all:unset;cursor:pointer;padding:7px 12px;border-radius:8px;font-size:14px;color:#526175}.segbtn.on{background:#fff;color:#172338;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.08)}.segbtn:focus-visible{outline:2px solid #3b6fd8}
 .today-stats{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:14px;color:#334}
 </style>
 <script id="YHTIS_FOLD_V1">
@@ -296,7 +307,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
   const today=document.createElement('div');today.className='card';today.id='today-card';today.innerHTML='<h2 style="margin:0">今日重點</h2><p class="minor">載入中…</p>';
   const v5=document.getElementById('p7-root-panel'),rank=document.getElementById('rank-panel');
   const market=[sec.querySelector(':scope > .pagebar'),sec.querySelector(':scope > .grid.metrics'),sec.querySelector(':scope > .dashboard-main')];
-  const f1=fold('v5','V5 每日名單 TOP 10','研究分前 10 名・含篩選理由',[v5],false);
+  const f1=fold('v5','V5 每日名單','成交值夠大 TOP 10／成交值小 分開列・含篩選理由',[v5],false);
   const f2=fold('rank','綜合排行','全市場・可依上漲機率／研究分／籌碼排序',[rank],false);
   const f3=fold('market','市場總覽・自選・起漲確認系統','官方收盤搜尋、各條件檔數、Golden Entry 狀態',market,false);
   sec.prepend(today,f1,f2,f3);}

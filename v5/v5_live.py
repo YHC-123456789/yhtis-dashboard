@@ -363,21 +363,24 @@ def esc(x):
 
 def render(rep):
     pub = rep['Status'] == 'PUBLISHED'
-    rows = ''.join(
+    def table_rows(cands):
+        return ''.join(
         f"<tr><td>{i}</td><td>{esc(c['Code'])}</td><td>{esc(c['Name'])}</td><td>{esc(c['Market'])}</td><td>{c['Close']:g}</td>"
         f"<td><b>{c['ResearchScore']}</b></td><td>{c['RS5vsMedian']:+.2f}</td><td>{c['RS20vsMedian']:+.2f}</td>"
         f"<td>{c['VolumeRatio5']:.2f}</td><td>{c['AvgValue20'] / 1e4:,.0f}{' <span class=low>低</span>' if c['LowLiquidity'] else ''}</td><td>{c['BBWvsRecentMedian']}</td>"
         f"<td>{'是' if c['OBV10Rising'] else '—'}</td><td>{'是' if c['JTurningUp'] else '—'}</td>"
         f"<td>{'是' if c['NearPrior20High'] else '—'}</td><td>{'是' if c['EMA9Above20'] else '—'}</td></tr>"
-        for i, c in enumerate(rep['Candidates'], 1))
+        for i, c in enumerate(cands, 1))
+    rows = table_rows(rep.get('CandidatesLiquid', []))
+    rows_low = table_rows(rep.get('CandidatesLowLiquidity', []))
     bt = ''.join(f'<tr><td>{a}</td><td>{b}</td><td>{c}</td><td><b>{d}</b></td><td>{e}</td></tr>' for a, b, c, d, e in BACKTEST)
     if pub:
-        main = (f"<section><h2>V5 研究名單 TOP 10 <small>（{len(rep['Candidates'])} 檔）</small></h2>"
+        main = (f"<section><h2>V5 研究名單</h2>"
                 "<p>研究分 = RS5 高於中位數 2＋RS20 高於中位數 2＋OBV 10 日上升 2＋布林帶寬收斂 2＋J 值低檔轉上 1＋接近前 20 日高 1＋EMA9 在 EMA20 上 1；"
                 "研究分 ≥ 7 且量比 ≥ 1 才列入。價格已依官方參考價做除權息還原。<b>「低」＝20 日平均成交值不到 5,000 萬</b>，成交較少、價差可能較大。</p>"
-                + ("<div class=scroll><table><tr><th>名次</th><th>代號</th><th>名稱</th><th>市場</th><th>收盤</th><th>研究分</th><th>RS5</th><th>RS20</th>"
-                   "<th>量比</th><th>20日均成交值(萬)</th><th>帶寬比</th><th>OBV升</th><th>J轉上</th><th>近20日高</th><th>EMA9&gt;20</th></tr>" + rows + "</table></div>"
-                   if rows else "<p><b>今日沒有符合條件的股票，不硬湊。</b></p>") + "</section>")
+                + "<h3>成交值夠大（20 日均 ≥ 5,000 萬）前 10</h3>" + ("<div class=scroll><table><tr><th>名次</th><th>代號</th><th>名稱</th><th>市場</th><th>收盤</th><th>研究分</th><th>RS5</th><th>RS20</th><th>量比</th><th>20日均成交值(萬)</th><th>帶寬比</th><th>OBV升</th><th>J轉上</th><th>近20日高</th><th>EMA9&gt;20</th></tr>" + rows + "</table></div>" if rows else "<p><b>今日沒有符合條件的股票，不硬湊。</b></p>")
+                + "<h3>成交值小（研究參考）前 10</h3><p>買賣價差大、不易成交；近兩年同類股票 60 日上漲機率約 37%。</p>" + ("<div class=scroll><table><tr><th>名次</th><th>代號</th><th>名稱</th><th>市場</th><th>收盤</th><th>研究分</th><th>RS5</th><th>RS20</th><th>量比</th><th>20日均成交值(萬)</th><th>帶寬比</th><th>OBV升</th><th>J轉上</th><th>近20日高</th><th>EMA9&gt;20</th></tr>" + rows_low + "</table></div>" if rows_low else "<p>無。</p>")
+                + "<p>原始 TOP 10（不分成交值、與回測同一套排序）保留在 <a href=early_warning_latest.json>early_warning_latest.json</a> 的 Candidates。</p></section>")
     else:
         main = (f"<section class=block><h2>⛔ 今日不發布 TOP 10</h2><p>{esc(rep.get('BlockReason', '資料檢查未通過'))}</p>"
                 "<p>資料不完整時不產生名單，以免把舊資料或錯誤資料當成最新訊號。</p></section>")
@@ -558,6 +561,9 @@ def main(argv=None):
     vetted, cands, stats, cov, ok = v5(days, day_rows, universe, eod, audit_res)
 
     status = 'PUBLISHED' if ok else 'BLOCKED_INSUFFICIENT_COVERAGE'
+    _elig = sorted((x for x in vetted if x.get('EligibleResearch')), key=lambda x: (-x['ResearchScore'], -x['RS20vsMedian'], -x['RS5vsMedian'], x['Code'])) if ok else []
+    liq10 = [x for x in _elig if not x['LowLiquidity']][:10]
+    low10 = [x for x in _elig if x['LowLiquidity']][:10]
     rep = {
         'AsOfDate': asof, 'Status': status, 'Mode': 'RESEARCH_OBSERVATION_ONLY',
         'GeneratedTaipei': datetime.now(TZ).isoformat(timespec='seconds'),
@@ -571,6 +577,8 @@ def main(argv=None):
                  'RepairedRefDays': repair_days, 'BackfilledDays': sorted(set(gap_days) - set(closed)), 'ClosedDays': closed,
                  'Source': 'TWSE MI_INDEX / TPEx dailyQuotes official daily OHLCV (unadjusted; TPEx volume incl. odd lots)'},
         'Candidates': cands if ok else [],
+        'CandidatesLiquid': liq10 if ok else [],
+        'CandidatesLowLiquidity': low10 if ok else [],
         'Formula': 'v5/v5_early_warning.py compute()（未修改），輸入為除權息還原價格；研究分 >=7 且量比 >=1；20 日均成交值 < 5,000 萬標記為流動性低（不排除）',
         'Limitations': '研究觀察名單，非買進訊號；非 Golden Entry、Stage1、Stage2。回測僅 20～60 日有小幅超額報酬，且優勢主要來自成交值較小的股票。',
     }
