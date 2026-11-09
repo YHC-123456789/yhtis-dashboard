@@ -314,4 +314,94 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+<style id="YHTIS_INTEL_CSS">
+#intel-card{margin-bottom:14px}
+.intel-mkt{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.intel-mkt>div{background:#f5f8fc;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.intel-mkt small{color:#6b7a90;font-size:12px}.intel-mkt b{font-size:20px}
+.intel-pol{display:flex;flex-direction:column;gap:6px;margin:6px 0 10px}
+.intel-pol div{font-size:14px;line-height:1.5}.intel-pol .k{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;margin-right:6px}
+.k-sup{background:#fde8e7;color:#b42318}.k-risk{background:#e6f4ea;color:#05603a}.k-rate{background:#eef3f9;color:#344}
+.intel-tbl{width:100%;border-collapse:collapse;font-size:14px}.intel-tbl th{font-size:12px;color:#6b7a90;font-weight:600;text-align:left;padding:6px;border-bottom:1px solid #e3eaf3}
+.intel-tbl td{padding:7px 6px;border-bottom:1px solid #eef2f7;vertical-align:top}.intel-tbl tr[data-code]{cursor:pointer}.intel-tbl tr[data-code]:hover{background:#f7faff}
+.intel-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tone{font-size:12px;padding:1px 6px;border-radius:6px;white-space:nowrap}.t-正面{background:#fde8e7;color:#b42318}.t-負面{background:#e6f4ea;color:#05603a}.t-注意{background:#fff4e0;color:#a15c00}.t-中性{background:#eef2f7;color:#526175}
+.intel-news a{color:inherit;text-decoration:none}.intel-news a:hover{text-decoration:underline}.intel-news li{margin:0 0 7px;line-height:1.45}.intel-news small{color:#6b7a90}
+.intel-h3{font-size:15px;margin:16px 0 6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+@media (max-width:600px){.intel-tbl .hide-m{display:none}.intel-mkt b{font-size:18px}}
+</style>
+<script id="YHTIS_INTEL_V1">
+(function(){'use strict';
+ const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const UP='#d92d20',DN='#039855';
+ const sp=(v,u='%')=>v==null?'—':'<span style="color:'+(v>0?UP:v<0?DN:'inherit')+'">'+(v>0?'+':'')+v+u+'</span>';
+ const lots=v=>v==null?'—':'<span style="color:'+(v>0?UP:v<0?DN:'inherit')+'">'+(v>0?'+':'')+Number(v).toLocaleString()+'</span>';
+ const ym=s=>s?s.slice(0,4)+'/'+s.slice(4):'—';
+ let I=null;
+ function stateColor(s){return s==='偏多'?UP:s==='偏弱'?DN:'#526175'}
+ function list(rows,key,label){
+  if(!rows.length)return '<p class="minor">今天沒有符合條件的股票。</p>';
+  return '<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>收盤</th><th>停損參考</th><th>'+label+'</th><th>營收年增</th><th class="hide-m">法人 5 日</th><th class="hide-m">消息</th></tr></thead><tbody>'+rows.map(s=>{
+   const ann=(s.Ann||[]).map(a=>'<span class="tone t-'+esc(a.Tone)+'" title="'+esc(a.Date+' '+a.Subject)+'">'+esc(a.Tone)+'</span>').join(' ');
+   const nw=(s.News||[]).length?'<span class="tone t-中性" title="'+esc(s.News.join('\n'))+'">新聞 '+s.News.length+'</span>':'';
+   return '<tr data-code="'+esc(s.Code)+'"><td><b>'+esc(s.Code)+' '+esc(s.Name)+'</b></td><td>'+s.Close+'</td><td style="color:'+DN+'">'+s.StopRef+'</td><td>'+sp(s[key])+'</td><td>'+sp(s.Yoy)+'<br><small class="minor">'+ym(s.RevYM)+'</small></td><td class="hide-m">'+lots((s.Chip||{}).Inst3_5)+'</td><td class="hide-m">'+(ann+' '+nw||'—')+'</td></tr>';}).join('')+'</tbody></table></div>';}
+ function render(official){const box=$('intel-card');if(!box)return;
+  if(!I){box.innerHTML='<h2 style="margin:0">綜合判讀</h2><p class="minor">尚未產生（每日 19:30 流程完成後出現）。</p>';return;}
+  const m=I.Market,stale=official&&I.AsOfDate<official;
+  const pol=m.Policy||{},kc={'政策支撐':'k-sup','風險事件':'k-risk','央行／利率':'k-rate'};
+  const polHtml=Object.keys(pol).length?Object.entries(pol).map(([k,v])=>'<div><span class="k '+(kc[k]||'k-rate')+'">'+esc(k)+'</span>'+v.slice(0,3).map(esc).join('｜')+'</div>').join(''):'<div class="minor">近 5 日新聞沒有政策或重大風險關鍵字（或新聞來源今日未取得）。</div>';
+  const w=I.Revenue.S1Window;let wn='';
+  if(w){const d=I.AsOfDate;wn=w.Active?'<b style="color:'+UP+'">S1 出手窗口進行中</b>（'+ym(w.RevYM)+' 營收，'+w.From.slice(5)+'～'+w.To.slice(5)+'）':d<w.From?'S1 窗口 '+w.From.slice(5)+' 開始':'S1 窗口已過（'+ym(w.RevYM)+' 營收；下個月 11 日起 7 日）';}
+  const pp=I.Paper||{},pt=k=>{const p=pp[k];if(!p)return '—';return p.Signals+' 筆訊號・持有 '+p.Holding+'・已出場 '+p.Closed+(p.Closed?'（賺 '+p.ClosedWin+' 筆，平均 '+sp(p.ClosedAvg)+'）':'');};
+  const src=I.Sources||{};
+  box.innerHTML='<div class="toolrow"><h2 style="margin:0">綜合判讀｜'+esc(I.AsOfDate)+'</h2>'+(stale?'<span class="badge pending">未更新到最新交易日</span>':'<span class="badge verified">技術＋籌碼＋營收＋消息</span>')+'</div>'
+   +'<div class="intel-mkt"><div><small>市場狀態</small><b style="color:'+stateColor(m.State)+'">'+esc(m.State)+'</b><small>站上 20 日線 '+m.AboveMA20Pct+'%</small></div>'
+   +'<div><small>上漲家數比例</small><b>'+m.UpPct+'%</b><small>近一年第 '+m.UpPctRank+' 百分位</small></div>'
+   +'<div><small>全體等權平均</small><b>'+sp(m.EqualWeightRet)+'</b><small>上漲 '+m.Up+'／下跌 '+m.Down+'</small></div>'
+   +'<div><small>漲停家數</small><b>'+m.LimitUp+'</b><small>收盤漲 ≥9.5%</small></div></div>'
+   +'<div class="intel-h3">消息面（近 5 日新聞關鍵字）</div><div class="intel-pol">'+polHtml+'</div>'
+   +'<div class="intel-h3">S1 營收轉強＋前 5 日漲停過 <span class="badge">'+I.S1Count+' 檔</span><small class="minor">'+wn+'</small></div>'+list(I.S1,'R20','20 日漲幅')
+   +'<div class="intel-h3">S2 營收轉強＋接近 52 週新高 <span class="badge">'+I.S2Count+' 檔</span></div>'+list(I.S2,'R60','60 日漲幅')
+   +'<p class="minor" style="margin-top:10px"><b>怎麼用：</b>'+esc(I.Rules.Common)+'。</p>'
+   +'<p class="source">'+esc(I.Rules.Backtest)+'<br>前瞻紙上追蹤（自上線日起）：S1 '+pt('S1')+'；S2 '+pt('S2')+'<br>市場狀態規則：'+esc(m.StateRule)+'。'+esc(I.Note)
+   +'<br>來源：月營收 '+ym(I.Revenue.LatestYM)+'（公開資訊觀測站）・重大訊息 '+(src.announcements?esc(src.announcements.Markets.join('/')):'今日未取得')+'・新聞 '+(src.headlines?'Google 新聞／鉅亨網':'今日未取得')+'・行情與籌碼為官方資料</p>';
+  box.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));
+  const nb=$('intel-news-body');if(nb){
+   const ann=I.Announcements||[];const flt=$('ann-filter')?$('ann-filter').value:'all';
+   const al=ann.filter(a=>flt==='all'||a.Tone===flt).slice(0,80);
+   nb.innerHTML='<div class="toolrow"><b>重大訊息</b><select id="ann-filter" class="btn"><option value="all">全部 '+ann.length+'</option><option value="正面">正面</option><option value="負面">負面</option><option value="注意">注意／處置</option></select></div>'
+    +(al.length?'<ul class="intel-news">'+al.map(a=>'<li><span class="tone t-'+esc(a.Tone)+'">'+esc(a.Tone)+'</span> <a href="#stock" data-code="'+esc(a.Code)+'"><b>'+esc(a.Code)+' '+esc(a.Name)+'</b></a> '+esc(a.Subject)+' <small>'+esc(a.Date.slice(5)+' '+a.Time)+'</small></li>').join('')+'</ul>':'<p class="minor">今日沒有取得重大訊息。</p>')
+    +'<div class="toolrow" style="margin-top:12px"><b>財經新聞標題</b></div>'
+    +((I.Headlines||[]).length?'<ul class="intel-news">'+I.Headlines.slice(0,40).map(h=>'<li>'+(h.Tags||[]).map(t=>'<span class="k '+(kc[t]||'k-rate')+'" style="font-size:11px;padding:1px 6px;border-radius:999px">'+esc(t)+'</span> ').join('')+'<a href="'+esc(h.Link)+'" target="_blank" rel="noopener">'+esc(h.Title)+'</a> <small>'+esc(h.Source||'')+' '+esc((h.Time||'').slice(5,16).replace('T',' '))+'</small></li>').join('')+'</ul>':'<p class="minor">今日沒有取得新聞。</p>')
+    +'<p class="source">正面／負面為主旨關鍵字自動判讀，未經回測；請點開原文確認。</p>';
+   if(flt!=='all')$('ann-filter').value=flt;
+   $('ann-filter').addEventListener('change',()=>render(official));
+   nb.querySelectorAll('a[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));}
+ }
+ function stockCard(code){let c=$('stock-intel-card');const v5=$('stock-v5-card');if(!c&&v5){c=document.createElement('div');c.className='card';c.id='stock-intel-card';c.style.marginBottom='14px';v5.after(c);}
+  if(!c)return;if(!I){c.innerHTML='<h2>營收・消息面</h2><p class="minor">載入中或尚未產生。</p>';return;}
+  const s=(I.Stocks||{})[code]||{},r=s.Rev;
+  const inS=k=>(I[k]||[]).some(x=>x.Code===code);
+  let h='<h2>營收・消息面</h2>';
+  h+='<div class="statusrow"><span>月營收（'+(r?ym(r.YM):'—')+'）</span><span class="badge '+(r&&r.REV?'verified':'pending')+'">'+(r?'年增 '+(r.Yoy==null?'—':r.Yoy+'%')+'｜近 3 月平均 '+(r.Y3==null?'—':r.Y3+'%')+'｜'+(r.REV?'轉強 ✓':r.REV===false?'未轉強':'資料不足'):'無資料')+'</span></div>';
+  h+='<div class="statusrow"><span>S1／S2 名單</span><span class="badge '+(inS('S1')||inS('S2')?'verified':'')+'">'+([inS('S1')?'S1':'',inS('S2')?'S2':''].filter(Boolean).join('、')||'不在今日名單')+'</span></div>';
+  h+='<div style="margin-top:8px"><b>重大訊息（近 5 日）</b>'+((s.Ann||[]).length?'<ul class="intel-news">'+s.Ann.map(a=>'<li><span class="tone t-'+esc(a.Tone)+'">'+esc(a.Tone)+'</span> '+esc(a.Subject)+' <small>'+esc(a.Date.slice(5)+' '+a.Time)+'</small></li>').join('')+'</ul>':'<p class="minor">無</p>')+'</div>';
+  h+='<div><b>相關新聞</b>'+((s.News||[]).length?'<ul class="intel-news">'+s.News.map(n=>'<li><a href="'+esc(n.Link)+'" target="_blank" rel="noopener">'+esc(n.Title)+'</a> <small>'+esc(n.Source||'')+'</small></li>').join('')+'</ul>':'<p class="minor">近 5 日新聞標題未提到此股。</p>')+'</div>';
+  h+='<div class="source">資料日 '+esc(I.AsOfDate)+'。營收「轉強」＝近 3 月年增率平均上升且營收創 12 個月新高（回測用定義）。消息判讀未經回測。</div>';
+  c.innerHTML=h;}
+ function init(){const today=$('today-card');if(!today||$('intel-card'))return;
+  const card=document.createElement('div');card.className='card';card.id='intel-card';card.innerHTML='<h2 style="margin:0">綜合判讀</h2><p class="minor">載入中…</p>';today.after(card);
+  const f=document.createElement('section');f.className='fold';f.id='fold-news';
+  f.innerHTML='<button class="fold-head" type="button" aria-expanded="false"><span class="arrow">▸</span><span>消息面・重大訊息與新聞</span><span class="hint">公開資訊觀測站重大訊息、財經新聞標題</span></button><div class="fold-body" id="intel-news-body"><p class="minor">載入中…</p></div>';
+  card.after(f);let st={};try{st=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}')}catch(e){}
+  const open=!!st.news;f.classList.toggle('open',open);f.firstChild.setAttribute('aria-expanded',open);
+  f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s.news=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s))}catch(e){}});
+  const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);
+   if(typeof selected!=='undefined'&&selected)stockCard(selected);});
+  const prev0=window.YHTIS_V5_FOR;if(!(prev0&&prev0.__intel)){window.YHTIS_V5_FOR=function(code){if(prev0)prev0.apply(this,arguments);stockCard(code)};window.YHTIS_V5_FOR.__intel=1;}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>

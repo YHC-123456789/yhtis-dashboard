@@ -88,6 +88,33 @@ jobs:
           git commit -m 'YHTIS chip radar update'
           git pull --rebase origin main
           git push origin HEAD:main
+      - name: Intel - monthly revenue, announcements, news, breadth, S1/S2 (each source fails closed)
+        id: intel
+        if: steps.market_calendar.outputs.skip != 'true'
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          python v5/intel_live.py
+          python v5/test_intel_live.py --verify-only
+      - name: Commit ONLY intel outputs (skipped when intel checks failed)
+        if: steps.market_calendar.outputs.skip != 'true' && steps.intel.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- v5/intel_latest.json v5_history/revenue v5_history/news v5_history/paper)" ]; then
+            echo "INTEL_NO_CHANGE"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- v5/intel_latest.json v5_history/revenue v5_history/news v5_history/paper
+          git commit -m 'YHTIS intel update'
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Report intel failure (other pages unaffected)
+        if: steps.intel.outcome == 'failure'
+        run: |
+          echo "::warning::Intel failed; intel panel left unchanged. See the intel step log."
       - name: Report chip failure (other pages unaffected)
         if: steps.chip.outcome == 'failure'
         run: |
