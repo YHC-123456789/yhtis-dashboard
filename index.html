@@ -259,10 +259,10 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
    const chip=r=>'<a href="#stock" data-code="'+esc(r.Code)+'" class="today-pick"><b>'+esc(r.Code)+' '+esc(r.Name)+'</b><span>收盤 '+r.Close+'｜'+r.Score+' 分</span><span>同類股票歷史上漲機率／平均報酬：</span>'+(r.PP?probGrid(r.PP):'')+'</a>';
    const src=(window.YHTIS_CHIP_SRC||{});
    box.innerHTML='<div class="toolrow"><h2 style="margin:0">今日重點｜'+esc(sc.AsOfDate)+'</h2><span class="badge verified">資料檢查通過</span></div>'
-    +'<p class="minor" style="margin:6px 0 10px">歷史上漲機率最高的一組（符合條件、成交值 ≥ 5,000 萬），依近兩年同類股票 60 日上漲比例排序。<span style="color:#d92d20">紅＝≥50%／正報酬</span>、<span style="color:#039855">綠＝<50%／負報酬</span>：</p>'
+    +'<p class="minor" style="margin:6px 0 10px"><span style="color:#d92d20">紅＝≥50%／正報酬</span>、<span style="color:#039855">綠＝<50%／負報酬</span></p>'
     +'<div class="today-picks">'+(best.map(chip).join('')||'<p class="minor">今天沒有符合條件且成交值夠大的股票。</p>')+'</div>'
     +'<div class="today-stats"><span>符合條件 <b>'+el.length+'</b> / '+SC.length+'</span><span>V5 前 3：'+[...V5TOP].slice(0,3).map(c=>esc(c+' '+(BY.get(c)||{}).Name)).join('、')+'</span><span>當沖觀察 <b>'+DT.size+'</b></span><span>突破／趨勢 <b>'+DS.size+'</b></span></div>'
-    +'<p class="source" style="margin-top:8px">機率是「同類股票」的歷史頻率（2025～2026），不是對個股的預測；整體來看研究分高低的上漲機率差異不大，成交值大小的差異較明顯。點股票看條件與 K 線。</p>';
+    +'<details class="more"><summary>說明</summary><div>歷史上漲機率最高的一組（符合條件、成交值 ≥ 5,000 萬），依近兩年同類股票 60 日上漲比例排序。機率是「同類股票」的歷史頻率（2025～2026），不是對個股的預測；整體來看研究分高低的上漲機率差異不大，成交值大小的差異較明顯。點股票看條件與 K 線。</div></details>';
    box.querySelectorAll('[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));})();
   (()=>{const box=$('confirm-v5');if(!box)return;const el=SC.filter(r=>r.Eligible),n=SC.length;const cnt=f=>SC.filter(f).length;
    const bar=(t,c)=>'<div class="statusrow"><span>'+t+'</span><span class="badge">'+c.toLocaleString()+' 檔（'+Math.round(c/n*100)+'%）</span></div>';
@@ -316,6 +316,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
 </script>
 <style id="YHTIS_INTEL_CSS">
 #intel-card{margin-bottom:14px}
+details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{cursor:pointer;color:#3b6fd8;font-weight:600;list-style:none;display:inline-block;padding:4px 0}details.more>summary::-webkit-details-marker{display:none}details.more>summary::before{content:'▸ '}details.more[open]>summary::before{content:'▾ '}details.more>div{padding:6px 0 0;line-height:1.6}
 .intel-mkt{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
 .intel-mkt>div{background:#f5f8fc;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
 .intel-mkt small{color:#6b7a90;font-size:12px}.intel-mkt b{font-size:20px}
@@ -362,9 +363,9 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
    +'<div class="intel-h3">消息面（近 5 日新聞關鍵字）</div><div class="intel-pol">'+polHtml+'</div>'
    +'<div class="intel-h3">S1 營收轉強＋前 5 日漲停過 <span class="badge">'+I.S1Count+' 檔</span><small class="minor">'+wn+'</small></div>'+list(I.S1,'R20','20 日漲幅')
    +'<div class="intel-h3">S2 營收轉強＋接近 52 週新高 <span class="badge">'+I.S2Count+' 檔</span></div>'+list(I.S2,'R60','60 日漲幅')
-   +(I.DayTrade&&I.DayTrade.Market?'<div class="intel-h3">明日當沖（統計）</div><p class="minor">今日上漲家數落在 '+esc(I.DayTrade.Market.Bucket)+'，歷史上隔日個股「開盤買→收盤賣」收紅機率 <b>'+I.DayTrade.Market.Win+'%</b>、平均 '+sp(I.DayTrade.Market.Mean)+'（扣成本）。各股統計見「當沖」頁。</p>':'')+'<p class="minor" style="margin-top:10px"><b>怎麼用：</b>'+esc(I.Rules.Common)+'。</p>'
+   +(I.DayTrade&&I.DayTrade.Market?'<div class="intel-h3">明日當沖（統計）</div><p class="minor">今日上漲家數落在 '+esc(I.DayTrade.Market.Bucket)+'，歷史上隔日個股「開盤買→收盤賣」收紅機率 <b>'+I.DayTrade.Market.Win+'%</b>、平均 '+sp(I.DayTrade.Market.Mean)+'（扣成本）。<small>各股見「當沖」頁</small></p>':'')+'<details class="more"><summary>說明：怎麼用、回測、紙上追蹤、來源</summary><div><p class="minor"><b>怎麼用：</b>'+esc(I.Rules.Common)+'。</p>'
    +'<p class="source">'+esc(I.Rules.Backtest)+'<br>前瞻紙上追蹤（自上線日起）：S1 '+pt('S1')+'；S2 '+pt('S2')+'<br>市場狀態規則：'+esc(m.StateRule)+'。'+esc(I.Note)
-   +'<br>來源：月營收 '+ym(I.Revenue.LatestYM)+'（公開資訊觀測站）・重大訊息 '+(src.announcements?esc(src.announcements.Markets.join('/')):'今日未取得')+'・新聞 '+(src.headlines?'Google 新聞／鉅亨網':'今日未取得')+'・行情與籌碼為官方資料</p>';
+   +'<br>來源：月營收 '+ym(I.Revenue.LatestYM)+'（公開資訊觀測站）・重大訊息 '+(src.announcements?esc(src.announcements.Markets.join('/')):'今日未取得')+'・新聞 '+(src.headlines?'Google 新聞／鉅亨網':'今日未取得')+'・行情與籌碼為官方資料</p></div></details>';
   box.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));
   const nb=$('intel-news-body');if(nb){
    const ann=I.Announcements||[];const flt=$('ann-filter')?$('ann-filter').value:'all';
@@ -373,7 +374,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
     +(al.length?'<ul class="intel-news">'+al.map(a=>'<li><span class="tone t-'+esc(a.Tone)+'">'+esc(a.Tone)+'</span> <a href="#stock" data-code="'+esc(a.Code)+'"><b>'+esc(a.Code)+' '+esc(a.Name)+'</b></a> '+esc(a.Subject)+' <small>'+esc(a.Date.slice(5)+' '+a.Time)+'</small></li>').join('')+'</ul>':'<p class="minor">今日沒有取得重大訊息。</p>')
     +'<div class="toolrow" style="margin-top:12px"><b>財經新聞標題</b></div>'
     +((I.Headlines||[]).length?'<ul class="intel-news">'+I.Headlines.slice(0,40).map(h=>'<li>'+(h.Tags||[]).map(t=>'<span class="k '+(kc[t]||'k-rate')+'" style="font-size:11px;padding:1px 6px;border-radius:999px">'+esc(t)+'</span> ').join('')+'<a href="'+esc(h.Link)+'" target="_blank" rel="noopener">'+esc(h.Title)+'</a> <small>'+esc(h.Source||'')+' '+esc((h.Time||'').slice(5,16).replace('T',' '))+'</small></li>').join('')+'</ul>':'<p class="minor">今日沒有取得新聞。</p>')
-    +'<p class="source">正面／負面為主旨關鍵字自動判讀，未經回測；請點開原文確認。</p>';
+    +'<details class="more"><summary>說明</summary><div>正面／負面為主旨關鍵字自動判讀，未經回測；請點開原文確認。</div></details>';
    if(flt!=='all')$('ann-filter').value=flt;
    $('ann-filter').addEventListener('change',()=>render(official));
    nb.querySelectorAll('a[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));}
@@ -385,10 +386,9 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
   const tbl=rows=>rows.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>今日</th><th class="hide-m">型態</th><th>收紅機率</th><th>平均（扣成本）</th><th>盤中曾漲 2%</th><th>盤中曾跌 2%</th></tr></thead><tbody>'+rows.map(x=>'<tr data-code="'+esc(x.Code)+'"><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+x.Close+'｜成交值 '+x.Val20+' 億</small></td><td>'+sp(x.Chg)+'<br><small class="minor">量比 '+x.VolRatio+'</small></td><td class="hide-m"><small>'+esc(x.Pattern)+'</small><br><small class="minor">歷史 '+x.N.toLocaleString()+' 筆</small></td><td>'+pc(x.Win)+'</td><td>'+sp(x.Mean)+'</td><td>'+x.Up2+'%</td><td>'+x.Dn2+'%</td></tr>').join('')+'</tbody></table></div>':'<p class="minor">今天沒有符合的股票。</p>';
   c.innerHTML='<div class="toolrow"><h2 style="margin:0">明日當沖預測｜依 '+esc(I.AsOfDate)+' 收盤</h2><span class="badge verified">歷史統計 2019～2026</span></div>'
    +(m?'<div class="intel-mkt"><div><small>今日上漲家數 '+esc(m.Bucket)+' 的隔日</small><b>'+pc(m.Win)+'</b><small>個股開盤買→收盤賣 收紅機率</small></div><div><small>平均每筆（扣 0.33%）</small><b>'+sp(m.Mean)+'</b><small>歷史 '+m.N.toLocaleString()+' 筆</small></div><div><small>盤中曾比開盤高 2%</small><b>'+m.Up2+'%</b><small>曾比開盤低 2%：'+m.Dn2+'%</small></div></div>':'')
-   +'<p class="minor"><b>結論：</b>'+esc(D.Finding)+'</p>'
    +'<div class="intel-h3">盤中波動機會最大（成交值 ≥ 3 億，依「盤中曾漲 2%」排序）<span class="badge">'+D.Count+' 檔中前 12</span></div>'+tbl(D.Top)
    +'<div class="intel-h3">今日漲停、收高、帶量（歷史上隔日「先賣後買」較有利）<span class="badge">'+D.LimitUpHigh.length+' 檔</span></div>'+tbl(D.LimitUpHigh)
-   +'<p class="source">'+esc(D.Rule)+' 同一型態的股票數字相同，是「這類型態」的歷史頻率，不是個股預測。「盤中曾漲 2%」與「曾跌 2%」常同時發生，日 K 無法判斷先後，所以不能直接當成停利機率。先賣後買需有當沖資格；11/9 起限空措施（融券保證金 130%、借券賣出上限 3%），實際可否先賣請向券商確認。</p>';
+   +'<details class="more"><summary>說明：結論與怎麼解讀</summary><div><p class="minor"><b>結論：</b>'+esc(D.Finding)+'</p><p class="source">'+esc(D.Rule)+' 同一型態的股票數字相同，是「這類型態」的歷史頻率，不是個股預測。「盤中曾漲 2%」與「曾跌 2%」常同時發生，日 K 無法判斷先後，所以不能直接當成停利機率。先賣後買需有當沖資格；11/9 起限空措施（融券保證金 130%、借券賣出上限 3%），實際可否先賣請向券商確認。</p></div></details>';
   c.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));}
  function stockCard(code){let c=$('stock-intel-card');const v5=$('stock-v5-card');if(!c&&v5){c=document.createElement('div');c.className='card';c.id='stock-intel-card';c.style.marginBottom='14px';v5.after(c);}
   if(!c)return;if(!I){c.innerHTML='<h2>營收・消息面</h2><p class="minor">載入中或尚未產生。</p>';return;}
@@ -399,7 +399,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
   h+='<div class="statusrow"><span>S1／S2 名單</span><span class="badge '+(inS('S1')||inS('S2')?'verified':'')+'">'+([inS('S1')?'S1':'',inS('S2')?'S2':''].filter(Boolean).join('、')||'不在今日名單')+'</span></div>';
   h+='<div style="margin-top:8px"><b>重大訊息（近 5 日）</b>'+((s.Ann||[]).length?'<ul class="intel-news">'+s.Ann.map(a=>'<li><span class="tone t-'+esc(a.Tone)+'">'+esc(a.Tone)+'</span> '+esc(a.Subject)+' <small>'+esc(a.Date.slice(5)+' '+a.Time)+'</small></li>').join('')+'</ul>':'<p class="minor">無</p>')+'</div>';
   h+='<div><b>相關新聞</b>'+((s.News||[]).length?'<ul class="intel-news">'+s.News.map(n=>'<li><a href="'+esc(n.Link)+'" target="_blank" rel="noopener">'+esc(n.Title)+'</a> <small>'+esc(n.Source||'')+'</small></li>').join('')+'</ul>':'<p class="minor">近 5 日新聞標題未提到此股。</p>')+'</div>';
-  h+='<div class="source">資料日 '+esc(I.AsOfDate)+'。營收「轉強」＝近 3 月年增率平均上升且營收創 12 個月新高（回測用定義）。消息判讀未經回測。</div>';
+  h+='<details class="more"><summary>說明</summary><div>資料日 '+esc(I.AsOfDate)+'。營收「轉強」＝近 3 月年增率平均上升且營收創 12 個月新高（回測用定義）。消息判讀未經回測。</div></details>';
   c.innerHTML=h;}
  function init(){const today=$('today-card');if(!today||$('intel-card'))return;
   const card=document.createElement('div');card.className='card';card.id='intel-card';card.innerHTML='<h2 style="margin:0">綜合判讀</h2><p class="minor">載入中…</p>';today.after(card);
