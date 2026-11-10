@@ -295,6 +295,7 @@ def pick(keys, *pats):
 
 
 ANN_URLS = [('TWSE', 'https://openapi.twse.com.tw/v1/opendata/t187ap04_L'),
+            ('TPEx', 'https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap04_O'),  # 櫃買 OpenAPI 公司資料一律 mopsfin_ 前綴（t187ap03/05 已實測）
             ('TPEx', 'https://www.tpex.org.tw/openapi/v1/mopsfe_t187ap04_O'),
             ('TPEx', 'https://www.tpex.org.tw/openapi/v1/t187ap04_O')]
 

@@ -84,7 +84,7 @@ def fetch(url):
         if not p.exists(): raise m.SourceFail('HTTP 404')
         return p.read_bytes()
     if 't187ap04_L' in url: return (S / 'ann_tw.json').read_bytes()
-    if 'mopsfe_t187ap04_O' in url: raise m.SourceFail('HTTP 404')
+    if 'mopsfin_t187ap04_O' in url or 'mopsfe_t187ap04_O' in url: raise m.SourceFail('HTTP 404')
     if 't187ap04_O' in url: return (S / 'ann_otc.json').read_bytes()
     if 'news.google' in url: return (S / 'rss.xml').read_bytes()
     if 'cnyes' in url: return (S / 'cnyes.json').read_bytes()
