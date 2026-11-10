@@ -54,6 +54,7 @@ MAXH = 120
 DT_STATS = ROOT / 'v5/backtest/dt_stats.json'
 COMBO = ROOT / 'v5/backtest/combo_prob.json'
 TIMING = ROOT / 'v5/backtest/timing_stats.json'
+ENTRY = ROOT / 'v5/backtest/entry_stats.json'
 FACTOR_NAMES = {'NH': '近52週高', 'REV': '營收轉強', 'TR': '多頭趨勢', 'RS': '強於大盤', 'LU': '近20日漲停', 'SQ': '波動收斂'}
 DT_MIN_VAL20 = 3e8  # 當沖名單：20 日均成交值 >= 3 億
 
@@ -799,6 +800,16 @@ def main(argv=None):
     else:
         state = '中性'
 
+    entry = None
+    try:
+        entry = json.loads(ENTRY.read_text(encoding='utf-8'))
+    except Exception as e:
+        log.append(f'進場方式統計未載入：{type(e).__name__}')
+    closes = {c: per[c][-1][4] for c in per if per[c][-1][0] == asof}
+    for c, e in stocks.items():
+        if c in closes:
+            e['Close'] = closes[c]
+
     # 產業分類（官方產業別，取自公開資訊觀測站月營收彙總表）
     sectors = None
     try:
@@ -867,6 +878,7 @@ def main(argv=None):
         'Combo': combo,
         'Timing': timing,
         'Sectors': sectors,
+        'Entry': entry,
         'Note': '消息面為關鍵字判讀，未經回測，僅供參考；名單非保證獲利。',
         'Log': log, 'Stocks': stocks,
     }

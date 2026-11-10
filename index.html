@@ -431,7 +431,22 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   h+='<div style="margin-top:8px"><b>重大訊息（近 5 日）</b>'+((s.Ann||[]).length?'<ul class="intel-news">'+s.Ann.map(a=>'<li><span class="tone t-'+esc(a.Tone)+'">'+esc(a.Tone)+'</span> '+esc(a.Subject)+' <small>'+esc(a.Date.slice(5)+' '+a.Time)+'</small></li>').join('')+'</ul>':'<p class="minor">無</p>')+'</div>';
   h+='<div><b>相關新聞</b>'+((s.News||[]).length?'<ul class="intel-news">'+s.News.map(n=>'<li><a href="'+esc(n.Link)+'" target="_blank" rel="noopener">'+esc(n.Title)+'</a> <small>'+esc(n.Source||'')+'</small></li>').join('')+'</ul>':'<p class="minor">近 5 日新聞標題未提到此股。</p>')+'</div>';
   h+='<details class="more"><summary>說明</summary><div>資料日 '+esc(I.AsOfDate)+'。營收「轉強」＝近 3 月年增率平均上升且營收創 12 個月新高（回測用定義）。消息判讀未經回測。</div></details>';
-  c.innerHTML=h;}
+  if(s.Close){const cl=s.Close,gap=Math.round(cl*1.095*100)/100,stp=Math.round(cl*0.92*100)/100;let cap=100;try{cap=+(localStorage.getItem('yhtis.capital')||100)}catch(e){}
+   const lots=v=>{const amt=v*10000*0.125;const sh=Math.floor(amt/cl);return sh>=1000?Math.floor(sh/1000)+' 張'+(sh%1000?' ＋ '+(sh%1000)+' 股':''):sh+' 股（零股）'};
+   const z=I.Timing?I.Timing.Zone:'';const inS2=(I.S2||[]).some(x=>x.Code===code);
+   h+='<div style="margin-top:12px;padding:12px;border-radius:10px;background:#f5f8fc"><b>進場點推算</b>'
+    +'<div class="statusrow"><span>進場</span><span><b>明日開盤</b>（今日收盤 '+cl+'）</span></div>'
+    +'<div class="statusrow"><span>不買</span><span>開盤 ≥ <b>'+gap+'</b>（漲 9.5% 以上，買不到也不追）</span></div>'
+    +'<div class="statusrow"><span>停損</span><span style="color:'+DN+'">進場價 × 0.92（以收盤估約 <b>'+stp+'</b>），盤中觸及就出場</span></div>'
+    +'<div class="statusrow"><span>停利</span><span>不設；最長持有 120 個交易日</span></div>'
+    +'<div class="statusrow"><span>部位</span><span>總資金 <input id="cap-in" type="number" min="1" step="10" value="'+cap+'" style="width:72px;padding:3px 6px;border:1px solid #cfd8e3;border-radius:6px"> 萬 → 投入 12.5%，約 <b id="cap-lots">'+lots(cap)+'</b>（停損時虧約總資金 1%）</span></div>'
+    +'<div class="statusrow"><span>今日狀態</span><span>'+(cb?'多因子第 '+cb.Rank+' 名':'不在多因子排行')+(inS2?'・S2 名單':'')+(z?'・市場 '+esc(z):'')+'</span></div>'
+    +(I.Entry?'<details class="more"><summary>為什麼是隔日開盤？（回測比較）</summary><div><div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>進場方式</th><th>成交率</th><th>成交後平均</th><th>每次訊號期望</th></tr></thead><tbody>'
+      +I.Entry.methods.map(m=>{const a=m.TOP,b=m.S2,av=(i)=>(a[i]+a[i+1]+b[i]+b[i+1])/4;return '<tr><td>'+esc(m.name)+'</td><td>'+Math.round(av(0)*100)+'%</td><td>'+sp(Math.round(av(2)*1000)/10)+'</td><td>'+sp(Math.round(av(4)*1000)/10)+'</td></tr>'}).join('')
+      +'</tbody></table></div><p class="source">'+esc(I.Entry.conclusion)+' 數字為多因子前段與 S2、兩段期間的平均。'+esc(I.Entry.source)+'</p></div></details>':'')
+    +'<p class="source" style="margin-top:6px">依歷史回測規則推算的參考價位，不是買賣建議；是否進場由你決定。</p></div>';}
+  c.innerHTML=h;
+  const ci=document.getElementById('cap-in');if(ci)ci.addEventListener('input',()=>{const v=+ci.value||0;try{localStorage.setItem('yhtis.capital',v)}catch(e){}const t=document.getElementById('cap-lots');if(t&&s.Close){const amt=v*10000*0.125,sh=Math.floor(amt/s.Close);t.textContent=sh>=1000?Math.floor(sh/1000)+' 張'+(sh%1000?' ＋ '+(sh%1000)+' 股':''):sh+' 股（零股）'}});}
  function init(){const today=$('today-card');if(!today||$('intel-card'))return;
   const card=document.createElement('div');card.className='card';card.id='intel-card';card.innerHTML='<h2 style="margin:0">綜合判讀</h2><p class="minor">載入中…</p>';today.after(card);
   const f=document.createElement('section');f.className='fold';f.id='fold-news';
