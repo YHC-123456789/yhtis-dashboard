@@ -345,7 +345,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   return '<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>收盤</th><th>停損參考</th><th>'+label+'</th><th>營收年增</th><th class="hide-m">法人 5 日</th><th class="hide-m">消息</th></tr></thead><tbody>'+rows.map(s=>{
    const ann=(s.Ann||[]).map(a=>'<span class="tone t-'+esc(a.Tone)+'" title="'+esc(a.Date+' '+a.Subject)+'">'+esc(a.Tone)+'</span>').join(' ');
    const nw=(s.News||[]).length?'<span class="tone t-中性" title="'+esc(s.News.join('\n'))+'">新聞 '+s.News.length+'</span>':'';
-   return '<tr data-code="'+esc(s.Code)+'"><td><b>'+esc(s.Code)+' '+esc(s.Name)+'</b></td><td>'+s.Close+'</td><td style="color:'+DN+'">'+s.StopRef+'</td><td>'+sp(s[key])+'</td><td>'+sp(s.Yoy)+'<br><small class="minor">'+ym(s.RevYM)+'</small></td><td class="hide-m">'+lots((s.Chip||{}).Inst3_5)+'</td><td class="hide-m">'+(ann+' '+nw||'—')+'</td></tr>';}).join('')+'</tbody></table></div>';}
+   return '<tr data-code="'+esc(s.Code)+'"><td><b>'+esc(s.Code)+' '+esc(s.Name)+'</b>'+(s.Ind?'<br><small class="minor">'+esc(s.Ind)+'</small>':'')+'</td><td>'+s.Close+'</td><td style="color:'+DN+'">'+s.StopRef+'</td><td>'+sp(s[key])+'</td><td>'+sp(s.Yoy)+'<br><small class="minor">'+ym(s.RevYM)+'</small></td><td class="hide-m">'+lots((s.Chip||{}).Inst3_5)+'</td><td class="hide-m">'+(ann+' '+nw||'—')+'</td></tr>';}).join('')+'</tbody></table></div>';}
  function render(official){const box=$('intel-card');if(!box)return;
   if(!I){box.innerHTML='<h2 style="margin:0">綜合判讀</h2><p class="minor">尚未產生（每日 19:30 流程完成後出現）。</p>';return;}
   const m=I.Market,stale=official&&I.AsOfDate<official;
@@ -379,6 +379,13 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
    $('ann-filter').addEventListener('change',()=>render(official));
    nb.querySelectorAll('a[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));}
  }
+ function sectorRender(){const S=I&&I.Sectors;let f=$('fold-sector');const anchor=$('combo-card');if(!S||!anchor)return;
+  if(!f){f=document.createElement('section');f.className='fold';f.id='fold-sector';f.innerHTML='<button class="fold-head" type="button" aria-expanded="false"><span class="arrow">▸</span><span>產業分類</span><span class="hint">各產業今日漲跌、漲停、多因子前 50 名分布</span></button><div class="fold-body" id="sector-body"></div>';anchor.after(f);
+   let st={};try{st=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}')}catch(e){}const open=!!st.sector;f.classList.toggle('open',open);
+   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s2=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s2.sector=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s2))}catch(e){}});}
+  $('sector-body').innerHTML='<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>產業</th><th>今日平均</th><th>上漲家數</th><th>漲停</th><th class="hide-m">近 20 日</th><th>多因子前 50</th><th class="hide-m">代表股（排名較前）</th></tr></thead><tbody>'
+   +S.map(x=>'<tr><td><b>'+esc(x.Ind)+'</b><br><small class="minor">'+x.N+' 檔</small></td><td>'+sp(x.Chg)+'</td><td>'+x.UpPct+'%</td><td>'+x.LimitUp+'</td><td class="hide-m">'+sp(x.R20)+'</td><td>'+(x.Top50?'<b>'+x.Top50+'</b>':'0')+'</td><td class="hide-m"><small>'+x.TopNames.map(esc).join('、')+'</small></td></tr>').join('')+'</tbody></table></div>'
+   +'<details class="more"><summary>說明</summary><div>產業為公開資訊觀測站月營收彙總表的官方產業別；漲跌為除權息還原後的等權平均。依「多因子前 50 名檔數」排序，同數再依今日漲幅。</div></details>';}
  function timingRender(){let c=$('timing-card');const anchor=$('combo-card')||$('intel-card');if(!c&&anchor){c=document.createElement('div');c.className='card';c.id='timing-card';c.style.marginBottom='14px';anchor.before(c);}
   if(!c)return;const T=I&&I.Timing;if(!T){c.innerHTML='<h2 style="margin:0">進場時機</h2><p class="minor">今日未產生。</p>';return;}
   const zc={'恐慌區':UP,'偏弱':'#a15c00','中性':'#526175','偏強':'#526175','過熱':DN};
@@ -397,7 +404,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   c.innerHTML='<div class="toolrow"><h2 style="margin:0">多因子上漲機率排行｜'+esc(I.AsOfDate)+'</h2><span class="badge verified">6 因子・64 種組合</span></div>'
    +'<p class="minor" style="margin:6px 0 8px">全體平均：20 日上漲 '+K.Base.P20+'%、60 日上漲 '+K.Base.P60+'%（共 '+K.Count+' 檔可排名）</p>'
    +'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>#</th><th>股票</th><th>20 日上漲</th><th>60 日上漲</th><th>60 日平均</th><th class="hide-m">符合因子</th><th class="hide-m">停損參考</th></tr></thead><tbody>'
-   +rows.map(x=>'<tr data-code="'+esc(x.Code)+'"><td>'+x.Rank+'</td><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+x.Close+'</small></td><td>'+pc(x.P20)+'</td><td>'+pc(x.P60)+'<br><small class="minor">近兩年 '+(x.P60Check==null?'—':x.P60Check+'%')+'</small></td><td>'+sp(x.M60)+'</td><td class="hide-m">'+x.Factors.map(f=>'<span class="tone t-中性">'+esc(f)+'</span>').join(' ')+'</td><td class="hide-m" style="color:'+DN+'">'+x.StopRef+'</td></tr>').join('')+'</tbody></table></div>'
+   +rows.map(x=>'<tr data-code="'+esc(x.Code)+'"><td>'+x.Rank+'</td><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+x.Close+(x.Ind?'｜'+esc(x.Ind):'')+'</small></td><td>'+pc(x.P20)+'</td><td>'+pc(x.P60)+'<br><small class="minor">近兩年 '+(x.P60Check==null?'—':x.P60Check+'%')+'</small></td><td>'+sp(x.M60)+'</td><td class="hide-m">'+x.Factors.map(f=>'<span class="tone t-中性">'+esc(f)+'</span>').join(' ')+'</td><td class="hide-m" style="color:'+DN+'">'+x.StopRef+'</td></tr>').join('')+'</tbody></table></div>'
    +(K.Top.length>n?'<button class="btn" id="combo-more" style="margin-top:8px">顯示前 30</button>':'')
    +'<details class="more"><summary>說明</summary><div><p class="minor">'+esc(K.Rule)+'</p><p class="source">'+esc(K.Validation)+' 同一組合的股票機率相同，組合內依 60 日平均報酬、再依 60 日漲幅排序。停損參考＝收盤 -8%。</p></div></details>';
   const mb=$('combo-more');if(mb)mb.addEventListener('click',()=>{c.dataset.n=30;comboRender()});
@@ -406,7 +413,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   if(!c){c=document.createElement('div');c.className='card';c.id='dt-pred-card';c.style.marginBottom='16px';const pb=sec.querySelector(':scope > .pagebar');if(pb)pb.after(c);else sec.prepend(c);}
   const D=I.DayTrade;if(!D){c.innerHTML='<h2>明日當沖預測</h2><p class="minor">今日未產生。</p>';return;}
   const m=D.Market,pc=v=>'<b style="color:'+(v>=50?UP:DN)+'">'+v+'%</b>';
-  const tbl=rows=>rows.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>今日</th><th class="hide-m">型態</th><th>收紅機率</th><th>平均（扣成本）</th><th>盤中曾漲 2%</th><th>盤中曾跌 2%</th></tr></thead><tbody>'+rows.map(x=>'<tr data-code="'+esc(x.Code)+'"><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+x.Close+'｜成交值 '+x.Val20+' 億</small></td><td>'+sp(x.Chg)+'<br><small class="minor">量比 '+x.VolRatio+'</small></td><td class="hide-m"><small>'+esc(x.Pattern)+'</small><br><small class="minor">歷史 '+x.N.toLocaleString()+' 筆</small></td><td>'+pc(x.Win)+'</td><td>'+sp(x.Mean)+'</td><td>'+x.Up2+'%</td><td>'+x.Dn2+'%</td></tr>').join('')+'</tbody></table></div>':'<p class="minor">今天沒有符合的股票。</p>';
+  const tbl=rows=>rows.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>今日</th><th class="hide-m">型態</th><th>收紅機率</th><th>平均（扣成本）</th><th>盤中曾漲 2%</th><th>盤中曾跌 2%</th></tr></thead><tbody>'+rows.map(x=>'<tr data-code="'+esc(x.Code)+'"><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+x.Close+'｜'+(x.Ind?esc(x.Ind)+'｜':'')+'成交值 '+x.Val20+' 億</small></td><td>'+sp(x.Chg)+'<br><small class="minor">量比 '+x.VolRatio+'</small></td><td class="hide-m"><small>'+esc(x.Pattern)+'</small><br><small class="minor">歷史 '+x.N.toLocaleString()+' 筆</small></td><td>'+pc(x.Win)+'</td><td>'+sp(x.Mean)+'</td><td>'+x.Up2+'%</td><td>'+x.Dn2+'%</td></tr>').join('')+'</tbody></table></div>':'<p class="minor">今天沒有符合的股票。</p>';
   c.innerHTML='<div class="toolrow"><h2 style="margin:0">明日當沖預測｜依 '+esc(I.AsOfDate)+' 收盤</h2><span class="badge verified">歷史統計 2019～2026</span></div>'
    +(m?'<div class="intel-mkt"><div><small>今日上漲家數 '+esc(m.Bucket)+' 的隔日</small><b>'+pc(m.Win)+'</b><small>個股開盤買→收盤賣 收紅機率</small></div><div><small>平均每筆（扣 0.33%）</small><b>'+sp(m.Mean)+'</b><small>歷史 '+m.N.toLocaleString()+' 筆</small></div><div><small>盤中曾比開盤高 2%</small><b>'+m.Up2+'%</b><small>曾比開盤低 2%：'+m.Dn2+'%</small></div></div>':'')
    +'<div class="intel-h3">盤中波動機會最大（成交值 ≥ 3 億，依「盤中曾漲 2%」排序）<span class="badge">'+D.Count+' 檔中前 12</span></div>'+tbl(D.Top)
@@ -417,7 +424,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   if(!c)return;if(!I){c.innerHTML='<h2>營收・消息面</h2><p class="minor">載入中或尚未產生。</p>';return;}
   const s=(I.Stocks||{})[code]||{},r=s.Rev;
   const inS=k=>(I[k]||[]).some(x=>x.Code===code);
-  let h='<h2>營收・消息面</h2>';
+  let h='<h2>營收・消息面</h2>';if(s.Ind)h+='<div class="statusrow"><span>產業（官方分類）</span><span class="badge">'+esc(s.Ind)+'</span></div>';
   h+='<div class="statusrow"><span>月營收（'+(r?ym(r.YM):'—')+'）</span><span class="badge '+(r&&r.REV?'verified':'pending')+'">'+(r?'年增 '+(r.Yoy==null?'—':r.Yoy+'%')+'｜近 3 月平均 '+(r.Y3==null?'—':r.Y3+'%')+'｜'+(r.REV?'轉強 ✓':r.REV===false?'未轉強':'資料不足'):'無資料')+'</span></div>';
   const cb=I.Combo&&I.Combo.All[code];h+='<div class="statusrow"><span>多因子排行</span><span class="badge '+(cb?'verified':'')+'">'+(cb?'第 '+cb.Rank+' 名｜20 日上漲 '+cb.P20+'%｜60 日上漲 '+cb.P60+'%｜'+esc(cb.Factors.join('、')||'無因子'):'未排名（成交值不足或上市未滿一年）')+'</span></div>';
   h+='<div class="statusrow"><span>S1／S2 名單</span><span class="badge '+(inS('S1')||inS('S2')?'verified':'')+'">'+([inS('S1')?'S1':'',inS('S2')?'S2':''].filter(Boolean).join('、')||'不在今日名單')+'</span></div>';
@@ -433,7 +440,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   const open=!!st.news;f.classList.toggle('open',open);f.firstChild.setAttribute('aria-expanded',open);
   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s.news=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s))}catch(e){}});
   const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();
+  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();sectorRender();
    if(typeof selected!=='undefined'&&selected)stockCard(selected);});
   const prev0=window.YHTIS_V5_FOR;if(!(prev0&&prev0.__intel)){window.YHTIS_V5_FOR=function(code){if(prev0)prev0.apply(this,arguments);stockCard(code)};window.YHTIS_V5_FOR.__intel=1;}
  }

@@ -592,6 +592,7 @@ def main(argv=None):
 
     # 營收旗標
     rev, rev_meta = load_revenue()
+    IND = {c: re.sub(r'（.*$', '', v[1]).replace('金融業', '金融保險業').strip() or '其他' for c, v in rev_meta.items()}
     flags = {c: rev_flags(s) for c, s in rev.items()}
     asof_d = date.fromisoformat(asof)
     rev_now = {}
@@ -692,6 +693,8 @@ def main(argv=None):
             e['News'] = n_
         if e:
             stocks[c] = e
+        if c in IND:
+            stocks.setdefault(c, {})['Ind'] = IND[c]
 
     # 多因子組合上漲機率（表由 v5/backtest/combo_prob.py 以 2019–2026 官方日資料建立）
     combo = None
@@ -796,6 +799,37 @@ def main(argv=None):
     else:
         state = '中性'
 
+    # 產業分類（官方產業別，取自公開資訊觀測站月營收彙總表）
+    sectors = None
+    try:
+        for lst in [s1, s2] + ([combo['Top']] if combo else []) + ([daytrade['Top'], daytrade['LimitUpHigh']] if daytrade else []):
+            for x in lst:
+                x['Ind'] = IND.get(x['Code'], '')
+        agg = {}
+        crank = combo['All'] if combo else {}
+        for c, F in feat.items():
+            ind = IND.get(c)
+            if not ind or F['dates'][-1] != asof or len(F['C']) < 21:
+                continue
+            g = agg.setdefault(ind, {'Ind': ind, 'N': 0, 'Up': 0, 'LU': 0, 'r1': [], 'r20': [], 'top': []})
+            g['N'] += 1
+            r1 = F['C'][-1] / F['C'][-2] - 1
+            g['r1'].append(r1); g['r20'].append(F['C'][-1] / F['C'][-21] - 1)
+            g['Up'] += r1 > 0.0005
+            g['LU'] += bool(F['LU'][-1])
+            if c in crank and crank[c]['Rank'] <= 50:
+                g['top'].append((crank[c]['Rank'], c, names[c][0]))
+        rows_s = []
+        for g in agg.values():
+            if g['N'] < 3:
+                continue
+            rows_s.append({'Ind': g['Ind'], 'N': g['N'], 'Chg': round(sum(g['r1']) / len(g['r1']) * 100, 2), 'UpPct': round(g['Up'] / g['N'] * 100),
+                           'R20': round(sum(g['r20']) / len(g['r20']) * 100, 1), 'LimitUp': g['LU'], 'Top50': len(g['top']),
+                           'TopNames': [f'{c} {n}' for _, c, n in sorted(g['top'])[:4]]})
+        rows_s.sort(key=lambda x: (-x['Top50'], -x['Chg']))
+        sectors = rows_s
+    except Exception as e:
+        log.append(f'產業分類未產生：{type(e).__name__}: {str(e)[:100]}')
     timing = None
     try:
         TS = json.loads(TIMING.read_text(encoding='utf-8'))
@@ -832,6 +866,7 @@ def main(argv=None):
         'DayTrade': daytrade,
         'Combo': combo,
         'Timing': timing,
+        'Sectors': sectors,
         'Note': '消息面為關鍵字判讀，未經回測，僅供參考；名單非保證獲利。',
         'Log': log, 'Stocks': stocks,
     }
