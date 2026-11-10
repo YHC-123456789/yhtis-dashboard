@@ -447,4 +447,32 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+<style id="YHTIS_SUBNAV_CSS">
+#dash-subnav{position:sticky;top:64px;z-index:30;background:var(--bg-page,#f6f8fb);margin:0 -4px 12px;padding:8px 4px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#dash-subnav::-webkit-scrollbar{display:none}
+#dash-subnav button{all:unset;cursor:pointer;white-space:nowrap;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid #dde6f0;font-size:14px;color:#334}
+#dash-subnav button.on{background:#172338;color:#fff;border-color:#172338;font-weight:700}
+#dash-subnav button:focus-visible{outline:2px solid #3b6fd8;outline-offset:1px}
+#dashboard[data-only] > [data-sec]:not([data-sec~="sel"]){display:none!important}
+@media (max-width:760px){#dash-subnav{top:54px}}
+</style>
+<script id="YHTIS_SUBNAV_V1">
+(function(){'use strict';
+ const SECS=[['all','全部'],['today','今日重點','today-card'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['sector','產業','fold-sector'],['intel','綜合判讀','intel-card'],['news','消息面','fold-news'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
+ const KEY='yhtis.subnav.v1';let cur='all';try{cur=localStorage.getItem(KEY)||'all'}catch(e){}
+ function apply(){const d=document.getElementById('dashboard');if(!d)return;
+  SECS.slice(1).forEach(([k,,id])=>{const el=document.getElementById(id);if(el)el.setAttribute('data-sec',k===cur?'sel':'x')});
+  if(cur==='all')d.removeAttribute('data-only');else{d.setAttribute('data-only','1');const el=document.getElementById((SECS.find(x=>x[0]===cur)||[])[2]);
+   if(el&&el.classList.contains('fold')&&!el.classList.contains('open')){el.classList.add('open');const h=el.querySelector('.fold-head');if(h)h.setAttribute('aria-expanded','true');}}
+  document.querySelectorAll('#dash-subnav button').forEach(b=>b.classList.toggle('on',b.dataset.k===cur));}
+ function init(){const d=document.getElementById('dashboard');if(!d||document.getElementById('dash-subnav'))return;
+  const nav=document.createElement('nav');nav.id='dash-subnav';nav.setAttribute('aria-label','Dashboard 區塊');
+  nav.innerHTML=SECS.map(([k,t])=>'<button type="button" data-k="'+k+'">'+t+'</button>').join('');d.prepend(nav);
+  nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.k;try{localStorage.setItem(KEY,cur)}catch(e){}apply();
+   const top=d.getBoundingClientRect().top+window.scrollY-70;if(window.scrollY>top)window.scrollTo({top,behavior:'smooth'});
+   b.scrollIntoView({block:'nearest',inline:'center'});});
+  apply();new MutationObserver(()=>{if(cur!=='all')apply()}).observe(d,{childList:true});}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0),{once:true});else setTimeout(init,0);
+})();
+</script>
 </body></html>
