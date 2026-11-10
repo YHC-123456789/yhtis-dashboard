@@ -51,6 +51,22 @@ RISK = 0.01
 MIN_VAL20 = 5e7
 MIN_BARS = 252
 MAXH = 120
+DT_STATS = ROOT / 'v5/backtest/dt_stats.json'
+DT_MIN_VAL20 = 3e8  # 當沖名單：20 日均成交值 >= 3 億
+
+
+def dt_bucket(r, clv, vr):
+    R = '<-5%' if r < -0.05 else '-5~-2%' if r < -0.02 else '-2~0%' if r < 0 else '0~2%' if r < 0.02 else '2~5%' if r < 0.05 else '5~9.5%' if r < 0.095 else '漲停'
+    P = '收低' if clv <= 0.33 else '收中' if clv <= 0.67 else '收高'
+    V = '量縮' if vr <= 1 else '量增' if vr <= 2 else '爆量'
+    return f'{R}|{P}|{V}'
+
+
+def dt_merge(c):
+    nb, nc = c['n_build'] or 0, c['n_check'] or 0
+    w = lambda k: round(((c[k + '_build'] or 0) * nb + (c[k + '_check'] or 0) * nc) / (nb + nc) * 100, 1)
+    return {'N': int(nb + nc), 'Win': w('win'), 'Mean': w('mean'), 'Up2': w('h2'), 'Dn2': w('l2'),
+            'MeanBuild': round(c['mean_build'] * 100, 2), 'MeanCheck': round(c['mean_check'] * 100, 2) if c['mean_check'] is not None else None}
 
 
 def load_module(name, path):
@@ -674,6 +690,43 @@ def main(argv=None):
         if e:
             stocks[c] = e
 
+    # 當沖統計（隔日 開盤買→收盤賣，扣 0.33%；型態表由 v5/backtest/dt_stats.py 以 2019–2026 官方日資料建立）
+    daytrade = None
+    try:
+        DS = json.loads(DT_STATS.read_text(encoding='utf-8'))
+        cells = DS['cells']
+        rows_dt = []
+        for c, rows in per.items():
+            if rows[-1][0] != asof or len(rows) < 21:
+                continue
+            d, o, h, l, cl, ref, v = rows[-1]
+            base = ref or rows[-2][4]
+            vm = sum(r[6] for r in rows[-21:-1]) / 20
+            val20 = sum(r[4] * r[6] for r in rows[-20:]) / 20
+            if not base or h <= l or vm <= 0 or val20 < DT_MIN_VAL20:
+                continue
+            r_, clv, vr = cl / base - 1, (cl - l) / (h - l), v / vm
+            k = dt_bucket(r_, clv, vr)
+            if k not in cells:
+                continue
+            st = dt_merge(cells[k])
+            rows_dt.append({'Code': c, 'Name': names[c][0], 'Close': cl, 'Chg': round(r_ * 100, 2), 'VolRatio': round(vr, 2),
+                            'Val20': round(val20 / 1e8, 1), 'Pattern': k.replace('|', '・'), **st})
+        rows_dt.sort(key=lambda x: (-x['Up2'], -x['Mean'], x['Code']))
+        mk = None
+        if up_pct is not None:
+            mb = '<20%' if up_pct < 0.2 else '20-40%' if up_pct < 0.4 else '40-60%' if up_pct < 0.6 else '60-80%' if up_pct < 0.8 else '>=80%'
+            mv = DS['market'][mb]
+            mk = {'Bucket': mb, 'Win': round(mv['win'] * 100, 1), 'Mean': round(mv['mean'] * 100, 2), 'Up2': round(mv['h2'] * 100, 1),
+                  'Dn2': round(mv['l2'] * 100, 1), 'N': int(mv['n'])}
+        short = [x for x in rows_dt if x['Pattern'].startswith('漲停・收高') and x['Pattern'].split('・')[2] in ('量增', '爆量')]
+        daytrade = {'Market': mk, 'Top': rows_dt[:12], 'Count': len(rows_dt), 'LimitUpHigh': short[:12],
+                    'Rule': '隔日開盤買、收盤賣，扣成本 0.33%；統計 2019–2026 同型態（今日漲跌×收盤位置×量比）、20 日均成交值 ≥ 1 億的歷史結果。',
+                    'Finding': '50 種型態扣成本後沒有任何一種「開盤買、收盤賣」兩段期間都賺；全市場平均約 -0.6%／筆，收紅機率約 36%。'
+                               '唯一兩段都為正的是反方向：今日漲停、收在高點、帶量的股票，隔日開盤先賣、收盤買回，平均約 +0.3%～+0.5%（未計借券成本與限空措施）。'}
+    except Exception as e:
+        log.append(f'當沖統計未產生：{type(e).__name__}: {str(e)[:120]}')
+
     # 市場狀態（透明規則，未回測）
     if ma_pct is None:
         state = '資料不足'
@@ -708,6 +761,7 @@ def main(argv=None):
         'S1': s1, 'S2': s2, 'S1Count': s1_all, 'S2Count': s2_all,
         'Announcements': ann_today[:200], 'Headlines': heads[:60],
         'Paper': paper,
+        'DayTrade': daytrade,
         'Note': '消息面為關鍵字判讀，未經回測，僅供參考；名單非保證獲利。',
         'Log': log, 'Stocks': stocks,
     }

@@ -48,6 +48,13 @@ def verify(root=ROOT):
         vals = [s[key] for s in rep[k]]
         if vals != sorted(vals, reverse=True):
             fail(f'{k} 排序錯誤')
+    dt = rep.get('DayTrade')
+    if dt:
+        for x in dt['Top'] + dt['LimitUpHigh']:
+            if x['Val20'] < 3 or not (0 <= x['Win'] <= 100 and 0 <= x['Up2'] <= 100):
+                fail(f'當沖統計異常 {x["Code"]}')
+        if any(not x['Pattern'].startswith('漲停・收高') for x in dt['LimitUpHigh']):
+            fail('漲停收高清單混入其他型態')
     for h in rep['Headlines']:
         if not h['Link'].startswith('http'):
             fail('新聞連結格式錯誤')

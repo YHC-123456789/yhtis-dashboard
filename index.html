@@ -362,7 +362,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
    +'<div class="intel-h3">消息面（近 5 日新聞關鍵字）</div><div class="intel-pol">'+polHtml+'</div>'
    +'<div class="intel-h3">S1 營收轉強＋前 5 日漲停過 <span class="badge">'+I.S1Count+' 檔</span><small class="minor">'+wn+'</small></div>'+list(I.S1,'R20','20 日漲幅')
    +'<div class="intel-h3">S2 營收轉強＋接近 52 週新高 <span class="badge">'+I.S2Count+' 檔</span></div>'+list(I.S2,'R60','60 日漲幅')
-   +'<p class="minor" style="margin-top:10px"><b>怎麼用：</b>'+esc(I.Rules.Common)+'。</p>'
+   +(I.DayTrade&&I.DayTrade.Market?'<div class="intel-h3">明日當沖（統計）</div><p class="minor">今日上漲家數落在 '+esc(I.DayTrade.Market.Bucket)+'，歷史上隔日個股「開盤買→收盤賣」收紅機率 <b>'+I.DayTrade.Market.Win+'%</b>、平均 '+sp(I.DayTrade.Market.Mean)+'（扣成本）。各股統計見「當沖」頁。</p>':'')+'<p class="minor" style="margin-top:10px"><b>怎麼用：</b>'+esc(I.Rules.Common)+'。</p>'
    +'<p class="source">'+esc(I.Rules.Backtest)+'<br>前瞻紙上追蹤（自上線日起）：S1 '+pt('S1')+'；S2 '+pt('S2')+'<br>市場狀態規則：'+esc(m.StateRule)+'。'+esc(I.Note)
    +'<br>來源：月營收 '+ym(I.Revenue.LatestYM)+'（公開資訊觀測站）・重大訊息 '+(src.announcements?esc(src.announcements.Markets.join('/')):'今日未取得')+'・新聞 '+(src.headlines?'Google 新聞／鉅亨網':'今日未取得')+'・行情與籌碼為官方資料</p>';
   box.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));
@@ -378,6 +378,18 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
    $('ann-filter').addEventListener('change',()=>render(official));
    nb.querySelectorAll('a[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));}
  }
+ function dtRender(){const sec=$('daytrade');if(!sec||!I)return;let c=$('dt-pred-card');
+  if(!c){c=document.createElement('div');c.className='card';c.id='dt-pred-card';c.style.marginBottom='16px';const pb=sec.querySelector(':scope > .pagebar');if(pb)pb.after(c);else sec.prepend(c);}
+  const D=I.DayTrade;if(!D){c.innerHTML='<h2>明日當沖預測</h2><p class="minor">今日未產生。</p>';return;}
+  const m=D.Market,pc=v=>'<b style="color:'+(v>=50?UP:DN)+'">'+v+'%</b>';
+  const tbl=rows=>rows.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>今日</th><th class="hide-m">型態</th><th>收紅機率</th><th>平均（扣成本）</th><th>盤中曾漲 2%</th><th>盤中曾跌 2%</th></tr></thead><tbody>'+rows.map(x=>'<tr data-code="'+esc(x.Code)+'"><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+x.Close+'｜成交值 '+x.Val20+' 億</small></td><td>'+sp(x.Chg)+'<br><small class="minor">量比 '+x.VolRatio+'</small></td><td class="hide-m"><small>'+esc(x.Pattern)+'</small><br><small class="minor">歷史 '+x.N.toLocaleString()+' 筆</small></td><td>'+pc(x.Win)+'</td><td>'+sp(x.Mean)+'</td><td>'+x.Up2+'%</td><td>'+x.Dn2+'%</td></tr>').join('')+'</tbody></table></div>':'<p class="minor">今天沒有符合的股票。</p>';
+  c.innerHTML='<div class="toolrow"><h2 style="margin:0">明日當沖預測｜依 '+esc(I.AsOfDate)+' 收盤</h2><span class="badge verified">歷史統計 2019～2026</span></div>'
+   +(m?'<div class="intel-mkt"><div><small>今日上漲家數 '+esc(m.Bucket)+' 的隔日</small><b>'+pc(m.Win)+'</b><small>個股開盤買→收盤賣 收紅機率</small></div><div><small>平均每筆（扣 0.33%）</small><b>'+sp(m.Mean)+'</b><small>歷史 '+m.N.toLocaleString()+' 筆</small></div><div><small>盤中曾比開盤高 2%</small><b>'+m.Up2+'%</b><small>曾比開盤低 2%：'+m.Dn2+'%</small></div></div>':'')
+   +'<p class="minor"><b>結論：</b>'+esc(D.Finding)+'</p>'
+   +'<div class="intel-h3">盤中波動機會最大（成交值 ≥ 3 億，依「盤中曾漲 2%」排序）<span class="badge">'+D.Count+' 檔中前 12</span></div>'+tbl(D.Top)
+   +'<div class="intel-h3">今日漲停、收高、帶量（歷史上隔日「先賣後買」較有利）<span class="badge">'+D.LimitUpHigh.length+' 檔</span></div>'+tbl(D.LimitUpHigh)
+   +'<p class="source">'+esc(D.Rule)+' 同一型態的股票數字相同，是「這類型態」的歷史頻率，不是個股預測。「盤中曾漲 2%」與「曾跌 2%」常同時發生，日 K 無法判斷先後，所以不能直接當成停利機率。先賣後買需有當沖資格；11/9 起限空措施（融券保證金 130%、借券賣出上限 3%），實際可否先賣請向券商確認。</p>';
+  c.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));}
  function stockCard(code){let c=$('stock-intel-card');const v5=$('stock-v5-card');if(!c&&v5){c=document.createElement('div');c.className='card';c.id='stock-intel-card';c.style.marginBottom='14px';v5.after(c);}
   if(!c)return;if(!I){c.innerHTML='<h2>營收・消息面</h2><p class="minor">載入中或尚未產生。</p>';return;}
   const s=(I.Stocks||{})[code]||{},r=s.Rev;
@@ -397,7 +409,7 @@ const initial=location.hash.slice(1);if(['dashboard','daytrade','swing','chip','
   const open=!!st.news;f.classList.toggle('open',open);f.firstChild.setAttribute('aria-expanded',open);
   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s.news=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s))}catch(e){}});
   const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);
+  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();
    if(typeof selected!=='undefined'&&selected)stockCard(selected);});
   const prev0=window.YHTIS_V5_FOR;if(!(prev0&&prev0.__intel)){window.YHTIS_V5_FOR=function(code){if(prev0)prev0.apply(this,arguments);stockCard(code)};window.YHTIS_V5_FOR.__intel=1;}
  }
