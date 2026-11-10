@@ -52,6 +52,8 @@ MIN_VAL20 = 5e7
 MIN_BARS = 252
 MAXH = 120
 DT_STATS = ROOT / 'v5/backtest/dt_stats.json'
+COMBO = ROOT / 'v5/backtest/combo_prob.json'
+FACTOR_NAMES = {'NH': '近52週高', 'REV': '營收轉強', 'TR': '多頭趨勢', 'RS': '強於大盤', 'LU': '近20日漲停', 'SQ': '波動收斂'}
 DT_MIN_VAL20 = 3e8  # 當沖名單：20 日均成交值 >= 3 億
 
 
@@ -690,6 +692,62 @@ def main(argv=None):
         if e:
             stocks[c] = e
 
+    # 多因子組合上漲機率（表由 v5/backtest/combo_prob.py 以 2019–2026 官方日資料建立）
+    combo = None
+    try:
+        CB = json.loads(COMBO.read_text(encoding='utf-8'))
+        F_ = CB['factors']
+        elig = {}
+        for c, F in feat.items():
+            if F['dates'][-1] != asof or len(F['C']) < MIN_BARS:
+                continue
+            val20 = sum(F['VAL'][-20:]) / 20
+            if val20 < MIN_VAL20:
+                continue
+            C = F['C']
+            if len(C) < 121:
+                continue
+            ma = lambda k, n: sum(C[k - n + 1:k + 1]) / n
+            ma20, ma60 = ma(len(C) - 1, 20), ma(len(C) - 1, 60)
+            bb = []
+            for k in range(len(C) - 60, len(C)):
+                w = C[k - 19:k + 1]
+                m = sum(w) / 20
+                sd = (sum((v - m) ** 2 for v in w) / 19) ** 0.5
+                bb.append(4 * sd / m)
+            med = sorted(bb)[len(bb) // 2] if len(bb) % 2 else sum(sorted(bb)[len(bb) // 2 - 1:len(bb) // 2 + 1]) / 2
+            rv = rev_now.get(c)
+            elig[c] = {'NH': C[-1] >= 0.95 * max(F['H'][-252:]), 'REV': bool(rv and rv['REV']), 'TR': C[-1] > ma20 > ma60,
+                       'r60': C[-1] / C[-61] - 1, 'LU': any(F['LU'][-20:]), 'SQ': bb[-1] < 0.85 * med, 'val20': val20}
+        if elig:
+            rs = sorted(v['r60'] for v in elig.values())
+            n = len(rs)
+            med60 = rs[n // 2] if n % 2 else (rs[n // 2 - 1] + rs[n // 2]) / 2
+            rows_c = []
+            for c, v in elig.items():
+                v['RS'] = v['r60'] > med60
+                cell = sum((1 << i) for i, f in enumerate(F_) if v[f])
+                st = CB['cells'].get(str(cell))
+                if not st or (st.get('n60_build') or 0) < 500:
+                    continue
+                nb, nc = st['n60_build'] or 0, st.get('n60_check') or 0
+                cmb = lambda k: ((st[k + '_build'] or 0) * nb + (st.get(k + '_check') or 0) * nc) / (nb + nc)
+                item = {'Code': c, 'Name': names[c][0], 'Close': per[c][-1][4], 'Factors': [FACTOR_NAMES[f] for f in F_ if v[f]],
+                        'P20': round(cmb('up20') * 100, 1), 'P60': round(cmb('up60') * 100, 1), 'M20': round(cmb('m20') * 100, 1), 'M60': round(cmb('m60') * 100, 1),
+                        'P60Check': round(st['up60_check'] * 100, 1) if st.get('up60_check') is not None else None,
+                        'N': int(nb + nc), 'R60': round(v['r60'] * 100, 1), 'Val20': round(v['val20'] / 1e8, 2), 'StopRef': round(per[c][-1][4] * (1 - STOP), 2)}
+                rows_c.append(item)
+            rows_c.sort(key=lambda x: (-x['P60'], -x['M60'], -x['R60'], x['Code']))
+            for i, x in enumerate(rows_c, 1):
+                x['Rank'] = i
+            base = CB['base']
+            combo = {'Top': rows_c[:30], 'Count': len(rows_c), 'All': {x['Code']: {k: x[k] for k in ('Rank', 'P20', 'P60', 'M60', 'Factors', 'N')} for x in rows_c},
+                     'Base': {'P20': round((base['build'][0] + base['check'][0]) / 2 * 100, 1), 'P60': round((base['build'][2] + base['check'][2]) / 2 * 100, 1)},
+                     'Rule': '6 個因子（近52週高、營收轉強、多頭趨勢、強於大盤、近20日漲停、波動收斂）的 64 種組合，各自統計 2019–2026 隔日開盤買、持有 20／60 日（扣成本 0.485%）的上漲比例；宇宙為 20 日均成交值 ≥ 5,000 萬。',
+                     'Validation': '用 2019–2024 建表、2025–2026 檢驗：組合排名相關 0.72；建表排名前 20% 的組合，檢驗期 60 日上漲比例 57%、平均 +10.3%，後 20% 為 46%、+5.9%。同一股票連續多日重複計入，實際獨立樣本較少；機率是同組合的歷史頻率，不是個股保證。'}
+    except Exception as e:
+        log.append(f'多因子排行未產生：{type(e).__name__}: {str(e)[:120]}')
+
     # 當沖統計（隔日 開盤買→收盤賣，扣 0.33%；型態表由 v5/backtest/dt_stats.py 以 2019–2026 官方日資料建立）
     daytrade = None
     try:
@@ -762,6 +820,7 @@ def main(argv=None):
         'Announcements': ann_today[:200], 'Headlines': heads[:60],
         'Paper': paper,
         'DayTrade': daytrade,
+        'Combo': combo,
         'Note': '消息面為關鍵字判讀，未經回測，僅供參考；名單非保證獲利。',
         'Log': log, 'Stocks': stocks,
     }

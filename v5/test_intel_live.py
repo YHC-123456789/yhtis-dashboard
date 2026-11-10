@@ -48,6 +48,13 @@ def verify(root=ROOT):
         vals = [s[key] for s in rep[k]]
         if vals != sorted(vals, reverse=True):
             fail(f'{k} 排序錯誤')
+    cb = rep.get('Combo')
+    if cb:
+        p = [(x['P60'], x['M60']) for x in cb['Top']]
+        if [x[0] for x in p] != sorted((x[0] for x in p), reverse=True):
+            fail('多因子排行未依 60 日上漲機率排序')
+        if any(x['Val20'] < 0.5 or not 0 <= x['P60'] <= 100 for x in cb['Top']):
+            fail('多因子排行數值異常')
     dt = rep.get('DayTrade')
     if dt:
         for x in dt['Top'] + dt['LimitUpHigh']:

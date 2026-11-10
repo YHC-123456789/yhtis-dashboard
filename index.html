@@ -379,6 +379,18 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
    $('ann-filter').addEventListener('change',()=>render(official));
    nb.querySelectorAll('a[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));}
  }
+ function comboRender(){let c=$('combo-card');const ic=$('intel-card');if(!c&&ic){c=document.createElement('div');c.className='card';c.id='combo-card';c.style.marginBottom='14px';ic.before(c);}
+  if(!c)return;const K=I&&I.Combo;if(!K){c.innerHTML='<h2 style="margin:0">多因子上漲機率排行</h2><p class="minor">今日未產生。</p>';return;}
+  const pc=v=>v==null?'—':'<b style="color:'+(v>=50?UP:DN)+'">'+v+'%</b>';
+  const n=+(c.dataset.n||20);const rows=K.Top.slice(0,n);
+  c.innerHTML='<div class="toolrow"><h2 style="margin:0">多因子上漲機率排行｜'+esc(I.AsOfDate)+'</h2><span class="badge verified">6 因子・64 種組合</span></div>'
+   +'<p class="minor" style="margin:6px 0 8px">全體平均：20 日上漲 '+K.Base.P20+'%、60 日上漲 '+K.Base.P60+'%（共 '+K.Count+' 檔可排名）</p>'
+   +'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>#</th><th>股票</th><th>20 日上漲</th><th>60 日上漲</th><th>60 日平均</th><th class="hide-m">符合因子</th><th class="hide-m">停損參考</th></tr></thead><tbody>'
+   +rows.map(x=>'<tr data-code="'+esc(x.Code)+'"><td>'+x.Rank+'</td><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+x.Close+'</small></td><td>'+pc(x.P20)+'</td><td>'+pc(x.P60)+'<br><small class="minor">近兩年 '+(x.P60Check==null?'—':x.P60Check+'%')+'</small></td><td>'+sp(x.M60)+'</td><td class="hide-m">'+x.Factors.map(f=>'<span class="tone t-中性">'+esc(f)+'</span>').join(' ')+'</td><td class="hide-m" style="color:'+DN+'">'+x.StopRef+'</td></tr>').join('')+'</tbody></table></div>'
+   +(K.Top.length>n?'<button class="btn" id="combo-more" style="margin-top:8px">顯示前 30</button>':'')
+   +'<details class="more"><summary>說明</summary><div><p class="minor">'+esc(K.Rule)+'</p><p class="source">'+esc(K.Validation)+' 同一組合的股票機率相同，組合內依 60 日平均報酬、再依 60 日漲幅排序。停損參考＝收盤 -8%。</p></div></details>';
+  const mb=$('combo-more');if(mb)mb.addEventListener('click',()=>{c.dataset.n=30;comboRender()});
+  c.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));}
  function dtRender(){const sec=$('daytrade');if(!sec||!I)return;let c=$('dt-pred-card');
   if(!c){c=document.createElement('div');c.className='card';c.id='dt-pred-card';c.style.marginBottom='16px';const pb=sec.querySelector(':scope > .pagebar');if(pb)pb.after(c);else sec.prepend(c);}
   const D=I.DayTrade;if(!D){c.innerHTML='<h2>明日當沖預測</h2><p class="minor">今日未產生。</p>';return;}
@@ -396,6 +408,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   const inS=k=>(I[k]||[]).some(x=>x.Code===code);
   let h='<h2>營收・消息面</h2>';
   h+='<div class="statusrow"><span>月營收（'+(r?ym(r.YM):'—')+'）</span><span class="badge '+(r&&r.REV?'verified':'pending')+'">'+(r?'年增 '+(r.Yoy==null?'—':r.Yoy+'%')+'｜近 3 月平均 '+(r.Y3==null?'—':r.Y3+'%')+'｜'+(r.REV?'轉強 ✓':r.REV===false?'未轉強':'資料不足'):'無資料')+'</span></div>';
+  const cb=I.Combo&&I.Combo.All[code];h+='<div class="statusrow"><span>多因子排行</span><span class="badge '+(cb?'verified':'')+'">'+(cb?'第 '+cb.Rank+' 名｜20 日上漲 '+cb.P20+'%｜60 日上漲 '+cb.P60+'%｜'+esc(cb.Factors.join('、')||'無因子'):'未排名（成交值不足或上市未滿一年）')+'</span></div>';
   h+='<div class="statusrow"><span>S1／S2 名單</span><span class="badge '+(inS('S1')||inS('S2')?'verified':'')+'">'+([inS('S1')?'S1':'',inS('S2')?'S2':''].filter(Boolean).join('、')||'不在今日名單')+'</span></div>';
   h+='<div style="margin-top:8px"><b>重大訊息（近 5 日）</b>'+((s.Ann||[]).length?'<ul class="intel-news">'+s.Ann.map(a=>'<li><span class="tone t-'+esc(a.Tone)+'">'+esc(a.Tone)+'</span> '+esc(a.Subject)+' <small>'+esc(a.Date.slice(5)+' '+a.Time)+'</small></li>').join('')+'</ul>':'<p class="minor">無</p>')+'</div>';
   h+='<div><b>相關新聞</b>'+((s.News||[]).length?'<ul class="intel-news">'+s.News.map(n=>'<li><a href="'+esc(n.Link)+'" target="_blank" rel="noopener">'+esc(n.Title)+'</a> <small>'+esc(n.Source||'')+'</small></li>').join('')+'</ul>':'<p class="minor">近 5 日新聞標題未提到此股。</p>')+'</div>';
@@ -409,7 +422,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   const open=!!st.news;f.classList.toggle('open',open);f.firstChild.setAttribute('aria-expanded',open);
   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s.news=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s))}catch(e){}});
   const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();
+  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();
    if(typeof selected!=='undefined'&&selected)stockCard(selected);});
   const prev0=window.YHTIS_V5_FOR;if(!(prev0&&prev0.__intel)){window.YHTIS_V5_FOR=function(code){if(prev0)prev0.apply(this,arguments);stockCard(code)};window.YHTIS_V5_FOR.__intel=1;}
  }
