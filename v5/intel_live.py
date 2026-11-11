@@ -502,7 +502,7 @@ def paper_eval(rows, days, feat):
             cache[k] = sum(v) / len(v) if v else None
         return cache[k]
     out = {}
-    for strat in ('TOP', 'S1', 'S2'):
+    for strat in ('STEADY', 'AGGR', 'TOP', 'S1', 'S2'):
         last_sig = {}
         trades = []
         for r in sorted((x for x in rows if x['strategy'] == strat), key=lambda x: (x['date'], int(x['rank']))):
@@ -561,6 +561,31 @@ def paper_eval(rows, days, feat):
                                  for d, v in sorted(bydate.items())],
                       'Trades': trades[-80:]}
     return out
+
+
+def dmi_series(H, L, C, n=14):
+    """Wilder DMI，與研究程式 pandas ewm(alpha=1/14, adjust=False) 相同算法。回傳 (+DI, -DI, ADX 序列)。"""
+    al = 1 / n
+    atr = pp = nn = adx = None
+    pdi = ndi = None
+    adxs = []
+    for i in range(len(C)):
+        if i == 0:
+            tr, pdm, ndm = H[0] - L[0], 0.0, 0.0
+        else:
+            up, dn = H[i] - H[i - 1], L[i - 1] - L[i]
+            pdm = up if (up > dn and up > 0) else 0.0
+            ndm = dn if (dn > up and dn > 0) else 0.0
+            tr = max(H[i] - L[i], abs(H[i] - C[i - 1]), abs(L[i] - C[i - 1]))
+        atr = tr if atr is None else (1 - al) * atr + al * tr
+        pp = pdm if pp is None else (1 - al) * pp + al * pdm
+        nn = ndm if nn is None else (1 - al) * nn + al * ndm
+        if i >= n - 1 and atr > 0:
+            pdi, ndi = 100 * pp / atr, 100 * nn / atr
+            dx = 100 * abs(pdi - ndi) / (pdi + ndi) if pdi + ndi > 0 else 0.0
+            adx = dx if adx is None else (1 - al) * adx + al * dx
+        adxs.append(adx if i >= 2 * n - 2 else None)
+    return pdi, ndi, adxs
 
 
 # ---------------- 主流程 ----------------
@@ -783,6 +808,39 @@ def main(argv=None):
     except Exception as e:
         log.append(f'多因子排行未產生：{type(e).__name__}: {str(e)[:120]}')
 
+    # 選股：組合搜尋（v5/backtest/combo_search.py，260 組，2019–2024 挑選、2025–2026 驗證）選出的兩組
+    picks = None
+    try:
+        PICK_DEF = [
+            {'Key': 'STEADY', 'Name': '穩健組', 'Rule': ['近52週高', '多頭趨勢', '波動收斂', 'ADX上升'],
+             'Stats': {'Up60': [55.4, 65.5], 'X60': [3.50, 6.84], 'N': [7649, 1348]}, 'Why': '60 日上漲比例最高的一組'},
+            {'Key': 'AGGR', 'Name': '積極組', 'Rule': ['營收轉強', '多頭趨勢', '波動收斂', 'DMI趨勢確認'],
+             'Stats': {'Up60': [53.4, 57.3], 'X60': [6.39, 8.78], 'N': [6700, 2052]}, 'Why': '60 日超額報酬最高的一組'}]
+        lists = {d['Key']: [] for d in PICK_DEF}
+        for c, v in (elig.items() if combo else []):
+            F = feat[c]
+            pdi, ndi, adxs = dmi_series(F['H'], F['L'], F['C'])
+            if adxs[-1] is None or adxs[-6] is None:
+                continue
+            dit = pdi > ndi and adxs[-1] > 25
+            adxup = adxs[-1] > adxs[-6]
+            base_item = lambda: {'Code': c, 'Name': names[c][0], 'Ind': IND.get(c, ''), 'Close': per[c][-1][4], 'StopRef': round(per[c][-1][4] * (1 - STOP), 2),
+                                 'R60': round(v['r60'] * 100, 1), 'Val20': round(v['val20'] / 1e8, 2), 'ADX': round(adxs[-1], 1),
+                                 'PDI': round(pdi, 1), 'NDI': round(ndi, 1), 'Rank': (combo['All'].get(c) or {}).get('Rank')}
+            if v['NH'] and v['TR'] and v['SQ'] and adxup:
+                lists['STEADY'].append(base_item())
+            if v['REV'] and v['TR'] and v['SQ'] and dit:
+                x = base_item(); x['Yoy'] = (rev_now.get(c) or {}).get('Yoy'); lists['AGGR'].append(x)
+        for k in lists:
+            lists[k].sort(key=lambda x: (-x['R60'], x['Code']))
+        picks = {'Groups': [{**d, 'List': lists[d['Key']][:20], 'Count': len(lists[d['Key']])} for d in PICK_DEF],
+                 'Note': '條件定義：近52週高＝收盤 ≥ 近 252 日最高 95%；多頭趨勢＝收盤 > 20 日線 > 60 日線；波動收斂＝布林帶寬 < 近 60 日中位數 × 0.85；'
+                         'ADX上升＝ADX(14) 高於 5 日前；DMI趨勢確認＝+DI > -DI 且 ADX > 25；營收轉強＝近 3 月年增率平均上升且營收創 12 月新高（次月 11 日起 75 日內）。'
+                         '名單內依 60 日漲幅排序。數字為 2019–2024 建模期 → 2025–2026 驗證期，隔日開盤買、持有 60 日、扣成本 0.485%；60 日超額＝相對同日全市場平均。'
+                         '從 260 組中挑出，有選擇偏誤；驗證期偏多頭，實際效果可能略低。'}
+    except Exception as e:
+        log.append(f'選股名單未產生：{type(e).__name__}: {str(e)[:120]}')
+
     # 當沖統計（隔日 開盤買→收盤賣，扣 0.33%；型態表由 v5/backtest/dt_stats.py 以 2019–2026 官方日資料建立）
     daytrade = None
     try:
@@ -884,7 +942,8 @@ def main(argv=None):
     if latest_ym:
         rd = reff(latest_ym)
         window = {'RevYM': latest_ym, 'From': rd.isoformat(), 'To': (rd + timedelta(days=7)).isoformat(), 'Active': 0 <= (asof_d - rd).days <= 7}
-    paper_rows = paper_record(asof, {'TOP': (combo['Top'][:20] if combo else []), 'S1': s1, 'S2': s2}) if not a.asof else []
+    pk = {g['Key']: g['List'][:10] for g in (picks or {}).get('Groups', [])}
+    paper_rows = paper_record(asof, {'TOP': (combo['Top'][:20] if combo else []), 'S1': s1, 'S2': s2, 'STEADY': pk.get('STEADY', []), 'AGGR': pk.get('AGGR', [])}) if not a.asof else []
     paper = paper_eval(paper_rows, days, feat)
     ann_last = max((x['Date'] for x in ann_all), default=None)  # 官方 OpenAPI 可能延後一天，取最近一個有資料的發言日
     ann_today = [x for x in ann_all if x['Date'] == ann_last]
@@ -909,6 +968,7 @@ def main(argv=None):
         'Combo': combo,
         'Timing': timing,
         'Sectors': sectors,
+        'Picks': picks,
         'Entry': entry,
         'Note': '消息面為關鍵字判讀，未經回測，僅供參考；名單非保證獲利。',
         'Log': log, 'Stocks': stocks,

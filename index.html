@@ -379,8 +379,22 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
    $('ann-filter').addEventListener('change',()=>render(official));
    nb.querySelectorAll('a[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));}
  }
+ function picksRender(){let c=$('picks-card');const anchor=$('timing-card')||$('combo-card');if(!c&&anchor){c=document.createElement('div');c.className='card';c.id='picks-card';c.style.marginBottom='14px';anchor.before(c);}
+  if(!c)return;const K=I&&I.Picks;if(!K){c.innerHTML='<h2 style="margin:0">選股</h2><p class="minor">今日未產生。</p>';return;}
+  const pc=v=>'<b style="color:'+(v>=50?UP:DN)+'">'+v+'%</b>';const P=I.Paper||{};
+  c.innerHTML='<div class="toolrow"><h2 style="margin:0">選股｜'+esc(I.AsOfDate)+' 收盤後</h2><span class="badge verified">260 組搜尋・驗證期確認</span></div>'
+   +K.Groups.map(g=>{const st=g.Stats,pp=P[g.Key];
+    return '<div class="intel-h3" style="margin-top:14px">'+esc(g.Name)+'｜'+g.Rule.map(r=>'<span class="tone t-中性">'+esc(r)+'</span>').join(' ')+' <span class="badge">'+g.Count+' 檔</span></div>'
+     +'<p class="minor" style="margin:0 0 6px">'+esc(g.Why)+'：60 日上漲 '+pc(st.Up60[0])+' → '+pc(st.Up60[1])+'，60 日超額 '+sp(st.X60[0])+' → '+sp(st.X60[1])+'（2019–24 → 2025–26）'
+     +(pp&&pp.Entered?'｜上線後實際：'+pp.Entered+' 筆平均 '+sp(pp.AvgRet)+'，大盤 '+sp(pp.AvgMkt):'')+'</p>'
+     +(g.List.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>收盤</th><th>停損參考</th><th>60 日漲幅</th><th class="hide-m">ADX（+DI／-DI）</th><th class="hide-m">多因子排名</th></tr></thead><tbody>'
+      +g.List.map(x=>'<tr data-code="'+esc(x.Code)+'"><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+esc(x.Ind||'')+(x.Yoy!=null?'｜營收年增 '+x.Yoy+'%':'')+'</small></td><td>'+x.Close+'</td><td style="color:'+DN+'">'+x.StopRef+'</td><td>'+sp(x.R60)+'</td><td class="hide-m">'+x.ADX+'（'+x.PDI+'／'+x.NDI+'）</td><td class="hide-m">'+(x.Rank?'第 '+x.Rank+' 名':'—')+'</td></tr>').join('')+'</tbody></table></div>'
+      :'<p class="minor" style="padding:8px 12px;background:#f5f8fc;border-radius:8px">今天沒有股票同時符合這 '+g.Rule.length+' 個條件。大跌後股價波動放大、跌破均線，「波動收斂」和「多頭趨勢」通常要盤整一段時間才會重新出現；名單空著代表條件不成立，不是程式壞掉。</p>');}).join('')
+   +'<p class="minor" style="margin-top:10px">進場與出場照驗證規則：隔日開盤買（開盤漲 ≥9.5% 不追）、停損 -8%、不設停利；點股票可看進場點推算與部位。</p>'
+   +'<details class="more"><summary>說明</summary><div><p class="source">'+esc(K.Note)+'</p></div></details>';
+  c.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));}
  function trackRender(){let c=$('track-card');const anchor=$('combo-card');if(!c&&anchor){c=document.createElement('div');c.className='card';c.id='track-card';c.style.marginBottom='14px';anchor.after(c);}
-  if(!c||!I||!I.Paper)return;const P=I.Paper,NM={TOP:'多因子前 20 名',S2:'S2 營收＋新高',S1:'S1 營收＋漲停'};const ks=['TOP','S2','S1'].filter(k=>P[k]&&P[k].Signals);
+  if(!c||!I||!I.Paper)return;const P=I.Paper,NM={STEADY:'選股・穩健組',AGGR:'選股・積極組',TOP:'多因子前 20 名',S2:'S2 營收＋新高',S1:'S1 營收＋漲停'};const ks=['STEADY','AGGR','TOP','S2','S1'].filter(k=>P[k]&&P[k].Signals);
   const show=c.dataset.all?999:10;
   c.innerHTML='<div class="toolrow"><h2 style="margin:0">篩選成果追蹤｜到 '+esc(I.AsOfDate)+'</h2><span class="badge">實際記錄・前瞻驗證</span></div>'
    +'<div class="intel-wrap"><table class="intel-tbl" style="margin-top:8px"><thead><tr><th>名單</th><th>已進場</th><th>賺錢</th><th>平均報酬</th><th>同期大盤</th><th>贏大盤</th></tr></thead><tbody>'
@@ -471,7 +485,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   const open=!!st.news;f.classList.toggle('open',open);f.firstChild.setAttribute('aria-expanded',open);
   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s.news=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s))}catch(e){}});
   const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();sectorRender();trackRender();
+  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();picksRender();sectorRender();trackRender();
    if(typeof selected!=='undefined'&&selected)stockCard(selected);});
   const prev0=window.YHTIS_V5_FOR;if(!(prev0&&prev0.__intel)){window.YHTIS_V5_FOR=function(code){if(prev0)prev0.apply(this,arguments);stockCard(code)};window.YHTIS_V5_FOR.__intel=1;}
  }
@@ -489,7 +503,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
 </style>
 <script id="YHTIS_SUBNAV_V1">
 (function(){'use strict';
- const SECS=[['all','全部'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['track','成果追蹤','track-card'],['intel','綜合判讀','intel-card'],['sector','產業','fold-sector'],['news','消息面','fold-news'],['today','今日重點','today-card'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
+ const SECS=[['all','全部'],['picks','選股','picks-card'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['track','成果追蹤','track-card'],['intel','綜合判讀','intel-card'],['sector','產業','fold-sector'],['news','消息面','fold-news'],['today','今日重點','today-card'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
  const KEY='yhtis.subnav.v1';let cur='all';try{cur=localStorage.getItem(KEY)||'all'}catch(e){}
  function reorder(d){const nav=document.getElementById('dash-subnav');let prev=nav;SECS.slice(1).forEach(([,,id])=>{const el=document.getElementById(id);if(el&&el.parentNode===d){if(prev&&prev.nextElementSibling!==el)prev.after(el);prev=el;}});}
  function apply(){const d=document.getElementById('dashboard');if(!d)return;reorder(d);
