@@ -485,13 +485,27 @@ def paper_record(asof, lists):
 
 
 def paper_eval(rows, days, feat):
-    """隔日開盤買（漲 ≥9.5% 視為買不到）、盤中觸及 -8% 停損（跳空以開盤）、最長 120 日；同策略同股 20 日內只算第一次。"""
+    """隔日開盤買（漲 ≥9.5% 視為買不到）、盤中觸及 -8% 停損（跳空以開盤）、最長 120 日；同策略同股 20 日內只算第一次。
+    每筆另算同期間「全市場等權」報酬（同一進場日開盤到同一出場日），用來比較是否贏大盤。"""
     pos = {d: i for i, d in enumerate(days)}
+    cache = {}
+
+    def mkt(entry, end, at_open):
+        k = (entry, end, at_open)
+        if k not in cache:
+            v = []
+            for F in feat.values():
+                i, j = F['idx'].get(entry), F['idx'].get(end)
+                if i is None or j is None or F['VAL'][i] < 1:
+                    continue
+                v.append((F['O'][j] if at_open else F['C'][j]) / F['O'][i] - 1)
+            cache[k] = sum(v) / len(v) if v else None
+        return cache[k]
     out = {}
-    for strat in ('S1', 'S2'):
+    for strat in ('TOP', 'S1', 'S2'):
         last_sig = {}
         trades = []
-        for r in sorted((x for x in rows if x['strategy'] == strat), key=lambda x: x['date']):
+        for r in sorted((x for x in rows if x['strategy'] == strat), key=lambda x: (x['date'], int(x['rank']))):
             i = pos.get(r['date'])
             c = r['code']
             if i is None or c not in feat:
@@ -501,7 +515,7 @@ def paper_eval(rows, days, feat):
             last_sig[c] = i
             F = feat[c]
             di = F['idx'].get(r['date'])
-            t = {'Date': r['date'], 'Code': c, 'Name': r['name']}
+            t = {'Date': r['date'], 'Code': c, 'Name': r['name'], 'Rank': int(r['rank'])}
             if di is None or di + 1 >= len(F['O']):
                 t['Status'] = '待進場'
                 trades.append(t)
@@ -517,21 +531,35 @@ def paper_eval(rows, days, feat):
             res = None
             for k in range(e, min(e + MAXH, len(F['O']))):
                 if F['L'][k] <= stop:
-                    res = (min(F['O'][k], stop) / px - 1, F['dates'][k], '停損')
+                    res = (min(F['O'][k], stop) / px - 1, F['dates'][k], '停損', False)
                     break
             if res is None and e + MAXH < len(F['O']):
-                res = (F['O'][e + MAXH] / px - 1, F['dates'][e + MAXH], '滿 120 日')
+                res = (F['O'][e + MAXH] / px - 1, F['dates'][e + MAXH], '滿 120 日', True)
             if res:
                 t.update({'Status': res[2], 'Exit': res[1], 'Ret': round(res[0] * 100, 2)})
+                m = mkt(F['dates'][e], res[1], res[3])
             else:
                 t.update({'Status': '持有中', 'Ret': round((F['C'][-1] / px - 1) * 100, 2)})
+                m = mkt(F['dates'][e], F['dates'][-1], False)
+            t['Mkt'] = round(m * 100, 2) if m is not None else None
             trades.append(t)
         done = [t for t in trades if t['Status'] in ('停損', '滿 120 日')]
         held = [t for t in trades if t['Status'] == '持有中']
+        ent = [t for t in trades if 'Ret' in t]
+        bydate = {}
+        for t in ent:
+            bydate.setdefault(t['Date'], []).append(t)
         out[strat] = {'Signals': len(trades), 'Closed': len(done), 'Holding': len(held),
                       'ClosedWin': sum(t['Ret'] > 0 for t in done),
                       'ClosedAvg': round(sum(t['Ret'] for t in done) / len(done), 2) if done else None,
-                      'Trades': trades[-40:]}
+                      'Entered': len(ent), 'Win': sum(t['Ret'] > 0 for t in ent),
+                      'AvgRet': round(sum(t['Ret'] for t in ent) / len(ent), 2) if ent else None,
+                      'AvgMkt': round(sum(t['Mkt'] for t in ent if t['Mkt'] is not None) / max(1, sum(t['Mkt'] is not None for t in ent)), 2) if ent else None,
+                      'Beat': sum(t['Mkt'] is not None and t['Ret'] > t['Mkt'] for t in ent),
+                      'ByDate': [{'Date': d, 'N': len(v), 'Ret': round(sum(x['Ret'] for x in v) / len(v), 2),
+                                  'Mkt': round(sum(x['Mkt'] for x in v if x['Mkt'] is not None) / max(1, sum(x['Mkt'] is not None for x in v)), 2)}
+                                 for d, v in sorted(bydate.items())],
+                      'Trades': trades[-80:]}
     return out
 
 
@@ -660,6 +688,8 @@ def main(argv=None):
     for h in heads:
         for t in h['Tags']:
             policy.setdefault(t, []).append(h['Title'])
+    _seen = set()
+    ann_all = [x for x in ann_all if not ((x['Code'], x['Date'], x['Subject']) in _seen or _seen.add((x['Code'], x['Date'], x['Subject'])))]
     ann_all.sort(key=lambda x: (x['Date'], x['Time']), reverse=True)
     for x in ann_all:
         x['Name'] = names.get(x['Code'], (x.get('Name', ''),))[0]
@@ -854,9 +884,10 @@ def main(argv=None):
     if latest_ym:
         rd = reff(latest_ym)
         window = {'RevYM': latest_ym, 'From': rd.isoformat(), 'To': (rd + timedelta(days=7)).isoformat(), 'Active': 0 <= (asof_d - rd).days <= 7}
-    paper_rows = paper_record(asof, {'S1': s1, 'S2': s2}) if not a.asof else []
+    paper_rows = paper_record(asof, {'TOP': (combo['Top'][:20] if combo else []), 'S1': s1, 'S2': s2}) if not a.asof else []
     paper = paper_eval(paper_rows, days, feat)
-    ann_today = [x for x in ann_all if x['Date'] == asof or x['Date'] == today.isoformat()]
+    ann_last = max((x['Date'] for x in ann_all), default=None)  # 官方 OpenAPI 可能延後一天，取最近一個有資料的發言日
+    ann_today = [x for x in ann_all if x['Date'] == ann_last]
 
     rep = {
         'AsOfDate': asof, 'GeneratedTaipei': now.isoformat(timespec='seconds'), 'Sources': status,

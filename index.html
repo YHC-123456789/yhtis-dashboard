@@ -379,6 +379,22 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
    $('ann-filter').addEventListener('change',()=>render(official));
    nb.querySelectorAll('a[data-code]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(typeof chooseStock==='function')chooseStock(a.dataset.code)}));}
  }
+ function trackRender(){let c=$('track-card');const anchor=$('combo-card');if(!c&&anchor){c=document.createElement('div');c.className='card';c.id='track-card';c.style.marginBottom='14px';anchor.after(c);}
+  if(!c||!I||!I.Paper)return;const P=I.Paper,NM={TOP:'多因子前 20 名',S2:'S2 營收＋新高',S1:'S1 營收＋漲停'};const ks=['TOP','S2','S1'].filter(k=>P[k]&&P[k].Signals);
+  const show=c.dataset.all?999:10;
+  c.innerHTML='<div class="toolrow"><h2 style="margin:0">篩選成果追蹤｜到 '+esc(I.AsOfDate)+'</h2><span class="badge">實際記錄・前瞻驗證</span></div>'
+   +'<div class="intel-wrap"><table class="intel-tbl" style="margin-top:8px"><thead><tr><th>名單</th><th>已進場</th><th>賺錢</th><th>平均報酬</th><th>同期大盤</th><th>贏大盤</th></tr></thead><tbody>'
+   +ks.map(k=>{const p=P[k];return '<tr><td><b>'+NM[k]+'</b><br><small class="minor">訊號 '+p.Signals+'・持有 '+p.Holding+'・已出場 '+p.Closed+'</small></td><td>'+p.Entered+'</td><td>'+p.Win+'</td><td>'+sp(p.AvgRet)+'</td><td>'+sp(p.AvgMkt)+'</td><td>'+p.Beat+' / '+p.Entered+'</td></tr>'}).join('')+'</tbody></table></div>'
+   +ks.map(k=>{const p=P[k];const tr=p.Trades.filter(t=>'Ret' in t).sort((a,b)=>b.Ret-a.Ret);const wait=p.Trades.filter(t=>!('Ret' in t));
+     return '<div class="intel-h3">'+NM[k]+'（依報酬由高到低）</div>'
+      +(p.ByDate.length?'<p class="minor" style="margin:0 0 6px">'+p.ByDate.map(b=>esc(b.Date.slice(5))+' 名單 '+b.N+' 檔：平均 '+sp(b.Ret)+'，大盤 '+sp(b.Mkt)).join('；')+'</p>':'')
+      +(tr.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>訊號日</th><th>報酬</th><th class="hide-m">同期大盤</th><th>狀態</th></tr></thead><tbody>'
+      +tr.slice(0,show).map(t=>'<tr data-code="'+esc(t.Code)+'"><td><b>'+esc(t.Code)+' '+esc(t.Name)+'</b>'+(t.Rank?'<br><small class="minor">當日第 '+t.Rank+' 名</small>':'')+'</td><td>'+esc(t.Date.slice(5))+'<br><small class="minor">進場 '+esc((t.Entry||'').slice(5))+'</small></td><td>'+sp(t.Ret)+'</td><td class="hide-m">'+sp(t.Mkt)+'</td><td><small>'+esc(t.Status)+(t.Exit?' '+esc(t.Exit.slice(5)):'')+'</small></td></tr>').join('')+'</tbody></table></div>':'')
+      +(wait.length?'<p class="minor">待進場／未成交：'+wait.map(t=>esc(t.Code+' '+t.Name)+'（'+esc(t.Status)+'）').join('、')+'</p>':'');}).join('')
+   +(!c.dataset.all?'<button class="btn" id="track-all" style="margin-top:8px">顯示全部</button>':'')
+   +'<details class="more"><summary>說明</summary><div>每天收盤後自動記錄多因子前 20 名、S1、S2；以隔日開盤價進場（開盤漲 ≥9.5% 視為買不到），盤中觸及 -8% 停損，不設停利、最長 120 日。持有中以最新收盤計算。「同期大盤」＝同一進場日開盤到同一天，全市場股票等權平均。同一名單同一股票 20 個交易日內只算第一次。11/09 的多因子名單由網站版本紀錄補回；記錄天數還很少，結果僅供觀察，需累積數月才有參考價值。</div></details>';
+  const b=$('track-all');if(b)b.addEventListener('click',()=>{c.dataset.all=1;trackRender()});
+  c.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));}
  function sectorRender(){const S=I&&I.Sectors;let f=$('fold-sector');const anchor=$('combo-card');if(!S||!anchor)return;
   if(!f){f=document.createElement('section');f.className='fold';f.id='fold-sector';f.innerHTML='<button class="fold-head" type="button" aria-expanded="false"><span class="arrow">▸</span><span>產業分類</span><span class="hint">各產業今日漲跌、漲停、多因子前 50 名分布</span></button><div class="fold-body" id="sector-body"></div>';anchor.after(f);
    let st={};try{st=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}')}catch(e){}const open=!!st.sector;f.classList.toggle('open',open);
@@ -455,7 +471,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   const open=!!st.news;f.classList.toggle('open',open);f.firstChild.setAttribute('aria-expanded',open);
   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s.news=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s))}catch(e){}});
   const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();sectorRender();
+  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();sectorRender();trackRender();
    if(typeof selected!=='undefined'&&selected)stockCard(selected);});
   const prev0=window.YHTIS_V5_FOR;if(!(prev0&&prev0.__intel)){window.YHTIS_V5_FOR=function(code){if(prev0)prev0.apply(this,arguments);stockCard(code)};window.YHTIS_V5_FOR.__intel=1;}
  }
@@ -473,9 +489,10 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
 </style>
 <script id="YHTIS_SUBNAV_V1">
 (function(){'use strict';
- const SECS=[['all','全部'],['today','今日重點','today-card'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['sector','產業','fold-sector'],['intel','綜合判讀','intel-card'],['news','消息面','fold-news'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
+ const SECS=[['all','全部'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['track','成果追蹤','track-card'],['intel','綜合判讀','intel-card'],['sector','產業','fold-sector'],['news','消息面','fold-news'],['today','今日重點','today-card'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
  const KEY='yhtis.subnav.v1';let cur='all';try{cur=localStorage.getItem(KEY)||'all'}catch(e){}
- function apply(){const d=document.getElementById('dashboard');if(!d)return;
+ function reorder(d){const nav=document.getElementById('dash-subnav');let prev=nav;SECS.slice(1).forEach(([,,id])=>{const el=document.getElementById(id);if(el&&el.parentNode===d){if(prev&&prev.nextElementSibling!==el)prev.after(el);prev=el;}});}
+ function apply(){const d=document.getElementById('dashboard');if(!d)return;reorder(d);
   SECS.slice(1).forEach(([k,,id])=>{const el=document.getElementById(id);if(el)el.setAttribute('data-sec',k===cur?'sel':'x')});
   if(cur==='all')d.removeAttribute('data-only');else{d.setAttribute('data-only','1');const el=document.getElementById((SECS.find(x=>x[0]===cur)||[])[2]);
    if(el&&el.classList.contains('fold')&&!el.classList.contains('open')){el.classList.add('open');const h=el.querySelector('.fold-head');if(h)h.setAttribute('aria-expanded','true');}}
@@ -486,7 +503,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.k;try{localStorage.setItem(KEY,cur)}catch(e){}apply();
    const top=d.getBoundingClientRect().top+window.scrollY-70;if(window.scrollY>top)window.scrollTo({top,behavior:'smooth'});
    b.scrollIntoView({block:'nearest',inline:'center'});});
-  apply();new MutationObserver(()=>{if(cur!=='all')apply()}).observe(d,{childList:true});}
+  apply();let busy=false;new MutationObserver(()=>{if(busy)return;busy=true;apply();busy=false;}).observe(d,{childList:true});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0),{once:true});else setTimeout(init,0);
 })();
 </script>
