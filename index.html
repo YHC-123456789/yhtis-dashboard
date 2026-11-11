@@ -385,14 +385,16 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   c.innerHTML='<div class="toolrow"><h2 style="margin:0">選股｜'+esc(I.AsOfDate)+' 收盤後</h2><span class="badge verified">260 組搜尋・驗證期確認</span></div>'
    +K.Groups.map(g=>{const st=g.Stats,pp=P[g.Key];
     return '<div class="intel-h3" style="margin-top:14px">'+esc(g.Name)+'｜'+g.Rule.map(r=>'<span class="tone t-中性">'+esc(r)+'</span>').join(' ')+' <span class="badge">'+g.Count+' 檔</span></div>'
-     +'<p class="minor" style="margin:0 0 6px">'+esc(g.Why)+'：60 日上漲 '+pc(st.Up60[0])+' → '+pc(st.Up60[1])+'，60 日超額 '+sp(st.X60[0])+' → '+sp(st.X60[1])+'（2019–24 → 2025–26）'
-     +(pp&&pp.Entered?'｜上線後實際：'+pp.Entered+' 筆平均 '+sp(pp.AvgRet)+'，大盤 '+sp(pp.AvgMkt):'')+'</p>'
+     +'<details class="more" style="margin:0 0 6px"><summary>回測數字</summary><div>'+esc(g.Why)+'：60 日上漲 '+pc(st.Up60[0])+' → '+pc(st.Up60[1])+'，60 日超額 '+sp(st.X60[0])+' → '+sp(st.X60[1])+'（2019–24 → 2025–26）'
+     +(pp&&pp.Entered?'｜上線後實際：'+pp.Entered+' 筆平均 '+sp(pp.AvgRet)+'，大盤 '+sp(pp.AvgMkt):'')+'</div></details>'
      +(g.List.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>收盤</th><th>停損參考</th><th>60 日漲幅</th><th class="hide-m">ADX（+DI／-DI）</th><th class="hide-m">多因子排名</th></tr></thead><tbody>'
       +g.List.map(x=>'<tr data-code="'+esc(x.Code)+'"'+(x.Star?' style="background:#fffaf0"':'')+'><td>'+(x.Star?'<b style="color:#d97706">★</b> ':'')+'<b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+esc(x.Ind||'')+(x.Yoy!=null?'｜營收年增 '+x.Yoy+'%':'')+'</small></td><td>'+x.Close+'</td><td style="color:'+DN+'">'+x.StopRef+'</td><td>'+sp(x.R60)+'</td><td class="hide-m">'+x.ADX+'（'+x.PDI+'／'+x.NDI+'）</td><td class="hide-m">'+(x.Rank?'第 '+x.Rank+' 名':'—')+'</td></tr>').join('')+'</tbody></table></div>'
-      :'<p class="minor" style="padding:8px 12px;background:#f5f8fc;border-radius:8px">今天沒有股票同時符合這 '+g.Rule.length+' 個條件。大跌後股價波動放大、跌破均線，「波動收斂」和「多頭趨勢」通常要盤整一段時間才會重新出現；名單空著代表條件不成立，不是程式壞掉。</p>');}).join('')
-   +'<p class="minor" style="margin-top:10px"><b style="color:#d97706">★ 加強</b>＝MACD 柱 > 0（盤整後動能已轉上），回測中兩組加上它都更好（穩健組 60 日超額 +3.5%→+4.0%、積極組 +6.4%→+9.9%，2025–26 驗證期也較好），排在最前面。</p>'
-   +'<p class="minor"><b>出場提醒：</b>停損＝進場價 -8%（盤中觸及就出）、持有滿 120 個交易日出場；<b>不設停利</b>——回測中固定停利、回落出場、保本出場都讓期望報酬約減半。持有中的停損價與剩餘天數見「成果追蹤」。點股票可看進場點推算與部位。</p>'
-   +'<details class="more"><summary>說明</summary><div><p class="source">'+esc(K.Note)+'</p></div></details>';
+      :'<p class="minor" style="padding:8px 12px;background:#f5f8fc;border-radius:8px">今天沒有符合的股票。</p>');}).join('')
+   +'<p class="minor" style="margin-top:10px"><b style="color:#d97706">★</b> 加強　｜　出場：停損 -8%、滿 120 日，不設停利</p>'
+   +'<details class="more"><summary>說明</summary><div><p class="minor"><b style="color:#d97706">★ 加強</b>＝MACD 柱 > 0（盤整後動能已轉上），回測中兩組加上它都更好（穩健組 60 日超額 +3.5%→+4.0%、積極組 +6.4%→+9.9%，2025–26 驗證期也較好），排在最前面。</p>'
+   +'<p class="minor"><b>出場：</b>停損＝進場價 -8%（盤中觸及就出）、持有滿 120 個交易日出場；不設停利——回測中固定停利、回落出場、保本出場都讓期望報酬約減半。持有中的停損價與剩餘天數見「成果追蹤」。點股票可看進場點推算與部位。</p>'
+   +'<p class="minor">名單空著代表今天沒有股票同時符合全部條件；大跌後股價波動放大、跌破均線，「波動收斂」和「多頭趨勢」通常要盤整一段時間才會重新出現。</p>'
+   +'<p class="source">'+esc(K.Note)+'</p></div></details>';
   c.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',()=>{if(typeof chooseStock==='function')chooseStock(tr.dataset.code)}));}
  function trackRender(){let c=$('track-card');const anchor=$('combo-card');if(!c&&anchor){c=document.createElement('div');c.className='card';c.id='track-card';c.style.marginBottom='14px';anchor.after(c);}
   if(!c||!I||!I.Paper)return;const P=I.Paper,NM={STEADY:'選股・穩健組',AGGR:'選股・積極組',TOP:'多因子前 20 名',S2:'S2 營收＋新高',S1:'S1 營收＋漲停'};const ks=['STEADY','AGGR','TOP','S2','S1'].filter(k=>P[k]&&P[k].Signals);
@@ -424,7 +426,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   const cell=a=>p((a[0]+a[1])/2)+'<br><small class="minor">'+m((a[2]+a[3])/2)+'</small>';
   const msg={'恐慌區':'歷史上最好的進場區間：兩段期間 60 日上漲比例都最高。但進場後常再跌 10%～16% 才見底，資料支持分批、不一次買滿。','偏弱':'上漲比例接近一半，優勢小；多因子前段仍優於全體。','中性':'一般狀態；以多因子前段、S2（大盤在季線上時）為主。','偏強':'一般狀態；S2 在大盤季線上時表現較好。','過熱':'兩段期間結果不一致（2025–26 明顯變差），追價優勢不明確。'};
   c.innerHTML='<div class="toolrow"><h2 style="margin:0">進場時機｜'+esc(I.AsOfDate)+'</h2><span class="badge" style="background:'+(zc[T.Zone]||'#526175')+';color:#fff">'+esc(T.Zone)+'</span></div>'
-   +'<p style="margin:8px 0 4px;font-size:15px">站上 20 日線的股票 <b>'+T.AboveMA20Pct+'%</b>　→　<b style="color:'+(zc[T.Zone]||'inherit')+'">'+esc(T.Zone)+'</b></p><p class="minor" style="margin:0 0 10px">'+esc(msg[T.Zone]||'')+'</p>'
+   +'<p style="margin:8px 0 4px;font-size:15px">站上 20 日線的股票 <b>'+T.AboveMA20Pct+'%</b>　→　<b style="color:'+(zc[T.Zone]||'inherit')+'">'+esc(T.Zone)+'</b></p><details class="more" style="margin:0 0 8px"><summary>這代表什麼</summary><div>'+esc(msg[T.Zone]||'')+'</div></details>'
    +'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>站上20日線比例</th><th>全體股票<br><small>60日上漲／平均</small></th><th>多因子前段</th><th class="hide-m">S2</th><th>加權指數</th></tr></thead><tbody>'
    +T.Zones.map(z=>'<tr style="'+(z.key===T.Key?'background:#fff6e5;font-weight:600':'')+'"><td>'+esc(z.key)+' '+esc(z.name)+(z.key===T.Key?' ◀ 今天':'')+'</td><td>'+cell(z.all)+'</td><td>'+cell(z.top)+'</td><td class="hide-m">'+cell(z.s2)+'</td><td>'+cell(z.index)+'</td></tr>').join('')+'</tbody></table></div>'
    +'<details class="more"><summary>說明</summary><div><p class="minor">表內為 2019–2024 與 2025–2026 兩段期間的平均：隔日開盤買、持有 60 日的上漲比例與平均報酬（扣成本 0.485%）；加權指數為價格指數。S2 只在大盤站上季線時有效（季線上 60 日上漲 55%～59%、平均 +8%～+17%；季線下約打平）。</p><p class="source">'+esc(T.Notes)+' 來源：'+esc(T.Source)+'</p></div></details>';}
