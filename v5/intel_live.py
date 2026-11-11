@@ -923,6 +923,11 @@ def main(argv=None):
     for c, e in stocks.items():
         if c in closes:
             e['Close'] = closes[c]
+            F = feat.get(c)
+            if F and F['dates'][-1] == asof and len(F['C']) > 21:
+                e['Chg'] = round((F['C'][-1] / F['C'][-2] - 1) * 100, 2)
+                e['R20'] = round((F['C'][-1] / F['C'][-21] - 1) * 100, 1)
+                e['NearHigh'] = round(F['C'][-1] / max(F['H'][-252:]) * 100, 1)
 
     # 產業分類（官方產業別，取自公開資訊觀測站月營收彙總表）
     sectors = None

@@ -489,7 +489,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   const open=!!st.news;f.classList.toggle('open',open);f.firstChild.setAttribute('aria-expanded',open);
   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o);try{const s=JSON.parse(localStorage.getItem('yhtis.fold.v1')||'{}');s.news=o;localStorage.setItem('yhtis.fold.v1',JSON.stringify(s))}catch(e){}});
   const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();picksRender();sectorRender();trackRender();
+  Promise.all([get('./v5/intel_latest.json'),get('./daily_screen/latest.json')]).then(([x,ds])=>{I=x;window.YHTIS_INTEL=x;render(ds&&ds.AsOfDate);dtRender();comboRender();timingRender();picksRender();sectorRender();trackRender();if(window.YHTIS_WATCH_CARD)window.YHTIS_WATCH_CARD();
    if(typeof selected!=='undefined'&&selected)stockCard(selected);});
   const prev0=window.YHTIS_V5_FOR;if(!(prev0&&prev0.__intel)){window.YHTIS_V5_FOR=function(code){if(prev0)prev0.apply(this,arguments);stockCard(code)};window.YHTIS_V5_FOR.__intel=1;}
  }
@@ -507,7 +507,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
 </style>
 <script id="YHTIS_SUBNAV_V1">
 (function(){'use strict';
- const SECS=[['all','全部'],['picks','選股','picks-card'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['track','成果追蹤','track-card'],['intel','綜合判讀','intel-card'],['sector','產業','fold-sector'],['news','消息面','fold-news'],['today','今日重點','today-card'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
+ const SECS=[['all','全部'],['watch','自選','watch-card'],['picks','選股','picks-card'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['track','成果追蹤','track-card'],['intel','綜合判讀','intel-card'],['sector','產業','fold-sector'],['news','消息面','fold-news'],['today','今日重點','today-card'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
  const KEY='yhtis.subnav.v1';let cur='all';try{cur=localStorage.getItem(KEY)||'all'}catch(e){}
  function reorder(d){const nav=document.getElementById('dash-subnav');let prev=nav;SECS.slice(1).forEach(([,,id])=>{const el=document.getElementById(id);if(el&&el.parentNode===d){if(prev&&prev.nextElementSibling!==el)prev.after(el);prev=el;}});}
  function apply(){const d=document.getElementById('dashboard');if(!d)return;reorder(d);
@@ -525,6 +525,54 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
    b.scrollIntoView({block:'nearest',inline:'center'});});
   apply();let busy=false;new MutationObserver(()=>{if(busy)return;busy=true;apply();busy=false;}).observe(d,{childList:true});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0),{once:true});else setTimeout(init,0);
+})();
+</script>
+<style id="YHTIS_WATCH_RM_CSS">.wc-m,.wc-mi{display:none}@media (max-width:600px){.wc-mi{display:inline}.wc-m{display:block;margin-top:4px}.wc-d{display:none}#watch-card td:first-child{max-width:180px}.wc-m small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}}.watchitem .wrm{margin-left:8px;flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#8a97a8;font-size:14px;cursor:pointer}.watchitem .wrm:hover{background:#fde8e7;color:#b42318}</style>
+<script id="YHTIS_WATCH_REMOVE_V1">
+(function(){'use strict';
+ function rm(c){try{watchSet(watchGet().filter(x=>x!==c))}catch(e){}syncBtn();}
+ window.renderWatch=renderWatch=function(){const wrap=document.getElementById('watchlist');if(!wrap)return;wrap.replaceChildren();const a=watchGet();
+  a.forEach(c=>{const q=(typeof stockMap!=='undefined')?stockMap.get(c):null;const b=document.createElement('div');b.className='watchitem';b.setAttribute('role','button');b.tabIndex=0;b.style.cursor='pointer';
+   const left=document.createElement('span'),right=document.createElement('span');const strong=document.createElement('div');strong.className='stock-name';strong.textContent=c+' '+(q&&q.Name||'關注');
+   const sub=document.createElement('div');sub.className='stock-sub';sub.textContent='自選股';left.append(strong,sub);right.className='price';right.textContent=q?String(q.Close):'—';
+   const x=document.createElement('span');x.className='wrm';x.textContent='✕';x.title='移出自選';x.setAttribute('role','button');x.setAttribute('aria-label','把 '+c+' 移出自選');
+   x.addEventListener('click',e=>{e.stopPropagation();rm(c)});
+   const rr=document.createElement('span');rr.style.display='inline-flex';rr.style.alignItems='center';rr.append(right,x);
+   b.append(left,rr);b.addEventListener('click',()=>chooseStock(c));b.addEventListener('keydown',e=>{if(e.key==='Enter')chooseStock(c)});wrap.appendChild(b)});
+  if(!a.length)wrap.innerHTML='<p class="minor">自選清單為空。在個股分析按「＋ 加入自選」即可加入。</p>';try{watchCard()}catch(e){}};
+
+ function wesc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+ function wsp(v,u){u=u||'%';return v==null?'—':'<span style="color:'+(v>0?'#d92d20':v<0?'#039855':'inherit')+'">'+(v>0?'+':'')+v+u+'</span>'}
+ function watchCard(){const d=document.getElementById('dashboard');if(!d)return;let c=document.getElementById('watch-card');
+  if(!c){c=document.createElement('div');c.className='card';c.id='watch-card';c.style.marginBottom='14px';c.style.border='2px solid #172338';const nav=document.getElementById('dash-subnav');if(nav)nav.after(c);else d.prepend(c);}
+  const I=window.YHTIS_INTEL,a=watchGet();
+  const inList=code=>{const t=[];if(I&&I.Picks)I.Picks.Groups.forEach(g=>{const x=g.List.find(y=>y.Code===code);if(x)t.push((x.Star?'★':'')+g.Name)});if(I&&(I.S2||[]).some(x=>x.Code===code))t.push('S2');if(I&&(I.S1||[]).some(x=>x.Code===code))t.push('S1');return t;};
+  const rows=a.map(code=>{const q=(typeof stockMap!=='undefined')?stockMap.get(code):null;const s=(I&&I.Stocks&&I.Stocks[code])||{};const cb=I&&I.Combo&&I.Combo.All[code];const r=s.Rev;const tags=inList(code);
+    const al=[];if(s.Chg!=null&&Math.abs(s.Chg)>=5)al.push(s.Chg>0?'今日大漲':'今日大跌');if(s.NearHigh!=null&&s.NearHigh>=99)al.push('接近 52 週新高');if((s.Ann||[]).some(x=>x.Tone==='負面'||x.Tone==='注意'))al.push('有負面／注意重大訊息');if(tags.length)al.push('進入名單');
+    const ann=(s.Ann||[])[0];
+    const info=(tags.length?tags.map(t=>'<span class="tone t-正面">'+wesc(t)+'</span>').join(' '):'')+(ann?'<br><small class="minor"><span class="tone t-'+wesc(ann.Tone)+'">'+wesc(ann.Tone)+'</span> '+wesc(ann.Subject.slice(0,26))+'</small>':'')+(al.length?'<br><b style="color:#b42318;font-size:12px">⚠ '+al.map(wesc).join('、')+'</b>':'');
+    return '<tr data-code="'+wesc(code)+'"><td><span class="wc-mi" data-rm="'+wesc(code)+'" role="button" aria-label="把 '+wesc(code)+' 移出自選" style="float:right;color:#8a97a8;padding:0 4px;cursor:pointer">✕</span><b>'+wesc(code)+' '+wesc(q&&q.Name||'')+'</b><br><small class="minor">'+wesc(s.Ind||'')+'</small>'+(info?'<div class="wc-m">'+info+'</div>':'')+'</td>'
+     +'<td>'+(s.Close!=null?s.Close:(q?q.Close:'—'))+'<br><small>'+wsp(s.Chg)+'</small></td><td class="wc-d">'+wsp(s.R20)+'</td>'
+     +'<td>'+(cb?'第 '+cb.Rank+' 名<br><small class="minor">60 日上漲 '+cb.P60+'%</small>':'<small class="minor">未排名</small>')+'</td>'
+     +'<td class="hide-m">'+(r?'年增 '+(r.Yoy==null?'—':r.Yoy+'%')+(r.REV?' <b style="color:#d92d20">轉強</b>':''):'—')+'</td>'
+     +'<td class="wc-d">'+(info||'—')+'</td>'
+     +'<td class="wc-d"><span class="wrm" data-rm="'+wesc(code)+'" title="移出自選" role="button" aria-label="把 '+wesc(code)+' 移出自選" style="cursor:pointer;color:#8a97a8;padding:4px 8px">✕</span></td></tr>';}).join('');
+  c.innerHTML='<div class="toolrow"><h2 style="margin:0">⭐ 自選追蹤'+(I?'｜'+wesc(I.AsOfDate):'')+'</h2><span style="display:inline-flex;gap:6px"><input id="wc-in" placeholder="輸入代號" inputmode="numeric" maxlength="4" style="width:90px;padding:6px 8px;border:1px solid #cfd8e3;border-radius:8px"><button class="btn" id="wc-add">＋ 加入</button></span></div>'
+   +(a.length?'<div class="intel-wrap"><table class="intel-tbl" style="margin-top:8px"><thead><tr><th>股票</th><th>收盤／今日</th><th class="wc-d">近 20 日</th><th>多因子</th><th class="hide-m">營收</th><th class="wc-d">名單／消息／提醒</th><th class="wc-d"></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<p class="minor">自選清單為空。上面輸入代號，或在個股分析按「＋ 加入自選」。</p>')
+   +'<p id="wc-msg" class="minor" style="margin:6px 0 0"></p>';
+  c.querySelectorAll('tr[data-code]').forEach(tr=>tr.addEventListener('click',e=>{if(e.target.closest('[data-rm]'))return;chooseStock(tr.dataset.code)}));
+  c.querySelectorAll('[data-rm]').forEach(x=>x.addEventListener('click',e=>{e.stopPropagation();rm(x.dataset.rm)}));
+  const add=()=>{const v=(document.getElementById('wc-in').value||'').trim();const msg=document.getElementById('wc-msg');if(!/^\d{4}$/.test(v)){msg.textContent='請輸入 4 位數代號';return;}
+   if(typeof stockMap!=='undefined'&&stockMap.size&&!stockMap.has(v)){msg.textContent='找不到 '+v+'（只收上市櫃普通股）';return;}
+   const cur=watchGet();if(cur.includes(v)){msg.textContent=v+' 已在自選';return;}if(cur.length>=18){msg.textContent='自選最多 18 檔';return;}watchSet([...cur,v]);syncBtn();};
+  document.getElementById('wc-add').addEventListener('click',add);document.getElementById('wc-in').addEventListener('keydown',e=>{if(e.key==='Enter')add()});}
+ window.YHTIS_WATCH_CARD=watchCard;
+ function syncBtn(){const b=document.getElementById('add-watch');if(!b||typeof selected==='undefined')return;const on=selected&&watchGet().includes(selected);b.textContent=on?'✓ 已在自選（點一下移除）':'＋ 加入自選';}
+ function init(){const old=document.getElementById('add-watch');if(old){const b=old.cloneNode(true);old.replaceWith(b);
+   b.addEventListener('click',()=>{if(!selected)return;const a=watchGet();if(a.includes(selected))rm(selected);else if(typeof valid==='undefined'||valid){watchSet([...a,selected]);syncBtn();}});}
+  const prev=window.YHTIS_V5_FOR;window.YHTIS_V5_FOR=function(){if(prev)prev.apply(this,arguments);syncBtn();};if(prev&&prev.__intel)window.YHTIS_V5_FOR.__intel=1;
+  try{renderWatch()}catch(e){}syncBtn();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,50),{once:true});else setTimeout(init,50);
 })();
 </script>
 </body></html>
