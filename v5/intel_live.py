@@ -484,7 +484,7 @@ def paper_record(asof, lists):
     return rows
 
 
-def paper_eval(rows, days, feat):
+def paper_eval(rows, days, feat, per=None):
     """隔日開盤買（漲 ≥9.5% 視為買不到）、盤中觸及 -8% 停損（跳空以開盤）、最長 120 日；同策略同股 20 日內只算第一次。
     每筆另算同期間「全市場等權」報酬（同一進場日開盤到同一出場日），用來比較是否贏大盤。"""
     pos = {d: i for i, d in enumerate(days)}
@@ -540,6 +540,19 @@ def paper_eval(rows, days, feat):
                 m = mkt(F['dates'][e], res[1], res[3])
             else:
                 t.update({'Status': '持有中', 'Ret': round((F['C'][-1] / px - 1) * 100, 2)})
+                held_days = len(F['O']) - e
+                raw = per[c] if per and c in per else None
+                if raw and len(raw) == len(F['O']):
+                    # 停損價換算成「今日價格基準」：還原因子變動（除權息）時一併調整
+                    stop_raw = round(px * (1 - STOP) * raw[-1][4] / F['C'][-1], 2)
+                    t.update({'EntryPx': raw[e][1], 'StopPx': stop_raw, 'Last': raw[-1][4], 'ToStop': round((stop_raw / raw[-1][4] - 1) * 100, 1)})
+                t.update({'Held': held_days, 'Left': MAXH - held_days})
+                alerts = []
+                if 'ToStop' in t and t['ToStop'] > -3:
+                    alerts.append('接近停損')
+                if MAXH - held_days <= 10:
+                    alerts.append('即將滿 120 日')
+                t['Alert'] = alerts
                 m = mkt(F['dates'][e], F['dates'][-1], False)
             t['Mkt'] = round(m * 100, 2) if m is not None else None
             trades.append(t)
@@ -586,6 +599,18 @@ def dmi_series(H, L, C, n=14):
             adx = dx if adx is None else (1 - al) * adx + al * dx
         adxs.append(adx if i >= 2 * n - 2 else None)
     return pdi, ndi, adxs
+
+
+def macd_hist_pos(C):
+    """MACD 柱 > 0（EMA12−EMA26 與其 9 日 EMA 之差），與研究程式 pandas ewm(span, adjust=False) 相同算法。"""
+    a12, a26, a9 = 2 / 13, 2 / 27, 2 / 10
+    e12 = e26 = sig = None
+    for v in C:
+        e12 = v if e12 is None else e12 + a12 * (v - e12)
+        e26 = v if e26 is None else e26 + a26 * (v - e26)
+        d = e12 - e26
+        sig = d if sig is None else sig + a9 * (d - sig)
+    return (e12 - e26) - sig > 0
 
 
 # ---------------- 主流程 ----------------
@@ -823,16 +848,17 @@ def main(argv=None):
             if adxs[-1] is None or adxs[-6] is None:
                 continue
             dit = pdi > ndi and adxs[-1] > 25
+            star = macd_hist_pos(F['C'])
             adxup = adxs[-1] > adxs[-6]
             base_item = lambda: {'Code': c, 'Name': names[c][0], 'Ind': IND.get(c, ''), 'Close': per[c][-1][4], 'StopRef': round(per[c][-1][4] * (1 - STOP), 2),
                                  'R60': round(v['r60'] * 100, 1), 'Val20': round(v['val20'] / 1e8, 2), 'ADX': round(adxs[-1], 1),
-                                 'PDI': round(pdi, 1), 'NDI': round(ndi, 1), 'Rank': (combo['All'].get(c) or {}).get('Rank')}
+                                 'PDI': round(pdi, 1), 'NDI': round(ndi, 1), 'Rank': (combo['All'].get(c) or {}).get('Rank'), 'Star': star}
             if v['NH'] and v['TR'] and v['SQ'] and adxup:
                 lists['STEADY'].append(base_item())
             if v['REV'] and v['TR'] and v['SQ'] and dit:
                 x = base_item(); x['Yoy'] = (rev_now.get(c) or {}).get('Yoy'); lists['AGGR'].append(x)
         for k in lists:
-            lists[k].sort(key=lambda x: (-x['R60'], x['Code']))
+            lists[k].sort(key=lambda x: (not x['Star'], -x['R60'], x['Code']))
         picks = {'Groups': [{**d, 'List': lists[d['Key']][:20], 'Count': len(lists[d['Key']])} for d in PICK_DEF],
                  'Note': '條件定義：近52週高＝收盤 ≥ 近 252 日最高 95%；多頭趨勢＝收盤 > 20 日線 > 60 日線；波動收斂＝布林帶寬 < 近 60 日中位數 × 0.85；'
                          'ADX上升＝ADX(14) 高於 5 日前；DMI趨勢確認＝+DI > -DI 且 ADX > 25；營收轉強＝近 3 月年增率平均上升且營收創 12 月新高（次月 11 日起 75 日內）。'
@@ -944,7 +970,7 @@ def main(argv=None):
         window = {'RevYM': latest_ym, 'From': rd.isoformat(), 'To': (rd + timedelta(days=7)).isoformat(), 'Active': 0 <= (asof_d - rd).days <= 7}
     pk = {g['Key']: g['List'][:10] for g in (picks or {}).get('Groups', [])}
     paper_rows = paper_record(asof, {'TOP': (combo['Top'][:20] if combo else []), 'S1': s1, 'S2': s2, 'STEADY': pk.get('STEADY', []), 'AGGR': pk.get('AGGR', [])}) if not a.asof else []
-    paper = paper_eval(paper_rows, days, feat)
+    paper = paper_eval(paper_rows, days, feat, per)
     ann_last = max((x['Date'] for x in ann_all), default=None)  # 官方 OpenAPI 可能延後一天，取最近一個有資料的發言日
     ann_today = [x for x in ann_all if x['Date'] == ann_last]
 
