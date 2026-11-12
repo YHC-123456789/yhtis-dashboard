@@ -382,7 +382,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
  function picksRender(){let c=$('picks-card');const anchor=$('timing-card')||$('combo-card');if(!c&&anchor){c=document.createElement('div');c.className='card';c.id='picks-card';c.style.marginBottom='14px';anchor.before(c);}
   if(!c)return;const K=I&&I.Picks;if(!K){c.innerHTML='<h2 style="margin:0">選股</h2><p class="minor">今日未產生。</p>';return;}
   const pc=v=>'<b style="color:'+(v>=50?UP:DN)+'">'+v+'%</b>';const P=I.Paper||{};
-  c.innerHTML='<div class="toolrow"><h2 style="margin:0">選股｜'+esc(I.AsOfDate)+' 收盤後</h2><span class="badge verified">260 組搜尋・驗證期確認</span></div>'+panicBar()
+  c.innerHTML='<div class="toolrow"><h2 style="margin:0">選股｜'+esc(I.AsOfDate)+' 收盤後</h2><span class="badge verified">260 組搜尋・驗證期確認</span></div>'+(I.Timing&&I.Timing.Zone==='恐慌區'?panicBar():(I.Timing?'<p style="margin:6px 0 4px">進場時機：<b>'+esc(I.Timing.Zone)+'</b>（站上 20 日線 '+I.Timing.AboveMA20Pct+'%）</p>':''))
    +K.Groups.map(g=>{const st=g.Stats,pp=P[g.Key];
     return '<div class="intel-h3" style="margin-top:14px">'+esc(g.Name)+'｜'+g.Rule.map(r=>'<span class="tone t-中性">'+esc(r)+'</span>').join(' ')+' <span class="badge">'+g.Count+' 檔</span></div>'
      +'<details class="more" style="margin:0 0 6px"><summary>回測數字</summary><div>'+esc(g.Why)+'：60 日上漲 '+pc(st.Up60[0])+' → '+pc(st.Up60[1])+'，60 日超額 '+sp(st.X60[0])+' → '+sp(st.X60[1])+'（2019–24 → 2025–26）'
@@ -390,6 +390,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
      +(g.List.length?'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>股票</th><th>收盤</th><th>停損參考</th><th>60 日漲幅</th><th class="hide-m">ADX（+DI／-DI）</th><th class="hide-m">多因子排名</th></tr></thead><tbody>'
       +g.List.map(x=>'<tr data-code="'+esc(x.Code)+'"'+(x.Star?' style="background:#fffaf0"':'')+'><td>'+(x.Star?'<b style="color:#d97706">★</b> ':'')+'<b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+esc(x.Ind||'')+(x.Yoy!=null?'｜營收年增 '+x.Yoy+'%':'')+'</small></td><td>'+x.Close+'</td><td style="color:'+DN+'">'+x.StopRef+'</td><td>'+sp(x.R60)+'</td><td class="hide-m">'+x.ADX+'（'+x.PDI+'／'+x.NDI+'）</td><td class="hide-m">'+(x.Rank?'第 '+x.Rank+' 名':'—')+'</td></tr>').join('')+'</tbody></table></div>'
       :'<p class="minor" style="padding:8px 12px;background:#f5f8fc;border-radius:8px">今天沒有符合的股票。</p>');}).join('')
+   +(K.Groups.every(g=>!g.List.length)&&I.Combo?'<div class="intel-h3" style="margin-top:14px">兩組都沒有時：多因子前 5 名</div><div class="intel-wrap"><table class="intel-tbl"><tbody>'+I.Combo.Top.slice(0,5).map(x=>'<tr data-code="'+esc(x.Code)+'"><td><b>'+esc(x.Code)+' '+esc(x.Name)+'</b><br><small class="minor">'+esc(x.Ind||'')+'</small></td><td>'+x.Close+'</td><td style="color:'+DN+'">停損 '+x.StopRef+'</td><td>60 日上漲 '+x.P60+'%</td></tr>').join('')+'</tbody></table></div>':'')
    +'<p class="minor" style="margin-top:10px"><b style="color:#d97706">★</b> 加強　｜　出場：停損 -8%、滿 120 日，不設停利</p>'
    +'<details class="more"><summary>說明</summary><div><p class="minor"><b style="color:#d97706">★ 加強</b>＝MACD 柱 > 0（盤整後動能已轉上），回測中兩組加上它都更好（穩健組 60 日超額 +3.5%→+4.0%、積極組 +6.4%→+9.9%，2025–26 驗證期也較好），排在最前面。</p>'
    +'<p class="minor"><b>出場：</b>停損＝進場價 -8%（盤中觸及就出）、持有滿 120 個交易日出場；不設停利——回測中固定停利、回落出場、保本出場都讓期望報酬約減半。持有中的停損價與剩餘天數見「成果追蹤」。點股票可看進場點推算與部位。</p>'
@@ -434,7 +435,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
  function comboRender(){let c=$('combo-card');const ic=$('intel-card');if(!c&&ic){c=document.createElement('div');c.className='card';c.id='combo-card';c.style.marginBottom='14px';ic.before(c);}
   if(!c)return;const K=I&&I.Combo;if(!K){c.innerHTML='<h2 style="margin:0">多因子上漲機率排行</h2><p class="minor">今日未產生。</p>';return;}
   const pc=v=>v==null?'—':'<b style="color:'+(v>=50?UP:DN)+'">'+v+'%</b>';
-  const n=+(c.dataset.n||20);const rows=K.Top.slice(0,n);
+  const n=+(c.dataset.n||10);const rows=K.Top.slice(0,n);
   c.innerHTML='<div class="toolrow"><h2 style="margin:0">多因子上漲機率排行｜'+esc(I.AsOfDate)+'</h2><span class="badge verified">6 因子・64 種組合</span></div>'+panicBar()
    +'<p class="minor" style="margin:6px 0 8px">全體平均：20 日上漲 '+K.Base.P20+'%、60 日上漲 '+K.Base.P60+'%（共 '+K.Count+' 檔可排名）</p>'
    +'<div class="intel-wrap"><table class="intel-tbl"><thead><tr><th>#</th><th>股票</th><th>20 日上漲</th><th>60 日上漲</th><th>60 日平均</th><th class="hide-m">符合因子</th><th class="hide-m">停損參考</th></tr></thead><tbody>'
@@ -507,9 +508,16 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
 </style>
 <script id="YHTIS_SUBNAV_V1">
 (function(){'use strict';
- const SECS=[['all','全部'],['watch','自選','watch-card'],['picks','選股','picks-card'],['timing','進場時機','timing-card'],['combo','多因子排行','combo-card'],['track','成果追蹤','track-card'],['intel','綜合判讀','intel-card'],['sector','產業','fold-sector'],['news','消息面','fold-news'],['today','今日重點','today-card'],['v5','V5 名單','fold-v5'],['rank','綜合排行','fold-rank'],['market','市場總覽','fold-market']];
- const KEY='yhtis.subnav.v1';let cur='all';try{cur=localStorage.getItem(KEY)||'all'}catch(e){}
- function reorder(d){const nav=document.getElementById('dash-subnav');let prev=nav;SECS.slice(1).forEach(([,,id])=>{const el=document.getElementById(id);if(el&&el.parentNode===d){if(prev&&prev.nextElementSibling!==el)prev.after(el);prev=el;}});}
+ const SECS=[['all','全部'],['watch','自選','watch-card'],['picks','今日選股','picks-card'],['combo','多因子','combo-card'],['track','持股・成績','track-card'],['more','更多資料','more-fold']];
+ const MORE=['timing-card','intel-card','fold-sector','fold-news','today-card','fold-v5','fold-rank','fold-market'];
+ const KEY='yhtis.subnav.v1';let cur='all';try{cur=localStorage.getItem(KEY)||'all'}catch(e){}if(!SECS.some(x=>x[0]===cur))cur='all';
+ function moreFold(d){let f=document.getElementById('more-fold');if(!f){f=document.createElement('section');f.className='fold';f.id='more-fold';
+   f.innerHTML='<button class="fold-head" type="button" aria-expanded="false"><span class="arrow">▸</span><span>更多資料（參考用）</span><span class="hint">進場時機細節、綜合判讀、產業、消息、V5、市場總覽</span></button><div class="fold-body" id="more-body"></div>';
+   f.firstChild.addEventListener('click',()=>{const o=!f.classList.contains('open');f.classList.toggle('open',o);f.firstChild.setAttribute('aria-expanded',o)});d.appendChild(f);}return f;}
+ function reorder(d){const nav=document.getElementById('dash-subnav');const f=moreFold(d);const mb=document.getElementById('more-body');
+  let prev=nav;SECS.slice(1).forEach(([,,id])=>{const el=document.getElementById(id);if(!el)return;if(el.parentNode!==d||(prev&&prev.nextElementSibling!==el))prev.after(el);prev=el;});
+  MORE.forEach(id=>{const el=document.getElementById(id);if(el&&el.parentNode!==mb)mb.appendChild(el);});
+  const order=MORE.map(id=>document.getElementById(id)).filter(Boolean);order.forEach((el,i)=>{if(mb.children[i]!==el)mb.appendChild(el);});}
  function apply(){const d=document.getElementById('dashboard');if(!d)return;reorder(d);
   SECS.slice(1).forEach(([k,,id])=>{const el=document.getElementById(id);if(el)el.setAttribute('data-sec',k===cur?'sel':'x')});
   if(cur==='all')d.removeAttribute('data-only');else{d.setAttribute('data-only','1');const el=document.getElementById((SECS.find(x=>x[0]===cur)||[])[2]);
@@ -523,7 +531,7 @@ details.more{margin-top:10px;font-size:13px;color:#526175}details.more>summary{c
   nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.k;try{localStorage.setItem(KEY,cur)}catch(e){}apply();
    const top=d.getBoundingClientRect().top+window.scrollY-70;if(window.scrollY>top)window.scrollTo({top,behavior:'smooth'});
    b.scrollIntoView({block:'nearest',inline:'center'});});
-  apply();let busy=false;new MutationObserver(()=>{if(busy)return;busy=true;apply();busy=false;}).observe(d,{childList:true});}
+  apply();let busy=false;new MutationObserver(()=>{if(busy)return;busy=true;apply();busy=false;}).observe(d,{childList:true,subtree:true});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0),{once:true});else setTimeout(init,0);
 })();
 </script>
