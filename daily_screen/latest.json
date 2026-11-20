@@ -1,54 +1,23 @@
 {
-  "AsOfDate": "2026-11-19",
+  "AsOfDate": "2026-11-20",
   "LastFiveSessions": [
-    "2026-11-13",
     "2026-11-16",
     "2026-11-17",
     "2026-11-18",
-    "2026-11-19"
+    "2026-11-19",
+    "2026-11-20"
   ],
   "UniverseScope": "TWSE+TPEx 4-digit ordinary stocks",
   "Source": "TWSE/TPEx dated official daily OHLCV (unadjusted)",
   "Strategy": "5-session technical OBSERVATION ONLY — not Golden Entry, Stage1, Stage2, or investment advice",
   "Disclaimer": "非必漲預測。未提供勝率驗證。價格可能涉及除權、分割；個別異常股已先排除。",
-  "GeneratedTaipei": "2026-11-20T03:34:30+08:00",
+  "GeneratedTaipei": "2026-11-21T03:12:02+08:00",
   "Counts": {
-    "CompleteFiveSessionStocks": 1916,
+    "CompleteFiveSessionStocks": 1921,
     "ExcludedExtremePriceJump": 0,
-    "BreakoutCount": 2,
+    "BreakoutCount": 0,
     "TrendCount": 0,
-    "TotalCandidates": 2
+    "TotalCandidates": 0
   },
-  "Candidates": [
-    {
-      "Code": "6782",
-      "Name": "視陽",
-      "Market": "TWSE",
-      "Category": "突破觀察",
-      "Close": 290.5,
-      "DayPct": 9.01,
-      "FiveDayPct": 1.93,
-      "VolumeLots": 2161,
-      "VolumeRatio": 5.09,
-      "ClosePositionPct": 76.2,
-      "ReferenceLow": 282.5,
-      "RiskToDayLowPct": 2.75,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    },
-    {
-      "Code": "2540",
-      "Name": "愛山林",
-      "Market": "TWSE",
-      "Category": "突破觀察",
-      "Close": 48.75,
-      "DayPct": 2.63,
-      "FiveDayPct": 6.21,
-      "VolumeLots": 1496,
-      "VolumeRatio": 2.28,
-      "ClosePositionPct": 82.1,
-      "ReferenceLow": 47.6,
-      "RiskToDayLowPct": 2.36,
-      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
-    }
-  ]
+  "Candidates": []
 }
