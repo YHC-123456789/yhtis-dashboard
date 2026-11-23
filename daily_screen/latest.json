@@ -1,19 +1,19 @@
 {
-  "AsOfDate": "2026-11-20",
+  "AsOfDate": "2026-11-23",
   "LastFiveSessions": [
-    "2026-11-16",
     "2026-11-17",
     "2026-11-18",
     "2026-11-19",
-    "2026-11-20"
+    "2026-11-20",
+    "2026-11-23"
   ],
   "UniverseScope": "TWSE+TPEx 4-digit ordinary stocks",
   "Source": "TWSE/TPEx dated official daily OHLCV (unadjusted)",
   "Strategy": "5-session technical OBSERVATION ONLY — not Golden Entry, Stage1, Stage2, or investment advice",
   "Disclaimer": "非必漲預測。未提供勝率驗證。價格可能涉及除權、分割；個別異常股已先排除。",
-  "GeneratedTaipei": "2026-11-21T03:12:02+08:00",
+  "GeneratedTaipei": "2026-11-24T06:48:16+08:00",
   "Counts": {
-    "CompleteFiveSessionStocks": 1921,
+    "CompleteFiveSessionStocks": 1916,
     "ExcludedExtremePriceJump": 0,
     "BreakoutCount": 0,
     "TrendCount": 0,
