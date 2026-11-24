@@ -1,23 +1,129 @@
 {
-  "AsOfDate": "2026-11-23",
+  "AsOfDate": "2026-11-24",
   "LastFiveSessions": [
-    "2026-11-17",
     "2026-11-18",
     "2026-11-19",
     "2026-11-20",
-    "2026-11-23"
+    "2026-11-23",
+    "2026-11-24"
   ],
   "UniverseScope": "TWSE+TPEx 4-digit ordinary stocks",
   "Source": "TWSE/TPEx dated official daily OHLCV (unadjusted)",
   "Strategy": "5-session technical OBSERVATION ONLY — not Golden Entry, Stage1, Stage2, or investment advice",
   "Disclaimer": "非必漲預測。未提供勝率驗證。價格可能涉及除權、分割；個別異常股已先排除。",
-  "GeneratedTaipei": "2026-11-24T06:48:16+08:00",
+  "GeneratedTaipei": "2026-11-25T05:26:38+08:00",
   "Counts": {
-    "CompleteFiveSessionStocks": 1916,
+    "CompleteFiveSessionStocks": 1932,
     "ExcludedExtremePriceJump": 0,
-    "BreakoutCount": 0,
-    "TrendCount": 0,
-    "TotalCandidates": 0
+    "BreakoutCount": 6,
+    "TrendCount": 1,
+    "TotalCandidates": 7
   },
-  "Candidates": []
+  "Candidates": [
+    {
+      "Code": "2474",
+      "Name": "可成",
+      "Market": "TWSE",
+      "Category": "突破觀察",
+      "Close": 206.0,
+      "DayPct": 6.74,
+      "FiveDayPct": 3.78,
+      "VolumeLots": 10632,
+      "VolumeRatio": 2.63,
+      "ClosePositionPct": 72.2,
+      "ReferenceLow": 199.5,
+      "RiskToDayLowPct": 3.16,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    },
+    {
+      "Code": "3014",
+      "Name": "聯陽",
+      "Market": "TWSE",
+      "Category": "突破觀察",
+      "Close": 130.5,
+      "DayPct": 9.66,
+      "FiveDayPct": 4.82,
+      "VolumeLots": 2446,
+      "VolumeRatio": 2.03,
+      "ClosePositionPct": 100.0,
+      "ReferenceLow": 126.0,
+      "RiskToDayLowPct": 3.45,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    },
+    {
+      "Code": "8112",
+      "Name": "至上",
+      "Market": "TWSE",
+      "Category": "突破觀察",
+      "Close": 82.0,
+      "DayPct": 9.77,
+      "FiveDayPct": 6.36,
+      "VolumeLots": 11288,
+      "VolumeRatio": 1.96,
+      "ClosePositionPct": 100.0,
+      "ReferenceLow": 80.1,
+      "RiskToDayLowPct": 2.32,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    },
+    {
+      "Code": "1229",
+      "Name": "聯華",
+      "Market": "TWSE",
+      "Category": "突破觀察",
+      "Close": 41.05,
+      "DayPct": 6.49,
+      "FiveDayPct": 3.66,
+      "VolumeLots": 5693,
+      "VolumeRatio": 1.88,
+      "ClosePositionPct": 94.4,
+      "ReferenceLow": 39.35,
+      "RiskToDayLowPct": 4.14,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    },
+    {
+      "Code": "1210",
+      "Name": "大成",
+      "Market": "TWSE",
+      "Category": "突破觀察",
+      "Close": 52.0,
+      "DayPct": 5.05,
+      "FiveDayPct": 1.96,
+      "VolumeLots": 2815,
+      "VolumeRatio": 1.79,
+      "ClosePositionPct": 100.0,
+      "ReferenceLow": 50.4,
+      "RiskToDayLowPct": 3.08,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    },
+    {
+      "Code": "5871",
+      "Name": "中租-KY",
+      "Market": "TWSE",
+      "Category": "突破觀察",
+      "Close": 103.5,
+      "DayPct": 7.14,
+      "FiveDayPct": 4.23,
+      "VolumeLots": 20463,
+      "VolumeRatio": 1.71,
+      "ClosePositionPct": 100.0,
+      "ReferenceLow": 99.6,
+      "RiskToDayLowPct": 3.77,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    },
+    {
+      "Code": "2542",
+      "Name": "興富發",
+      "Market": "TWSE",
+      "Category": "趨勢觀察",
+      "Close": 38.8,
+      "DayPct": 6.01,
+      "FiveDayPct": 2.78,
+      "VolumeLots": 8189,
+      "VolumeRatio": 1.38,
+      "ClosePositionPct": 86.4,
+      "ReferenceLow": 37.85,
+      "RiskToDayLowPct": 2.45,
+      "Note": "短週期條件篩選，並非買進訊號或 AI 預測"
+    }
+  ]
 }
