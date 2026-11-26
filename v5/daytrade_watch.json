@@ -1,104 +1,56 @@
 {
- "AsOfDate": "2026-11-25",
+ "AsOfDate": "2026-11-26",
  "Rule": "收盤 50～150 元、20 日平均振幅 2%～4%、20 日平均成交值 ≥ 3 億；排除近 5 日有接近漲跌停（±9.5%）者",
  "Note": "盤後觀察名單，不是盤中訊號；當沖績效未回測。下單前請確認處置股、注意股與最新新聞。",
- "Count": 8,
+ "Count": 4,
  "Stocks": [
   {
    "Code": "3045",
    "Name": "台灣大",
    "Market": "TWSE",
-   "Close": 123.0,
-   "DayPct": -1.99,
-   "DayRangePct": 2.39,
-   "AvgRange20Pct": 2.89,
+   "Close": 124.5,
+   "DayPct": 1.22,
+   "DayRangePct": 2.44,
+   "AvgRange20Pct": 2.88,
    "MaxRange20Pct": 4.5,
-   "AvgValue20": 1433907650,
-   "LotCost": 123000
+   "AvgValue20": 1458679074,
+   "LotCost": 124500
   },
   {
    "Code": "1216",
    "Name": "統一",
    "Market": "TWSE",
-   "Close": 78.7,
-   "DayPct": 1.68,
-   "DayRangePct": 5.56,
-   "AvgRange20Pct": 3.17,
+   "Close": 78.5,
+   "DayPct": -0.25,
+   "DayRangePct": 3.56,
+   "AvgRange20Pct": 3.25,
    "MaxRange20Pct": 5.8,
-   "AvgValue20": 1268937774,
-   "LotCost": 78700
+   "AvgValue20": 1324718799,
+   "LotCost": 78500
   },
   {
    "Code": "5871",
    "Name": "中租-KY",
    "Market": "TWSE",
-   "Close": 102.0,
-   "DayPct": -1.45,
-   "DayRangePct": 2.9,
-   "AvgRange20Pct": 2.64,
+   "Close": 101.0,
+   "DayPct": -0.98,
+   "DayRangePct": 2.94,
+   "AvgRange20Pct": 2.75,
    "MaxRange20Pct": 5.2,
-   "AvgValue20": 1103104946,
-   "LotCost": 102000
+   "AvgValue20": 1205256419,
+   "LotCost": 101000
   },
   {
    "Code": "4904",
    "Name": "遠傳",
    "Market": "TWSE",
-   "Close": 103.5,
-   "DayPct": -3.27,
-   "DayRangePct": 3.74,
-   "AvgRange20Pct": 3.23,
+   "Close": 104.5,
+   "DayPct": 0.97,
+   "DayRangePct": 2.9,
+   "AvgRange20Pct": 3.21,
    "MaxRange20Pct": 4.9,
-   "AvgValue20": 1069119698,
-   "LotCost": 103500
-  },
-  {
-   "Code": "5876",
-   "Name": "上海商銀",
-   "Market": "TWSE",
-   "Close": 50.4,
-   "DayPct": -4.36,
-   "DayRangePct": 3.89,
-   "AvgRange20Pct": 3.69,
-   "MaxRange20Pct": 7.5,
-   "AvgValue20": 470052847,
-   "LotCost": 50400
-  },
-  {
-   "Code": "2347",
-   "Name": "聯強",
-   "Market": "TWSE",
-   "Close": 70.0,
-   "DayPct": -6.54,
-   "DayRangePct": 6.01,
-   "AvgRange20Pct": 3.98,
-   "MaxRange20Pct": 7.5,
-   "AvgValue20": 379318731,
-   "LotCost": 70000
-  },
-  {
-   "Code": "5904",
-   "Name": "寶雅*",
-   "Market": "TPEx",
-   "Close": 68.7,
-   "DayPct": -3.65,
-   "DayRangePct": 4.63,
-   "AvgRange20Pct": 3.89,
-   "MaxRange20Pct": 9.8,
-   "AvgValue20": 340714357,
-   "LotCost": 68700
-  },
-  {
-   "Code": "2385",
-   "Name": "群光",
-   "Market": "TWSE",
-   "Close": 89.5,
-   "DayPct": -3.76,
-   "DayRangePct": 3.44,
-   "AvgRange20Pct": 3.58,
-   "MaxRange20Pct": 7.4,
-   "AvgValue20": 308827207,
-   "LotCost": 89500
+   "AvgValue20": 1052604814,
+   "LotCost": 104500
   }
  ]
 }
